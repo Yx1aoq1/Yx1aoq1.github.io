@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-15T06:46:08.454Z</updated>
+  <updated>2017-07-15T07:53:31.310Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>js中改变this指向的各种各种</title>
+    <title>搭建Hexo博客之后</title>
+    <link href="http://yoursite.com/2017/07/15/17-07-15-19/"/>
+    <id>http://yoursite.com/2017/07/15/17-07-15-19/</id>
+    <published>2017-07-15T06:59:11.000Z</published>
+    <updated>2017-07-15T07:53:31.310Z</updated>
+    
+    <content type="html"><![CDATA[<p>这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？<br>然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。<br>恩，然后找到了方法，然而感觉讲的太！不！清！楚！<br>折腾了半天，终于弄好了，以下整理了一下步骤：</p>
+<a id="more"></a>
+<h2 id="使用分支方法解决hexo博客无法在两台电脑上更新的问题"><a href="#使用分支方法解决hexo博客无法在两台电脑上更新的问题" class="headerlink" title="使用分支方法解决hexo博客无法在两台电脑上更新的问题"></a>使用分支方法解决hexo博客无法在两台电脑上更新的问题</h2><h4 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h4><p>首先，创建一个新的文件夹，和github上的仓库同名：<code>username.github.io</code><br>然后开始创建本地仓库，以下是创建一个新的本地仓库的git指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ touch README.md</div><div class="line">$ git init </div><div class="line">$ git add README.md</div><div class="line">$ git commit -m &quot;first commit&quot;</div><div class="line">$ git remote add origin 你的项目地址</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure></p>
+<p>在执行push指令的时候可能会报错，让你先pull，这里可以执行以下命令解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git pull --rebase origin master</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure></p>
+<p>这样就可以将本地仓库里的文件更新到github仓库啦~(≧▽≦)/~</p>
+<h4 id="创建hexo分支"><a href="#创建hexo分支" class="headerlink" title="创建hexo分支"></a>创建hexo分支</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git branch hexo</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
+<p>这样这个博客仓库中就多了一条分支，我们就准备将hexo一些必要文件传在这个分支中，这样换电脑的时候就可以直接克隆这个项目的文件，麻麻再也不用担心我换电脑或者把博客数据搞丢了~~</p>
+<h4 id="在hexo分支中安装hexo"><a href="#在hexo分支中安装hexo" class="headerlink" title="在hexo分支中安装hexo"></a>在hexo分支中安装hexo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ git checkout hexo</div><div class="line">$ npm install hexo</div><div class="line">$ hexo init</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<p>这样我们就在hexo分支中安装好了hexo，然后你就会发现这个文件夹不是本地仓库了（不懂为什么hexo有这种设定），于是我们需要安装一个插件让hexo支持可以上传到github上<br>原文中提供的安装方法好像不管用，重新找了个名字叫<a href="https://github.com/coneycode/hexo-git-backup" target="_blank" rel="external">hexo-git-backup</a><br>安装指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-git-backup --save</div></pre></td></tr></table></figure></p>
+<h4 id="配置-config-yml文件"><a href="#配置-config-yml文件" class="headerlink" title="配置_config.yml文件"></a>配置_config.yml文件</h4><p>打开_config.yml文件，拉到最下，我们需要改动一些东西<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">deploy:</span></div><div class="line">	<span class="attr">type:</span> <span class="string">git</span> <span class="comment">#部署类型，使用github</span></div><div class="line">	<span class="attr">repository:</span> <span class="comment">#你的项目地址</span></div><div class="line">	<span class="attr">branch:</span> <span class="string">master</span> <span class="comment">#部署分支，必须是master</span></div><div class="line">	<span class="attr">message:</span> <span class="string">update</span> <span class="comment">#默认类型</span></div><div class="line"></div><div class="line"><span class="comment">#我们还需要添加那个插件的功能</span></div><div class="line"><span class="attr">backup:</span></div><div class="line">	<span class="attr">type:</span> <span class="string">git</span></div><div class="line">	<span class="attr">repository:</span></div><div class="line">		<span class="attr">github:</span> <span class="string">项目地址,hexo</span> <span class="comment">#将这个本地仓库更新到hexo分支</span></div></pre></td></tr></table></figure></p>
+<p>然后我们在执行一下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo g </div><div class="line">$ hexo d //部署博客</div><div class="line">$ hexo b //将hexo文件中的更改提交到hexo分支</div></pre></td></tr></table></figure></p>
+<p>然后，事情就完美的解决啦~~</p>
+<h2 id="git指令整理"><a href="#git指令整理" class="headerlink" title="git指令整理"></a>git指令整理</h2><p>因为公司写代码用的工具是git，命令太多记不太清，做个记录<br><a href="http://www.cnblogs.com/cspku/articles/Git_cmds.html" target="_blank" rel="external">git命令大全</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？&lt;br&gt;然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。&lt;br&gt;恩，然后找到了方法，然而感觉讲的太！不！清！楚！&lt;br&gt;折腾了半天，终于弄好了，以下整理了一下步骤：&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JS之this指针笔记</title>
     <link href="http://yoursite.com/2017/07/08/17-07-08-18/"/>
     <id>http://yoursite.com/2017/07/08/17-07-08-18/</id>
     <published>2017-07-08T05:48:43.000Z</published>
-    <updated>2017-07-15T06:46:08.454Z</updated>
+    <updated>2017-07-15T08:06:56.104Z</updated>
     
     <content type="html"><![CDATA[<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><blockquote>
 <p>this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</p>
@@ -67,11 +98,11 @@
   </entry>
   
   <entry>
-    <title>有关于js的继承</title>
+    <title>JS继承笔记</title>
     <link href="http://yoursite.com/2017/07/07/17-07-07-17/"/>
     <id>http://yoursite.com/2017/07/07/17-07-07-17/</id>
     <published>2017-07-07T14:02:11.000Z</published>
-    <updated>2017-07-15T06:45:55.789Z</updated>
+    <updated>2017-07-15T08:06:43.410Z</updated>
     
     <content type="html"><![CDATA[<p>在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。<br>由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。</p>
 <a id="more"></a>
@@ -111,7 +142,7 @@
     <link href="http://yoursite.com/2017/05/11/17-05-11-16/"/>
     <id>http://yoursite.com/2017/05/11/17-05-11-16/</id>
     <published>2017-05-11T13:25:58.000Z</published>
-    <updated>2017-07-15T06:45:46.030Z</updated>
+    <updated>2017-07-15T07:48:20.971Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API</p>
@@ -154,7 +185,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/04/21/17-04-21-14/"/>
     <id>http://yoursite.com/2017/04/21/17-04-21-14/</id>
     <published>2017-04-21T07:22:18.000Z</published>
-    <updated>2017-07-15T06:45:17.420Z</updated>
+    <updated>2017-07-15T07:48:17.044Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。</p>
@@ -231,7 +262,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/04/10/17-04-10-13/"/>
     <id>http://yoursite.com/2017/04/10/17-04-10-13/</id>
     <published>2017-04-10T02:16:38.000Z</published>
-    <updated>2017-07-15T06:45:06.541Z</updated>
+    <updated>2017-07-15T07:48:13.599Z</updated>
     
     <content type="html"><![CDATA[<h4 id="position的值，relative和absolute分别是相对于谁进行定位的？"><a href="#position的值，relative和absolute分别是相对于谁进行定位的？" class="headerlink" title="position的值，relative和absolute分别是相对于谁进行定位的？"></a>position的值，relative和absolute分别是相对于谁进行定位的？</h4><ul>
 <li><code>absolute</code> 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。</li>
@@ -315,7 +346,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/04/06/17-04-06-12/"/>
     <id>http://yoursite.com/2017/04/06/17-04-06-12/</id>
     <published>2017-04-06T06:46:01.000Z</published>
-    <updated>2017-07-15T06:44:55.444Z</updated>
+    <updated>2017-07-15T07:48:09.556Z</updated>
     
     <content type="html"><![CDATA[<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><ul>
 <li>AMD 即<code>Asynchronous Module Definition</code>，中文名是<strong>异步模块定义</strong>的意思。它是一个在浏览器端模块化开发的规范。</li>
@@ -387,7 +418,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/04/06/17-04-06-11/"/>
     <id>http://yoursite.com/2017/04/06/17-04-06-11/</id>
     <published>2017-04-06T05:47:54.000Z</published>
-    <updated>2017-07-15T06:44:33.667Z</updated>
+    <updated>2017-07-15T07:48:06.485Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Backbone-Collection（集合）"><a href="#Backbone-Collection（集合）" class="headerlink" title="Backbone.Collection（集合）"></a>Backbone.Collection（集合）</h2><ul>
 <li>model是现实中物体的抽象，而collection则是model对象的一个有序的集合</li>
@@ -407,41 +438,11 @@ Vue.config.productionTip = <span class="literal">false</span>
   </entry>
   
   <entry>
-    <title>Underscore.js之template</title>
-    <link href="http://yoursite.com/2017/03/30/17-03-30-10/"/>
-    <id>http://yoursite.com/2017/03/30/17-03-30-10/</id>
-    <published>2017-03-30T14:16:08.000Z</published>
-    <updated>2017-07-15T06:44:16.414Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>_.template(templateString, [settings])</code></p>
-<p>将 JavaScript 模板编译为可以用于页面呈现的函数, 对于通过JSON数据源生成复杂的HTML并呈现出来的操作非常有用</p>
-<a id="more"></a>
-<p>参数 <strong>templateString</strong> 是一个含有与模板对应属性的data对象 </p>
-<ul>
-<li><code>&lt;%= ... %&gt;</code> 用于插入变量</li>
-<li><code>&lt;% ... %&gt;</code> 可以执行javascript代码</li>
-<li><code>&lt;%- ... %&gt;</code> 插入值并进行HTML转义</li>
-</ul>
-<p>参数 <strong>settings</strong> 是一个哈希表包含任何可以覆盖的设置 _.templateSettings，可以改变Underscore的模板设置（所以基本不用）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> compiled = _.template(<span class="string">"hello: &lt;%= name %&gt;"</span>);</div><div class="line">compiled(&#123;<span class="attr">name</span>: <span class="string">'moe'</span>&#125;);</div><div class="line"></div><div class="line">=&gt; <span class="string">"hello: moe"</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;code&gt;_.template(templateString, [settings])&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;将 JavaScript 模板编译为可以用于页面呈现的函数, 对于通过JSON数据源生成复杂的HTML并呈现出来的操作非常有用&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>从零开始的backbone.js（二）</title>
     <link href="http://yoursite.com/2017/03/29/17-03-29-9/"/>
     <id>http://yoursite.com/2017/03/29/17-03-29-9/</id>
     <published>2017-03-29T08:06:16.000Z</published>
-    <updated>2017-07-15T06:44:05.726Z</updated>
+    <updated>2017-07-15T07:48:03.362Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Backbone-View（视图）"><a href="#Backbone-View（视图）" class="headerlink" title="Backbone.View（视图）"></a>Backbone.View（视图）</h2><ul>
 <li>view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。</li>
@@ -468,7 +469,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/28/17-03-28-8/"/>
     <id>http://yoursite.com/2017/03/28/17-03-28-8/</id>
     <published>2017-03-28T08:24:10.000Z</published>
-    <updated>2017-07-15T06:43:48.429Z</updated>
+    <updated>2017-07-15T07:47:59.919Z</updated>
     
     <content type="html"><![CDATA[<p>实习项目用的框架：backbone.js</p>
 <blockquote>
@@ -501,7 +502,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/26/17-03-26-7/"/>
     <id>http://yoursite.com/2017/03/26/17-03-26-7/</id>
     <published>2017-03-26T01:12:56.000Z</published>
-    <updated>2017-07-15T06:43:38.333Z</updated>
+    <updated>2017-07-15T07:47:56.264Z</updated>
     
     <content type="html"><![CDATA[<p>实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程</p>
 <p>首先在<a href="http://www.iconfont.cn/" target="_blank" rel="external">Iconfont-阿里巴巴矢量图标库</a>上将需要的图标点击购物车按钮加入<strong>暂存库</strong>。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-1.png" alt=""></p>
@@ -530,7 +531,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/21/17-03-21-6/"/>
     <id>http://yoursite.com/2017/03/21/17-03-21-6/</id>
     <published>2017-03-21T10:16:43.000Z</published>
-    <updated>2017-07-15T06:43:24.406Z</updated>
+    <updated>2017-07-15T07:47:53.310Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>JSON = JavaScript Object Notation （JavaScript对象表示法）<br>JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成<br>JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行</p>
@@ -579,7 +580,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/21/17-03-21-5/"/>
     <id>http://yoursite.com/2017/03/21/17-03-21-5/</id>
     <published>2017-03-21T08:21:19.000Z</published>
-    <updated>2017-07-15T06:43:16.819Z</updated>
+    <updated>2017-07-15T07:47:49.278Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）<br>AJAX 不是新的编程语言，而是一种使用现有标准的新方法。<br>AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。</p>
@@ -686,7 +687,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/20/17-03-20-4/"/>
     <id>http://yoursite.com/2017/03/20/17-03-20-4/</id>
     <published>2017-03-20T07:31:38.000Z</published>
-    <updated>2017-07-15T06:42:58.519Z</updated>
+    <updated>2017-07-15T07:47:44.984Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li><strong>HTTP：</strong> 是计算机通过网络进行通信的规则</li>
@@ -786,7 +787,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/02/28/17-02-28-2/"/>
     <id>http://yoursite.com/2017/02/28/17-02-28-2/</id>
     <published>2017-02-28T08:05:18.000Z</published>
-    <updated>2017-07-15T06:43:05.735Z</updated>
+    <updated>2017-07-15T07:47:38.323Z</updated>
     
     <content type="html"><![CDATA[<p>自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利</p>
 <a id="more"></a>
