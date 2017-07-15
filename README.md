@@ -1,2 +1,3 @@
-# Yx1aoq1.github.io
-博客
+# Yx1aoq1.github.io 
+
+我的hexo配置
