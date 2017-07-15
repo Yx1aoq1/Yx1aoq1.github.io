@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="zh-Ch"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> JSON学习笔记 · Yx1aoq1's Blog</title><meta name="description" content="JSON学习笔记 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">JSON学习笔记</h1><div class="post-info">Mar 21, 2017</div><div class="post-content"><blockquote>
+<p>JSON = JavaScript Object Notation （JavaScript对象表示法）<br>JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成<br>JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="与XML比较"><a href="#与XML比较" class="headerlink" title="与XML比较"></a>与XML比较</h2><ul>
+<li>长度比xml短</li>
+<li>读写速度更快</li>
+<li>json可以使用Javascript内建的方法直接进行解析，转换成Javascript对象，非常方便</li>
+</ul>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><ul>
+<li>JSON数据的书写格式：名称/值对<br>名称/值对组合中的名称写在前面（在双引号中），值对写在后面（同样在双引号中），中间用冒号隔开：比如<code>&quot;name&quot;:&quot;jane&quot;</code></li>
+<li>可以使用的数据类型<ul>
+<li>数字（整数或浮点数）</li>
+<li>字符串（双引号）</li>
+<li>逻辑值（true or false）</li>
+<li>数组（ […] ）</li>
+<li>对象（ {…} ）</li>
+<li>null</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON解析"><a href="#JSON解析" class="headerlink" title="JSON解析"></a>JSON解析</h2><ul>
+<li>eval和JSON.parse</li>
+<li><p>尽可能使用<code>JSON.parse()</code>方法解析字符串本身，该方法可以捕捉JSON中的语法错误。eval使用存在风险，特别是第三方JSON数据存在恶意代码时。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> jsondata = <span class="string">'&#123;"staff":[&#123;"name":"aaa","age":70&#125;,&#123;"name":"bbb","age":12&#125;]&#125;'</span>;</div><div class="line"><span class="keyword">var</span> jsonobj = <span class="built_in">JSON</span>.parse(jsondata);</div><div class="line"><span class="comment">//解析完毕</span></div><div class="line">alert(jsonobj.staff[<span class="number">0</span>].name);</div><div class="line"><span class="comment">//直接对对象进行操作</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>tip：</strong> <code>JSON.stringify()</code>方法是将对象解析成JSON</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</div><div class="line"><span class="built_in">JSON</span>.stringify(a) <span class="comment">//"&#123;"a":1,"b":2&#125;"</span></div></pre></td></tr></table></figure></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/03/26/17-03-26-7/" class="prev">上一篇</a><a href="/2017/03/21/17-03-21-5/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Yx1aoq1</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

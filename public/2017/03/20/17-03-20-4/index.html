@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="zh-Ch"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 关于HTTP请求小记 · Yx1aoq1's Blog</title><meta name="description" content="关于HTTP请求小记 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">关于HTTP请求小记</h1><div class="post-info">Mar 20, 2017</div><div class="post-content"><ul>
+<li><strong>HTTP：</strong> 是计算机通过网络进行通信的规则</li>
+<li><strong>步骤：</strong><ul>
+<li>建立TCP连接</li>
+<li>Web浏览器向Web服务器发送请求命令</li>
+<li>Web浏览器发送请求头信息</li>
+<li>Web服务器应答</li>
+<li>Web服务器发送应答头信息</li>
+<li>Web服务器向浏览器发送数据</li>
+<li>Web服务器关闭TCP连接</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p><strong>组成：</strong></p>
+<ul>
+<li>HTTP请求的方法或动作，比如是GET还是POST请求</li>
+<li>正在请求的URL</li>
+<li>请求头，包含一些客户端环境信息，身份验证信息等</li>
+<li>请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /login.php HTTP/1.1 //请求地址</div><div class="line"></div><div class="line">//请求头</div><div class="line">Host:localhost</div><div class="line">Connection:keep-alive</div><div class="line">Accept:text/javascript,application/javascript,application/ecmascript,</div><div class="line">application/x-ecmascript,*/*;</div><div class="line">q=0.01</div><div class="line">X-Requested-With:XMLHttpRequest</div><div class="line">User-Agent:Mozilla/5.0(Windows NT 6.1)Referer:http//www.baidu.com/</div><div class="line">Accept-Encoding:gzip,deflate,sdch</div><div class="line">Accept-Language:zh-CN,zh;q=0.8,en;q=0.6</div><div class="line"></div><div class="line">//请求体</div><div class="line">username=admin&amp;password=123456</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>GET：</strong> 一般用于信息获取，使用URL传递参数，对所发送信息的数量也有限制，一般在2000个字符。（一般用于查询，不做修改，数据是安全的）</p>
+</li>
+<li><strong>POST：</strong> 一般用于修改服务器上的资源。对所发送信息的数量无限制。</li>
+<li><strong>GET和POST的区别：</strong><ul>
+<li>GET方式需要使用<code>Request.QueryString</code>来取得变量的值，而POST方式通过<code>Request.Form</code>来获取变量的值，也就是说Get是通过地址栏来传值，而Post是通过提交表单来传值。</li>
+<li>然而，在以下情况中，请使用 <strong>POST 请求</strong>：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</li>
+</ul>
+</li>
+<li><p><strong>HTTP响应组成：</strong></p>
+<ul>
+<li>一个<strong>数字</strong>和<strong>文字</strong>组成的状态码，用来显示请求是成功还是失败的</li>
+<li>响应头，包含服务器信息，如服务器类型、日期时间、内容类型和长度等</li>
+<li>响应体（响应正文），服务器传来的字符串或html代码等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Date:Sun,23 Nov 2014 10:14:45 GMT</div><div class="line">Server:Apache</div><div class="line">Content-Encoding:gzip</div><div class="line">Content-Length:7112</div><div class="line">Connection:Keep-Alive</div><div class="line">Content-Type:application/javascript</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>HTTP状态码：</strong> 由3位数字构成，其中首位数字定义了状态码的类型</p>
+<ul>
+<li>1XX：信息类，表示收到Web浏览器请求，正在进一步处理中</li>
+<li>2XX：成功，表示用户请求被正确接受，理解和处理，例如：200 OK</li>
+<li>3XX：重定向，表示请求没有成功，客户必须采取进一步的动作</li>
+<li>4XX：客户端错误，表示客户端提交的请求有错误，例如：404 NOT Found</li>
+<li>5XX：服务器错误，表示服务器不能完成对请求的处理，例如：500</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>HTTP状态码（具体）：</strong></p>
+<ul>
+<li><strong>100  Continue</strong>  继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息</li>
+<li><strong>200  OK</strong>   正常返回信息</li>
+<li><strong>201  Created</strong>  请求成功并且服务器创建了新的资源</li>
+<li><strong>202  Accepted</strong>  服务器已接受请求，但尚未处理</li>
+<li><strong>301  Moved Permanently</strong>  请求的网页已永久移动到新位置</li>
+<li><strong>302  Found</strong>  临时性重定向</li>
+<li><strong>303  See Other</strong>  临时性重定向，且总是使用 GET 请求新的 URI</li>
+<li><strong>304  Not Modified</strong>  自从上次请求后，请求的网页未修改过</li>
+<li><strong>400  Bad Request</strong>  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求</li>
+<li><strong>401  Unauthorized</strong>  请求未授权</li>
+<li><strong>403  Forbidden</strong>  禁止访问</li>
+<li><strong>404  Not Found</strong>  找不到如何与 URI 相匹配的资源</li>
+<li><strong>500  Internal Server Error</strong>  最常见的服务器端错误</li>
+<li><strong>503  Service Unavailable</strong> 服务器端暂时无法处理请求（可能是过载或维护）</li>
+</ul>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/03/21/17-03-21-5/" class="prev">上一篇</a><a href="/2017/02/28/17-02-28-2/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Yx1aoq1</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

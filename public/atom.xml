@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Yx1aoq1&#39;s Blog</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-07-15T06:46:08.454Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Yx1aoq1</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>js中改变this指向的各种各种</title>
+    <link href="http://yoursite.com/2017/07/08/17-07-08-18/"/>
+    <id>http://yoursite.com/2017/07/08/17-07-08-18/</id>
+    <published>2017-07-08T05:48:43.000Z</published>
+    <updated>2017-07-15T06:46:08.454Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><blockquote>
+<p>this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li><p><strong>定义在全局中的函数</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.x = <span class="number">1</span>; <span class="comment">//此处的this指的是window</span></div><div class="line">&#125;</div><div class="line">x = <span class="number">0</span>; <span class="comment">//在全局修改这个x，函数中这个this.x也是会一起改变的</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>作为对象方法的调用</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>.x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.x = <span class="number">1</span>;</div><div class="line">o.m = test;</div><div class="line">o.m(); <span class="comment">//1</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>作为构造函数调用</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">	<span class="attr">test</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">this</span>.x = <span class="number">1</span>;</div><div class="line">	&#125; <span class="comment">//这是定义在对象中的函数，而此时this指的是对象o</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="this指向的改变"><a href="#this指向的改变" class="headerlink" title="this指向的改变"></a>this指向的改变</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">	<span class="attr">test</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">//在构造函数的时候也会调用其他的函数，所以this的指向就会变</span></div><div class="line">		$(<span class="keyword">this</span>.xx).on(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="comment">//比如调用了on绑定事件的函数，那么这个函数里的this就不是对象o了</span></div><div class="line">		&#125;)</div><div class="line">	&#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在javascript中有几个函数是可以改变this的指向的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xm = &#123;</div><div class="line">	<span class="attr">name</span>: <span class="string">"小明"</span>,</div><div class="line">	<span class="attr">sex</span>: <span class="string">"男"</span>,</div><div class="line">	<span class="attr">age</span>: <span class="string">"18"</span>,</div><div class="line">	<span class="attr">say</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		alert(<span class="keyword">this</span>.name + <span class="string">","</span> + <span class="keyword">this</span>.sex + <span class="string">","</span> + <span class="keyword">this</span>.age);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> xh = &#123;</div><div class="line">	<span class="attr">name</span>: <span class="string">"小红"</span>,</div><div class="line">	<span class="attr">sex</span>: <span class="string">"女"</span>,</div><div class="line">	<span class="attr">age</span>: <span class="string">"20"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>apply(thisObj,[argArray])</code><br>参数：替换目标对象（如果为空，则指的是window对象），数组（存放所需要的参数）<br>定义：应用某一对象的一个方法，用另一个对象替换当前对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.apply(xh); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>call(thisObj,arg1,arg2...)</code><br>参数：替换目标对象，需要的参数arg1,arg2…<br>定义：应用某一对象的一个方法，用另一个对象替换当前对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.call(xh); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>bind(thisObj)(arg1,arg2...)</code><br>参数：替换目标对象，需要的参数arg1,arg2…<br>定义：创建一个新函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入 bind()方法的第一个参数作为 this，传入 bind() 方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。<br>说明：bind是在EcmaScript5中扩展的方法（IE6,7,8不支持）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.bind(xh)(); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>$.proxy(fn,context)</code><br>参数：函数，函数所在的对象的名称<br>定义：用于向上下文指向不同对象的元素添加事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.txt = <span class="string">"这是一个对象属性"</span>;</div><div class="line">	$(<span class="string">"div"</span>).click($.proxy(<span class="keyword">this</span>.myClick,<span class="keyword">this</span>));</div><div class="line">	<span class="comment">//本来调用click的话，this会指向div，但是使用$.proxy后this还是test</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">test.prototype.myClick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>.txt);</div><div class="line">	alert(event.currentTarget.nodeName);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = <span class="keyword">new</span> test();</div></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;this指针&quot;&gt;&lt;a href=&quot;#this指针&quot; class=&quot;headerlink&quot; title=&quot;this指针&quot;&gt;&lt;/a&gt;this指针&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>有关于js的继承</title>
+    <link href="http://yoursite.com/2017/07/07/17-07-07-17/"/>
+    <id>http://yoursite.com/2017/07/07/17-07-07-17/</id>
+    <published>2017-07-07T14:02:11.000Z</published>
+    <updated>2017-07-15T06:45:55.789Z</updated>
+    
+    <content type="html"><![CDATA[<p>在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。<br>由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。</p>
+<a id="more"></a>
+<p>看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-1.png" alt=""><br>通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。</p>
+<p>在以上基础下，得出了几种继承方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//现有两个构造函数</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.species = <span class="string">"动物"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.name = name;</div><div class="line">	<span class="keyword">this</span>.color = color;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h2><ul>
+<li><p><strong>构造函数绑定：</strong>使用<code>call</code>或<code>apply</code>方法，将父对象的构造函数绑定在子对象上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>) </span>&#123;</div><div class="line">	Animal.apply(<span class="keyword">this</span>.arguments);</div><div class="line">	<span class="keyword">this</span>.name = name;</div><div class="line">	<span class="keyword">this</span>.color = color;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> cat1 = <span class="keyword">new</span> Cat(<span class="string">"大毛"</span>,<span class="string">"黄色"</span>);</div><div class="line">alert(cat1.species); <span class="comment">//动物</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>prototype模式：</strong>将“猫”的prototype对象指向一个Animal的实例，那么“猫”的实例就能继承Animal了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Cat.prototype = <span class="keyword">new</span> Animal();</div><div class="line">Cat.prototype.constructor = Cat;</div><div class="line"><span class="comment">//由于修改了Cat的prototype属性，所以Cat.prototype.constructor会指向Animal</span></div><div class="line"><span class="comment">//但是constructor是必须指向其构造函数的，所以要修正成Cat</span></div><div class="line"><span class="keyword">var</span> cat1 = <span class="keyword">new</span> Cat(<span class="string">"大毛"</span>,<span class="string">"黄色"</span>);</div><div class="line">alert(cat1.species); <span class="comment">//动物</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>直接继承prototype：</strong>由于Animal对象中，不变的属性都可以直接写入Animal.prototype。所以，我们也可以让Cat()跳过 Animal()，直接继承Animal.prototype。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">funtion Animal() &#123;&#125;</div><div class="line">Animal.prototype.species = <span class="string">"动物"</span>;</div><div class="line"></div><div class="line">Cat.prototype = Animal.prototype;</div><div class="line">Cat.prototype.constructor = Cat;</div></pre></td></tr></table></figure>
+<p>  此方法虽然提高了效率（不用执行和建立Animal的实例），但有一个缺点，就是如果修改了Cat.prototype.species，那么Animal.prototype.species也会联动修改。</p>
+</li>
+<li><p><strong>利用空对象作中介：</strong>（重点方法）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">F.prototype = Animal.prototype;</div><div class="line">Cat.prototype = <span class="keyword">new</span> F();</div><div class="line">Cat.prototype.constructor = Cat;</div></pre></td></tr></table></figure>
+<p>  可以将此方法封装为一个函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">child,parent</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> temp = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">	temp.prototype = parent.prototype;</div><div class="line">	child.prototype = <span class="keyword">new</span> temp();</div><div class="line">	child.prototype.constructor = child;</div><div class="line">	child.uber = parent.prototype;<span class="comment">//为了实现继承的完备性，纯属备用性质</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-2.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。&lt;br&gt;由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Vue.js学习笔记（一）</title>
+    <link href="http://yoursite.com/2017/05/11/17-05-11-16/"/>
+    <id>http://yoursite.com/2017/05/11/17-05-11-16/</id>
+    <published>2017-05-11T13:25:58.000Z</published>
+    <updated>2017-07-15T06:45:46.030Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>使用git，输入指令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安装vue-cli</span></div><div class="line">$ cnpm install -g vue-cli</div><div class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></div><div class="line">$ vue init webpack my-project</div><div class="line"><span class="comment"># 安装依赖</span></div><div class="line">$ cd my-project</div><div class="line">$ cnmp install</div><div class="line"><span class="comment"># 开启项目</span></div><div class="line">$ npm run dev</div></pre></td></tr></table></figure></p>
+<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 默认调用src里的main.js --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>src/main.js</code></p>
+<pre><code class="js"><span class="comment">//import表示导入组件</span>
+<span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span>
+<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span>
+<span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span>
+
+
+Vue.config.productionTip = <span class="literal">false</span>
+
+<span class="comment">/* eslint-disable no-new */</span>
+<span class="keyword">new</span> Vue({
+  <span class="attr">el</span>: <span class="string">'#app'</span>,
+  router,
+  <span class="attr">template</span>: <span class="string">'&lt;App/&gt;'</span>,
+  <span class="attr">components</span>: { App }  <span class="comment">//注册一个app</span>
+})
+</code></pre>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript正则表达式</title>
+    <link href="http://yoursite.com/2017/04/21/17-04-21-14/"/>
+    <id>http://yoursite.com/2017/04/21/17-04-21-14/</id>
+    <published>2017-04-21T07:22:18.000Z</published>
+    <updated>2017-07-15T06:45:17.420Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="正则表达式的定义"><a href="#正则表达式的定义" class="headerlink" title="正则表达式的定义"></a>正则表达式的定义</h2><ul>
+<li><p>一种是使用正则表达式直接量，将其包含在一对斜杠<code>/</code>之间的字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pattern = <span class="regexp">/s$/</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>另一种是使用<code>RegExp()</code>构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pattern = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'s'</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面两种表达方式是等价的，用来匹配所有以<code>s</code>结尾的字符串<br>正则表达式的模式规则是由一个字符序列组成的，所有字母和数字都是按照字面含义进行匹配的</p>
+<h2 id="直接量字符"><a href="#直接量字符" class="headerlink" title="直接量字符"></a>直接量字符</h2><p>非字母的字符匹配，通过<code>\</code>反斜杠作为前缀转义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">\0	匹配null字符(\u0000)</div><div class="line">[\b]	匹配退格符(\u0008)，区别\b</div><div class="line">\t  	匹配制表符tab(\u0009)</div><div class="line">\n  	匹配换行符(\u000A)</div><div class="line">\v      匹配垂直制表符(\u000B)</div><div class="line">\f	匹配换页符(\u000C)</div><div class="line">\r	匹配回车键(\u000D)</div><div class="line">\xnn	匹配一个以两位16进制数(\x00-\xFF)表示的字符</div><div class="line">\uxxxx	匹配一个以四位16进制数(\u0000-\uFFFF)表示的Unicode字符</div><div class="line">\cX	表示Ctrl-[X]，其中的X是A-Z之中的任一个英文字母，用来匹配控制字符</div></pre></td></tr></table></figure></p>
+<h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[...]   匹配方括号内的任意字符</div><div class="line">[^...] 	匹配除方括号内的以外的任意字符</div><div class="line">. 	除换行符和其他Unicode行终止符之外的任意字符</div><div class="line">-	匹配范围，如[a-z]表示所有的小写字母</div><div class="line">\w      任何ASCII字符组成的单词，等价于[a-zA-Z0-9]</div><div class="line">\W 	任何不是ASCII字符组成的单词，等价于[^a-zA-Z0-9]</div><div class="line">\s 	任何Unicode空白符</div><div class="line">\S	任何非Unicode空白符的字符</div><div class="line">\d	任何非ASCII数字，等价于[0-9]</div><div class="line">\D	除了ASCII数字之外的任何字符，等价于[^0-9]</div></pre></td></tr></table></figure>
+<h2 id="重复"><a href="#重复" class="headerlink" title="重复"></a>重复</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;n,m&#125; 	匹配前一项至少n次，至多m次</div><div class="line">&#123;n,&#125; 	匹配前一项至少n次，次数可能比n大</div><div class="line">&#123;n&#125; 	匹配前一项n次</div><div class="line">?	匹配前一项0次或者1次，等价于&#123;0,1&#125;</div><div class="line">+	匹配前一项1次或者更多次，等价于&#123;1,&#125;</div><div class="line">*	匹配前一项0次或者更多次，等价于&#123;0,&#125;</div></pre></td></tr></table></figure>
+<p>注意：因为可以匹配0次，所以正在表达式<code>/a/</code>实际上与字符<code>bbb</code>匹配，因为这个字符串含0个<code>a</code></p>
+<h2 id="非贪婪的重复"><a href="#非贪婪的重复" class="headerlink" title="非贪婪的重复"></a>非贪婪的重复</h2><p>默认情况下，匹配重复字符是尽可能多的匹配，而且允许后续的正则表达式继续匹配，即匹配知道下一个字符不满足匹配规则为止，这称为<strong>贪婪的</strong>匹配<br>而<strong>非贪婪</strong>的匹配，一旦条件满足，就不再往下匹配，只需在待匹配的字符后跟随一个问号即可<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//exec() 方法用于检索字符串中的正则表达式的匹配，返回一个数组</span></div><div class="line"><span class="keyword">var</span> a = <span class="regexp">/a+/</span>.exec(<span class="string">'aaa'</span>);	<span class="comment">//["aaa"]</span></div><div class="line"><span class="keyword">var</span> b = <span class="regexp">/a+?/</span>.exec(<span class="string">'aaa'</span>);	<span class="comment">//["a"]</span></div></pre></td></tr></table></figure></p>
+<h2 id="选择、分组和引用"><a href="#选择、分组和引用" class="headerlink" title="选择、分组和引用"></a>选择、分组和引用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">|	分隔供选择的字符，如/ab|cd|ef/表示可以匹配ab或cd或ef</div><div class="line">	并且，如果匹配了ab就不会再往后匹配</div><div class="line">(...) 	把单独的项组合成子表达式</div><div class="line">\n	引用第n个带括号的子表达式</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//test() 方法用于检测一个字符串是否匹配某个模式</span></div><div class="line"><span class="comment">//如果字符串中含有与 RegExpObject 匹配的文本，则返回 true，否则返回 false</span></div><div class="line"><span class="keyword">var</span> bool = <span class="regexp">/(.)b(.)\1b\2/</span>.test(<span class="string">'abcabc'</span>)	<span class="comment">//true</span></div></pre></td></tr></table></figure>
+<ul>
+<li>上面的代码中，<code>\1</code>表示第一个括号匹配的内容，即第一个<code>(.)</code>，匹配的是<code>&#39;a&#39;</code>；<code>\2</code>表示第二个括号<code>(.)</code>，匹配的是<code>&#39;c&#39;</code></li>
+<li>因为子表达式可以嵌套，所以<code>(s(ss))</code>的<code>\2</code>所表示的是<code>(ss)</code></li>
+<li>对正则表达式中前一个子表达式的引用，并不是指对子表达式模式的引用，而指的是哪个模式相匹配的文本的引用</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res1 = <span class="regexp">/(a|b)c\1/</span>.test(<span class="string">'aca'</span>);	<span class="comment">//true</span></div><div class="line"><span class="keyword">var</span> res2 = <span class="regexp">/(a|b)c\1/</span>.test(<span class="string">'acb'</span>);	<span class="comment">//false</span></div><div class="line"><span class="comment">//'(a|b)'匹配了a之后，'\1'也代表a</span></div></pre></td></tr></table></figure>
+<h2 id="指定匹配边界"><a href="#指定匹配边界" class="headerlink" title="指定匹配边界"></a>指定匹配边界</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">^	匹配字符串的开头，在多行检索中，匹配一行的开头</div><div class="line">$ 	匹配字符串的结尾，在多行检索中，匹配一行的结尾</div><div class="line">\b 	匹配一个单词的边界</div><div class="line">\B 	匹配非单词边界的位置</div><div class="line">(?=p)	零宽正向先行断言，要求接下来的字符都与p匹配</div><div class="line">(?!p)	零宽负向先行断言，要求接下来的字符不与p匹配</div></pre></td></tr></table></figure>
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">i 	执行不区分大小写的匹配</div><div class="line">g 	执行一个全局匹配，找到所有的匹配而不是找到一个后就停止</div><div class="line">m 	多行模式匹配，在这种模式下，如果待检索的字符串包含多行那么^和$除了匹配</div><div class="line">	整个字符串的开始和结尾之外，还能匹配每行的开始和结尾</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="regexp">/test/ig</span></div></pre></td></tr></table></figure>
+<h2 id="用于模式匹配的String方法"><a href="#用于模式匹配的String方法" class="headerlink" title="用于模式匹配的String方法"></a>用于模式匹配的String方法</h2><ul>
+<li><p><code>search</code>：按照给定的正则表达式进行搜索，返回一个整数，表示第一个与之匹配的字符串的起始位置，如果找不到匹配的子串，将返回-1</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"javascript"</span>.search(<span class="regexp">/script/i</span>);	<span class="comment">//4</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>match</code>：返回一个数组，成员是所有匹配的子字符串，<strong>该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"1 plus 2 equals 3"</span>.match(<span class="regexp">/\d+/g</span>); <span class="comment">//["1","2","3"]</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>replace</code>：按照给定的正则表达式进行替换，返回替换后的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">第二个参数：</div><div class="line">$`	指代匹配结果前面的文本</div><div class="line">$&apos;	指代匹配结果后面的文本</div><div class="line">$n 	指代匹配成功后的第n组内容，n从1开始</div><div class="line">$$ 	指代美元符号$</div></pre></td></tr></table></figure>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"hello world"</span>.replace(<span class="regexp">/(\w+)\s(\w+)/</span>,<span class="string">'$2 $1'</span>); <span class="comment">//"world hello"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>split</code>：按照给定规则进行字符串分割，返回一个数组，包含分隔后的各个成员</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"123,456,789"</span>.split(<span class="string">','</span>); <span class="comment">//["123","456","789"]</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="RegExp对象"><a href="#RegExp对象" class="headerlink" title="RegExp对象"></a>RegExp对象</h2><p>构造函数带有两个参数，第二个参数是可选的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'\\d&#123;5&#125;'</span>,<span class="string">'g'</span>); <span class="comment">//全局查找5个数字</span></div></pre></td></tr></table></figure></p>
+<p>包含5个属性：</p>
+<ul>
+<li>source：只读字符串，包含正则表达式的文本</li>
+<li>global：只读布尔值，用以说明这个正则表达式是否带有修饰符g</li>
+<li>ignoreCase：只读布尔值，用以说明正则表达式是否带有修饰符i</li>
+<li>multiline：只读布尔值，用以说明正则表达式是否带有修饰符m</li>
+<li>lastIndex：可读写的整数，如果匹配模式带有g修饰符，这个属性存储在整个字符串中下一次检索的开始位置</li>
+</ul>
+<h2 id="RegExp方法"><a href="#RegExp方法" class="headerlink" title="RegExp方法"></a>RegExp方法</h2><ul>
+<li><code>exec</code>：返回匹配结果，如果发现匹配就返回一个数组，成员是每一个匹配成功的子字符串，否则返回null</li>
+<li><code>test</code>：返回一个布尔值，表示当前模式是否能匹配参数字符串</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>有关CSS的tip</title>
+    <link href="http://yoursite.com/2017/04/10/17-04-10-13/"/>
+    <id>http://yoursite.com/2017/04/10/17-04-10-13/</id>
+    <published>2017-04-10T02:16:38.000Z</published>
+    <updated>2017-07-15T06:45:06.541Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="position的值，relative和absolute分别是相对于谁进行定位的？"><a href="#position的值，relative和absolute分别是相对于谁进行定位的？" class="headerlink" title="position的值，relative和absolute分别是相对于谁进行定位的？"></a>position的值，relative和absolute分别是相对于谁进行定位的？</h4><ul>
+<li><code>absolute</code> 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。</li>
+<li><code>fixed</code> （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。</li>
+<li><code>relative</code> 生成相对定位的元素，相对于其在普通流中的位置进行定位。</li>
+<li><code>static</code> 默认值。没有定位，元素出现在正常的流中</li>
+</ul>
+<a id="more"></a>
+<h4 id="display-none和visibility-hidden的区别？"><a href="#display-none和visibility-hidden的区别？" class="headerlink" title="display:none和visibility:hidden的区别？"></a>display:none和visibility:hidden的区别？</h4><ul>
+<li><code>display:none</code> 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。</li>
+<li><code>visibility:hidden</code> 隐藏对应的元素，但是在文档布局中仍保留原来的空间。</li>
+</ul>
+<h4 id="position-absolute和float属性的异同"><a href="#position-absolute和float属性的异同" class="headerlink" title="position:absolute和float属性的异同"></a>position:absolute和float属性的异同</h4><ul>
+<li>共同点：对内联元素设置float和absolute属性，可以让元素脱离文档流，并且可以设置其宽高。</li>
+<li>不同点：float仍会占据位置，position会覆盖文档流中的其他元素。</li>
+</ul>
+<h4 id="CSS选择符有哪些？哪些属性可以继承？优先级算法如何计算？-CSS3新增伪类有那些？"><a href="#CSS选择符有哪些？哪些属性可以继承？优先级算法如何计算？-CSS3新增伪类有那些？" class="headerlink" title="CSS选择符有哪些？哪些属性可以继承？优先级算法如何计算？ CSS3新增伪类有那些？"></a>CSS选择符有哪些？哪些属性可以继承？优先级算法如何计算？ CSS3新增伪类有那些？</h4><ul>
+<li><p>选择符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1.id选择器（ #myid）</div><div class="line"></div><div class="line">2.类选择器（.myclassname）</div><div class="line"></div><div class="line">3.标签选择器（div, h1, p）</div><div class="line"></div><div class="line">4.相邻选择器（h1 + p）</div><div class="line"></div><div class="line">5.子选择器（ul &gt; li）</div><div class="line"></div><div class="line">6.后代选择器（li a）</div><div class="line"></div><div class="line">7.通配符选择器（ * ）</div><div class="line"></div><div class="line">8.属性选择器（a[rel = &quot;external&quot;]）</div><div class="line"></div><div class="line">9.伪类选择器（a: hover, li:nth-child）</div></pre></td></tr></table></figure>
+</li>
+<li><p>继承</p>
+<ul>
+<li><strong>不可继承：</strong> display、margin、border、padding、background、height、min-height、max-height、width、min-width、max-width、overflow、position、left、right、top、bottom、z-index、float、clear、table-layout、vertical-align、page-break-after、page-bread-before、unicode-bidi</li>
+<li><strong>所有元素可继承：</strong> visibility、cursor</li>
+<li><strong>内联元素可继承：</strong> letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction</li>
+<li><strong>终端块状元素可继承：</strong> text-indent和text-align</li>
+<li><strong>列表元素可继承：</strong> list-style、list-style-type、list-style-position、list-style-image</li>
+</ul>
+</li>
+<li><p>优先级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">!important &gt; id &gt; class &gt; tag</div></pre></td></tr></table></figure>
+</li>
+<li><p>新增伪类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">p:first-of-type 选择属于其父元素的首个 &lt;p&gt; 元素的每个 &lt;p&gt; 元素。</div><div class="line"></div><div class="line">p:last-of-type  选择属于其父元素的最后 &lt;p&gt; 元素的每个 &lt;p&gt; 元素。</div><div class="line"></div><div class="line">p:only-of-type  选择属于其父元素唯一的 &lt;p&gt; 元素的每个 &lt;p&gt; 元素。</div><div class="line"></div><div class="line">p:only-child    选择属于其父元素的唯一子元素的每个 &lt;p&gt; 元素。</div><div class="line"></div><div class="line">p:nth-child(2)  选择属于其父元素的第二个子元素的每个 &lt;p&gt; 元素。</div><div class="line"></div><div class="line">:enabled  :disabled 控制表单控件的禁用状态。</div><div class="line"></div><div class="line">:checked        单选框或复选框被选中。</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="CSS3有哪些新特性？"><a href="#CSS3有哪些新特性？" class="headerlink" title="CSS3有哪些新特性？"></a>CSS3有哪些新特性？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">CSS3实现圆角（border-radius）</div><div class="line"></div><div class="line">阴影（box-shadow）</div><div class="line"></div><div class="line">对文字加特效（text-shadow）</div><div class="line"></div><div class="line">线性渐变（gradient）</div><div class="line"></div><div class="line">动画（animation）</div><div class="line"></div><div class="line">变换（transform）</div><div class="line"></div><div class="line">transform:rotate(9deg) scale(0.85,0.90) translate(0px,-30px) skew(-9deg,0deg);</div><div class="line">//旋转,缩放,定位,倾斜</div><div class="line"></div><div class="line">增加了更多的CSS选择器  多背景 rgba</div><div class="line"></div><div class="line">在CSS3中唯一引入的伪元素是::selection.</div><div class="line"></div><div class="line">媒体查询，多栏布局</div><div class="line"></div><div class="line">border-image</div><div class="line"></div><div class="line">盒模型计算方式（box-sizing）</div></pre></td></tr></table></figure>
+<h4 id="有关盒模型计算"><a href="#有关盒模型计算" class="headerlink" title="有关盒模型计算"></a>有关盒模型计算</h4><ul>
+<li><strong>content-box（默认）</strong></li>
+</ul>
+<p>布局所占宽度Width：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Width = width + padding-left + padding-right + border-left + border-right</div></pre></td></tr></table></figure></p>
+<p>布局所占高度Height：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Height = height + padding-top + padding-bottom + border-top + border-bottom</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>padding-box</strong></li>
+</ul>
+<p>布局所占宽度Width：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Width = width(包含padding-left + padding-right) + border-top + border-bottom</div></pre></td></tr></table></figure></p>
+<p>布局所占高度Height：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Height = height(包含padding-top + padding-bottom) + border-top + border-bottom</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>border-box</strong></li>
+</ul>
+<p>布局所占宽度Width：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Width = width(包含padding-left + padding-right + border-left + border-right)</div></pre></td></tr></table></figure></p>
+<p>布局所占高度Height：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Height = height(包含padding-top + padding-bottom + border-top + border-bottom)</div></pre></td></tr></table></figure></p>
+<h4 id="清除浮动的技巧"><a href="#清除浮动的技巧" class="headerlink" title="清除浮动的技巧"></a>清除浮动的技巧</h4><ul>
+<li><strong>使用空标签清除浮动。</strong><br>这种方法是在所有浮动标签后面添加一个空标签，定义css <code>clear:both</code> ，弊端就是增加了无意义。</li>
+<li><strong>使用overflow。</strong><br>给包含浮动元素的父标签添加css属性 <code>overflow:auto; zoom:1; zoom:1</code> 用于兼容IE6。</li>
+<li><strong>使用after伪对象清除浮动。</strong><br>该方法只适用于非IE浏览器。具体写法可参照以下示例。使用中需注意以下几点。一、该方法中必须为需要清除浮动元素的伪对象中设置 height:0，否则该元素会比实际高出若干像素；<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#parent</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">content</span>:<span class="string">"."</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">visibility</span>:hidden;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">clear</span>:both;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="浮动元素引起的问题和解决办法"><a href="#浮动元素引起的问题和解决办法" class="headerlink" title="浮动元素引起的问题和解决办法"></a>浮动元素引起的问题和解决办法</h4><ul>
+<li>浮动元素引起的问题：<br>（1）父元素的高度无法被撑开，影响与父元素同级的元素<br>（2）与浮动元素同级的非浮动元素（内联元素）会跟随其后<br>（3）若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构</li>
+<li>解决办法：<br>（1）使用CSS中的<code>clear:both;</code>属性来清除元素的浮动可解决2、3问题<br>（2）对于问题1，添加如下样式，给父元素添加<code>clearfix</code>样式：<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">	<span class="attribute">display</span>: block;</div><div class="line">	<span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">	<span class="attribute">clear</span>: both;</div><div class="line">	<span class="attribute">visibility</span>: hidden;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.clearfix</span>&#123;</div><div class="line">	<span class="attribute">display</span>: inline-block;</div><div class="line">&#125; <span class="comment">/* for IE/Mac */</span></div></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;position的值，relative和absolute分别是相对于谁进行定位的？&quot;&gt;&lt;a href=&quot;#position的值，relative和absolute分别是相对于谁进行定位的？&quot; class=&quot;headerlink&quot; title=&quot;position的值，relative和absolute分别是相对于谁进行定位的？&quot;&gt;&lt;/a&gt;position的值，relative和absolute分别是相对于谁进行定位的？&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;absolute&lt;/code&gt; 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fixed&lt;/code&gt; （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;relative&lt;/code&gt; 生成相对定位的元素，相对于其在普通流中的位置进行定位。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;static&lt;/code&gt; 默认值。没有定位，元素出现在正常的流中&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>前端模块化</title>
+    <link href="http://yoursite.com/2017/04/06/17-04-06-12/"/>
+    <id>http://yoursite.com/2017/04/06/17-04-06-12/</id>
+    <published>2017-04-06T06:46:01.000Z</published>
+    <updated>2017-07-15T06:44:55.444Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><ul>
+<li>AMD 即<code>Asynchronous Module Definition</code>，中文名是<strong>异步模块定义</strong>的意思。它是一个在浏览器端模块化开发的规范。</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>应用：<strong>RequireJS</strong><br>解决的主要问题：<ul>
+<li>多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器</li>
+<li>js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长</li>
+</ul>
+</li>
+<li><code>define([id], [dependencies], factory);</code><ul>
+<li>id：可选参数，用来定义模块的标识，如果没有提供该参数，脚本文件名（去掉拓展名）</li>
+<li>dependencies：是一个当前模块依赖的模块名称数组</li>
+<li>factory：工厂方法，模块初始化要执行的函数或对象。如果为函数，它应该只被执行一次。如果是对象，此对象应该为模块的输出值</li>
+</ul>
+</li>
+<li><code>require([dependencies], function(){});</code><ul>
+<li>dependencies：一个数组，表示所依赖的模块</li>
+<li>function：回调函数，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块</li>
+<li><code>require()</code>函数在加载依赖的函数的时候是异步加载的，这样浏览器不会失去响应，它指定的回调函数，只有前面的模块都加载成功后，才会运行，解决了依赖性的问题。</li>
+</ul>
+</li>
+<li>使用例子：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义模块 myModule.js</span></div><div class="line">define([<span class="string">'dependency'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">'Byron'</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">printName</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(name);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">printName</span>: printName</div><div class="line">    &#125;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 加载模块</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'myModule'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">my</span>)</span>&#123;</div><div class="line">　 my.printName();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><ul>
+<li>CMD 即<code>Common Module Definition</code>通用模块定义</li>
+<li>应用：<strong>SeaJS</strong><br>SeaJS要解决的问题和requireJS一样，只不过在模块定义方式和模块加载（可以说运行、解析）时机上有所不同</li>
+<li><code>define([id],[deps],factory)</code><ul>
+<li>一个文件一个模块，所以经常就用文件名作为模块id</li>
+<li>CMD推崇依赖就近，所以一般不在define的参数中写依赖，在factory中写</li>
+<li>factory有三个参数：<code>function(require, exports, module)</code></li>
+</ul>
+</li>
+<li><code>require(id)</code><ul>
+<li>require 是一个方法，接受<strong>模块标识</strong>作为唯一参数，用来获取其他模块提供的接口</li>
+</ul>
+</li>
+<li><code>exports</code><ul>
+<li>exports 是一个对象，用来向外提供模块接口</li>
+</ul>
+</li>
+<li><code>module</code><ul>
+<li>module 是一个对象，上面存储了与当前模块相关联的一些属性和方法</li>
+</ul>
+</li>
+<li>使用例子：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义模块  myModule.js</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">'jquery.js'</span>)</div><div class="line">  $(<span class="string">'div'</span>).addClass(<span class="string">'active'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 加载模块</span></div><div class="line">seajs.use([<span class="string">'myModule.js'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">my</span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="AMD与CMD的区别"><a href="#AMD与CMD的区别" class="headerlink" title="AMD与CMD的区别"></a>AMD与CMD的区别</h2><blockquote>
+<p>AMD 是提前执行，CMD 是延迟执行<br>在模块定义时对依赖的处理不同：AMD推崇依赖前置，在定义模块的时候就要声明其依赖的模块，CMD推崇就近依赖，只有在用到某个模块的时候再去require</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;AMD&quot;&gt;&lt;a href=&quot;#AMD&quot; class=&quot;headerlink&quot; title=&quot;AMD&quot;&gt;&lt;/a&gt;AMD&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;AMD 即&lt;code&gt;Asynchronous Module Definition&lt;/code&gt;，中文名是&lt;strong&gt;异步模块定义&lt;/strong&gt;的意思。它是一个在浏览器端模块化开发的规范。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零开始的backbone.js（三）</title>
+    <link href="http://yoursite.com/2017/04/06/17-04-06-11/"/>
+    <id>http://yoursite.com/2017/04/06/17-04-06-11/</id>
+    <published>2017-04-06T05:47:54.000Z</published>
+    <updated>2017-07-15T06:44:33.667Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Backbone-Collection（集合）"><a href="#Backbone-Collection（集合）" class="headerlink" title="Backbone.Collection（集合）"></a>Backbone.Collection（集合）</h2><ul>
+<li>model是现实中物体的抽象，而collection则是model对象的一个有序的集合</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Book = Backbone.Model.extend(&#123;</div><div class="line">	<span class="attr">defaults</span>:&#123;</div><div class="line">		<span class="attr">title</span>:<span class="string">"default"</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">initialize</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		alert(<span class="keyword">this</span>.title);</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> BookShelf = Backbone.Collection.extend(&#123;</div><div class="line">	<span class="comment">//model Book的集合</span></div><div class="line">	model:Book;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//创建三个Book model</span></div><div class="line"><span class="keyword">var</span> book1 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book1"</span>&#125;);</div><div class="line"><span class="keyword">var</span> book2 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book2"</span>&#125;);</div><div class="line"><span class="keyword">var</span> book3 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book3"</span>&#125;);</div><div class="line"><span class="comment">//创建一个bookShelf数组集合</span></div><div class="line"><span class="keyword">var</span> bookShelf = <span class="keyword">new</span> BookShelf([book1,book2,book3]);</div><div class="line"><span class="comment">//或者，可以使用add将book1,book2,book3加入到集合中</span></div><div class="line"><span class="comment">/*</span></div><div class="line">bookShelf.add(book1);</div><div class="line">bookShelf.add(book2);</div><div class="line">bookShelf.add(book3);</div><div class="line">*/</div><div class="line"><span class="comment">//还可以对里面的model进行其他操作</span></div><div class="line">bookShelf.remove(book3);</div><div class="line"><span class="comment">//可以用each对其进行遍历</span></div><div class="line">bookShelf.each(<span class="function"><span class="keyword">function</span>(<span class="params">book</span>)</span>&#123;</div><div class="line">	alert(book.get(<span class="string">"title"</span>));</div><div class="line">&#125;);</div><div class="line"><span class="comment">//相当于ajax的操作</span></div><div class="line">bookShelf.url = <span class="string">'/books/'</span></div><div class="line">bookShelf.fetch(&#123;</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//...</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//...</span></div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//create方法，将model对象（json数据）POST到对应的url上</span></div><div class="line"><span class="keyword">var</span> NewBooks = Backbone.Collection.extend(&#123;</div><div class="line">	<span class="attr">model</span>:Book,</div><div class="line">	<span class="attr">url</span>:<span class="string">'/books/'</span></div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> books =  <span class="keyword">new</span> NewBooks;</div><div class="line"><span class="keyword">var</span> onebook = books.create(&#123;</div><div class="line">	<span class="attr">title</span>: <span class="string">"I'm coming"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Backbone-Collection（集合）&quot;&gt;&lt;a href=&quot;#Backbone-Collection（集合）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.Collection（集合）&quot;&gt;&lt;/a&gt;Backbone.Collection（集合）&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;model是现实中物体的抽象，而collection则是model对象的一个有序的集合&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Underscore.js之template</title>
+    <link href="http://yoursite.com/2017/03/30/17-03-30-10/"/>
+    <id>http://yoursite.com/2017/03/30/17-03-30-10/</id>
+    <published>2017-03-30T14:16:08.000Z</published>
+    <updated>2017-07-15T06:44:16.414Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>_.template(templateString, [settings])</code></p>
+<p>将 JavaScript 模板编译为可以用于页面呈现的函数, 对于通过JSON数据源生成复杂的HTML并呈现出来的操作非常有用</p>
+<a id="more"></a>
+<p>参数 <strong>templateString</strong> 是一个含有与模板对应属性的data对象 </p>
+<ul>
+<li><code>&lt;%= ... %&gt;</code> 用于插入变量</li>
+<li><code>&lt;% ... %&gt;</code> 可以执行javascript代码</li>
+<li><code>&lt;%- ... %&gt;</code> 插入值并进行HTML转义</li>
+</ul>
+<p>参数 <strong>settings</strong> 是一个哈希表包含任何可以覆盖的设置 _.templateSettings，可以改变Underscore的模板设置（所以基本不用）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> compiled = _.template(<span class="string">"hello: &lt;%= name %&gt;"</span>);</div><div class="line">compiled(&#123;<span class="attr">name</span>: <span class="string">'moe'</span>&#125;);</div><div class="line"></div><div class="line">=&gt; <span class="string">"hello: moe"</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;_.template(templateString, [settings])&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;将 JavaScript 模板编译为可以用于页面呈现的函数, 对于通过JSON数据源生成复杂的HTML并呈现出来的操作非常有用&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零开始的backbone.js（二）</title>
+    <link href="http://yoursite.com/2017/03/29/17-03-29-9/"/>
+    <id>http://yoursite.com/2017/03/29/17-03-29-9/</id>
+    <published>2017-03-29T08:06:16.000Z</published>
+    <updated>2017-07-15T06:44:05.726Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Backbone-View（视图）"><a href="#Backbone-View（视图）" class="headerlink" title="Backbone.View（视图）"></a>Backbone.View（视图）</h2><ul>
+<li>view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。</li>
+<li>相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> searchView = Backbone.View.extend(&#123;</div><div class="line">	<span class="comment">//引用的DOM元素（没有指定也会指向一个空的div）</span></div><div class="line">	el:<span class="string">"#search_container"</span>,</div><div class="line">	<span class="comment">//绑定事件</span></div><div class="line">	events:&#123;</div><div class="line">		<span class="string">"click input[type=button]"</span>:<span class="string">"doSearch"</span></div><div class="line">		<span class="comment">//当点击input时，会调用doSearch</span></div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//初始化函数（一开始就会调用）</span></div><div class="line">	initialize:<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">//调用render渲染页面</span></div><div class="line">		<span class="keyword">this</span>.render(&#123;<span class="attr">search_label</span>:<span class="string">"搜索按钮"</span>&#125;);</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//渲染页面函数</span></div><div class="line">	render:<span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</div><div class="line">		<span class="comment">//html模板</span></div><div class="line">		<span class="keyword">var</span> template = _.template($(<span class="string">"#search_template"</span>).html());</div><div class="line">		$(<span class="keyword">this</span>.el).html(template(context));</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//doSearch函数定义</span></div><div class="line">	doSearch:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		alert(<span class="string">"search for"</span> + $(<span class="string">"#search_input"</span>).val());</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//实例化</span></div><div class="line"><span class="keyword">var</span> SearchView = <span class="keyword">new</span> searchView();</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Backbone-View（视图）&quot;&gt;&lt;a href=&quot;#Backbone-View（视图）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.View（视图）&quot;&gt;&lt;/a&gt;Backbone.View（视图）&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。&lt;/li&gt;
+&lt;li&gt;相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零开始的backbone.js（一）</title>
+    <link href="http://yoursite.com/2017/03/28/17-03-28-8/"/>
+    <id>http://yoursite.com/2017/03/28/17-03-28-8/</id>
+    <published>2017-03-28T08:24:10.000Z</published>
+    <updated>2017-07-15T06:43:48.429Z</updated>
+    
+    <content type="html"><![CDATA[<p>实习项目用的框架：backbone.js</p>
+<blockquote>
+<p>Backbone.js为复杂WEB应用程序提供<strong>模型(models)</strong>、<strong>集合(collections)</strong>、<strong>视图(views)</strong>的结构。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Backbone-Model（模型）"><a href="#Backbone-Model（模型）" class="headerlink" title="Backbone.Model（模型）"></a>Backbone.Model（模型）</h2><ul>
+<li><p>Model的作用：对业务中实体对象的抽象，把数据以文件、数据库的形式存储在磁盘上，与服务器端进行数据交互。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//相当于public class ...</span></div><div class="line"><span class="comment">//可以存放基本的数值以及方法</span></div><div class="line"><span class="keyword">var</span> Man = Backbone.Model.extend(&#123;</div><div class="line">	<span class="comment">//模型在服务器上位置的url</span></div><div class="line">	<span class="comment">//调用save方法时会post对象的所有属性到server端，数据形式是json</span></div><div class="line">	url: <span class="string">'/man/'</span>,</div><div class="line">	<span class="comment">//定义了一个Model，实现了初始化方法（initialize函数）</span></div><div class="line">	initialize: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		alert(<span class="string">'Hey,you create me!'</span>);</div><div class="line">		<span class="comment">//jQuery.bind(),对jQuery对象进行事件绑定，可绑定一个或者多个</span></div><div class="line">		<span class="comment">//当name发生改变时触发该函数</span></div><div class="line">		<span class="keyword">this</span>.bind(<span class="string">"change:name"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="keyword">var</span> name = <span class="keyword">this</span>.get(<span class="string">"name"</span>);</div><div class="line">			alert(<span class="string">"you change the name:"</span> + name);</div><div class="line">		&#125;);</div><div class="line">		<span class="keyword">this</span>.bind(<span class="string">"invalid"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">model,error</span>)</span>&#123;</div><div class="line">			alert(error);</div><div class="line">			<span class="comment">//error是来自validate校验的错误</span></div><div class="line">		&#125;)</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//定义默认值（属性）name &amp; age</span></div><div class="line">	defaults: &#123;</div><div class="line">		<span class="attr">name</span>: <span class="string">'tom'</span>,</div><div class="line">		<span class="attr">age</span>: <span class="string">'18'</span></div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//Model.validate(attributes, options)，默认为未定义</span></div><div class="line">	<span class="comment">//默认在save之前调用，如果&#123;validate:true&#125;，则也能在set之前调用</span></div><div class="line">	<span class="comment">//当校验失败时，会触发"invalid"事件</span></div><div class="line">	validate: <span class="function"><span class="keyword">function</span>(<span class="params">attributes</span>) </span>&#123;</div><div class="line">		<span class="keyword">if</span>(attributes.name == <span class="string">''</span>) <span class="keyword">return</span> <span class="string">"name不能为空"</span>;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//定义了名为aboutMe的一个方法（函数）</span></div><div class="line">	aboutMe: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"I'm"</span> + <span class="keyword">this</span>.get(<span class="string">'name'</span>) + <span class="string">","</span> + <span class="keyword">this</span>.get(<span class="string">'age'</span>) </div><div class="line">		+ <span class="string">"years old."</span>;</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//实例化Model，并会直接调用initialize函数</span></div><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man;</div><div class="line"><span class="comment">//Model.set(attribute),用来给Model修改或设置属性</span></div><div class="line"><span class="comment">//改变了name的值，可以触发change事件，alert</span></div><div class="line">man.set(&#123;<span class="attr">name</span> : <span class="string">'jane'</span>&#125;);</div><div class="line"><span class="comment">//设置时并不会触发校验</span></div><div class="line">man.set(&#123;<span class="attr">name</span> : <span class="string">''</span>&#125;);</div><div class="line"><span class="comment">//model.save(attributes, options)，保存模型到数据库</span></div><div class="line"><span class="comment">//如果验证成功，返回jqXHR，否则false</span></div><div class="line"><span class="comment">//触发校验，根据验证规则弹出错误提示。</span></div><div class="line">man.save();</div><div class="line"><span class="comment">//从服务器端获取数据</span></div><div class="line"><span class="keyword">var</span> man1 = <span class="keyword">new</span> Man;</div><div class="line"><span class="comment">//第一种情况，他会发送get请求到model.url中，在服务器端判断来进行操作</span></div><div class="line">man1.fetch();</div><div class="line"><span class="comment">//第二种情况，他会发送get请求到/getmans/这个url种，然后返回json</span></div><div class="line">man1.fetch(&#123;<span class="attr">url</span> : <span class="string">'/man/'</span>&#125;);</div><div class="line"><span class="comment">//在服务器端返回数据的方法：</span></div><div class="line">man1.fetch(&#123;<span class="attr">url</span>:<span class="string">'/man/'</span>,<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">model,response</span>) </span>&#123;</div><div class="line">		<span class="comment">//model为获取到的数据</span></div><div class="line">		alert(<span class="string">'success'</span>);</div><div class="line">		alert(model.get(<span class="string">'name'</span>));</div><div class="line">	&#125;,<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//当返回格式不正确或不是json数据时，会执行此方法</span></div><div class="line">		alert(<span class="string">'error'</span>);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>tip：</strong> 关于<code>$(selector).bind(event,data,function)</code><br>event：必填项，可以添加一个或多个，用空格隔开。<br>data：可以填可以不填，用来传递额外的数据<br>function：必填项，事件发生时运行的函数<br><a href="http://www.w3school.com.cn/jquery/jquery_ref_events.asp" target="_blank" rel="external">关于jQuery的事件方法</a></p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;实习项目用的框架：backbone.js&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Backbone.js为复杂WEB应用程序提供&lt;strong&gt;模型(models)&lt;/strong&gt;、&lt;strong&gt;集合(collections)&lt;/strong&gt;、&lt;strong&gt;视图(views)&lt;/strong&gt;的结构。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>iconfont使用方法</title>
+    <link href="http://yoursite.com/2017/03/26/17-03-26-7/"/>
+    <id>http://yoursite.com/2017/03/26/17-03-26-7/</id>
+    <published>2017-03-26T01:12:56.000Z</published>
+    <updated>2017-07-15T06:43:38.333Z</updated>
+    
+    <content type="html"><![CDATA[<p>实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程</p>
+<p>首先在<a href="http://www.iconfont.cn/" target="_blank" rel="external">Iconfont-阿里巴巴矢量图标库</a>上将需要的图标点击购物车按钮加入<strong>暂存库</strong>。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-1.png" alt=""></p>
+<a id="more"></a>
+<p>选择所有要用的图标后，<strong>存储为项目</strong>，给它命名。然后在<strong>图标管理-图标应用项目</strong>中找到这个项目，获取在线连接，把里面的代码复制到CSS中。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-2.png" alt=""></p>
+<p>在HTML中需要使用到图标时，使用iconfont类名。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont"</span>&gt;</span>&amp;#xe600;<span class="tag">&lt;/<span class="name">i</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>里面写上你想用的图标下面的Unicode：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-3.png" alt=""></p>
+<p>可以通过控制iconfont类的属性改变图标的样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.iconfont</span>&#123;</div><div class="line">	<span class="attribute">font-family</span>:<span class="string">"iconfont"</span>;</div><div class="line">	<span class="attribute">font-size</span>:<span class="number">16px</span>;</div><div class="line">	<span class="attribute">font-style</span>:normal;</div><div class="line">	<span class="attribute">-webkit-font-smoothing</span>: antialiased;</div><div class="line">        <span class="attribute">-webkit-text-stroke-width</span>: <span class="number">0.2px</span>;</div><div class="line">        <span class="attribute">-moz-osx-font-smoothing</span>: grayscale; </div><div class="line">        <span class="attribute">padding-left</span>:<span class="number">20px</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以下载到本地使用。图标都加入暂存架后选择<strong>下载到本地</strong>，会得到以下几个文件：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-4.png" alt=""><br>浏览器打开demo.html可以看到每个图标的Unicode，把<strong>iconfont.css</strong>里的代码复制到css里面，把下面四个文件放到css可以引用到的文件夹里就可以了。下载使用的一个缺点是添加图标的话要重新把所有图标再下载一遍覆盖原来的文件，如果是在线链接只要重新生成一次链接就好了。</p>
+<hr>
+<p>作者：班星灿<br>链接：<a href="https://www.zhihu.com/question/25952487/answer/71917554" target="_blank" rel="external">https://www.zhihu.com/question/25952487/answer/71917554</a><br>来源：知乎</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程&lt;/p&gt;
+&lt;p&gt;首先在&lt;a href=&quot;http://www.iconfont.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Iconfont-阿里巴巴矢量图标库&lt;/a&gt;上将需要的图标点击购物车按钮加入&lt;strong&gt;暂存库&lt;/strong&gt;。&lt;br&gt;&lt;img src=&quot;https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JSON学习笔记</title>
+    <link href="http://yoursite.com/2017/03/21/17-03-21-6/"/>
+    <id>http://yoursite.com/2017/03/21/17-03-21-6/</id>
+    <published>2017-03-21T10:16:43.000Z</published>
+    <updated>2017-07-15T06:43:24.406Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>JSON = JavaScript Object Notation （JavaScript对象表示法）<br>JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成<br>JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="与XML比较"><a href="#与XML比较" class="headerlink" title="与XML比较"></a>与XML比较</h2><ul>
+<li>长度比xml短</li>
+<li>读写速度更快</li>
+<li>json可以使用Javascript内建的方法直接进行解析，转换成Javascript对象，非常方便</li>
+</ul>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><ul>
+<li>JSON数据的书写格式：名称/值对<br>名称/值对组合中的名称写在前面（在双引号中），值对写在后面（同样在双引号中），中间用冒号隔开：比如<code>&quot;name&quot;:&quot;jane&quot;</code></li>
+<li>可以使用的数据类型<ul>
+<li>数字（整数或浮点数）</li>
+<li>字符串（双引号）</li>
+<li>逻辑值（true or false）</li>
+<li>数组（ […] ）</li>
+<li>对象（ {…} ）</li>
+<li>null</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON解析"><a href="#JSON解析" class="headerlink" title="JSON解析"></a>JSON解析</h2><ul>
+<li>eval和JSON.parse</li>
+<li><p>尽可能使用<code>JSON.parse()</code>方法解析字符串本身，该方法可以捕捉JSON中的语法错误。eval使用存在风险，特别是第三方JSON数据存在恶意代码时。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> jsondata = <span class="string">'&#123;"staff":[&#123;"name":"aaa","age":70&#125;,&#123;"name":"bbb","age":12&#125;]&#125;'</span>;</div><div class="line"><span class="keyword">var</span> jsonobj = <span class="built_in">JSON</span>.parse(jsondata);</div><div class="line"><span class="comment">//解析完毕</span></div><div class="line">alert(jsonobj.staff[<span class="number">0</span>].name);</div><div class="line"><span class="comment">//直接对对象进行操作</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>tip：</strong> <code>JSON.stringify()</code>方法是将对象解析成JSON</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</div><div class="line"><span class="built_in">JSON</span>.stringify(a) <span class="comment">//"&#123;"a":1,"b":2&#125;"</span></div></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;JSON = JavaScript Object Notation （JavaScript对象表示法）&lt;br&gt;JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成&lt;br&gt;JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>AJAX学习笔记</title>
+    <link href="http://yoursite.com/2017/03/21/17-03-21-5/"/>
+    <id>http://yoursite.com/2017/03/21/17-03-21-5/</id>
+    <published>2017-03-21T08:21:19.000Z</published>
+    <updated>2017-07-15T06:43:16.819Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）<br>AJAX 不是新的编程语言，而是一种使用现有标准的新方法。<br>AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。</p>
+<ul>
+<li>同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式</li>
+<li>异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式<br>（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
+<li>实现页面</li>
+<li>运用XMLHttpRequest和web服务器进行数据的异步交换</li>
+<li>运用javascript操作DOM，实现动态局部刷新</li>
+</ul>
+<h2 id="创建ajax过程"><a href="#创建ajax过程" class="headerlink" title="创建ajax过程"></a>创建ajax过程</h2><ul>
+<li>创建XMLHttpRequest对象</li>
+<li>创建一个新的HTTP请求，并指定该HTTP请求的方法、URL及验证信息</li>
+<li>设置响应HTTP请求状态变化的函数</li>
+<li>发送HTTP请求</li>
+<li>获取异步调用返回的数据</li>
+<li>使用Javascript和DOM实现局部刷新</li>
+</ul>
+<h2 id="XHR"><a href="#XHR" class="headerlink" title="XHR"></a>XHR</h2><ul>
+<li><p>发送请求</p>
+<ul>
+<li><code>open(method,url,async)</code><br>method表示发送方法(GET,POST)，url表示请求地址（相对或绝对），async表示同步或异步（异步true，默认值，同步false）</li>
+<li><code>send(string)</code><br>GET请求参数可不填写或写none，用POST请求需要填写。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest(); <span class="comment">//创建XHR对象</span></div><div class="line">request.open(<span class="string">"GET"</span>,<span class="string">"get.php"</span>,<span class="literal">true</span>);</div><div class="line">request.send();</div><div class="line"></div><div class="line"><span class="comment">//创建信息</span></div><div class="line">request.open(<span class="string">"POST"</span>,<span class="string">"post.php"</span>,<span class="literal">true</span>);</div><div class="line">request.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line"><span class="comment">//头信息，提示服务器要发送一个表单</span></div><div class="line">request.send(<span class="string">"name=tom&amp;sex=man"</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>响应请求</p>
+<ul>
+<li><code>responseText</code>：获得字符串形式的响应数据</li>
+<li><code>responseXML</code>：获得XML形式的响应数据（XML交互较少，一般采用json）</li>
+<li><code>status&amp;statusText</code>：以数字和文本形式返回HTTP状态码</li>
+<li><code>getAllResponseHeader()</code>：获取所有的响应报头</li>
+<li><code>getResponseHeader()</code>：查询响应中的某个字段的值</li>
+</ul>
+</li>
+<li><p>监听服务器响应<br><strong>readyState属性：</strong> 代表服务器响应的变化</p>
+<ul>
+<li>0：请求未初始化，open还没有调用</li>
+<li>1：服务器连接已经建立，open已经调用</li>
+<li>2：请求已接收，也就是接收到头信息了</li>
+<li>3：请求处理中，也就是接收到响应主体了</li>
+<li>4：请求已完成，且响应已就绪（完成）<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">request.open(<span class="string">"GET"</span>,<span class="string">"get.php"</span>,<span class="literal">true</span>);</div><div class="line">request.send();</div><div class="line">request.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span>(request.readyState === <span class="number">4</span> &amp;&amp; request.status === <span class="number">200</span>)&#123;</div><div class="line">		<span class="comment">//request.responseText...</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="用jQuery实现AJAX"><a href="#用jQuery实现AJAX" class="headerlink" title="用jQuery实现AJAX"></a>用jQuery实现AJAX</h2><ul>
+<li><code>jQuery.ajax([settings])</code><ul>
+<li><code>type</code>：类型，“POST”或“GET”,默认”GET”</li>
+<li><code>url</code>：发送请求的地址</li>
+<li><code>data</code>：是一个对象，连同请求发送到服务器的数据</li>
+<li><code>dataType</code>：预期服务器返回的数据类型。如果不指定，jQuery将自动根据HTTP包MIME信息来只能判断，一般采用<strong>json格式</strong>，可以设置为<strong>“json”</strong></li>
+<li><code>success</code>：是一个方法，请求成功后的回调函数。传入返回后的数据，以及包含成功代码的字符串</li>
+<li><code>error</code>：是一个方法，请求失败时调用此函数。传入XHR对象<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"get.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"json"</span>,</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"POST"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"get.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"json"</span>,</div><div class="line">	<span class="attr">data</span>:&#123;</div><div class="line">		<span class="attr">name</span>:<span class="number">123</span></div><div class="line">		number:<span class="number">123</span></div><div class="line">		<span class="comment">//jquery可以自动将Form Data转换成name:123&amp;number:123这种格式</span></div><div class="line">		<span class="comment">//并自动设置Content-Type:application/x-www-form-urlencoded</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><ul>
+<li>一个域名地址的组成：<code>http://www.abc.com:8080/scripts/jquery.js</code><ul>
+<li>协议：http://</li>
+<li>子域名：www</li>
+<li>主域名：abc.com</li>
+<li>端口号：8080（默认8080，可以省略）</li>
+<li>请求资源地址：scripts/jquery.js</li>
+</ul>
+</li>
+<li>当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域</li>
+<li>不同域之间相互请求资源，算作“跨域”<br>比如：<code>http://www.abc.com/index.html</code> 请求 <code>http://www.efg.com/service.php</code></li>
+<li>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象。简单说就是a.com域名下的js无法操作b.com或者c.a.com域名下的对象</li>
+</ul>
+<h2 id="处理跨域的方法"><a href="#处理跨域的方法" class="headerlink" title="处理跨域的方法"></a>处理跨域的方法</h2><ul>
+<li>代理<br>通过在同域名的web服务器端创建一个代理：<br>北京服务器：<code>www.beijing.com</code><br>上海服务器：<code>www.shanghai.com</code><br>在北京的web服务器的后台<code>www.beijing.com/proxy-shanghaiservice.php</code>来调用<code>www.shanghai.com/service.php</code>的服务器，然后把响应结果返回给前端，这样前端调用北京同域名的服务就和调用上海的服务效果相同了</li>
+<li>JSONP<br>JSONP可用于解决主流浏览器的跨域数据访问的问题（json+padding，内填充）</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">在www.aaa.com中</div><div class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"> <span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">json</span>)</span>&#123;</div><div class="line"> 	alert(json[<span class="string">"name"</span>]);</div><div class="line"> &#125;</div><div class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.bbb.com/jsonp.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"> 在www.bbb.com中</div><div class="line"> jsonp(&#123;"name":"tom","age":27&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//jsonp只支持get请求</span></div><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"http://www.bbb.com/service.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"jsonp"</span>,</div><div class="line">	<span class="attr">jsonp</span>:<span class="string">"callback"</span>,<span class="comment">//取值任意，与后端相连接</span></div><div class="line">	success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>XHR2<br>HTML5提供的XMLHttpRequest Level2已经实现了跨域访问以及其他的一些新功能（不支持IE10以下）<br>在服务器端做一些小改造即可：<br><code>header(&#39;Access-Control-Allow-Origin:*&#39;);</code><br><code>header(&#39;Access-Control-Allow-Methods:POST,GET&#39;);</code></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）&lt;br&gt;AJAX 不是新的编程语言，而是一种使用现有标准的新方法。&lt;br&gt;AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式&lt;/li&gt;
+&lt;li&gt;异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式&lt;br&gt;（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>关于HTTP请求小记</title>
+    <link href="http://yoursite.com/2017/03/20/17-03-20-4/"/>
+    <id>http://yoursite.com/2017/03/20/17-03-20-4/</id>
+    <published>2017-03-20T07:31:38.000Z</published>
+    <updated>2017-07-15T06:42:58.519Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li><strong>HTTP：</strong> 是计算机通过网络进行通信的规则</li>
+<li><strong>步骤：</strong><ul>
+<li>建立TCP连接</li>
+<li>Web浏览器向Web服务器发送请求命令</li>
+<li>Web浏览器发送请求头信息</li>
+<li>Web服务器应答</li>
+<li>Web服务器发送应答头信息</li>
+<li>Web服务器向浏览器发送数据</li>
+<li>Web服务器关闭TCP连接</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p><strong>组成：</strong></p>
+<ul>
+<li>HTTP请求的方法或动作，比如是GET还是POST请求</li>
+<li>正在请求的URL</li>
+<li>请求头，包含一些客户端环境信息，身份验证信息等</li>
+<li>请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /login.php HTTP/1.1 //请求地址</div><div class="line"></div><div class="line">//请求头</div><div class="line">Host:localhost</div><div class="line">Connection:keep-alive</div><div class="line">Accept:text/javascript,application/javascript,application/ecmascript,</div><div class="line">application/x-ecmascript,*/*;</div><div class="line">q=0.01</div><div class="line">X-Requested-With:XMLHttpRequest</div><div class="line">User-Agent:Mozilla/5.0(Windows NT 6.1)Referer:http//www.baidu.com/</div><div class="line">Accept-Encoding:gzip,deflate,sdch</div><div class="line">Accept-Language:zh-CN,zh;q=0.8,en;q=0.6</div><div class="line"></div><div class="line">//请求体</div><div class="line">username=admin&amp;password=123456</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>GET：</strong> 一般用于信息获取，使用URL传递参数，对所发送信息的数量也有限制，一般在2000个字符。（一般用于查询，不做修改，数据是安全的）</p>
+</li>
+<li><strong>POST：</strong> 一般用于修改服务器上的资源。对所发送信息的数量无限制。</li>
+<li><strong>GET和POST的区别：</strong><ul>
+<li>GET方式需要使用<code>Request.QueryString</code>来取得变量的值，而POST方式通过<code>Request.Form</code>来获取变量的值，也就是说Get是通过地址栏来传值，而Post是通过提交表单来传值。</li>
+<li>然而，在以下情况中，请使用 <strong>POST 请求</strong>：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</li>
+</ul>
+</li>
+<li><p><strong>HTTP响应组成：</strong></p>
+<ul>
+<li>一个<strong>数字</strong>和<strong>文字</strong>组成的状态码，用来显示请求是成功还是失败的</li>
+<li>响应头，包含服务器信息，如服务器类型、日期时间、内容类型和长度等</li>
+<li>响应体（响应正文），服务器传来的字符串或html代码等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Date:Sun,23 Nov 2014 10:14:45 GMT</div><div class="line">Server:Apache</div><div class="line">Content-Encoding:gzip</div><div class="line">Content-Length:7112</div><div class="line">Connection:Keep-Alive</div><div class="line">Content-Type:application/javascript</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>HTTP状态码：</strong> 由3位数字构成，其中首位数字定义了状态码的类型</p>
+<ul>
+<li>1XX：信息类，表示收到Web浏览器请求，正在进一步处理中</li>
+<li>2XX：成功，表示用户请求被正确接受，理解和处理，例如：200 OK</li>
+<li>3XX：重定向，表示请求没有成功，客户必须采取进一步的动作</li>
+<li>4XX：客户端错误，表示客户端提交的请求有错误，例如：404 NOT Found</li>
+<li>5XX：服务器错误，表示服务器不能完成对请求的处理，例如：500</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>HTTP状态码（具体）：</strong></p>
+<ul>
+<li><strong>100  Continue</strong>  继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息</li>
+<li><strong>200  OK</strong>   正常返回信息</li>
+<li><strong>201  Created</strong>  请求成功并且服务器创建了新的资源</li>
+<li><strong>202  Accepted</strong>  服务器已接受请求，但尚未处理</li>
+<li><strong>301  Moved Permanently</strong>  请求的网页已永久移动到新位置</li>
+<li><strong>302  Found</strong>  临时性重定向</li>
+<li><strong>303  See Other</strong>  临时性重定向，且总是使用 GET 请求新的 URI</li>
+<li><strong>304  Not Modified</strong>  自从上次请求后，请求的网页未修改过</li>
+<li><strong>400  Bad Request</strong>  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求</li>
+<li><strong>401  Unauthorized</strong>  请求未授权</li>
+<li><strong>403  Forbidden</strong>  禁止访问</li>
+<li><strong>404  Not Found</strong>  找不到如何与 URI 相匹配的资源</li>
+<li><strong>500  Internal Server Error</strong>  最常见的服务器端错误</li>
+<li><strong>503  Service Unavailable</strong> 服务器端暂时无法处理请求（可能是过载或维护）</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;HTTP：&lt;/strong&gt; 是计算机通过网络进行通信的规则&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;步骤：&lt;/strong&gt;&lt;ul&gt;
+&lt;li&gt;建立TCP连接&lt;/li&gt;
+&lt;li&gt;Web浏览器向Web服务器发送请求命令&lt;/li&gt;
+&lt;li&gt;Web浏览器发送请求头信息&lt;/li&gt;
+&lt;li&gt;Web服务器应答&lt;/li&gt;
+&lt;li&gt;Web服务器发送应答头信息&lt;/li&gt;
+&lt;li&gt;Web服务器向浏览器发送数据&lt;/li&gt;
+&lt;li&gt;Web服务器关闭TCP连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Sublime Text3前端插件分享</title>
+    <link href="http://yoursite.com/2017/02/28/17-02-28-2/"/>
+    <id>http://yoursite.com/2017/02/28/17-02-28-2/</id>
+    <published>2017-02-28T08:05:18.000Z</published>
+    <updated>2017-07-15T06:43:05.735Z</updated>
+    
+    <content type="html"><![CDATA[<p>自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利</p>
+<a id="more"></a>
+<hr>
+<ul>
+<li><strong>Emmet:</strong><br>快速编写HTML+CSS代码，快捷键<strong>ctrl+E</strong><br><a href="http://www.iteye.com/news/27580" target="_blank" rel="external">关于如何速写的教程</a></li>
+<li><strong>All Autocomplete:</strong><br>搜索所有打开的文件来寻找匹配的提示词</li>
+<li><strong>AutoFileName:</strong><br>自动检索并补齐文件路径</li>
+<li><strong>CSScomb:</strong><br>使用指定排序方法对CSS的属性进行排序，快捷键<strong>ctrl+alt+C</strong><br>虽然好像很厉害的样子但是我安装了之后一直没有反应，还未找到办法</li>
+<li><strong>HTML-CSS-JS Prettify:</strong><br>美化代码格式，需要安装node.js才能使用，快捷键<strong>ctrl+alt+H</strong>，可以自动对齐</li>
+<li><strong>ColorHighlighter:</strong><br>可以显示颜色代码的颜色，看上去一目了然</li>
+<li><strong>BracketHighlighter:</strong><br>括号以及标签层级显示</li>
+<li><strong>Sidebarenhancements:</strong><br>扩展鼠标右键菜单，可以直接open with浏览器，超方便</li>
+<li><strong>SublimeCodeIntel:</strong><br>可以快速提示补全标签，但是有个缺点就是打了分号之后会弹出提示框，然后换行的时候各种误打一堆烂七八糟的代码，在网上找了挺久的办法终于找到一个可行的，附上</li>
+</ul>
+<p>打开<em>Package Settings &gt; SublimeCodeIntel &gt; Key Bindings - User</em>,输入代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; </div><div class="line">		<span class="string">"keys"</span>: [<span class="string">";"</span>], <span class="string">"command"</span>: <span class="string">"run_macro_file"</span>, </div><div class="line">	  	<span class="string">"args"</span>: &#123;<span class="string">"file"</span>: <span class="string">"Packages/User/unAutoSemiColon.sublime-macro"</span>&#125; </div><div class="line">	&#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>然后打开 <em>Preferences &gt; Browser Package &gt; User</em>，保存文件名为<em>unAutoSemiColon.sublime-macro</em><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;</div><div class="line">        <span class="string">"args"</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="string">"characters"</span>: <span class="string">";"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="string">"command"</span>: <span class="string">"insert"</span></div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>之后打分号再也不会出现提示啦！！</p>
+<ul>
+<li><strong>SublimeTmpl:</strong><br>可以快速创建代码模板<br><strong>ctrl+shift+H</strong> HTML模板<br><strong>ctrl+shift+C</strong> CSS模板<br><strong>ctrl+shift+J</strong> Javascript模板<br><strong>ctrl+shift+P</strong> php模板</li>
+<li><strong>Colorsublime:</strong><br>更换主题的插件，含有很多主题配色方案，偶尔转换一下心情</li>
+</ul>
+<hr>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>这磨人的小妖精</title>
+    <link href="http://yoursite.com/2017/02/28/17-02-28-1/"/>
+    <id>http://yoursite.com/2017/02/28/17-02-28-1/</id>
+    <published>2017-02-27T18:17:03.000Z</published>
+    <updated>2017-07-15T06:43:09.259Z</updated>
+    
+    <content type="html"><![CDATA[<p>终于！把！这个！磨人的！小妖精！建好了！！<br>超累超心痛的熬夜到四点，连银魂都忘记看了！大早上又接着起来捣鼓 =。=<br>大概是我太蠢了才会弄这么久哦，好气哦<br>好了我要努力读书去了</p>
+<a id="more"></a>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;终于！把！这个！磨人的！小妖精！建好了！！&lt;br&gt;超累超心痛的熬夜到四点，连银魂都忘记看了！大早上又接着起来捣鼓 =。=&lt;br&gt;大概是我太蠢了才会弄这么久哦，好气哦&lt;br&gt;好了我要努力读书去了&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
