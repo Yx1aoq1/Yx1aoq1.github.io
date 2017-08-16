@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-15T07:53:31.310Z</updated>
+  <updated>2017-07-16T03:22:38.074Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,45 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>异步编程之promise与trigger</title>
+    <link href="http://yoursite.com/2017/07/15/17-07-15-20/"/>
+    <id>http://yoursite.com/2017/07/15/17-07-15-20/</id>
+    <published>2017-07-15T08:13:01.000Z</published>
+    <updated>2017-07-16T03:22:38.074Z</updated>
+    
+    <content type="html"><![CDATA[<p>这周的学习任务：<code>promise</code>与<code>trigger</code><br><a id="more"></a></p>
+<h2 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h2><blockquote>
+<p>Javascript语言将任务的执行模式分为同步（Synchronous）和异步（Asynchronous），“同步模式”指的是后一个任务只有等待前一个任务完成之后才能执行，程序执行顺序与任务的排列顺序是一致的、同步的。而“异步模式”指的是每个任务有一个或多个回调函数，前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的、异步的。</p>
+</blockquote>
+<h4 id="实现异步编程的四种方法"><a href="#实现异步编程的四种方法" class="headerlink" title="实现异步编程的四种方法"></a>实现异步编程的四种方法</h4><ul>
+<li><strong>回调函数</strong></li>
+</ul>
+<p>回调函数可以理解为，被另一个函数调用的函数。<br>可以想成这样一个应用场景：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">f1(); <span class="comment">//一个十分耗时的函数</span></div><div class="line">f2(); <span class="comment">//等待f1执行完才能执行的函数</span></div><div class="line">f3(); <span class="comment">//等待f1执行完才能执行的函数</span></div></pre></td></tr></table></figure></p>
+<p>Javascript语言的执行环境是”单线程”，就是指一次只能完成一件任务。所以上面函数的执行顺序会是<code>f1-&gt;f2-&gt;f3</code>，但如果<code>f3</code>是一个与页面加载有关的函数，那就比较蛋疼了，因为它必须等待<code>f1</code>与<code>f2</code>都执行完才能执行，这就导致了页面加载时间过长，体验很不好。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">callback</span>) </span>&#123;</div><div class="line">  <span class="comment">//f1执行代码</span></div><div class="line">  callback();</div><div class="line">&#125;</div><div class="line"></div><div class="line">f1(f2);</div><div class="line">f3();</div></pre></td></tr></table></figure></p>
+<p>如果采用回调函数的方法（异步），函数的执行顺序就可以变成<code>f1-&gt;f3-&gt;f2</code>，加载时间就节省了<code>f2</code>执行的时间，也算是一点优化了。<br><strong>优点：</strong> 简单、容易理解和部署。<br><strong>缺点：</strong> 不利于代码的阅读和维护，各个部分之间高度耦合，流程会很混乱，而且每个任务只能指定一个回调函数。</p>
+<ul>
+<li><strong>事件监听</strong></li>
+</ul>
+<p>事件监听指的是采用事件驱动模式，任务的执行不取决于代码的顺序，而取决于某个事件是否发生。jQuery中有许多事件，例如<code>click</code>、<code>keydown</code>之类的，可以通过<code>on</code>来绑定。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f1.on(<span class="string">'click'</span>,f2); <span class="comment">//在发送点击事件之后，会指向f2函数</span></div></pre></td></tr></table></figure></p>
+<p>而<code>trigger</code>的作用是，可以通过<code>$.Event(&#39;eventName&#39;)</code>来自定义一个事件，然后通过<code>trigger</code>触发这个事件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> $<span class="literal">null</span> = $(&#123;&#125;); <span class="comment">//绑定空对象</span></div><div class="line"><span class="keyword">var</span> hideEvent = $.Event(<span class="string">'hide.tab'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">//f1执行代码</span></div><div class="line">  f1.trigger(<span class="string">'hide.tab'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">$<span class="literal">null</span>.on(<span class="string">'hide.tab'</span>,f2);</div></pre></td></tr></table></figure></p>
+<p>当<code>f1</code>执行完后就会触发<code>hide.tab</code>事件，从而开始执行<code>f2</code>。<br>而且这个自定义的事件可以通过<code>trigger</code>绑定在多个函数之中，也就是说，可以通过多个操作来触发同一个事件。也可以实现两个不同模块的相互通信，比如一个子函数可以调用父函数的方法，那么父函数如果要调用子函数的方法要怎么办呢？这个时候就可以利用<code>trigger</code>来触发事件，然后通过事件绑定调用子函数的方法。<br><strong>优点：</strong> 比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以”去耦合”，有利于实现模块化。<br><strong>缺点：</strong> 整个程序都要变成事件驱动型，运行流程会变得很不清晰。</p>
+<ul>
+<li><strong>发布/订阅</strong></li>
+</ul>
+<p>发布/订阅可以理解为存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”（publish）一个信号，其他任务可以向信号中心“订阅”（subscribe）这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”，又称“观察者模式”。<br>实现步骤如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">jQuery.subscribe(<span class="string">'done'</span>,f2); <span class="comment">//通过订阅中心jQuery订阅"done"信号</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">//f1执行代码</span></div><div class="line">  jQuery.public(<span class="string">'done'</span>); <span class="comment">//f1执行完后，向信号中心发布"done"信号，引发f2执行</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">jQuery.unsubscribe(<span class="string">'done'</span>,f2); <span class="comment">//取消订阅</span></div></pre></td></tr></table></figure></p>
+<p>这种方法的性质与”事件监听”类似，但是明显优于后者。因为我们可以通过查看”消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这周的学习任务：&lt;code&gt;promise&lt;/code&gt;与&lt;code&gt;trigger&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>搭建Hexo博客之后</title>
