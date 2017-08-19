@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-19T08:22:00.074Z</updated>
+  <updated>2017-08-19T08:29:33.977Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="http://yoursite.com/2017/08/17/17-08-17-23/"/>
     <id>http://yoursite.com/2017/08/17/17-08-17-23/</id>
     <published>2017-08-17T12:49:56.000Z</published>
-    <updated>2017-08-19T08:22:00.074Z</updated>
+    <updated>2017-08-19T08:29:33.977Z</updated>
     
-    <content type="html"><![CDATA[<p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
+    <content type="html"><![CDATA[<p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br><a id="more"></a></p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
 <p>首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。<br>以Chrome浏览器为例，其解析过程：</p>
 <ul>
 <li>搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存</li>
@@ -61,8 +62,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;当我们在浏览器中输入一个url，页面是如何呈现出来的呢？&lt;br&gt;&lt;img src=&quot;https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;首先，我们在浏
+      &lt;p&gt;当我们在浏览器中输入一个url，页面是如何呈现出来的呢？&lt;br&gt;
     
     </summary>
     
