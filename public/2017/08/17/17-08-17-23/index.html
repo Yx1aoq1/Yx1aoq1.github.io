@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 网络知识补充——浏览器请求过程 · Yx1aoq1's Blog</title><meta name="description" content="网络知识补充——浏览器请求过程 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">网络知识补充——浏览器请求过程</h1><div class="post-info">2017年8月17日</div><div class="post-content"><p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
+<p>首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。<br>以Chrome浏览器为例，其解析过程：</p>
+<ul>
+<li>搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存</li>
+<li>搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经失效）</li>
+<li>读取本地的HOST文件（操作系统的DNS缓存也没有找到）</li>
+<li>浏览器发起一个DNS的一个系统调用，向宽带运营商的DNS服务器发送一个域名请求</li>
+</ul>
+<p>紧接着我们就来到了DNS服务器，DNS服务器接受到请求后，开始如下操作：</p>
+<ul>
+<li>查找本地缓存</li>
+<li>如果未找到对应条目，则服务器将发起一个迭代DNS解析的请求</li>
+<li>将迭代查询后的结果返回给操作系统内核同时进行缓存</li>
+</ul>
+<p>之后操作系统内核把结果返回给浏览器，浏览器拿到了域名对应的IP地址。这时，浏览器就可以向这个IP地址发送请求，请求通过我们的协议，经过了层层的网络，到达服务端。服务端有一个MVC架构，请求首先会进入<code>Controller</code>层，进行相关的逻辑处理，以及请求的分发，然后来调用<code>Model</code>层，<code>Model</code>层主要负责与数据的交互，在交互过程中会它会读取<code>redis</code>和数据库中存储的数据，最终将渲染好的页面通过<code>View</code>层返回给网络。这时，<code>httpResponse</code>就通过层层网络回到浏览器，浏览器根据请求回来的<code>html</code>、<code>css</code>、<code>js</code>进行渲染，最终将页面展现在我们面前。</p>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>DNS全名Domain Name System，我们在互联网中，我们通过IP地址来进行通信，由于IP地址是用数字表示的，看着很不直观难以记忆，所以使用域名来帮助记忆，如：<code>http://www.baidu.com/</code>，而DNS的作用就是将域名转换成IP，或将IP转换成域名，这个过程也叫做解析。<br><strong>Tip：</strong>电脑中的HOST文件是通过静态匹配IP和域名</p>
+<h4 id="域名空间结构"><a href="#域名空间结构" class="headerlink" title="域名空间结构"></a>域名空间结构</h4><ul>
+<li>根域：<code>.</code>，根域名的服务器只有13台</li>
+<li><p>顶级域（一级域）：<code>edu</code>、<code>gov</code>、<code>com</code>、<code>org</code>、<code>mil</code>、<code>cn</code>等，由域名分配组织ISO决定</p>
+<ul>
+<li><p>组织域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">gov         政府部门</div><div class="line">com         商业部门</div><div class="line">edu         教育部门</div><div class="line">org         民间团体组织</div><div class="line">net         网络服务机构</div><div class="line">mil         军事部门</div></pre></td></tr></table></figure>
+</li>
+<li><p>国家或地区域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cn          中国</div><div class="line">jp          日本</div><div class="line">uk          英国</div><div class="line">au          澳大利亚</div><div class="line">hk          中国香港</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>二级域：个人和企业向域名分配组织申请的，需要购买，如<code>baidu</code>、<code>sina</code>等</p>
+</li>
+<li>主机名（三级域）：申请完二级域名后自己规定的，如<code>www</code>（代表网页服务）、<code>NEWS</code></li>
+</ul>
+<p>一个完整的域名是由三级域 + 二级域 + 一级域组成的，并且是全球唯一的。<br>在互联网中，域名是由结构有规划的。因为域名进行了分级，在进行域名和IP地址解析时才能更容易的找到，即根域名只负责管理一级域名，而一级域名负责管理自己以下的二级域名，以此类推。</p>
+<h4 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http-2.png" alt=""></p>
+<p>客户机向指定的域名服务器发送请求，说我想要访问<code>www.baidu.com.cn</code>这个网站，如果这台域名服务器并没有缓存这个域名的IP地址，那么它就会向根DNS服务器询问（每个本地域名服务器都会保存全球13台根服务器的IP地址），根DNS服务器将会返回它管理下的一级域名（<code>cn</code>)的IP地址，紧接着本地域名服务器就向<code>cn</code>服务器发送询问，<code>cn</code>服务器返回<code>com.cn</code>服务器的IP，然后本地服务器接着询问，直到找到<code>www.baidu.com.cn</code>的IP地址，再返回给客户机。这个过程就是<strong>DNS迭代查询</strong>。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/08/16/17-08-16-22/" class="next">下一篇</a></div><div class="copyright"><p>© 2017 <a href="http://yoursite.com">Yx1aoq1</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
