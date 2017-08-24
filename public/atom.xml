@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-20T07:04:55.381Z</updated>
+  <updated>2017-08-24T12:56:24.554Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JS变量计算</title>
+    <link href="http://yoursite.com/2017/08/24/17-08-24-25/"/>
+    <id>http://yoursite.com/2017/08/24/17-08-24-25/</id>
+    <published>2017-08-24T12:53:29.000Z</published>
+    <updated>2017-08-24T12:56:24.554Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="typeof-运算符"><a href="#typeof-运算符" class="headerlink" title="typeof 运算符"></a>typeof 运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// undefined</span></div><div class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span> <span class="comment">// string</span></div><div class="line"><span class="keyword">typeof</span> <span class="number">123</span> <span class="comment">// number</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span> <span class="comment">// boolean</span></div><div class="line"><span class="keyword">typeof</span> &#123;&#125; <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> [] <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span> <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="built_in">console</span>.log <span class="comment">// function</span></div></pre></td></tr></table></figure>
+<h2 id="变量运算-强制类型转换"><a href="#变量运算-强制类型转换" class="headerlink" title="变量运算 - 强制类型转换"></a>变量运算 - 强制类型转换</h2><h4 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span> + <span class="number">10</span> <span class="comment">// 110</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span> + <span class="string">'10'</span> <span class="comment">// '10010'</span></div></pre></td></tr></table></figure>
+<p>当使用减运算时：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> c = <span class="string">'100'</span> - <span class="number">10</span> <span class="comment">// 90</span></div></pre></td></tr></table></figure></p>
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="== 运算符"></a>== 运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">100</span> == <span class="string">'100'</span> <span class="comment">// true</span></div><div class="line"><span class="number">0</span> == <span class="string">''</span> <span class="comment">// true</span></div><div class="line"><span class="literal">null</span> == <span class="literal">undefined</span> <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p><code>==</code>与<code>===</code>的区别：<code>===</code>是严格等于，只有类型完全相同才会返回<code>true</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">null</span> === <span class="literal">null</span></div><div class="line"><span class="literal">undefined</span> === <span class="literal">undefined</span></div><div class="line"><span class="literal">null</span> === <span class="literal">undefined</span> <span class="comment">// false</span></div><div class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>什么时候用<code>==</code>什么时候用<code>===</code>：jQuery源码中推荐写法，只有下述情况才用<code>==</code>，其他时候都用<code>===</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(a == <span class="literal">null</span>) &#123;</div><div class="line">  <span class="comment">// 这里相当于 a === null || a === undefined</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</div><div class="line"><span class="keyword">if</span>(a) &#123; <span class="comment">//... &#125; </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span>; <span class="comment">// true</span></div><div class="line"><span class="keyword">if</span>(b) &#123; <span class="comment">//... &#125;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="string">''</span>; <span class="comment">// false</span></div><div class="line"><span class="keyword">if</span>(c) &#123; <span class="comment">//... &#125;</span></div></pre></td></tr></table></figure>
+<p><code>if</code>中被判定为<code>false</code>的几个值：<code>0</code>,<code>NaN</code>,<code>&#39;&#39;</code>,<code>null</code>,<code>undefined</code></p>
+<h4 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="number">10</span> &amp;&amp; <span class="number">0</span>) <span class="comment">// 0</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">''</span> || <span class="string">'abc'</span>) <span class="comment">// 'abc'</span></div><div class="line"><span class="built_in">console</span>.log(!<span class="built_in">window</span>.abc) <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// 判断一个变量会被当做 true 还是 false</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</div><div class="line"><span class="built_in">console</span>.log(!!a) <span class="comment">//true</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;typeof-运算符&quot;&gt;&lt;a href=&quot;#typeof-运算符&quot; class=&quot;headerlink&quot; title=&quot;typeof 运算符&quot;&gt;&lt;/a&gt;typeof 运算符&lt;/h2&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;tab
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>页面加载——浏览器渲染</title>
@@ -88,7 +114,7 @@
     <link href="http://yoursite.com/2017/08/17/17-08-17-23/"/>
     <id>http://yoursite.com/2017/08/17/17-08-17-23/</id>
     <published>2017-08-17T12:49:56.000Z</published>
-    <updated>2017-08-19T10:41:05.124Z</updated>
+    <updated>2017-08-24T14:13:57.417Z</updated>
     
     <content type="html"><![CDATA[<p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br><a id="more"></a></p>
 <p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
@@ -126,7 +152,67 @@
 <p>一个完整的域名是由三级域 + 二级域 + 一级域组成的，并且是全球唯一的。<br>在互联网中，域名是由结构有规划的。因为域名进行了分级，在进行域名和IP地址解析时才能更容易的找到，即根域名只负责管理一级域名，而一级域名负责管理自己以下的二级域名，以此类推。</p>
 <h4 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http-2.png" alt=""></p>
 <p>客户机向指定的域名服务器发送请求，说我想要访问<code>www.baidu.com.cn</code>这个网站，如果这台域名服务器并没有缓存这个域名的IP地址，那么它就会向根DNS服务器询问（每个本地域名服务器都会保存全球13台根服务器的IP地址），根DNS服务器将会返回它管理下的一级域名（<code>cn</code>）的IP地址，紧接着本地域名服务器就向<code>cn</code>服务器发送询问，<code>cn</code>服务器返回<code>com.cn</code>服务器的IP，然后本地服务器接着询问，直到找到<code>www.baidu.com.cn</code>的IP地址，再返回给客户机。这个过程就是<strong>DNS迭代查询</strong>。</p>
-<h2 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h2>]]></content>
+<h2 id="ISO-OSI-七层模型"><a href="#ISO-OSI-七层模型" class="headerlink" title="ISO/OSI 七层模型"></a>ISO/OSI 七层模型</h2><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li>ISO：国际标准化组织</li>
+<li>OSI：开放系统互联模型</li>
+<li>IOS：在计算机网络中，IOS是互联网操作系统，是思科公司为其网络设备开发的操作维护系统</li>
+<li>OSI七层模型的划分：OSI定义了网络互连的七层框架（物理层、数据链路层、网络层、传输层、会话层、表示层、应用层），即ISO开放互联系统参考模型。如下图。</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/osi.png" alt=""></p>
+<p>每一层实现各自的功能和协议，并完成与相邻层的接口通信。OSI的服务定义详细说明了各层所提供的服务。某一层的服务就是该层及其下各层的一种能力，它通过接口提供给更高一层。各层所提供的服务与这些服务是怎么实现的无关。<br><strong>注意点：</strong>各层通信的接口并不是真实存在的接口，整个分层模型也只是逻辑上的分层。数据传递只在物理层进行，其他层的数据传递只是逻辑上的概念，并没有真实数据传递。</p>
+<p><strong>为什么要进行分层？</strong></p>
+<p>因为分层可以将功能进行划分，一旦数据传输出了问题，或者需要设计修改相关的功能软件，这样只要针对其中的一层进行排查和修改。分层的目的就是便于管理。</p>
+<p><strong>传输单位：</strong></p>
+<ul>
+<li>比特：bit，机器码的传输单位，每个0或1就是一个比特。</li>
+<li>帧：由帧头和帧数据组成。帧头包括接收方主机物理地址的定位以及其他信息。其中这个物理地址就是MAC地址（负责局域网通信）。而帧数据区含有一个数据体。</li>
+<li>报文：保存的基本信息为IP地址（负责外网通信）。</li>
+<li>TPDU：传输协议数据单元。</li>
+<li>APDU/PPDU/SPDU：由于上三层并不做数据传输，所以这三个单位可用可不用。SPDU是会话协议数据单元，PPDU是表示协议数据单元，ADPU是应用协议数据单元。</li>
+</ul>
+<h4 id="七层详解"><a href="#七层详解" class="headerlink" title="七层详解"></a>七层详解</h4><ul>
+<li>物理层：设备之间的比特流的传输、物理接口、电气特性等。（网线，网卡）</li>
+<li>数据链路层：成帧、用MAC地址访问媒介、错误检测与修正。</li>
+<li>网络层：提供逻辑地址（IP）、选路。</li>
+<li>传输层：可靠与不可靠的传输（TCP/UDP协议）、传输前的错误检测、流控。（确定端口号，而端口号是用于确定计算机所提供的服务的，例如www,mail等）</li>
+<li>会话层：对应用会话的管理、同步。</li>
+<li>表示层：数据的表现形式（将机器码转换成我们可以理解的字符，文件格式，反之亦可）、特定功能的实现如加密。</li>
+<li>应用层：用户接口（可以理解为各自桌面应用）。</li>
+</ul>
+<h2 id="TCP-IP-四层模型"><a href="#TCP-IP-四层模型" class="headerlink" title="TCP/IP 四层模型"></a>TCP/IP 四层模型</h2><h4 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li>网络接口层：与OSI参考模型中的<strong>物理层</strong>和<strong>数据链路层</strong>相对应。它负责监视数据在主机和网络之间的交换。事实上，TCP/IP本身并未定义该层的协议，而由参与互连的各网络使用自己的物理层和数据链路层协议，然后与TCP/IP的网络接入层进行连接。<strong>地址解析协议（ARP）</strong>工作在此层，即OSI参考模型的数据链路层。</li>
+<li>网际互联层：对应OSI参考模型的网络层，主要解决主机到主机的通信问题。它所包含的协议涉及数据包在整个网络上的逻辑传输。该层有三个主要协议：<strong>网际协议（IP）</strong>、<strong>互联网组管理协议（IGMP）</strong>和<strong>互联网控制报文协议（ICMP）</strong>。</li>
+<li>传输层：对应OSI参考模型的传输层，为应用层实体提供端到端的通信功能，保证了数据包的顺序传送及数据的完整性。该层定义了两个主要的协议：<strong>传输控制协议（TCP）</strong>和<strong>用户数据报协议（UDP）</strong>。</li>
+<li>应用层：对应OSI参考模型的高层，为用户提供所需要的各自服务，例如：FTP、Telnet、DNS、SMTP等。</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/tcp-ip.png" alt=""></p>
+<h4 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h4><ul>
+<li>共同点：<ul>
+<li>都采用了层次结构的概念；</li>
+<li>都能够提供面向连接和无连接两种通信服务机制；</li>
+</ul>
+</li>
+<li>不同点：<ul>
+<li>前者七层模型，后者四层结构；</li>
+<li>对可靠性的要求不同（后者更高）；</li>
+<li>OSI模型是在协议开发前设计的，具有通用性。TCP/IP是先有协议集然后建立模型，不适用于非TCP/IP网络。</li>
+<li>实际市场应用不同（OSI模型只是理论上的模型，并没有成熟的产品，而TCP/IP已经成为“实际上的国际标准”）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="TCP-IP-通信"><a href="#TCP-IP-通信" class="headerlink" title="TCP/IP 通信"></a>TCP/IP 通信</h2><p><strong>当浏览器向服务器发送HTTP请求的时候，数据是如何到达服务器的呢？</strong></p>
+<p>首先，为了传输的方便，在传输层（TCP协议）把从应用层处收到的数据（HTTP请求报文）进行分割，并在各个报文打上标记序号及端口号后转发给网络层。<br>在网络层（IP协议），增加作为通信目的地的MAC地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。<br>接收端的服务器在链路层接收到数据，按序往上层发送，每经过一层就将对应的首部去掉，最终到达服务器的应用层。</p>
+<h4 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h4><p>IP网际协议位于网络层，其作用是把各种数据包传送给对方，而要保证确实传送到，则需要满足各类条件，其中两个重要的条件是<strong>IP地址</strong>和<strong>MAC地址</strong>（Media Access Control Address）。IP地址指明了节点被分配到的地址，MAC地址是指网卡所属的固定地址。IP地址可以和MAC地址进行配对。IP地址可变换，但MAC地址基本上不会改变。</p>
+<p><strong>APR协议：</strong>通过APR协议对IP地址进行解析，可以查出通信方对应的MAC地址，从而进行通信。<br><strong>路由选择：</strong>在到达通信目标前的中转过程中，计算机与路由器等网络设备的传输线路不是固定的。</p>
+<h4 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h4><p>TCP协议位于传输层，提供可靠的字节流服务。其中<strong>字节流服务</strong>是指，将大块的数据分割成以报文为单位的数据包进行管理。<strong>可靠的传输服务</strong>是指能够把数据准确可靠的传给对方。</p>
+<p><strong>三次握手：</strong>为了确保数据准确传送，TCP协议把数据包传送出去后，会向对方确认是否成功送达。握手过程中使用了TCP标志——SYN（synchronize）和ACK（acknowledgement）。</p>
+<p>发送端首先发送一个带SYN标志的数据包给对方，接收端收到后，回传一个带有SYN/ACK标志的数据包以示传达确认信息。最后，发送端再回传一个带有ACK标志的数据包，代表握手结束。若握手过程中某个阶段莫名中断，TCP协议会再次以相同的顺序发送相同的数据包。</p>
+<blockquote>
+<p><strong>「我给你讲个TCP的笑话吧」</strong></p>
+<p>“我给你讲一个TCP的笑话吧？”<br>“给我讲一个TCP笑话呗！”<br>“好的，我会给你讲一个TCP的笑话。”</p>
+</blockquote>
+<p><strong>TCP与UDP比较：</strong>UDP也是一种传输协议，但是UDP是不可靠的，将数据包发送之后，就不会验证数据包和回复。</p>
+]]></content>
     
     <summary type="html">
     
@@ -142,15 +228,22 @@
     <link href="http://yoursite.com/2017/08/16/17-08-16-22/"/>
     <id>http://yoursite.com/2017/08/16/17-08-16-22/</id>
     <published>2017-08-16T13:20:29.000Z</published>
-    <updated>2017-08-17T13:01:46.861Z</updated>
+    <updated>2017-08-20T07:35:14.180Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="面向对象的概念"><a href="#面向对象的概念" class="headerlink" title="面向对象的概念"></a>面向对象的概念</h2><p>对于面向对象，有以下几个概念：</p>
+    <content type="html"><![CDATA[<h2 id="面向对象（OOP）的概念"><a href="#面向对象（OOP）的概念" class="headerlink" title="面向对象（OOP）的概念"></a>面向对象（OOP）的概念</h2><p>对于面向对象，有以下几个概念：</p>
 <ul>
 <li>一切事物皆对象</li>
 <li>对象具有封装和继承特性</li>
 <li>对象与对象之间使用消息通信，各自存在信息隐藏<a id="more"></a>
 </li>
 </ul>
+<p><strong>对象有哪些特性？</strong></p>
+<ul>
+<li><strong>封装性：</strong>通过封装可以为对象内部的数据提供不同级别的保护，避免了外界的干扰和不确定性。</li>
+<li><strong>继承：</strong>很好的支持了代码的重用性，通过一个类派生一个新的类，这个新类不仅可以具有原来的类的特性，还可以拥有新的特性。</li>
+<li><strong>多态：</strong>多态指的不同类的对象对同一消息作出不同的响应。</li>
+</ul>
+<p><strong>面向对象的优点：</strong>易维护、易复用、易扩展，由于面向对象有封装、继承、多态的特性，可以设计出低耦合的系统，使系统更加灵活、易于维护。</p>
 <p>JavaScript作为一门面向对象的语言，却并不是通过<strong>类</strong>来实现面向对象的，而是通过<strong>原型（prototype）</strong>。那么这两者实现面向对象究竟有什么区别呢？</p>
 <h4 id="基于类vs基于原型"><a href="#基于类vs基于原型" class="headerlink" title="基于类vs基于原型"></a>基于类vs基于原型</h4><p>基于类的面向对象语言，比如Java和C++，是构建在两个不同实体的概念之上的：即类和实例。</p>
 <ul>
@@ -194,7 +287,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;面向对象的概念&quot;&gt;&lt;a href=&quot;#面向对象的概念&quot; class=&quot;headerlink&quot; title=&quot;面向对象的概念&quot;&gt;&lt;/a&gt;面向对象的概念&lt;/h2&gt;&lt;p&gt;对于面向对象，有以下几个概念：&lt;/p&gt;
+      &lt;h2 id=&quot;面向对象（OOP）的概念&quot;&gt;&lt;a href=&quot;#面向对象（OOP）的概念&quot; class=&quot;headerlink&quot; title=&quot;面向对象（OOP）的概念&quot;&gt;&lt;/a&gt;面向对象（OOP）的概念&lt;/h2&gt;&lt;p&gt;对于面向对象，有以下几个概念：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;一切事物皆对象&lt;/li&gt;
 &lt;li&gt;对象具有封装和继承特性&lt;/li&gt;
@@ -210,7 +303,7 @@
     <link href="http://yoursite.com/2017/08/15/17-08-15-21/"/>
     <id>http://yoursite.com/2017/08/15/17-08-15-21/</id>
     <published>2017-08-15T12:30:52.000Z</published>
-    <updated>2017-08-16T13:01:54.953Z</updated>
+    <updated>2017-08-24T12:58:10.861Z</updated>
     
     <content type="html"><![CDATA[<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p>在JavaScript中，数据类型分为基本类型和引用类型。</p>
 <ul>
@@ -1111,46 +1204,6 @@ Vue.config.productionTip = <span class="literal">false</span>
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Sublime Text3前端插件分享</title>
-    <link href="http://yoursite.com/2017/02/28/17-02-28-2/"/>
-    <id>http://yoursite.com/2017/02/28/17-02-28-2/</id>
-    <published>2017-02-28T08:05:18.000Z</published>
-    <updated>2017-07-15T07:47:38.323Z</updated>
-    
-    <content type="html"><![CDATA[<p>自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利</p>
-<a id="more"></a>
-<hr>
-<ul>
-<li><strong>Emmet:</strong><br>快速编写HTML+CSS代码，快捷键<strong>ctrl+E</strong><br><a href="http://www.iteye.com/news/27580" target="_blank" rel="external">关于如何速写的教程</a></li>
-<li><strong>All Autocomplete:</strong><br>搜索所有打开的文件来寻找匹配的提示词</li>
-<li><strong>AutoFileName:</strong><br>自动检索并补齐文件路径</li>
-<li><strong>CSScomb:</strong><br>使用指定排序方法对CSS的属性进行排序，快捷键<strong>ctrl+alt+C</strong><br>虽然好像很厉害的样子但是我安装了之后一直没有反应，还未找到办法</li>
-<li><strong>HTML-CSS-JS Prettify:</strong><br>美化代码格式，需要安装node.js才能使用，快捷键<strong>ctrl+alt+H</strong>，可以自动对齐</li>
-<li><strong>ColorHighlighter:</strong><br>可以显示颜色代码的颜色，看上去一目了然</li>
-<li><strong>BracketHighlighter:</strong><br>括号以及标签层级显示</li>
-<li><strong>Sidebarenhancements:</strong><br>扩展鼠标右键菜单，可以直接open with浏览器，超方便</li>
-<li><strong>SublimeCodeIntel:</strong><br>可以快速提示补全标签，但是有个缺点就是打了分号之后会弹出提示框，然后换行的时候各种误打一堆烂七八糟的代码，在网上找了挺久的办法终于找到一个可行的，附上</li>
-</ul>
-<p>打开<em>Package Settings &gt; SublimeCodeIntel &gt; Key Bindings - User</em>,输入代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; </div><div class="line">		<span class="string">"keys"</span>: [<span class="string">";"</span>], <span class="string">"command"</span>: <span class="string">"run_macro_file"</span>, </div><div class="line">	  	<span class="string">"args"</span>: &#123;<span class="string">"file"</span>: <span class="string">"Packages/User/unAutoSemiColon.sublime-macro"</span>&#125; </div><div class="line">	&#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
-<p>然后打开 <em>Preferences &gt; Browser Package &gt; User</em>，保存文件名为<em>unAutoSemiColon.sublime-macro</em><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;</div><div class="line">        <span class="string">"args"</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="string">"characters"</span>: <span class="string">";"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="string">"command"</span>: <span class="string">"insert"</span></div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
-<p>之后打分号再也不会出现提示啦！！</p>
-<ul>
-<li><strong>SublimeTmpl:</strong><br>可以快速创建代码模板<br><strong>ctrl+shift+H</strong> HTML模板<br><strong>ctrl+shift+C</strong> CSS模板<br><strong>ctrl+shift+J</strong> Javascript模板<br><strong>ctrl+shift+P</strong> php模板</li>
-<li><strong>Colorsublime:</strong><br>更换主题的插件，含有很多主题配色方案，偶尔转换一下心情</li>
-</ul>
-<hr>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利&lt;/p&gt;
     
     </summary>
     

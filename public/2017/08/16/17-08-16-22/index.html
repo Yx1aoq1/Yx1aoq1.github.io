@@ -1,10 +1,17 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> JS面向对象学习笔记 · Yx1aoq1's Blog</title><meta name="description" content="JS面向对象学习笔记 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">JS面向对象学习笔记</h1><div class="post-info">2017年8月16日</div><div class="post-content"><h2 id="面向对象的概念"><a href="#面向对象的概念" class="headerlink" title="面向对象的概念"></a>面向对象的概念</h2><p>对于面向对象，有以下几个概念：</p>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> JS面向对象学习笔记 · Yx1aoq1's Blog</title><meta name="description" content="JS面向对象学习笔记 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">JS面向对象学习笔记</h1><div class="post-info">2017年8月16日</div><div class="post-content"><h2 id="面向对象（OOP）的概念"><a href="#面向对象（OOP）的概念" class="headerlink" title="面向对象（OOP）的概念"></a>面向对象（OOP）的概念</h2><p>对于面向对象，有以下几个概念：</p>
 <ul>
 <li>一切事物皆对象</li>
 <li>对象具有封装和继承特性</li>
 <li>对象与对象之间使用消息通信，各自存在信息隐藏<a id="more"></a>
 </li>
 </ul>
+<p><strong>对象有哪些特性？</strong></p>
+<ul>
+<li><strong>封装性：</strong>通过封装可以为对象内部的数据提供不同级别的保护，避免了外界的干扰和不确定性。</li>
+<li><strong>继承：</strong>很好的支持了代码的重用性，通过一个类派生一个新的类，这个新类不仅可以具有原来的类的特性，还可以拥有新的特性。</li>
+<li><strong>多态：</strong>多态指的不同类的对象对同一消息作出不同的响应。</li>
+</ul>
+<p><strong>面向对象的优点：</strong>易维护、易复用、易扩展，由于面向对象有封装、继承、多态的特性，可以设计出低耦合的系统，使系统更加灵活、易于维护。</p>
 <p>JavaScript作为一门面向对象的语言，却并不是通过<strong>类</strong>来实现面向对象的，而是通过<strong>原型（prototype）</strong>。那么这两者实现面向对象究竟有什么区别呢？</p>
 <h4 id="基于类vs基于原型"><a href="#基于类vs基于原型" class="headerlink" title="基于类vs基于原型"></a>基于类vs基于原型</h4><p>基于类的面向对象语言，比如Java和C++，是构建在两个不同实体的概念之上的：即类和实例。</p>
 <ul>
