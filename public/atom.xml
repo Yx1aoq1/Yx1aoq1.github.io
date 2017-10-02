@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-24T12:56:24.554Z</updated>
+  <updated>2017-10-02T06:18:39.904Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,220 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>jQuery源码学习笔记(01)</title>
+    <link href="http://yoursite.com/2017/10/02/17-10-02-28/"/>
+    <id>http://yoursite.com/2017/10/02/17-10-02-28/</id>
+    <published>2017-10-02T05:36:40.000Z</published>
+    <updated>2017-10-02T06:18:39.904Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h2><h4 id="自调用匿名函数"><a href="#自调用匿名函数" class="headerlink" title="自调用匿名函数"></a>自调用匿名函数</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"> window, undefined</span>) </span>&#123;</div><div class="line">  <span class="comment">// jquery code</span></div><div class="line">&#125;)(<span class="built_in">window</span>);</div></pre></td></tr></table></figure>
+<p>▼ <strong>使用自调用匿名函数的原因：</strong></p>
+<p>通过定义一个匿名函数，创建了一个“私有”的命名空间，该命名空间的变量和方法，不会破坏全局的命名空间，保证jQuery创建的变量不能和导入他的程序所使用的变量发生冲突。</p>
+<p>▼ <strong>自调用匿名函数的写法：</strong></p>
+<p><strong>写法1</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// code</span></div><div class="line">&#125;(<span class="built_in">window</span>));</div><div class="line"><span class="comment">//括号包括了函数参数</span></div></pre></td></tr></table></figure></p>
+<p><strong>写法2</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// code</span></div><div class="line">&#125;)(<span class="built_in">window</span>);</div><div class="line"><span class="comment">//括号只包括了函数定义</span></div></pre></td></tr></table></figure></p>
+<p>▼ <strong>为什么要传入<code>window</code>：</strong></p>
+<p>通过传入window变量，使得window由全局变量变为局部变量，在访问的时候就不需要将作用域链回退到顶层作用域，可以更快的访问。更重要的是，将window作为参数传入，可以在压缩代码时进行优化。</p>
+<p>▼ <strong>为什么要在参数列表中增加<code>undefined</code>：</strong></p>
+<p>要在自调用匿名函数的作用域内，确保<code>undefined</code>是真的未定义，因为<code>undefined</code>能够被重写。</p>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"> window, undefined </span>) </span>&#123;</div><div class="line">  <span class="comment">// 构造jQuery对象</span></div><div class="line">  <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span>(<span class="params"> selector, context </span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.fn.init( selector, context, rootjQuery );</div><div class="line">      &#125;</div><div class="line">  <span class="comment">// 工具函数 Utilities</span></div><div class="line">  <span class="comment">// 异步队列 Deferred</span></div><div class="line">  <span class="comment">// 浏览器测试 Support</span></div><div class="line">  <span class="comment">// 数据缓存 Data</span></div><div class="line">  <span class="comment">// 队列 queue</span></div><div class="line">  <span class="comment">// 属性操作 Attribute</span></div><div class="line">  <span class="comment">// 事件处理 Event</span></div><div class="line">  <span class="comment">// 选择器 Sizzle</span></div><div class="line">  <span class="comment">// DOM遍历</span></div><div class="line">  <span class="comment">// DOM操作</span></div><div class="line">  <span class="comment">// CSS操作</span></div><div class="line">  <span class="comment">// 异步请求 Ajax</span></div><div class="line">  <span class="comment">// 动画 FX</span></div><div class="line">  <span class="comment">// 坐标和大小</span></div><div class="line">  <span class="built_in">window</span>.jQuery = <span class="built_in">window</span>.$ = jQuery;</div><div class="line">&#125;)(<span class="built_in">window</span>);</div></pre></td></tr></table></figure>
+<h4 id="jQuery对象的构建方法"><a href="#jQuery对象的构建方法" class="headerlink" title="jQuery对象的构建方法"></a>jQuery对象的构建方法</h4><p>在平时我们构造函数的时候一般是这样实现的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> aQuery = <span class="function"><span class="keyword">function</span>(<span class="params">selector, context</span>) </span>&#123;</div><div class="line">  <span class="comment">// 构造函数</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">aQuery.prototype = &#123;</div><div class="line">  <span class="comment">// 原型</span></div><div class="line">  name: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  &#125;,</div><div class="line">  <span class="attr">age</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> aQuery(); <span class="comment">// 实例化</span></div><div class="line"></div><div class="line">a.name(); <span class="comment">// 调用</span></div></pre></td></tr></table></figure></p>
+<p>而在使用jQuery的时候，并不需要<code>new</code>，而是可以直接调用函数方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$().find().css();</div></pre></td></tr></table></figure></p>
+<p>所以可以看到，调用jQuery的时候返回的就是一个函数的实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var aQuery = function(selector, context) &#123;</div><div class="line">  return new aQuery();</div><div class="line">&#125; // 虽然返回了实例，但是会造成死循环</div><div class="line"></div><div class="line">aQuery.prototype = &#123;</div><div class="line">  name: function() &#123;  &#125;,</div><div class="line">  age: function() &#123;  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当我们用上面的方法来执行<code>aQuery()</code>，会报错。那么应该如何返回一个正确的实例呢？我们可以利用工厂模式来创建对象，并把这个方法放到原型中。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> aQuery = <span class="function"><span class="keyword">function</span>(<span class="params">selector, context</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> aQuery.prototype.init();</div><div class="line">&#125;</div><div class="line"></div><div class="line">aQuery.prototype = &#123;</div><div class="line">  <span class="attr">init</span>: functionn() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">name</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">  <span class="attr">age</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时执行<code>aQuery()</code>就会返回一个正确的实例，而在init函数中的this,指向的是aQuery这个对象。如果我们要把init函数也当作一个构造器，那如何让内部的this指向init呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jQuery = <span class="function"><span class="keyword">function</span>(<span class="params"> selector, context </span>) </span>&#123;</div><div class="line">  <span class="comment">// The jQuery object is actually just the init constructor 'enhanced'</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> jQuery.fn.init( selector, context, rootjQuery );</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>通过实例init函数，每次都构建新的init实例对象，来分隔this，这样在init内部使用的this的指向就会变成了init函数本身。但是这样一来，执行<code>aQuery()</code>后返回的就是init()函数的实例对象，绑定在aQuery原型对象上的方法就无法通过<code>aQuery().name()</code>这种方式去调用了。</p>
+<p>如何做到既能隔离作用域还能使用jQuery原型对象的作用域，能在返回的实例中访问jQuery的原型对象呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Give the init function the jQuery prototype for later instantiation</span></div><div class="line">jQuery.fn.init.prototype = jQuery.fn;</div></pre></td></tr></table></figure></p>
+<p>通过原型传递解决问题，把jQuery的原型传递给jQuery.prototype.init.prototype。换句话说，jQuery的原型对象覆盖了init构造器的原型对象，因为是引用传递所以不需要担心这个循环引用的性能问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> aQuery = <span class="function"><span class="keyword">function</span>(<span class="params">selector, context</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> aQuery.prototype.init();</div><div class="line">&#125; </div><div class="line"></div><div class="line">aQuery.prototype = &#123;</div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">name</span>: <span class="string">'xm'</span>,</div><div class="line">  <span class="attr">getName</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">aQuery.prototype.init.prototype = aQuery.prototype;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(aQuery().getName()); <span class="comment">//xm</span></div></pre></td></tr></table></figure></p>
+<h4 id="jQuery方法的调用方式"><a href="#jQuery方法的调用方式" class="headerlink" title="jQuery方法的调用方式"></a>jQuery方法的调用方式</h4><p>▼ <strong>链式调用：</strong></p>
+<p><strong>链式调用的原理：</strong>通过简单拓展原型方法并通过<code>return this</code>的形式来实现跨浏览器的链式调用。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">aQuery.prototype = &#123;</div><div class="line">  <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">name</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>优点：</strong>节省代码量，提高代码的效率，代码看起来更优雅。<br><strong>缺点：</strong>由于返回的都是对象本身，所以没有返回值，不一定在任何环境下都适用</p>
+<p>▼ <strong>插件接口：</strong></p>
+<p>从封装的角度讲，为了给jQuery添加属性方法，或是给开发者拓展方法，jQuery提供了<code>jQuery.fn.extend()</code>这个接口，来对对象增加方法。</p>
+<h4 id="extend"><a href="#extend" class="headerlink" title="$.extend()"></a>$.extend()</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">jQuery.extend = jQuery.fn.extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> options, name, src, copy, copyIsArray, clone,</div><div class="line">      target = <span class="built_in">arguments</span>[<span class="number">0</span>] || &#123;&#125;, <span class="comment">// 默认第一个参数为目标对象，对应用法：$.extend(obj1, obj2);</span></div><div class="line">      i = <span class="number">1</span>, <span class="comment">// 标记被合并对象的起始位置</span></div><div class="line">      length = <span class="built_in">arguments</span>.length,</div><div class="line">      deep = <span class="literal">false</span>; <span class="comment">// 判断是否要深拷贝，对应用法：$.extend(true, obj1, obj2);</span></div><div class="line"></div><div class="line">  <span class="comment">// Handle a deep copy situation</span></div><div class="line">  <span class="comment">// 判断target的类型，如果是布尔值，则target和被标记对象的位置都将被改变</span></div><div class="line">  <span class="keyword">if</span> ( <span class="keyword">typeof</span> target === <span class="string">"boolean"</span> ) &#123;</div><div class="line">    deep = target;</div><div class="line">    target = <span class="built_in">arguments</span>[<span class="number">1</span>] || &#123;&#125;;</div><div class="line">    <span class="comment">// skip the boolean and the target</span></div><div class="line">    i = <span class="number">2</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Handle case when target is a string or something (possible in deep copy)</span></div><div class="line">  <span class="comment">// 在target类型不是对象或函数，则将target看成空对象</span></div><div class="line">  <span class="keyword">if</span> ( <span class="keyword">typeof</span> target !== <span class="string">"object"</span> &amp;&amp; !jQuery.isFunction(target) ) &#123;</div><div class="line">    target = &#123;&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// extend jQuery itself if only one argument is passed</span></div><div class="line">  <span class="comment">// 当只传一个参数的时候，目标对象变为jQuery，传入的参数合并到jQuery对象中</span></div><div class="line">  <span class="keyword">if</span> ( length === i ) &#123;</div><div class="line">    target = <span class="keyword">this</span>;</div><div class="line">    --i;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span> ( ; i &lt; length; i++ ) &#123;</div><div class="line">    <span class="comment">// Only deal with non-null/undefined values</span></div><div class="line">    <span class="keyword">if</span> ( (options = <span class="built_in">arguments</span>[ i ]) != <span class="literal">null</span> ) &#123;</div><div class="line">      <span class="comment">// Extend the base object</span></div><div class="line">      <span class="keyword">for</span> ( name <span class="keyword">in</span> options ) &#123;</div><div class="line">        src = target[ name ]; <span class="comment">// 目标对象的属性</span></div><div class="line">        copy = options[ name ]; <span class="comment">// 被合并对象的属性</span></div><div class="line">        </div><div class="line">        <span class="comment">// Prevent never-ending loop</span></div><div class="line">        <span class="comment">// 当对象属性一致的时候，跳过此属性进行下一个属性的判断</span></div><div class="line">        <span class="keyword">if</span> ( target === copy ) &#123;</div><div class="line">          <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Recurse if we're merging plain objects or arrays</span></div><div class="line">        <span class="comment">// 深拷贝&amp;&amp;copy不是null或者undefined&amp;&amp;copy是“纯粹的”对象或数组</span></div><div class="line">        <span class="keyword">if</span> ( deep &amp;&amp; copy &amp;&amp; ( jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)) ) ) &#123;</div><div class="line">          <span class="comment">// 如果copy是一个数组</span></div><div class="line">          <span class="keyword">if</span> ( copyIsArray ) &#123;</div><div class="line">            copyIsArray = <span class="literal">false</span>;</div><div class="line">            clone = src &amp;&amp; jQuery.isArray(src) ? src : [];<span class="comment">// 该字段用于保存合并目标的属性</span></div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">          <span class="comment">// Never move original objects, clone them</span></div><div class="line">          <span class="comment">// 使用了递归</span></div><div class="line">          target[ name ] = jQuery.extend( deep, clone, copy );</div><div class="line"></div><div class="line">        <span class="comment">// Don't bring in undefined values</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( copy !== <span class="literal">undefined</span> ) &#123;</div><div class="line">          target[ name ] = copy;</div><div class="line">        &#125;</div><div class="line">      &#125;  </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Return the modified object</span></div><div class="line">  <span class="keyword">return</span> target;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="细节知识"><a href="#细节知识" class="headerlink" title="细节知识"></a>细节知识</h4><p><code>jQuery.isPlainObject()</code>：用于判断指定参数是否是一个纯粹的对象。纯粹的对象指的是该对象是通过<code>{}</code>或<code>new Object</code>创建的。</p>
+<p><strong>示例：</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">在当前页面内追加换行标签和指定的HTML内容</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">w</span>(<span class="params"> html </span>)</span>&#123;</div><div class="line">    <span class="built_in">document</span>.body.innerHTML += <span class="string">"&lt;br/&gt;"</span> + html;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">w( $.isPlainObject( &#123; &#125; ) ); <span class="comment">// true</span></div><div class="line">w( $.isPlainObject( <span class="keyword">new</span> <span class="built_in">Object</span>() ) ); <span class="comment">// true</span></div><div class="line">w( $.isPlainObject( &#123; <span class="attr">name</span>: <span class="string">"CodePlayer"</span>&#125; ) ); <span class="comment">// true</span></div><div class="line">w( $.isPlainObject( &#123; <span class="attr">sayHi</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; &#125; ) ); <span class="comment">// true</span></div><div class="line"></div><div class="line"></div><div class="line">w( $.isPlainObject( <span class="string">"CodePlayer"</span> ) ); <span class="comment">// false</span></div><div class="line">w( $.isPlainObject( <span class="literal">true</span> ) ); <span class="comment">// false</span></div><div class="line">w( $.isPlainObject( <span class="number">12</span> ) ); <span class="comment">// false</span></div><div class="line">w( $.isPlainObject( [ ] ) ); <span class="comment">// false</span></div><div class="line">w( $.isPlainObject( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; ) ); <span class="comment">// false</span></div><div class="line">w( $.isPlainObject( <span class="built_in">document</span>.location ) ); <span class="comment">// false(在IE中返回true)</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = <span class="string">"张三"</span>;</div><div class="line">&#125;</div><div class="line">w( $.isPlainObject( <span class="keyword">new</span> Person() ) ); <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>学习参考：<br><a href="http://www.cnblogs.com/nuysoft/archive/2011/11/14/2248023.html" target="_blank" rel="external">[原创] jQuery1.6.1源码分析系列（停止更新）</a><br><a href="http://www.cnblogs.com/aaronjs/p/3279314.html" target="_blank" rel="external">jQuery源码分析系列</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;总体架构&quot;&gt;&lt;a href=&quot;#总体架构&quot; class=&quot;headerlink&quot; title=&quot;总体架构&quot;&gt;&lt;/a&gt;总体架构&lt;/h2&gt;&lt;h4 id=&quot;自调用匿名函数&quot;&gt;&lt;a href=&quot;#自调用匿名函数&quot; class=&quot;headerlink&quot; title=&quot;自调用
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DOM基础知识巩固</title>
+    <link href="http://yoursite.com/2017/10/02/17-10-02-27/"/>
+    <id>http://yoursite.com/2017/10/02/17-10-02-27/</id>
+    <published>2017-10-02T05:15:36.000Z</published>
+    <updated>2017-10-02T05:30:20.051Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
+<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h4 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h4><ul>
+<li><code>document.getElementById</code></li>
+<li><code>document.getElementsByTagName</code></li>
+<li><code>document.getElementsByClassName</code></li>
+<li><code>document.querySelectorAll</code></li>
+</ul>
+<h4 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h4><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
+<ul>
+<li>property是DOM中的属性，是JavaScript里的对象；</li>
+<li>attribute是HTML标签上的特性，它的值只能够是字符串；</li>
+</ul>
+<p>例如在html中有一段这样的代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"test"</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">sth</span>=<span class="string">"whatever"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们在js中来获取这个DOM对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> test = <span class="built_in">document</span>.getElementById(<span class="string">'test'</span>);</div><div class="line"><span class="built_in">console</span>.log(test);</div><div class="line"><span class="built_in">console</span>.log(test.id); <span class="comment">// 'test'</span></div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 1</span></div><div class="line"><span class="built_in">console</span>.log(test.sth) <span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
+<p>由于每一个DOM对象都会有它的默认的基本属性，在创建的时候只会创建这些基本属性，自定义的属性是不会直接放在DOM中的。对比一下的代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"test-2"</span> &gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> test_2 = <span class="built_in">document</span>.getElementById(<span class="string">'test-2'</span>);</div><div class="line"><span class="built_in">console</span>.log(test_2.value); <span class="comment">// null</span></div></pre></td></tr></table></figure>
+<p>虽然没有在标签中定义<code>value</code>，但由于它是DOM默认的基本属性，所以在DOM初始化的时候它还是会被创建。由此我们可以得出结论：</p>
+<ul>
+<li>DOM有其默认的基本属性，而这些属性就是所谓的“property”，无论如何，它们都会在初始化的时候再DOM对象上创建。</li>
+<li>如果在TAG对这些属性进行赋值，那么这些值就会作为初始值赋给DOM的同名property。</li>
+</ul>
+<p>那么标签上的sth定义在哪里呢？</p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-1.png" alt=""></p>
+<p>也就是说，attributes是属于property的一个子集，它保存了HTML标签上定义的属性。如果再进一步探索attitudes中的每一个属性，会发现它们并不是简单的对象，它是一个Attr类型的对象，拥有NodeType、NodeName等属性。注意，打印attribute属性不会直接得到对象的值，而是获取一个包含属性名和值的字符串。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(test.attibutes.sth); <span class="comment">// 'sth="whatever"'</span></div></pre></td></tr></table></figure></p>
+<p>由此可以得出：</p>
+<ul>
+<li>HTML标签中定义的属性和值会保存该DOM对象的attributes属性里面；</li>
+<li>这些attribute属性的JavaScript中的类型是Attr，而不仅仅是保存属性名和值这么简单；</li>
+</ul>
+<p>那么，如果我们更改property和attribute的值会出现什么效果呢？执行如下语句：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">test.value = <span class="string">'new value of prop'</span>;</div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 'new value of prop'</span></div><div class="line"><span class="built_in">console</span>.log(test.arrtibutes.value); <span class="comment">// 'value="1"'</span></div></pre></td></tr></table></figure></p>
+<p>如果反过来，效果又是如何呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">test.attributes.value = <span class="string">'new value of attr'</span>;</div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 'new value of attr'</span></div><div class="line"><span class="built_in">console</span>.log(test.attributes.value); <span class="comment">// 'new value of attr'</span></div></pre></td></tr></table></figure></p>
+<p>此时，页面中的输入栏得到更新，property中的value也发生了变化。此外，执行下面语句也会得到一样的结果：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.attributes.value.nodeValue = <span class="string">'new value of attr'</span>;</div></pre></td></tr></table></figure></p>
+<p>由此，可得出结论：</p>
+<ul>
+<li>property能够从attribute中得到同步；</li>
+<li>attribute不会同步property上的值；</li>
+<li>attribute和property之间的数据绑定是单向的，attribute-&gt;property；</li>
+<li>更改property和attribute上的任意值，都会将更新反映到HTML页面中；</li>
+</ul>
+<h4 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
+<p>有关DOM操作，主要注意点在于性能方面的影响，优化DOM操作方法有：</p>
+<ul>
+<li>减少DOM访问次数</li>
+<li>多次访问同一DOM，应该用局部变量缓存该DOM</li>
+<li>尽可能使用querySelector，而不是使用获取HTML集合的API</li>
+<li>注意重排（reflow）和重绘（repaint）</li>
+<li>使用事件委托，减少绑定事件的数量</li>
+</ul>
+<h4 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h4><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
+<ul>
+<li>添加或删除DOM元素</li>
+<li>元素位置、大小、内容改变</li>
+<li>浏览器窗口大小改变</li>
+<li>滚动条出现</li>
+</ul>
+<p><strong>最小化重排、重绘的建议：</strong></p>
+<ul>
+<li>不要再修改布局信息的时候，去查询布局信息</li>
+<li>修改一个元素的多个style时，一次性修改，而不是多次，能用css的class解决的，就尽量不用内联样式</li>
+<li>:hover会降低响应速度，在处理很大的列表时，避免使用</li>
+</ul>
+<h2 id="BOM操作"><a href="#BOM操作" class="headerlink" title="BOM操作"></a>BOM操作</h2><p>BOM（Browser Object Model）指的是浏览器对象模型，主要用途：</p>
+<ul>
+<li>检测浏览器的类型</li>
+<li>拆解url的各部分</li>
+</ul>
+<h4 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h4><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
+<ul>
+<li><code>navigator.userAgent</code> //用户代理头的字符串表示</li>
+</ul>
+<h4 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h4><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
+<ul>
+<li><code>screen.width/height</code> //屏幕的宽度与高度，以像素计 </li>
+<li><code>screen.availWidth/availHeight</code> //窗口可以使用的屏幕的宽度和高度，以像素计 </li>
+<li><code>screen.colorDepth</code> //用户表示颜色的位数，大多数系统采用32位 </li>
+<li><code>window.moveTo(0, 0);</code></li>
+<li><code>window.resizeTo(screen.availWidth, screen.availHeight);</code> //填充用户的屏幕</li>
+</ul>
+<h4 id="location"><a href="#location" class="headerlink" title="location"></a>location</h4><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
+<ul>
+<li><code>location.href</code> //当前载入页面的完整URL</li>
+<li><code>location.portocol</code> //URL中使用的协议，即双斜杠之前的部分，如http</li>
+<li><code>location.host</code> //服务器的名字，如www.wrox.com</li>
+<li><code>location.hostname</code> //通常等于host，有时会省略前面的www</li>
+<li><code>location.port</code> //URL声明的请求的端口，默认情况下，大多数URL没有端口信息，如8080</li>
+<li><code>location.pathname</code> //URL中主机名后的部分，如/pictures/index.htm</li>
+<li><code>location.search</code> //执行GET请求的URL中的问号后的部分，又称查询字符串，如?param=xxxx</li>
+<li><code>location.hash</code> //如果URL包含#，返回该符号之后的内容，如#anchor1</li>
+<li><code>location.assign(&quot;http:www.baidu.com&quot;);</code> //同location.href，新地址都会被加到浏览器的历史栈中</li>
+<li><code>location.replace(&quot;http:www.baidu.com&quot;);</code> //同assign()，但新地址不会被加到浏览器的历史栈中，不能通过back和forward访问</li>
+<li><code>location.reload(true | false);</code> //重新载入当前页面，为false时从浏览器缓存中重载，为true时从服务器端重载，默认为false</li>
+</ul>
+<h4 id="history"><a href="#history" class="headerlink" title="history"></a>history</h4><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
+<ul>
+<li><code>history.go(-1);</code> //访问浏览器窗口的历史，负数为后退，正数为前进</li>
+<li><code>history.back();</code> //同上</li>
+<li><code>history.forward();</code> //同上</li>
+<li><code>history.length</code> //可以查看历史中的页面数</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;DOM本质&quot;&gt;&lt;a href=&quot;#DOM本质&quot; class=&quot;headerlink&quot; title=&quot;DOM本质&quot;&gt;&lt;/a&gt;DOM本质&lt;/h2&gt;&lt;p&gt;DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JS定时器与单线程</title>
+    <link href="http://yoursite.com/2017/09/25/17-09-25-26/"/>
+    <id>http://yoursite.com/2017/09/25/17-09-25-26/</id>
+    <published>2017-09-25T13:28:25.000Z</published>
+    <updated>2017-10-02T04:00:17.658Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="JavaScript单线程"><a href="#JavaScript单线程" class="headerlink" title="JavaScript单线程"></a>JavaScript单线程</h2><p>众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。</p>
+<p>这里有个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="comment">//打印才进入时的时间</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'first time: '</span> + date.getTime());</div><div class="line"><span class="comment">//一秒后打印setTimeout里匿名函数的时间</span></div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> date1 = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'second time: '</span> + date1.getTime() );</div><div class="line">  <span class="built_in">console</span>.log( date1.getTime() - date.getTime() );</div><div class="line">&#125;,<span class="number">1000</span>);</div><div class="line"><span class="comment">//重复操作</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="number">10000</span> ; i++)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>setTimeout</code>是一个定时器，设定在1000ms之后运行定义的回调函数，但是从上一个例子可以得到，执行回调函数的时间与代码开始执行的时间间隔并不是1000ms，而是大于1000ms。</p>
+<p>其中的原因便是因为JavaScript是单线程的，在1000ms的时候主线程正在执行for循环，所以<code>setTimeout</code>只能等待for循环执行完毕之后才能执行，时间自然超过了1000ms。</p>
+<p>但是这里仍然有一个疑问，假设<code>setTimeout</code>后续还有两个函数，一个函数的执行时间是1000ms，另一个是2000ms，那<code>setTimeout</code>会在紧跟着的第一个函数执行完就插队执行吗？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"hellow world"</span>);</div><div class="line">&#125;, <span class="number">1000</span>);</div><div class="line"><span class="keyword">while</span>(<span class="keyword">new</span> <span class="built_in">Date</span>() - startTime &lt; <span class="number">1000</span>) &#123;&#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"wait"</span>);</div><div class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;&#125;</div></pre></td></tr></table></figure>
+<p>答案是并不会，<code>setTimeout</code>只有在后续代码全部执行完之后才会执行它的回调函数，所以以上的代码永远也无法打印出<code>hellow world</code>。</p>
+<h2 id="JavaScript运行机制"><a href="#JavaScript运行机制" class="headerlink" title="JavaScript运行机制"></a>JavaScript运行机制</h2><p>我们可以将运行的任务分成两组，一种是同步任务，一种是异步任务。同步任务是指在主线程上排队执行的任务，只有前一个任务执行完，才能执行后一个任务；异步任务指的是，不进入主线程、而是进入“任务队列”的任务。只有“任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+<p>所以当一段代码有异步操作时，执行过程是这样的：</p>
+<ul>
+<li>所有同步任务都在主线程上执行，形成一个执行栈。</li>
+<li>主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就不在“任务队列”中放置一个事件。</li>
+<li>一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面面有哪些事件。那些对应的异步任务，结束等待状态，进入执行栈开始执行。</li>
+<li>主线程不断重复上面的第三步。</li>
+</ul>
+<p>所以，<strong>只有在主线程任务执行完毕之后，系统才会去读取“任务队列”。</strong></p>
+<h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
+<p>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，”任务队列”上第一位的事件就自动进入主线程。</p>
+<p>主线程不断从“任务队列”中读取事件的过程又称为<strong>Event Loop</strong>。</p>
+<h2 id="setTimeout与setInterval"><a href="#setTimeout与setInterval" class="headerlink" title="setTimeout与setInterval"></a>setTimeout与setInterval</h2><h4 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h4><p>关于<code>setTimeout</code>在上述已经说的蛮清楚了，还有一点是关于<code>setTimeout(func,0)</code>。<br>当设置定时器为0ms时，回调函数func也不会再0ms的时候就执行，而是采取尽可能快的执行。即当主线程程序都执行完毕，进入空闲就会立刻执行func。而相对于还在任务队列中的其他等待的程序，<code>setTimeout(func,0)</code>相当于插了队。</p>
+<h4 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h4><p><code>setInterval</code>是重复定时器，它在执行的时候有一条规则：仅当没有该定时器的任何其他<strong>代码实例</strong>时，才能将定时器代码添加到任务队列中。</p>
+<p>假设没有这条规则，因为指定的时间是定时器插入到任务队列的时间，如果主线程的运行时间非常长，此时<code>setInterval</code>的回调函数被多次插入到任务队列中，当主线程空闲时，定时器便会连续执行措辞而之间不会有任何的间隔。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">  <span class="keyword">while</span>(<span class="built_in">Date</span>.now - startTime &lt; <span class="number">350</span>) &#123;&#125;</div><div class="line">&#125;, <span class="number">200</span>);</div><div class="line"><span class="keyword">var</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="keyword">while</span>(<span class="built_in">Date</span>.now() - startTime &lt; <span class="number">300</span>) &#123;&#125;</div></pre></td></tr></table></figure>
+<p>由于存在上述所说的规则，某些间隔会被跳过，多个定时器的代码执行之间的间隔可能会比预期的小。我们可以画一个流程图：</p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/settimeout.png" alt=""></p>
+<p>在605ms处第一个定时器代码仍然在运行，同时在代码队列中已经有了另一个定时器的代码实例。所以在这个时间点上的定时器代码 不会被添加到队列中。</p>
+<p>所以在使用setInterval做动画时要注意两个问题：</p>
+<ul>
+<li>不能使用固定步长作为做动画，一定要使用百分比: 开始值 + (目标值 - 开始值) * （Date.now() - 开始时间）/ 时间区间</li>
+<li>如果主进程运行时间过长，会出现跳帧的现象</li>
+</ul>
+<p>为了避免setInterval的两个缺点，可以使用链式<code>setTimeout()</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setTimeout(function()&#123;     //其他处理</div><div class="line">  setTimeout(arguments.callee, interval); &#125;, interval);</div></pre></td></tr></table></figure></p>
+<p>文章参考：<br><a href="https://yq.aliyun.com/wenji/1646" target="_blank" rel="external">Javascript定时器学习笔记</a><br><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="external">阮一峰 —— JavaScript 运行机制详解：再谈Event Loop</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;JavaScript单线程&quot;&gt;&lt;a href=&quot;#JavaScript单线程&quot; class=&quot;headerlink&quot; title=&quot;JavaScript单线程&quot;&gt;&lt;/a&gt;JavaScript单线程&lt;/h2&gt;&lt;p&gt;众所周知，JavaScript语言是单线程的，简而言
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>JS变量计算</title>
@@ -948,262 +1162,6 @@ Vue.config.productionTip = <span class="literal">false</span>
     
       &lt;p&gt;实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程&lt;/p&gt;
 &lt;p&gt;首先在&lt;a href=&quot;http://www.iconfont.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Iconfont-阿里巴巴矢量图标库&lt;/a&gt;上将需要的图标点击购物车按钮加入&lt;strong&gt;暂存库&lt;/strong&gt;。&lt;br&gt;&lt;img src=&quot;https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JSON学习笔记</title>
-    <link href="http://yoursite.com/2017/03/21/17-03-21-6/"/>
-    <id>http://yoursite.com/2017/03/21/17-03-21-6/</id>
-    <published>2017-03-21T10:16:43.000Z</published>
-    <updated>2017-07-15T07:47:53.310Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>JSON = JavaScript Object Notation （JavaScript对象表示法）<br>JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成<br>JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="与XML比较"><a href="#与XML比较" class="headerlink" title="与XML比较"></a>与XML比较</h2><ul>
-<li>长度比xml短</li>
-<li>读写速度更快</li>
-<li>json可以使用Javascript内建的方法直接进行解析，转换成Javascript对象，非常方便</li>
-</ul>
-<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><ul>
-<li>JSON数据的书写格式：名称/值对<br>名称/值对组合中的名称写在前面（在双引号中），值对写在后面（同样在双引号中），中间用冒号隔开：比如<code>&quot;name&quot;:&quot;jane&quot;</code></li>
-<li>可以使用的数据类型<ul>
-<li>数字（整数或浮点数）</li>
-<li>字符串（双引号）</li>
-<li>逻辑值（true or false）</li>
-<li>数组（ […] ）</li>
-<li>对象（ {…} ）</li>
-<li>null</li>
-</ul>
-</li>
-</ul>
-<h2 id="JSON解析"><a href="#JSON解析" class="headerlink" title="JSON解析"></a>JSON解析</h2><ul>
-<li>eval和JSON.parse</li>
-<li><p>尽可能使用<code>JSON.parse()</code>方法解析字符串本身，该方法可以捕捉JSON中的语法错误。eval使用存在风险，特别是第三方JSON数据存在恶意代码时。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> jsondata = <span class="string">'&#123;"staff":[&#123;"name":"aaa","age":70&#125;,&#123;"name":"bbb","age":12&#125;]&#125;'</span>;</div><div class="line"><span class="keyword">var</span> jsonobj = <span class="built_in">JSON</span>.parse(jsondata);</div><div class="line"><span class="comment">//解析完毕</span></div><div class="line">alert(jsonobj.staff[<span class="number">0</span>].name);</div><div class="line"><span class="comment">//直接对对象进行操作</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>tip：</strong> <code>JSON.stringify()</code>方法是将对象解析成JSON</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</div><div class="line"><span class="built_in">JSON</span>.stringify(a) <span class="comment">//"&#123;"a":1,"b":2&#125;"</span></div></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;JSON = JavaScript Object Notation （JavaScript对象表示法）&lt;br&gt;JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成&lt;br&gt;JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>AJAX学习笔记</title>
-    <link href="http://yoursite.com/2017/03/21/17-03-21-5/"/>
-    <id>http://yoursite.com/2017/03/21/17-03-21-5/</id>
-    <published>2017-03-21T08:21:19.000Z</published>
-    <updated>2017-07-15T07:47:49.278Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）<br>AJAX 不是新的编程语言，而是一种使用现有标准的新方法。<br>AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。</p>
-<ul>
-<li>同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式</li>
-<li>异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式<br>（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
-<li>实现页面</li>
-<li>运用XMLHttpRequest和web服务器进行数据的异步交换</li>
-<li>运用javascript操作DOM，实现动态局部刷新</li>
-</ul>
-<h2 id="创建ajax过程"><a href="#创建ajax过程" class="headerlink" title="创建ajax过程"></a>创建ajax过程</h2><ul>
-<li>创建XMLHttpRequest对象</li>
-<li>创建一个新的HTTP请求，并指定该HTTP请求的方法、URL及验证信息</li>
-<li>设置响应HTTP请求状态变化的函数</li>
-<li>发送HTTP请求</li>
-<li>获取异步调用返回的数据</li>
-<li>使用Javascript和DOM实现局部刷新</li>
-</ul>
-<h2 id="XHR"><a href="#XHR" class="headerlink" title="XHR"></a>XHR</h2><ul>
-<li><p>发送请求</p>
-<ul>
-<li><code>open(method,url,async)</code><br>method表示发送方法(GET,POST)，url表示请求地址（相对或绝对），async表示同步或异步（异步true，默认值，同步false）</li>
-<li><code>send(string)</code><br>GET请求参数可不填写或写none，用POST请求需要填写。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest(); <span class="comment">//创建XHR对象</span></div><div class="line">request.open(<span class="string">"GET"</span>,<span class="string">"get.php"</span>,<span class="literal">true</span>);</div><div class="line">request.send();</div><div class="line"></div><div class="line"><span class="comment">//创建信息</span></div><div class="line">request.open(<span class="string">"POST"</span>,<span class="string">"post.php"</span>,<span class="literal">true</span>);</div><div class="line">request.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line"><span class="comment">//头信息，提示服务器要发送一个表单</span></div><div class="line">request.send(<span class="string">"name=tom&amp;sex=man"</span>);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>响应请求</p>
-<ul>
-<li><code>responseText</code>：获得字符串形式的响应数据</li>
-<li><code>responseXML</code>：获得XML形式的响应数据（XML交互较少，一般采用json）</li>
-<li><code>status&amp;statusText</code>：以数字和文本形式返回HTTP状态码</li>
-<li><code>getAllResponseHeader()</code>：获取所有的响应报头</li>
-<li><code>getResponseHeader()</code>：查询响应中的某个字段的值</li>
-</ul>
-</li>
-<li><p>监听服务器响应<br><strong>readyState属性：</strong> 代表服务器响应的变化</p>
-<ul>
-<li>0：请求未初始化，open还没有调用</li>
-<li>1：服务器连接已经建立，open已经调用</li>
-<li>2：请求已接收，也就是接收到头信息了</li>
-<li>3：请求处理中，也就是接收到响应主体了</li>
-<li>4：请求已完成，且响应已就绪（完成）<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">request.open(<span class="string">"GET"</span>,<span class="string">"get.php"</span>,<span class="literal">true</span>);</div><div class="line">request.send();</div><div class="line">request.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span>(request.readyState === <span class="number">4</span> &amp;&amp; request.status === <span class="number">200</span>)&#123;</div><div class="line">		<span class="comment">//request.responseText...</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="用jQuery实现AJAX"><a href="#用jQuery实现AJAX" class="headerlink" title="用jQuery实现AJAX"></a>用jQuery实现AJAX</h2><ul>
-<li><code>jQuery.ajax([settings])</code><ul>
-<li><code>type</code>：类型，“POST”或“GET”,默认”GET”</li>
-<li><code>url</code>：发送请求的地址</li>
-<li><code>data</code>：是一个对象，连同请求发送到服务器的数据</li>
-<li><code>dataType</code>：预期服务器返回的数据类型。如果不指定，jQuery将自动根据HTTP包MIME信息来只能判断，一般采用<strong>json格式</strong>，可以设置为<strong>“json”</strong></li>
-<li><code>success</code>：是一个方法，请求成功后的回调函数。传入返回后的数据，以及包含成功代码的字符串</li>
-<li><code>error</code>：是一个方法，请求失败时调用此函数。传入XHR对象<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"get.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"json"</span>,</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"POST"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"get.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"json"</span>,</div><div class="line">	<span class="attr">data</span>:&#123;</div><div class="line">		<span class="attr">name</span>:<span class="number">123</span></div><div class="line">		number:<span class="number">123</span></div><div class="line">		<span class="comment">//jquery可以自动将Form Data转换成name:123&amp;number:123这种格式</span></div><div class="line">		<span class="comment">//并自动设置Content-Type:application/x-www-form-urlencoded</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><ul>
-<li>一个域名地址的组成：<code>http://www.abc.com:8080/scripts/jquery.js</code><ul>
-<li>协议：http://</li>
-<li>子域名：www</li>
-<li>主域名：abc.com</li>
-<li>端口号：8080（默认8080，可以省略）</li>
-<li>请求资源地址：scripts/jquery.js</li>
-</ul>
-</li>
-<li>当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域</li>
-<li>不同域之间相互请求资源，算作“跨域”<br>比如：<code>http://www.abc.com/index.html</code> 请求 <code>http://www.efg.com/service.php</code></li>
-<li>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象。简单说就是a.com域名下的js无法操作b.com或者c.a.com域名下的对象</li>
-</ul>
-<h2 id="处理跨域的方法"><a href="#处理跨域的方法" class="headerlink" title="处理跨域的方法"></a>处理跨域的方法</h2><ul>
-<li>代理<br>通过在同域名的web服务器端创建一个代理：<br>北京服务器：<code>www.beijing.com</code><br>上海服务器：<code>www.shanghai.com</code><br>在北京的web服务器的后台<code>www.beijing.com/proxy-shanghaiservice.php</code>来调用<code>www.shanghai.com/service.php</code>的服务器，然后把响应结果返回给前端，这样前端调用北京同域名的服务就和调用上海的服务效果相同了</li>
-<li>JSONP<br>JSONP可用于解决主流浏览器的跨域数据访问的问题（json+padding，内填充）</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">在www.aaa.com中</div><div class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"> <span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">json</span>)</span>&#123;</div><div class="line"> 	alert(json[<span class="string">"name"</span>]);</div><div class="line"> &#125;</div><div class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.bbb.com/jsonp.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"> 在www.bbb.com中</div><div class="line"> jsonp(&#123;"name":"tom","age":27&#125;);</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//jsonp只支持get请求</span></div><div class="line">$.ajax(&#123;</div><div class="line">	<span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">	<span class="attr">url</span>:<span class="string">"http://www.bbb.com/service.php"</span>,</div><div class="line">	<span class="attr">dataType</span>:<span class="string">"jsonp"</span>,</div><div class="line">	<span class="attr">jsonp</span>:<span class="string">"callback"</span>,<span class="comment">//取值任意，与后端相连接</span></div><div class="line">	success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">		<span class="comment">//成功后的操作</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">jqXHR</span>)</span>&#123;</div><div class="line">		alert(<span class="string">"error:"</span>+jqXHR.status);</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<ul>
-<li>XHR2<br>HTML5提供的XMLHttpRequest Level2已经实现了跨域访问以及其他的一些新功能（不支持IE10以下）<br>在服务器端做一些小改造即可：<br><code>header(&#39;Access-Control-Allow-Origin:*&#39;);</code><br><code>header(&#39;Access-Control-Allow-Methods:POST,GET&#39;);</code></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）&lt;br&gt;AJAX 不是新的编程语言，而是一种使用现有标准的新方法。&lt;br&gt;AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式&lt;/li&gt;
-&lt;li&gt;异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式&lt;br&gt;（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>关于HTTP请求小记</title>
-    <link href="http://yoursite.com/2017/03/20/17-03-20-4/"/>
-    <id>http://yoursite.com/2017/03/20/17-03-20-4/</id>
-    <published>2017-03-20T07:31:38.000Z</published>
-    <updated>2017-07-15T07:47:44.984Z</updated>
-    
-    <content type="html"><![CDATA[<ul>
-<li><strong>HTTP：</strong> 是计算机通过网络进行通信的规则</li>
-<li><strong>步骤：</strong><ul>
-<li>建立TCP连接</li>
-<li>Web浏览器向Web服务器发送请求命令</li>
-<li>Web浏览器发送请求头信息</li>
-<li>Web服务器应答</li>
-<li>Web服务器发送应答头信息</li>
-<li>Web服务器向浏览器发送数据</li>
-<li>Web服务器关闭TCP连接</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p><strong>组成：</strong></p>
-<ul>
-<li>HTTP请求的方法或动作，比如是GET还是POST请求</li>
-<li>正在请求的URL</li>
-<li>请求头，包含一些客户端环境信息，身份验证信息等</li>
-<li>请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /login.php HTTP/1.1 //请求地址</div><div class="line"></div><div class="line">//请求头</div><div class="line">Host:localhost</div><div class="line">Connection:keep-alive</div><div class="line">Accept:text/javascript,application/javascript,application/ecmascript,</div><div class="line">application/x-ecmascript,*/*;</div><div class="line">q=0.01</div><div class="line">X-Requested-With:XMLHttpRequest</div><div class="line">User-Agent:Mozilla/5.0(Windows NT 6.1)Referer:http//www.baidu.com/</div><div class="line">Accept-Encoding:gzip,deflate,sdch</div><div class="line">Accept-Language:zh-CN,zh;q=0.8,en;q=0.6</div><div class="line"></div><div class="line">//请求体</div><div class="line">username=admin&amp;password=123456</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p><strong>GET：</strong> 一般用于信息获取，使用URL传递参数，对所发送信息的数量也有限制，一般在2000个字符。（一般用于查询，不做修改，数据是安全的）</p>
-</li>
-<li><strong>POST：</strong> 一般用于修改服务器上的资源。对所发送信息的数量无限制。</li>
-<li><strong>GET和POST的区别：</strong><ul>
-<li>GET方式需要使用<code>Request.QueryString</code>来取得变量的值，而POST方式通过<code>Request.Form</code>来获取变量的值，也就是说Get是通过地址栏来传值，而Post是通过提交表单来传值。</li>
-<li>然而，在以下情况中，请使用 <strong>POST 请求</strong>：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</li>
-</ul>
-</li>
-<li><p><strong>HTTP响应组成：</strong></p>
-<ul>
-<li>一个<strong>数字</strong>和<strong>文字</strong>组成的状态码，用来显示请求是成功还是失败的</li>
-<li>响应头，包含服务器信息，如服务器类型、日期时间、内容类型和长度等</li>
-<li>响应体（响应正文），服务器传来的字符串或html代码等<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Date:Sun,23 Nov 2014 10:14:45 GMT</div><div class="line">Server:Apache</div><div class="line">Content-Encoding:gzip</div><div class="line">Content-Length:7112</div><div class="line">Connection:Keep-Alive</div><div class="line">Content-Type:application/javascript</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p><strong>HTTP状态码：</strong> 由3位数字构成，其中首位数字定义了状态码的类型</p>
-<ul>
-<li>1XX：信息类，表示收到Web浏览器请求，正在进一步处理中</li>
-<li>2XX：成功，表示用户请求被正确接受，理解和处理，例如：200 OK</li>
-<li>3XX：重定向，表示请求没有成功，客户必须采取进一步的动作</li>
-<li>4XX：客户端错误，表示客户端提交的请求有错误，例如：404 NOT Found</li>
-<li>5XX：服务器错误，表示服务器不能完成对请求的处理，例如：500</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><strong>HTTP状态码（具体）：</strong></p>
-<ul>
-<li><strong>100  Continue</strong>  继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息</li>
-<li><strong>200  OK</strong>   正常返回信息</li>
-<li><strong>201  Created</strong>  请求成功并且服务器创建了新的资源</li>
-<li><strong>202  Accepted</strong>  服务器已接受请求，但尚未处理</li>
-<li><strong>301  Moved Permanently</strong>  请求的网页已永久移动到新位置</li>
-<li><strong>302  Found</strong>  临时性重定向</li>
-<li><strong>303  See Other</strong>  临时性重定向，且总是使用 GET 请求新的 URI</li>
-<li><strong>304  Not Modified</strong>  自从上次请求后，请求的网页未修改过</li>
-<li><strong>400  Bad Request</strong>  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求</li>
-<li><strong>401  Unauthorized</strong>  请求未授权</li>
-<li><strong>403  Forbidden</strong>  禁止访问</li>
-<li><strong>404  Not Found</strong>  找不到如何与 URI 相匹配的资源</li>
-<li><strong>500  Internal Server Error</strong>  最常见的服务器端错误</li>
-<li><strong>503  Service Unavailable</strong> 服务器端暂时无法处理请求（可能是过载或维护）</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;HTTP：&lt;/strong&gt; 是计算机通过网络进行通信的规则&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;步骤：&lt;/strong&gt;&lt;ul&gt;
-&lt;li&gt;建立TCP连接&lt;/li&gt;
-&lt;li&gt;Web浏览器向Web服务器发送请求命令&lt;/li&gt;
-&lt;li&gt;Web浏览器发送请求头信息&lt;/li&gt;
-&lt;li&gt;Web服务器应答&lt;/li&gt;
-&lt;li&gt;Web服务器发送应答头信息&lt;/li&gt;
-&lt;li&gt;Web服务器向浏览器发送数据&lt;/li&gt;
-&lt;li&gt;Web服务器关闭TCP连接&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     

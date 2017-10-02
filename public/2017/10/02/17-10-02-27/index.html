@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> DOM基础知识巩固 · Yx1aoq1's Blog</title><meta name="description" content="DOM基础知识巩固 - Yx1aoq1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">DOM基础知识巩固</h1><div class="post-info">2017年10月2日</div><div class="post-content"><h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
+<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h4 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h4><ul>
+<li><code>document.getElementById</code></li>
+<li><code>document.getElementsByTagName</code></li>
+<li><code>document.getElementsByClassName</code></li>
+<li><code>document.querySelectorAll</code></li>
+</ul>
+<h4 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h4><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
+<ul>
+<li>property是DOM中的属性，是JavaScript里的对象；</li>
+<li>attribute是HTML标签上的特性，它的值只能够是字符串；</li>
+</ul>
+<p>例如在html中有一段这样的代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"test"</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">sth</span>=<span class="string">"whatever"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们在js中来获取这个DOM对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> test = <span class="built_in">document</span>.getElementById(<span class="string">'test'</span>);</div><div class="line"><span class="built_in">console</span>.log(test);</div><div class="line"><span class="built_in">console</span>.log(test.id); <span class="comment">// 'test'</span></div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 1</span></div><div class="line"><span class="built_in">console</span>.log(test.sth) <span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
+<p>由于每一个DOM对象都会有它的默认的基本属性，在创建的时候只会创建这些基本属性，自定义的属性是不会直接放在DOM中的。对比一下的代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"test-2"</span> &gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> test_2 = <span class="built_in">document</span>.getElementById(<span class="string">'test-2'</span>);</div><div class="line"><span class="built_in">console</span>.log(test_2.value); <span class="comment">// null</span></div></pre></td></tr></table></figure>
+<p>虽然没有在标签中定义<code>value</code>，但由于它是DOM默认的基本属性，所以在DOM初始化的时候它还是会被创建。由此我们可以得出结论：</p>
+<ul>
+<li>DOM有其默认的基本属性，而这些属性就是所谓的“property”，无论如何，它们都会在初始化的时候再DOM对象上创建。</li>
+<li>如果在TAG对这些属性进行赋值，那么这些值就会作为初始值赋给DOM的同名property。</li>
+</ul>
+<p>那么标签上的sth定义在哪里呢？</p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-1.png" alt=""></p>
+<p>也就是说，attributes是属于property的一个子集，它保存了HTML标签上定义的属性。如果再进一步探索attitudes中的每一个属性，会发现它们并不是简单的对象，它是一个Attr类型的对象，拥有NodeType、NodeName等属性。注意，打印attribute属性不会直接得到对象的值，而是获取一个包含属性名和值的字符串。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(test.attibutes.sth); <span class="comment">// 'sth="whatever"'</span></div></pre></td></tr></table></figure></p>
+<p>由此可以得出：</p>
+<ul>
+<li>HTML标签中定义的属性和值会保存该DOM对象的attributes属性里面；</li>
+<li>这些attribute属性的JavaScript中的类型是Attr，而不仅仅是保存属性名和值这么简单；</li>
+</ul>
+<p>那么，如果我们更改property和attribute的值会出现什么效果呢？执行如下语句：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">test.value = <span class="string">'new value of prop'</span>;</div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 'new value of prop'</span></div><div class="line"><span class="built_in">console</span>.log(test.arrtibutes.value); <span class="comment">// 'value="1"'</span></div></pre></td></tr></table></figure></p>
+<p>如果反过来，效果又是如何呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">test.attributes.value = <span class="string">'new value of attr'</span>;</div><div class="line"><span class="built_in">console</span>.log(test.value); <span class="comment">// 'new value of attr'</span></div><div class="line"><span class="built_in">console</span>.log(test.attributes.value); <span class="comment">// 'new value of attr'</span></div></pre></td></tr></table></figure></p>
+<p>此时，页面中的输入栏得到更新，property中的value也发生了变化。此外，执行下面语句也会得到一样的结果：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.attributes.value.nodeValue = <span class="string">'new value of attr'</span>;</div></pre></td></tr></table></figure></p>
+<p>由此，可得出结论：</p>
+<ul>
+<li>property能够从attribute中得到同步；</li>
+<li>attribute不会同步property上的值；</li>
+<li>attribute和property之间的数据绑定是单向的，attribute-&gt;property；</li>
+<li>更改property和attribute上的任意值，都会将更新反映到HTML页面中；</li>
+</ul>
+<h4 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
+<p>有关DOM操作，主要注意点在于性能方面的影响，优化DOM操作方法有：</p>
+<ul>
+<li>减少DOM访问次数</li>
+<li>多次访问同一DOM，应该用局部变量缓存该DOM</li>
+<li>尽可能使用querySelector，而不是使用获取HTML集合的API</li>
+<li>注意重排（reflow）和重绘（repaint）</li>
+<li>使用事件委托，减少绑定事件的数量</li>
+</ul>
+<h4 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h4><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
+<ul>
+<li>添加或删除DOM元素</li>
+<li>元素位置、大小、内容改变</li>
+<li>浏览器窗口大小改变</li>
+<li>滚动条出现</li>
+</ul>
+<p><strong>最小化重排、重绘的建议：</strong></p>
+<ul>
+<li>不要再修改布局信息的时候，去查询布局信息</li>
+<li>修改一个元素的多个style时，一次性修改，而不是多次，能用css的class解决的，就尽量不用内联样式</li>
+<li>:hover会降低响应速度，在处理很大的列表时，避免使用</li>
+</ul>
+<h2 id="BOM操作"><a href="#BOM操作" class="headerlink" title="BOM操作"></a>BOM操作</h2><p>BOM（Browser Object Model）指的是浏览器对象模型，主要用途：</p>
+<ul>
+<li>检测浏览器的类型</li>
+<li>拆解url的各部分</li>
+</ul>
+<h4 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h4><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
+<ul>
+<li><code>navigator.userAgent</code> //用户代理头的字符串表示</li>
+</ul>
+<h4 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h4><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
+<ul>
+<li><code>screen.width/height</code> //屏幕的宽度与高度，以像素计 </li>
+<li><code>screen.availWidth/availHeight</code> //窗口可以使用的屏幕的宽度和高度，以像素计 </li>
+<li><code>screen.colorDepth</code> //用户表示颜色的位数，大多数系统采用32位 </li>
+<li><code>window.moveTo(0, 0);</code></li>
+<li><code>window.resizeTo(screen.availWidth, screen.availHeight);</code> //填充用户的屏幕</li>
+</ul>
+<h4 id="location"><a href="#location" class="headerlink" title="location"></a>location</h4><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
+<ul>
+<li><code>location.href</code> //当前载入页面的完整URL</li>
+<li><code>location.portocol</code> //URL中使用的协议，即双斜杠之前的部分，如http</li>
+<li><code>location.host</code> //服务器的名字，如www.wrox.com</li>
+<li><code>location.hostname</code> //通常等于host，有时会省略前面的www</li>
+<li><code>location.port</code> //URL声明的请求的端口，默认情况下，大多数URL没有端口信息，如8080</li>
+<li><code>location.pathname</code> //URL中主机名后的部分，如/pictures/index.htm</li>
+<li><code>location.search</code> //执行GET请求的URL中的问号后的部分，又称查询字符串，如?param=xxxx</li>
+<li><code>location.hash</code> //如果URL包含#，返回该符号之后的内容，如#anchor1</li>
+<li><code>location.assign(&quot;http:www.baidu.com&quot;);</code> //同location.href，新地址都会被加到浏览器的历史栈中</li>
+<li><code>location.replace(&quot;http:www.baidu.com&quot;);</code> //同assign()，但新地址不会被加到浏览器的历史栈中，不能通过back和forward访问</li>
+<li><code>location.reload(true | false);</code> //重新载入当前页面，为false时从浏览器缓存中重载，为true时从服务器端重载，默认为false</li>
+</ul>
+<h4 id="history"><a href="#history" class="headerlink" title="history"></a>history</h4><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
+<ul>
+<li><code>history.go(-1);</code> //访问浏览器窗口的历史，负数为后退，正数为前进</li>
+<li><code>history.back();</code> //同上</li>
+<li><code>history.forward();</code> //同上</li>
+<li><code>history.length</code> //可以查看历史中的页面数</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/10/02/17-10-02-28/" class="prev">上一篇</a><a href="/2017/09/25/17-09-25-26/" class="next">下一篇</a></div><div class="copyright"><p>© 2017 <a href="http://yoursite.com">Yx1aoq1</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
