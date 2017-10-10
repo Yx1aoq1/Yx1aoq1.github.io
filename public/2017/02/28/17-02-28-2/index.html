@@ -3,16 +3,24 @@
 <hr>
 <ul>
 <li><strong>Emmet:</strong><br>快速编写HTML+CSS代码，快捷键<strong>ctrl+E</strong><br><a href="http://www.iteye.com/news/27580" target="_blank" rel="external">关于如何速写的教程</a></li>
+<li><strong>JSFormat:</strong><br>Javascript的代码格式化插件</li>
+<li><strong>Less:</strong><br>LESS高亮插件</li>
 <li><strong>All Autocomplete:</strong><br>搜索所有打开的文件来寻找匹配的提示词</li>
 <li><strong>AutoFileName:</strong><br>自动检索并补齐文件路径</li>
 <li><strong>CSScomb:</strong><br>使用指定排序方法对CSS的属性进行排序，快捷键<strong>ctrl+alt+C</strong><br>虽然好像很厉害的样子但是我安装了之后一直没有反应，还未找到办法</li>
+<li><strong>Doc​Blockr:</strong><br>生成优美注释,输入<code>/*</code>、<code>/**</code>然后回车</li>
+<li><strong>ConvertToUTF8:</strong><br>通过本插件，您可以编辑并保存目前编码不被 Sublime Text 支持的文件，特别是中日韩用户使用的 GB2312，GBK，BIG5，EUC-KR，EUC-JP ，ANSI等</li>
+<li><strong>Nodejs:</strong><br>node代码提示</li>
+<li><strong>Trailing spaces:</strong><br>检测并一键去除代码中多余的空格,一键删除多余空格：CTRL+SHITF+T（需配置）</li>
+<li><strong>FileDiffs:</strong><br>比较当前文件与选中的代码、剪切板中代码、另一文件、未保存文件之间的差别。可配置为显示差别在外部比较工具，精确到行</li>
 <li><strong>HTML-CSS-JS Prettify:</strong><br>美化代码格式，需要安装node.js才能使用，快捷键<strong>ctrl+alt+H</strong>，可以自动对齐</li>
 <li><strong>ColorHighlighter:</strong><br>可以显示颜色代码的颜色，看上去一目了然</li>
+<li><strong>ChineseLocalization:</strong><br>汉化插件</li>
 <li><strong>BracketHighlighter:</strong><br>括号以及标签层级显示</li>
 <li><strong>Sidebarenhancements:</strong><br>扩展鼠标右键菜单，可以直接open with浏览器，超方便</li>
-<li><strong>SublimeCodeIntel:</strong><br>可以快速提示补全标签，但是有个缺点就是打了分号之后会弹出提示框，然后换行的时候各种误打一堆烂七八糟的代码，在网上找了挺久的办法终于找到一个可行的，附上</li>
+<li><strong>SublimeCodeIntel:</strong><br>可以快速提示补全标签，但是有个缺点就是打了分号之后会弹出提示框，然后换行的时候各种误打一堆烂七八糟的代码，在网上找了挺久的办法终于找到一个可行的，附上<br>打开<em>Package Settings &gt; SublimeCodeIntel &gt; Key Bindings - User</em>,输入代码</li>
 </ul>
-<p>打开<em>Package Settings &gt; SublimeCodeIntel &gt; Key Bindings - User</em>,输入代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; </div><div class="line">		<span class="string">"keys"</span>: [<span class="string">";"</span>], <span class="string">"command"</span>: <span class="string">"run_macro_file"</span>, </div><div class="line">	  	<span class="string">"args"</span>: &#123;<span class="string">"file"</span>: <span class="string">"Packages/User/unAutoSemiColon.sublime-macro"</span>&#125; </div><div class="line">	&#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123;</div><div class="line">		<span class="string">"keys"</span>: [<span class="string">";"</span>], <span class="string">"command"</span>: <span class="string">"run_macro_file"</span>,</div><div class="line">	  	<span class="string">"args"</span>: &#123;<span class="string">"file"</span>: <span class="string">"Packages/User/unAutoSemiColon.sublime-macro"</span>&#125;</div><div class="line">	&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
 <p>然后打开 <em>Preferences &gt; Browser Package &gt; User</em>，保存文件名为<em>unAutoSemiColon.sublime-macro</em><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;</div><div class="line">        <span class="string">"args"</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="string">"characters"</span>: <span class="string">";"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="string">"command"</span>: <span class="string">"insert"</span></div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
 <p>之后打分号再也不会出现提示啦！！</p>
 <ul>
