@@ -118,6 +118,12 @@
         
             <!-- 文章页标签  -->
             
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+            
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
                 <span class="post-intro-time">2017/07/15</span>
@@ -132,7 +138,7 @@
 <h2 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h2><blockquote>
 <p>Javascript语言将任务的执行模式分为同步（Synchronous）和异步（Asynchronous），“同步模式”指的是后一个任务只有等待前一个任务完成之后才能执行，程序执行顺序与任务的排列顺序是一致的、同步的。而“异步模式”指的是每个任务有一个或多个回调函数，前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的、异步的。</p>
 </blockquote>
-<h4 id="实现异步编程的四种方法"><a href="#实现异步编程的四种方法" class="headerlink" title="实现异步编程的四种方法"></a>实现异步编程的四种方法</h4><ul>
+<h3 id="实现异步编程的四种方法"><a href="#实现异步编程的四种方法" class="headerlink" title="实现异步编程的四种方法"></a>实现异步编程的四种方法</h3><ul>
 <li><strong>回调函数</strong></li>
 </ul>
 <p>回调函数可以理解为，被另一个函数调用的函数。<br>可以想成这样一个应用场景：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">f1(); <span class="comment">//一个十分耗时的函数</span></div><div class="line">f2(); <span class="comment">//等待f1执行完才能执行的函数</span></div><div class="line">f3(); <span class="comment">//等待f1执行完才能执行的函数</span></div></pre></td></tr></table></figure></p>
@@ -154,13 +160,13 @@
 </ul>
 <p>deferred对象就是jQuery的回调函数解决方案，可以通过链式写法执行回调函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">f1().then(f2);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> dfd = $.Deferred();</div><div class="line">　<span class="comment">// f1的任务代码</span></div><div class="line">　dfd.resolve();</div><div class="line">　<span class="keyword">return</span> dfd.promise;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>优点：</strong> 回调函数变成了链式写法，程序的流程可以看得很清楚，而且有一整套的配套方法，可以实现许多强大的功能。它还有一个前面三种方法都没有的好处：如果一个任务已经完成，再添加回调函数，该回调函数会立即执行。所以，你不用担心是否错过了某个事件或信号。</p>
-<h2 id="deferred对象详解"><a href="#deferred对象详解" class="headerlink" title="deferred对象详解"></a>deferred对象详解</h2><h4 id="deferred对象的应用场景"><a href="#deferred对象的应用场景" class="headerlink" title="deferred对象的应用场景"></a>deferred对象的应用场景</h4><ul>
+<h2 id="deferred对象详解"><a href="#deferred对象详解" class="headerlink" title="deferred对象详解"></a>deferred对象详解</h2><h3 id="deferred对象的应用场景"><a href="#deferred对象的应用场景" class="headerlink" title="deferred对象的应用场景"></a>deferred对象的应用场景</h3><ul>
 <li><strong>让异步操作代码像同步代码那样书写和阅读，流程更加清晰</strong></li>
 <li><strong>优化ajax的嵌套执行</strong></li>
 </ul>
 <p>原本我们在执行<code>ajax</code>的时候，如果这个请求中还有<code>ajax</code>请求，就会有以下这种写法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">  <span class="attr">url</span>: <span class="string">"test.html"</span>,</div><div class="line">  <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $.ajax(&#123;</div><div class="line">      <span class="attr">url</span>: ...,</div><div class="line">      <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        ....</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>我们可以将两个<code>ajax</code>分开封装<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> $.ajax(&#123;</div><div class="line">    <span class="attr">url</span>: <span class="string">"test.html"</span>,</div><div class="line">    ...</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> $.ajax(&#123;</div><div class="line">    <span class="attr">url</span>: <span class="string">"..."</span>,</div><div class="line">    ...</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">$.when(A(),B()).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  dosth();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h4 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h4><ul>
+<h3 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h3><ul>
 <li><code>$.Deferred()</code>：生成一个deferred对象</li>
 <li><code>deferred.done()</code>：指定操作成功时的回调函数</li>
 <li><code>deferred.fail()</code>：指定操作失败时的回调函数</li>
@@ -251,7 +257,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异步编程"><span class="toc-number">1.</span> <span class="toc-text">异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现异步编程的四种方法"><span class="toc-number">1.0.1.</span> <span class="toc-text">实现异步编程的四种方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deferred对象详解"><span class="toc-number">2.</span> <span class="toc-text">deferred对象详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#deferred对象的应用场景"><span class="toc-number">2.0.1.</span> <span class="toc-text">deferred对象的应用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法总结"><span class="toc-number">2.0.2.</span> <span class="toc-text">方法总结</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异步编程"><span class="toc-number">1.</span> <span class="toc-text">异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现异步编程的四种方法"><span class="toc-number">1.1.</span> <span class="toc-text">实现异步编程的四种方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deferred对象详解"><span class="toc-number">2.</span> <span class="toc-text">deferred对象详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#deferred对象的应用场景"><span class="toc-number">2.1.</span> <span class="toc-text">deferred对象的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法总结"><span class="toc-number">2.2.</span> <span class="toc-text">方法总结</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -265,10 +271,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -608,12 +610,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
@@ -735,6 +737,38 @@
   </div>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

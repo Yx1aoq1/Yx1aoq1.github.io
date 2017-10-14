@@ -118,6 +118,12 @@
         
             <!-- 文章页标签  -->
             
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+            
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
                 <span class="post-intro-time">2017/08/24</span>
@@ -129,14 +135,14 @@
             <main class="main post-page">
     <article class="article-entry">
         <h2 id="typeof-运算符"><a href="#typeof-运算符" class="headerlink" title="typeof 运算符"></a>typeof 运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// undefined</span></div><div class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span> <span class="comment">// string</span></div><div class="line"><span class="keyword">typeof</span> <span class="number">123</span> <span class="comment">// number</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span> <span class="comment">// boolean</span></div><div class="line"><span class="keyword">typeof</span> &#123;&#125; <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> [] <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span> <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="built_in">console</span>.log <span class="comment">// function</span></div></pre></td></tr></table></figure>
-<h2 id="变量运算-强制类型转换"><a href="#变量运算-强制类型转换" class="headerlink" title="变量运算 - 强制类型转换"></a>变量运算 - 强制类型转换</h2><h4 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span> + <span class="number">10</span> <span class="comment">// 110</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span> + <span class="string">'10'</span> <span class="comment">// '10010'</span></div></pre></td></tr></table></figure>
+<h2 id="变量运算-强制类型转换"><a href="#变量运算-强制类型转换" class="headerlink" title="变量运算 - 强制类型转换"></a>变量运算 - 强制类型转换</h2><h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span> + <span class="number">10</span> <span class="comment">// 110</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span> + <span class="string">'10'</span> <span class="comment">// '10010'</span></div></pre></td></tr></table></figure>
 <p>当使用减运算时：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> c = <span class="string">'100'</span> - <span class="number">10</span> <span class="comment">// 90</span></div></pre></td></tr></table></figure></p>
-<h4 id="运算符"><a href="#运算符" class="headerlink" title="== 运算符"></a>== 运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">100</span> == <span class="string">'100'</span> <span class="comment">// true</span></div><div class="line"><span class="number">0</span> == <span class="string">''</span> <span class="comment">// true</span></div><div class="line"><span class="literal">null</span> == <span class="literal">undefined</span> <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="== 运算符"></a>== 运算符</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">100</span> == <span class="string">'100'</span> <span class="comment">// true</span></div><div class="line"><span class="number">0</span> == <span class="string">''</span> <span class="comment">// true</span></div><div class="line"><span class="literal">null</span> == <span class="literal">undefined</span> <span class="comment">// true</span></div></pre></td></tr></table></figure>
 <p><code>==</code>与<code>===</code>的区别：<code>===</code>是严格等于，只有类型完全相同才会返回<code>true</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">null</span> === <span class="literal">null</span></div><div class="line"><span class="literal">undefined</span> === <span class="literal">undefined</span></div><div class="line"><span class="literal">null</span> === <span class="literal">undefined</span> <span class="comment">// false</span></div><div class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
 <p>什么时候用<code>==</code>什么时候用<code>===</code>：jQuery源码中推荐写法，只有下述情况才用<code>==</code>，其他时候都用<code>===</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(a == <span class="literal">null</span>) &#123;</div><div class="line">  <span class="comment">// 这里相当于 a === null || a === undefined</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</div><div class="line"><span class="keyword">if</span>(a) &#123; <span class="comment">//... &#125; </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span>; <span class="comment">// true</span></div><div class="line"><span class="keyword">if</span>(b) &#123; <span class="comment">//... &#125;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="string">''</span>; <span class="comment">// false</span></div><div class="line"><span class="keyword">if</span>(c) &#123; <span class="comment">//... &#125;</span></div></pre></td></tr></table></figure>
+<h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</div><div class="line"><span class="keyword">if</span>(a) &#123; <span class="comment">//... &#125; </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span>; <span class="comment">// true</span></div><div class="line"><span class="keyword">if</span>(b) &#123; <span class="comment">//... &#125;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="string">''</span>; <span class="comment">// false</span></div><div class="line"><span class="keyword">if</span>(c) &#123; <span class="comment">//... &#125;</span></div></pre></td></tr></table></figure>
 <p><code>if</code>中被判定为<code>false</code>的几个值：<code>0</code>,<code>NaN</code>,<code>&#39;&#39;</code>,<code>null</code>,<code>undefined</code></p>
-<h4 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="number">10</span> &amp;&amp; <span class="number">0</span>) <span class="comment">// 0</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">''</span> || <span class="string">'abc'</span>) <span class="comment">// 'abc'</span></div><div class="line"><span class="built_in">console</span>.log(!<span class="built_in">window</span>.abc) <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// 判断一个变量会被当做 true 还是 false</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</div><div class="line"><span class="built_in">console</span>.log(!!a) <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<h3 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="number">10</span> &amp;&amp; <span class="number">0</span>) <span class="comment">// 0</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">''</span> || <span class="string">'abc'</span>) <span class="comment">// 'abc'</span></div><div class="line"><span class="built_in">console</span>.log(!<span class="built_in">window</span>.abc) <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// 判断一个变量会被当做 true 还是 false</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</div><div class="line"><span class="built_in">console</span>.log(!!a) <span class="comment">//true</span></div></pre></td></tr></table></figure>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -217,7 +223,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-运算符"><span class="toc-number">1.</span> <span class="toc-text">typeof 运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量运算-强制类型转换"><span class="toc-number">2.</span> <span class="toc-text">变量运算 - 强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字符串拼接"><span class="toc-number">2.0.1.</span> <span class="toc-text">字符串拼接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运算符"><span class="toc-number">2.0.2.</span> <span class="toc-text">== 运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#if语句"><span class="toc-number">2.0.3.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑运算"><span class="toc-number">2.0.4.</span> <span class="toc-text">逻辑运算</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-运算符"><span class="toc-number">1.</span> <span class="toc-text">typeof 运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量运算-强制类型转换"><span class="toc-number">2.</span> <span class="toc-text">变量运算 - 强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串拼接"><span class="toc-number">2.1.</span> <span class="toc-text">字符串拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运算符"><span class="toc-number">2.2.</span> <span class="toc-text">== 运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if语句"><span class="toc-number">2.3.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑运算"><span class="toc-number">2.4.</span> <span class="toc-text">逻辑运算</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -231,10 +237,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -574,12 +576,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
@@ -701,6 +703,38 @@
   </div>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

@@ -118,6 +118,12 @@
         
             <!-- 文章页标签  -->
             
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = jQuery>jQuery</a>
+    
+</div>
+            
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
                 <span class="post-intro-time">2017/10/14</span>
@@ -128,7 +134,7 @@
         <div class="container">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+        <h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
 <li><p>群组选择器：逗号“,”</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">div, p                //选择所有&lt;div&gt;元素和所有&lt;p&gt;元素</div></pre></td></tr></table></figure>
 </li>
@@ -142,15 +148,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">a:link                //选择所有未被访问的链接</div><div class="line">a:visited             //选择所有已被访问链接</div><div class="line">a:active              //选择活动链接</div><div class="line">a:hover               //选择鼠标指针位于其上的链接</div><div class="line">input:focus           //选择获得焦点的input元素</div><div class="line">:before               //在每个&lt;p&gt;元素的内容之前插入内容</div><div class="line">:after                //在每个&lt;p&gt;元素的内容之后插入内容</div><div class="line">p:lang(it)            //选择带有以&quot;it&quot;开头的lang属性值的所有&lt;p&gt;元素</div><div class="line">#news:target          //选择当前活动的#news元素</div><div class="line">input:enabled         //选择所有启用的&lt;input&gt;元素</div><div class="line">input:disabled        //选择所有禁用的&lt;input&gt;元素</div><div class="line">input:checked         //选择所有被选中的&lt;input&gt;元素</div><div class="line">::selection           //选择被用户选取的元素部分</div><div class="line">p:first-of-type       //选择属于其父元素的首个&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:last-of-type        //选择属于其父元素的最后&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:only-of-type        //选择属于其父元素唯一的&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:nth-of-type(2)      //选择属于其父元素第二个&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:only-child          //选择属于其父元素的唯一子元素的所有&lt;p&gt;元素</div><div class="line">p:nth-child(2)        //选择属于其父元素的第二个子元素的所有&lt;p&gt;元素</div><div class="line">p:last-child          //选择属于其父元素最后一个子元素的所有&lt;p&gt;元素</div><div class="line">p:nth-last-child(2)   //同上，从最后一个子元素开始计数</div><div class="line">:root                 //选择文档的根元素</div><div class="line">:empty                //选择没有子元素的所有&lt;p&gt;元素</div><div class="line">:not(p)               //选择非&lt;p&gt;元素的所有元素</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="CSS的解析原理"><a href="#CSS的解析原理" class="headerlink" title="CSS的解析原理"></a>CSS的解析原理</h4><p>HTML 经过解析生成 DOM Tree；而在 CSS 解析完毕后，需要将解析的结果与 DOM Tree 的内容一起进行分析建立一棵 Render Tree，最终用来进行绘图。Render Tree 中的元素（WebKit 中称为「renderers」，Firefox 下为「frames」）与 DOM 元素相对应，但非一一对应：一个 DOM 元素可能会对应多个 renderer，如文本折行后，不同的「行」会成为 render tree 种不同的 renderer。也有的 DOM 元素被 Render Tree 完全无视，比如 display:none 的元素。</p>
+<h3 id="CSS的解析原理"><a href="#CSS的解析原理" class="headerlink" title="CSS的解析原理"></a>CSS的解析原理</h3><p>HTML 经过解析生成 DOM Tree；而在 CSS 解析完毕后，需要将解析的结果与 DOM Tree 的内容一起进行分析建立一棵 Render Tree，最终用来进行绘图。Render Tree 中的元素（WebKit 中称为「renderers」，Firefox 下为「frames」）与 DOM 元素相对应，但非一一对应：一个 DOM 元素可能会对应多个 renderer，如文本折行后，不同的「行」会成为 render tree 种不同的 renderer。也有的 DOM 元素被 Render Tree 完全无视，比如 display:none 的元素。</p>
 <p>在建立 Render Tree 时（WebKit 中的「Attachment」过程），浏览器就要为每个 DOM Tree 中的元素根据 CSS 的解析结果（Style Rules）来确定生成怎样的 renderer。对于每个 DOM 元素，必须在所有 Style Rules 中找到符合的 selector 并将对应的规则进行合并。选择器的「解析」实际是在这里执行的，在遍历 DOM Tree 时，从 Style Rules 中去寻找对应的 selector。</p>
 <p>因为所有样式规则可能数量很大，而且绝大多数不会匹配到当前的 DOM 元素（因为数量很大所以一般会建立规则索引树），所以有一个快速的方法来判断「这个 selector 不匹配当前元素」就是极其重要的。</p>
 <p>如果正向解析，例如「div div p em」，我们首先就要检查当前元素到 html 的整条路径，找到最上层的 div，再往下找，如果遇到不匹配就必须回到最上层那个 div，往下再去匹配选择器中的第一个 div，回溯若干次才能确定匹配与否，效率很低。</p>
 <p>逆向匹配则不同，如果当前的 DOM 元素是 div，而不是 selector 最后的 em，那只要一步就能排除。只有在匹配时，才会不断向上找父节点进行验证。</p>
 <p>但因为匹配的情况远远低于不匹配的情况，所以逆向匹配带来的优势是巨大的。同时我们也能够看出，在选择器结尾加上「*」就大大降低了这种优势，这也就是很多优化原则提到的尽量避免在选择器末尾添加通配符的原因。</p>
-<h4 id="getElementBy系列-与-querySelectorAll"><a href="#getElementBy系列-与-querySelectorAll" class="headerlink" title="getElementBy系列 与 querySelectorAll"></a>getElementBy系列 与 querySelectorAll</h4><ul>
-<li>getElementById（或者其他）获取的是动态集合，querySelector获取的是静态集合</li>
-</ul>
+<h3 id="getElementBy系列-与-querySelectorAll"><a href="#getElementBy系列-与-querySelectorAll" class="headerlink" title="getElementBy系列 与 querySelectorAll"></a>getElementBy系列 与 querySelectorAll</h3><p>getElementById（或者其他）获取的是动态集合，querySelector获取的是静态集合</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>aaa<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>bbb<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>ccc<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// demo1</span></div><div class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'ul'</span>)[<span class="number">0</span>],</div><div class="line">    lis = ul.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line"><span class="comment">//动态插入标签</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lis.length; i ++) &#123;</div><div class="line">  ul.appendChild(<span class="built_in">document</span>.creatElement(<span class="string">'li'</span>));</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(lis.length); <span class="comment">//6</span></div><div class="line"></div><div class="line"><span class="comment">// demo2</span></div><div class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.querySeletorAll(<span class="string">'ul'</span>),</div><div class="line">    lis = ul.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"><span class="comment">//插入动态标签</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lis.length; i ++) &#123;</div><div class="line">  ul.appendChild(<span class="built_in">document</span>.creatElement(<span class="string">'li'</span>));</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(lis.length); <span class="comment">//3</span></div></pre></td></tr></table></figure>
 <p>demo1中的lis是一个动态的NodeList，每一次调用lis都会重新对文档进行查询，导致无限循环的问题。</p>
@@ -236,7 +240,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分类"><span class="toc-number">1.0.1.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS的解析原理"><span class="toc-number">1.0.2.</span> <span class="toc-text">CSS的解析原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getElementBy系列-与-querySelectorAll"><span class="toc-number">1.0.3.</span> <span class="toc-text">getElementBy系列 与 querySelectorAll</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-number">1.1.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的解析原理"><span class="toc-number">1.2.</span> <span class="toc-text">CSS的解析原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getElementBy系列-与-querySelectorAll"><span class="toc-number">1.3.</span> <span class="toc-text">getElementBy系列 与 querySelectorAll</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -250,10 +254,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -593,12 +593,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
@@ -720,6 +720,38 @@
   </div>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

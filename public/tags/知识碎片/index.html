@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href = /css/style.css?v=20171005 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main index-page">
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/19/17-08-19-24/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>页面加载——浏览器渲染</span>
+                    </h2>
+                <div class="abstract-content">
+                    一个网站在浏览器端是如何进行渲染的呢？
+
+根据HTML结构生成DOM tree
+根据CSS生成CSSOM
+将DOM和CSSOM整合形成RenderTree
+根据RenderTree开始渲染和展示
+遇到&lt;script&gt;时，会执行并阻塞渲染
+
+
+顺序执行、并发加载因为解析过程是一个从上到下的过程，所以渲染过程是顺序执行的。而所谓的并发加载指的是当浏览器引入&lt;link&gt;或&lt;script&gt;，多个标签的资源可以并发加载。但是并发度是受浏览器自身能力限制的。
+对于&lt;img&gt;所载入的图片，是异步请求的，并不会阻塞页面的渲染，图片的加载速度受其本身大小的影...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/19</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/17/17-08-17-23/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>网络知识补充——浏览器请求过程</span>
+                    </h2>
+                <div class="abstract-content">
+                    当我们在浏览器中输入一个url，页面是如何呈现出来的呢？
+
+首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。以Chrome浏览器为例，其解析过程：
+
+搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存
+搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经失效）
+读取本地的HOST文件（操作系统的DNS缓存也没有找到）
+浏览器发起一个DNS的一个系统调用，向宽带运营商的DNS服务器发送一个域名请求
+
+紧接着我们就来到了DNS服务器，DNS服务器接受到请求后，开始如下操作：
+
+查找本地缓存
+如果未找到对应条目，则服务器将发起一个迭代DNS解析的...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 网络>网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/17</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/07/15/17-07-15-19/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>搭建Hexo博客之后</span>
+                    </h2>
+                <div class="abstract-content">
+                    这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。恩，然后找到了方法，然而感觉讲的太！不！清！楚！折腾了半天，终于弄好了，以下整理了一下步骤：
+
+使用分支方法解决hexo博客无法在两台电脑上更新的问题创建本地仓库首先，创建一个新的文件夹，和github上的仓库同名：username.github.io然后开始创建本地仓库，以下是创建一个新的本地仓库的git指令123456$ touch README.md...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/15</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/04/10/17-04-10-13/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>有关CSS的tip</span>
+                    </h2>
+                <div class="abstract-content">
+                    position的值，relative和absolute分别是相对于谁进行定位的？
+absolute 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。
+fixed （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。
+relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
+static 默认值。没有定位，元素出现在正常的流中
+
+
+display:none和visibility:hidden的区别？
+display:none 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。
+visibility...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = CSS>CSS</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/10</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/04/06/17-04-06-12/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>前端模块化</span>
+                    </h2>
+                <div class="abstract-content">
+                    AMD
+AMD 即Asynchronous Module Definition，中文名是异步模块定义的意思。它是一个在浏览器端模块化开发的规范。
+
+
+
+应用：RequireJS解决的主要问题：
+多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器
+js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长
+
+
+define([id], [dependencies], factory);
+id：可选参数，用来定义模块的标识，如果没有提供该参数，脚本文件名（去掉拓展名）
+dependencies：是一个当前模块依赖的模块名称数组
+factory：工厂方法，模块...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 模块化>模块化</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/06</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/03/26/17-03-26-7/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>iconfont使用方法</span>
+                    </h2>
+                <div class="abstract-content">
+                    实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程
+首先在Iconfont-阿里巴巴矢量图标库上将需要的图标点击购物车按钮加入暂存库。
+
+选择所有要用的图标后，存储为项目，给它命名。然后在图标管理-图标应用项目中找到这个项目，获取在线连接，把里面的代码复制到CSS中。
+在HTML中需要使用到图标时，使用iconfont类名。1&lt;i class="iconfont"&gt;&amp;#xe600;&lt;/i&gt;
+里面写上你想用的图标下面的Unicode：
+可以通过控制iconfont类的属性改变图标的样式：123456789.iconfont&#12...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/26</span>
+                </div>
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 27 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-30/" >jQuery源码学习笔记(03)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-29/" >jQuery源码学习笔记(02)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-26/" >JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-25/" >JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-24/" >页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-23/" >网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-22/" >JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-21/" >JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-20/" >异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-19/" >搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-18/" >JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-17/" >JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2017/05/11/17-05-11-16/" >Vue.js学习笔记（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-14/" >JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-13/" >有关CSS的tip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-12/" >前端模块化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-11/" >从零开始的backbone.js（三）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-9/" >从零开始的backbone.js（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-8/" >从零开始的backbone.js（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-7/" >iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-6/" >JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-5/" >AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2017/03/20/17-03-20-4/" >关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-2/" >Sublime Text3前端插件分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-1/" >这磨人的小妖精</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

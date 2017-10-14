@@ -118,6 +118,12 @@
         
             <!-- 文章页标签  -->
             
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+            
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
                 <span class="post-intro-time">2017/09/25</span>
@@ -147,8 +153,8 @@
 <h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
 <p>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，”任务队列”上第一位的事件就自动进入主线程。</p>
 <p>主线程不断从“任务队列”中读取事件的过程又称为<strong>Event Loop</strong>。</p>
-<h2 id="setTimeout与setInterval"><a href="#setTimeout与setInterval" class="headerlink" title="setTimeout与setInterval"></a>setTimeout与setInterval</h2><h4 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h4><p>关于<code>setTimeout</code>在上述已经说的蛮清楚了，还有一点是关于<code>setTimeout(func,0)</code>。<br>当设置定时器为0ms时，回调函数func也不会再0ms的时候就执行，而是采取尽可能快的执行。即当主线程程序都执行完毕，进入空闲就会立刻执行func。而相对于还在任务队列中的其他等待的程序，<code>setTimeout(func,0)</code>相当于插了队。</p>
-<h4 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h4><p><code>setInterval</code>是重复定时器，它在执行的时候有一条规则：仅当没有该定时器的任何其他<strong>代码实例</strong>时，才能将定时器代码添加到任务队列中。</p>
+<h2 id="setTimeout与setInterval"><a href="#setTimeout与setInterval" class="headerlink" title="setTimeout与setInterval"></a>setTimeout与setInterval</h2><h3 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h3><p>关于<code>setTimeout</code>在上述已经说的蛮清楚了，还有一点是关于<code>setTimeout(func,0)</code>。<br>当设置定时器为0ms时，回调函数func也不会再0ms的时候就执行，而是采取尽可能快的执行。即当主线程程序都执行完毕，进入空闲就会立刻执行func。而相对于还在任务队列中的其他等待的程序，<code>setTimeout(func,0)</code>相当于插了队。</p>
+<h3 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h3><p><code>setInterval</code>是重复定时器，它在执行的时候有一条规则：仅当没有该定时器的任何其他<strong>代码实例</strong>时，才能将定时器代码添加到任务队列中。</p>
 <p>假设没有这条规则，因为指定的时间是定时器插入到任务队列的时间，如果主线程的运行时间非常长，此时<code>setInterval</code>的回调函数被多次插入到任务队列中，当主线程空闲时，定时器便会连续执行措辞而之间不会有任何的间隔。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">  <span class="keyword">while</span>(<span class="built_in">Date</span>.now - startTime &lt; <span class="number">350</span>) &#123;&#125;</div><div class="line">&#125;, <span class="number">200</span>);</div><div class="line"><span class="keyword">var</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="keyword">while</span>(<span class="built_in">Date</span>.now() - startTime &lt; <span class="number">300</span>) &#123;&#125;</div></pre></td></tr></table></figure>
 <p>由于存在上述所说的规则，某些间隔会被跳过，多个定时器的代码执行之间的间隔可能会比预期的小。我们可以画一个流程图：</p>
@@ -242,7 +248,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript单线程"><span class="toc-number">1.</span> <span class="toc-text">JavaScript单线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript运行机制"><span class="toc-number">2.</span> <span class="toc-text">JavaScript运行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务队列"><span class="toc-number">3.</span> <span class="toc-text">任务队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setTimeout与setInterval"><span class="toc-number">4.</span> <span class="toc-text">setTimeout与setInterval</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#setTimeout"><span class="toc-number">4.0.1.</span> <span class="toc-text">setTimeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#setInterval"><span class="toc-number">4.0.2.</span> <span class="toc-text">setInterval</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript单线程"><span class="toc-number">1.</span> <span class="toc-text">JavaScript单线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript运行机制"><span class="toc-number">2.</span> <span class="toc-text">JavaScript运行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务队列"><span class="toc-number">3.</span> <span class="toc-text">任务队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setTimeout与setInterval"><span class="toc-number">4.</span> <span class="toc-text">setTimeout与setInterval</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#setTimeout"><span class="toc-number">4.1.</span> <span class="toc-text">setTimeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setInterval"><span class="toc-number">4.2.</span> <span class="toc-text">setInterval</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -256,10 +262,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -599,12 +601,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
@@ -726,6 +728,38 @@
   </div>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
