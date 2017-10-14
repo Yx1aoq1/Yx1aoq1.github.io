@@ -1246,7 +1246,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <link href="http://yoursite.com/2017/03/29/17-03-29-9/"/>
     <id>http://yoursite.com/2017/03/29/17-03-29-9/</id>
     <published>2017-03-29T08:06:16.000Z</published>
-    <updated>2017-10-14T08:45:37.807Z</updated>
+    <updated>2017-10-14T08:50:01.361Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Backbone-View（视图）"><a href="#Backbone-View（视图）" class="headerlink" title="Backbone.View（视图）"></a>Backbone.View（视图）</h2><ul>
 <li>view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。</li>
@@ -1265,6 +1265,8 @@ Vue.config.productionTip = <span class="literal">false</span>
     
     </summary>
     
+    
+      <category term="backbone" scheme="http://yoursite.com/tags/backbone/"/>
     
   </entry>
   
