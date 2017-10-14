@@ -1,0 +1,67 @@
+// ========== global variables ========== //
+$body-background-color: #fff;
+$feature-color: #f75357;
+$feature-color: hexo-theme-config('feature-color');
+// 后续版本更新
+// @if $feature-color=='hexo-theme-config("feature-color")' {
+//     // default feature color
+//     // 如果没有安装hexo-renderer-scss，则无法修改$feature-color，使用默认色
+$feature-color: #f75357;
+// }
+$feature-font-family: 'Oswald-Regular',
+'Microsoft Yahei',
+'Source Sans Pro',
+Arial,
+sans-serif !default;
+$base-font-family: 'Microsoft Yahei',
+'Source Sans Pro',
+Arial,
+sans-serif !default;
+$base-font-size: 16px !default;
+// ========== common ========== //
+$container-margin-top: 3rem;
+$selection-color: $feature-color;
+// ========== iconfont ========== //
+@font-face {
+    font-family: 'iconfont-archer';
+    /* project id 327081 */
+    src: url('//at.alicdn.com/t/font_327081_xwzg0gxf1lq2rzfr.eot');
+    src: url('//at.alicdn.com/t/font_327081_xwzg0gxf1lq2rzfr.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_327081_xwzg0gxf1lq2rzfr.woff') format('woff'), url('//at.alicdn.com/t/font_327081_xwzg0gxf1lq2rzfr.ttf') format('truetype'), url('//at.alicdn.com/t/font_327081_xwzg0gxf1lq2rzfr.svg#iconfont') format('svg');
+}
+
+.iconfont-archer {
+    font-family: "iconfont-archer" !important;
+    font-size: 1rem;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// ========== header ========== //
+$header-height: 3.5rem;
+$header-border-top-width: 3px;
+$header-border-top-color: rgba(0,0,0,0.75);
+$header-title-font-family: $feature-font-family;
+$header-menu-width: 1.5rem;
+// ========== profile ========== //
+$profile-name-font-family: $feature-font-family;
+$profile-signature-font-family: $feature-font-family;
+$profile-friend-font-family: $feature-font-family;
+$profile-width: 200px;
+// ========== index ========== //
+$index-post-link-color: $feature-color;
+$index-post-tag-color: $feature-color;
+// ========== post ========== //
+$post-content-color: #23394d;
+// ========== social ========== //
+$social-iconfont-color: #777;
+// ========== code ========== //
+// $code-highlight-color: ( background-color: #282c34,
+// normal: #abb2bf,
+// comment: #5c6370,
+// doctag: #859900,
+// section: #2aa198,
+// literal: #268bd2,
+// string: #b58900,
+// built_in: #cb4b16,
+// attr: #dc322f) !default;

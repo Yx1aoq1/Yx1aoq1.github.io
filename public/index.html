@@ -1,15 +1,1031 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Yx1aoq1's Blog</title><meta name="description" content="A Blog Powered By Hexo"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Yx1aoq1's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link active">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/4shero" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Yx1aoq1" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/10/14/17-10-14-30/" class="post-title-link">jQuery源码学习笔记(03)</a></h2><div class="post-info">2017年10月14日</div><div class="post-content"></div><a href="/2017/10/14/17-10-14-30/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/10/10/17-10-10-29/" class="post-title-link">jQuery源码学习笔记(02)</a></h2><div class="post-info">2017年10月10日</div><div class="post-content"></div><a href="/2017/10/10/17-10-10-29/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/10/02/17-10-02-28/" class="post-title-link">jQuery源码学习笔记(01)</a></h2><div class="post-info">2017年10月2日</div><div class="post-content"></div><a href="/2017/10/02/17-10-02-28/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/10/02/17-10-02-27/" class="post-title-link">DOM基础知识巩固</a></h2><div class="post-info">2017年10月2日</div><div class="post-content"></div><a href="/2017/10/02/17-10-02-27/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/09/25/17-09-25-26/" class="post-title-link">JS定时器与单线程</a></h2><div class="post-info">2017年9月25日</div><div class="post-content"></div><a href="/2017/09/25/17-09-25-26/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/08/24/17-08-24-25/" class="post-title-link">JS变量计算</a></h2><div class="post-info">2017年8月24日</div><div class="post-content"></div><a href="/2017/08/24/17-08-24-25/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/08/19/17-08-19-24/" class="post-title-link">页面加载——浏览器渲染</a></h2><div class="post-info">2017年8月19日</div><div class="post-content"><p>一个网站在浏览器端是如何进行渲染的呢？</p>
-<ul>
-<li>根据HTML结构生成<code>DOM tree</code></li>
-<li>根据CSS生成<code>CSSOM</code></li>
-<li>将<code>DOM</code>和<code>CSSOM</code>整合形成<code>RenderTree</code></li>
-<li>根据<code>RenderTree</code>开始渲染和展示</li>
-<li>遇到<code>&lt;script&gt;</code>时，会执行并阻塞渲染</div><a href="/2017/08/19/17-08-19-24/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/08/17/17-08-17-23/" class="post-title-link">网络知识补充——浏览器请求过程</a></h2><div class="post-info">2017年8月17日</div><div class="post-content"><p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br></div><a href="/2017/08/17/17-08-17-23/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/08/16/17-08-16-22/" class="post-title-link">JS面向对象学习笔记</a></h2><div class="post-info">2017年8月16日</div><div class="post-content"><h2 id="面向对象（OOP）的概念"><a href="#面向对象（OOP）的概念" class="headerlink" title="面向对象（OOP）的概念"></a>面向对象（OOP）的概念</h2><p>对于面向对象，有以下几个概念：</p>
-<ul>
-<li>一切事物皆对象</li>
-<li>对象具有封装和继承特性</li>
-<li>对象与对象之间使用消息通信，各自存在信息隐藏</div><a href="/2017/08/16/17-08-16-22/" class="read-more">...阅读全文</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2017/08/15/17-08-15-21/" class="post-title-link">JS变量、作用域和内存问题</a></h2><div class="post-info">2017年8月15日</div><div class="post-content"><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p>在JavaScript中，数据类型分为基本类型和引用类型。</p>
-<ul>
-<li><strong>基本类型：</strong>数字，字符，布尔值，undefined，null</li>
-<li><strong>引用类型：</strong>数组，对象，函数</li>
-<li><strong>区别：</strong>基本类型的值是可以修改的，而引用类型的值不可修改</div><a href="/2017/08/15/17-08-15-21/" class="read-more">...阅读全文</a></article></li></ul></main><footer><div class="paginator"><a href="/page/2/" class="next">下一页</a></div><div class="copyright"><p>© 2017 <a href="http://yoursite.com">Yx1aoq1</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href = /css/style.css?v=20171005 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="home-body">
+    
+    
+<header class="header index-header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 文章页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/intro-desktop-3.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Yx1aoq1's Blog.
+            <!-- 文章页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+                it's better to burn out than to fade away
+            
+            <!-- 文章页  -->
+            
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main index-page">
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/10/14/17-10-14-30/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>jQuery源码学习笔记(03)</span>
+                    </h2>
+                <div class="abstract-content">
+                    CSS选择器分类
+群组选择器：逗号“,”
+1div, p                //选择所有&lt;div&gt;元素和所有&lt;p&gt;元素
+
+简单选择器：ID、标签、类、属性、通配符
+1234567891011#test                 //选择id=&quot;test&quot;的所有元素p                     //选择所有&lt;p&gt;元素.intro                //选择class=&quot;intro&quot;的所有元素[target]              //选择带有target属性的所有元素...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/10/14</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/10/10/17-10-10-29/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>jQuery源码学习笔记(02)</span>
+                    </h2>
+                <div class="abstract-content">
+                    jQuery.fn.init正则表达式1234// A simple way to check for HTML strings// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)// Strict HTML recognition (#11290: must start with &lt;)rquickExpr = /^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/
+这是一个简单的检测HTML字符串的表达式，它可以分成两部分：12\s*(&lt;[\w...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/10/10</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/10/02/17-10-02-28/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>jQuery源码学习笔记(01)</span>
+                    </h2>
+                <div class="abstract-content">
+                    总体架构自调用匿名函数123(function( window, undefined) &#123;  // jquery code&#125;)(window);
+▼ 使用自调用匿名函数的原因：
+通过定义一个匿名函数，创建了一个“私有”的命名空间，该命名空间的变量和方法，不会破坏全局的命名空间，保证jQuery创建的变量不能和导入他的程序所使用的变量发生冲突。
+▼ 自调用匿名函数的写法：
+写法11234(function() &#123;  // code&#125;(window));//括号包括了函数参数
+写法21234(function() &#123;  // code&#12...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/10/02</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/10/02/17-10-02-27/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>DOM基础知识巩固</span>
+                    </h2>
+                <div class="abstract-content">
+                    DOM本质DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。
+DOM节点操作获取DOM节点
+document.getElementById
+document.getElementsByTagName
+document.getElementsByClassName
+document.querySelectorAll
+
+property与attribute虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。
+
+property是DOM中的属性，是JavaScript里的对象；...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/10/02</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/09/25/17-09-25-26/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS定时器与单线程</span>
+                    </h2>
+                <div class="abstract-content">
+                    JavaScript单线程众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。
+这里有个例子：12345678910111213var date = new Date();//打印才进入时的时间console.log('first time: ' + date.getTime());//一秒后打印setTimeout里匿名函数的时间setTimeout(function()&#123;  var date1 = new Date();  console.log('second tim...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/09/25</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/24/17-08-24-25/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS变量计算</span>
+                    </h2>
+                <div class="abstract-content">
+                    typeof 运算符12345678typeof undefined // undefinedtypeof 'abc' // stringtypeof 123 // numbertypeof true // booleantypeof &#123;&#125; // objecttypeof [] // objecttypeof null // objecttypeof console.log // function
+变量运算 - 强制类型转换字符串拼接12var a = 100 + 10 // 110var b = 100 + '10' // '10010'
+当使用减运算时：1var ...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/24</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/19/17-08-19-24/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>页面加载——浏览器渲染</span>
+                    </h2>
+                <div class="abstract-content">
+                    一个网站在浏览器端是如何进行渲染的呢？
+
+根据HTML结构生成DOM tree
+根据CSS生成CSSOM
+将DOM和CSSOM整合形成RenderTree
+根据RenderTree开始渲染和展示
+遇到&lt;script&gt;时，会执行并阻塞渲染
+
+
+顺序执行、并发加载因为解析过程是一个从上到下的过程，所以渲染过程是顺序执行的。而所谓的并发加载指的是当浏览器引入&lt;link&gt;或&lt;script&gt;，多个标签的资源可以并发加载。但是并发度是受浏览器自身能力限制的。
+对于&lt;img&gt;所载入的图片，是异步请求的，并不会阻塞页面的渲染，图片的加载速度受其本身大小的影...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/19</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/17/17-08-17-23/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>网络知识补充——浏览器请求过程</span>
+                    </h2>
+                <div class="abstract-content">
+                    当我们在浏览器中输入一个url，页面是如何呈现出来的呢？
+
+首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。以Chrome浏览器为例，其解析过程：
+
+搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存
+搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经失效）
+读取本地的HOST文件（操作系统的DNS缓存也没有找到）
+浏览器发起一个DNS的一个系统调用，向宽带运营商的DNS服务器发送一个域名请求
+
+紧接着我们就来到了DNS服务器，DNS服务器接受到请求后，开始如下操作：
+
+查找本地缓存
+如果未找到对应条目，则服务器将发起一个迭代DNS解析的...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/17</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/16/17-08-16-22/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS面向对象学习笔记</span>
+                    </h2>
+                <div class="abstract-content">
+                    面向对象（OOP）的概念对于面向对象，有以下几个概念：
+
+一切事物皆对象
+对象具有封装和继承特性
+对象与对象之间使用消息通信，各自存在信息隐藏
+
+
+对象有哪些特性？
+
+封装性：通过封装可以为对象内部的数据提供不同级别的保护，避免了外界的干扰和不确定性。
+继承：很好的支持了代码的重用性，通过一个类派生一个新的类，这个新类不仅可以具有原来的类的特性，还可以拥有新的特性。
+多态：多态指的不同类的对象对同一消息作出不同的响应。
+
+面向对象的优点：易维护、易复用、易扩展，由于面向对象有封装、继承、多态的特性，可以设计出低耦合的系统，使系统更加灵活、易于维护。
+JavaScript作为一门面向对象的...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/16</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/15/17-08-15-21/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS变量、作用域和内存问题</span>
+                    </h2>
+                <div class="abstract-content">
+                    变量数据类型在JavaScript中，数据类型分为基本类型和引用类型。
+
+基本类型：数字，字符，布尔值，undefined，null
+引用类型：数组，对象，函数
+区别：基本类型的值是可以修改的，而引用类型的值不可修改
+
+
+12345678//eg1var num = 4;num = 3; //这里的值操作并不是修改，而是覆盖//eg2var str = 'string';var anotherStr = str.replace('s',''); //字符串操作方法replace在执行后并不会改变原来的值str，而是生成一个新的字符串anotherStr
+基本类型是无法添加属性的，但是它们...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/15</span>
+                </div>
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">#NEXT</a>
+    </nav>
+    
+</main>
+            <!-- profile -->
+            
+            <div class="profile">
+    <img class="profile-avatar" src= /avatar/kagura.jpg >
+    <div class="profile-name">Yx1aoq1</div>
+    
+    <div class="profile-signature">
+        Salted fish every day
+    </div>
+    
+    
+    <div class="profile-social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    
+    
+        <div class="about-me">
+            <div>
+                <a href = "/about" >ABOUT ME</a>
+            </div>
+        </div>
+    
+</div>
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 27 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-30/" >jQuery源码学习笔记(03)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-29/" >jQuery源码学习笔记(02)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-26/" >JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-25/" >JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-24/" >页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-23/" >网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-22/" >JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-21/" >JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-20/" >异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-19/" >搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-18/" >JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-17/" >JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2017/05/11/17-05-11-16/" >Vue.js学习笔记（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-14/" >JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-13/" >有关CSS的tip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-12/" >前端模块化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-11/" >从零开始的backbone.js（三）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-9/" >从零开始的backbone.js（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-8/" >从零开始的backbone.js（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-7/" >iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-6/" >JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-5/" >AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2017/03/20/17-03-20-4/" >关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-2/" >Sublime Text3前端插件分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-1/" >这磨人的小妖精</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

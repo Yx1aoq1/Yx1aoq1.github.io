@@ -1,0 +1,40 @@
+// ========== footer ========== //
+.footer {
+    width: 100%;
+    padding: 2.5rem 0 1.5rem 0;
+}
+
+.social {
+    text-align: center;
+    vertical-align: text-bottom;
+    @include social($scaleSize: 0.8, $spanMargin: 0.5rem);
+}
+
+// ========== copyright ========== //≈
+.copyright {
+    font-family: $feature-font-family;
+    margin: 0.5rem auto 0 auto;
+    text-align: center;
+    color: $social-iconfont-color;
+    a {
+        color: $feature-color;
+    }
+}
+
+.power {
+    vertical-align: 10%;
+    font-size: 0.9rem;
+    padding: 0 0.2rem;
+}
+
+// ========== busuanzi ========== //≈
+.busuanzi-container {
+    text-align: center;
+}
+
+#busuanzi_container_site_pv {
+    display: block;
+    text-align: center;
+    font: 0.6rem $feature-font-family;
+    color: #ddd;
+}

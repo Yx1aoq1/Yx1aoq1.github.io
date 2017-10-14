@@ -1,0 +1,155 @@
+// ========== common ========== //
+.profile,
+.toc-wrapper {
+    display: none;
+}
+
+.container {
+    width: 92%;
+    margin: 1rem auto 1rem auto;
+}
+
+.footer {
+    padding-top: 0;
+}
+
+.post-page {
+    padding-bottom: 0;
+}
+
+.main {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0.5rem 0 0 0;
+}
+
+// ========== intro ========== //
+.post-body {
+    .site-intro-meta {
+        min-width: 0;
+        width: 80%;
+    }
+    .intro-title {
+        font-size: 2.6rem;
+        line-height: 3.5rem;
+    }
+    .intro-subtitle {
+        font-size: 1.5rem;
+        white-space: normal;
+        max-width: 90%;
+    }
+}
+
+.home-body {
+    .site-intro-meta {
+        width: 100%;
+    }
+    .intro-title {
+        font-size: 3rem;
+        line-height: 2.8rem;
+    }
+    .intro-subtitle {
+        font-size: 1.5rem;
+        white-space: normal;
+        max-width: 90%;
+    }
+}
+
+.site-intro {
+    box-shadow: 0 -0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.8);
+}
+
+// ========== header ========== //
+.header {
+    .blog-title {
+        display: none;
+    }
+}
+
+.home-link {
+    right: 1rem;
+}
+
+// ========== content ========== //
+.post-pager {
+    .previous,
+    .next {
+        float: none;
+        margin: 0 auto;
+    }
+    li:nth-child(2) {
+        margin-top: 1rem;
+    }
+}
+
+.article-entry {
+    blockquote {
+        margin: 2em 0 2rem 0.3rem;
+    }
+}
+
+// ========== sidebar ========== //
+.sidebar {
+    width: 300px;
+    transform: translate3d(-301px, 0, 0);
+}
+
+.sidebar-category {
+    font-size: 1.5rem;
+}
+
+.sidebar-archive {
+    -webkit-overflow-scrolling: touch;
+}
+
+.archive-year,
+.total-archive {
+    font-size: 1.4rem;
+}
+
+.archive-post-item {
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    .archive-post-date {
+        font-size: 1.0rem;
+    }
+    .archive-post-title {
+        font-size: 1.2rem;
+    }
+}
+
+.sidebar-tags {
+    -webkit-overflow-scrolling: touch;
+}
+
+.sidebar-tags-name {
+    .sidebar-tag-name {
+        font-size: 1rem;
+    }
+}
+
+.sidebar-tag-list {
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    .archive-post-date {
+        font-size: 1.0rem;
+    }
+    .archive-post-title {
+        font-size: 1.2rem;
+    }
+}
+
+// ========== footer ========== //
+.footer {
+    margin-top: 0;
+    .social {
+        margin-top: 0.5rem;
+        @include social($scaleSize: 0.5, $spanMargin: 0.2rem);
+    }
+    .copyright {
+        margin: 0.5rem auto 0.5rem auto;
+    }
+}
+
+#busuanzi_container_site_pv {
+    font: 1rem $feature-font-family;
+}

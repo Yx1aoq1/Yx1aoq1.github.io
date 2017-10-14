@@ -1,0 +1,51 @@
+// ========== sidebar archive ========== //
+.sidebar-archive {
+    padding: 1rem;
+    width: calc(50% - 2rem);
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.post-archive {
+    overflow-y: auto;
+}
+
+.archive-post-item {
+    vertical-align: middle;
+    border-left: 1px solid #bbb;
+    margin-left: 0.3rem;
+    padding: 0.1rem 0 0.1rem 0.5rem;
+    box-sizing: border-box;
+    &:hover {
+        border-left-color: $feature-color;
+        .archive-post-date,
+        .archive-post-title {
+            color: $feature-color;
+        }
+    }
+}
+
+.archive-year,
+.total-archive {
+    font: 1.2rem $feature-font-family;
+    color: $feature-color;
+}
+
+.archive-year {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.archive-post-date {
+    font: 0.9rem/1rem $feature-font-family;
+    color: #999;
+}
+
+.archive-post-title {
+    font: 1rem $base-font-family;
+    margin-left: 0.8rem;
+    text-align: left;
+    color: #ccc;
+}

@@ -1,0 +1,78 @@
+// ========== profile ========== //
+.profile {
+    order: 0;
+    vertical-align: top;
+    flex-shrink: 0;
+    position: relative;
+    top: 2px;
+    margin: 0 0 0 0;
+    width: $profile-width;
+
+    img {
+        display: block;
+        border-radius: 0.4rem;
+        margin: 0 auto;
+        width: 100%;
+        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.20);
+    }
+
+    // 为了在没有social和friends时也显示一个分割线
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.5rem;
+    *:last-child{
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
+.profile-name {
+    font: 2rem/3.5rem $profile-name-font-family;
+    color: #333;
+    text-align: center;
+}
+
+.profile-signature {
+    color: gray;
+    font: 1rem $profile-signature-font-family;
+    text-align: center;
+    margin: -0.5rem 0 0 0;
+}
+
+.profile-social {
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.7rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    @include social($scaleSize: 0.5, $spanMargin: 0.4rem);
+}
+
+.friends {
+    padding: 0.5rem 0;
+    font: 1rem $profile-friend-font-family;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: left;
+    div {
+        font-size: 1.2rem;
+        text-align: left;
+        color: gray;
+        font-weight: bolder;
+    }
+    a {
+        color: gray;
+        margin-right: 0.6rem;
+    }
+}
+
+.about-me{
+    padding: 0.5rem 0;
+    font: 1rem $profile-friend-font-family;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: left;
+    div a{
+        font-size: 1.2rem;
+        text-align: left;
+        color: gray;
+        font-weight: bolder;
+    }
+}
