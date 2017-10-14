@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-10T13:00:02.820Z</updated>
+  <updated>2017-10-14T06:45:29.112Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,13 +16,65 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>jQuery源码学习笔记(03)</title>
+    <link href="http://yoursite.com/2017/10/14/17-10-14-30/"/>
+    <id>http://yoursite.com/2017/10/14/17-10-14-30/</id>
+    <published>2017-10-14T03:41:59.000Z</published>
+    <updated>2017-10-14T06:45:29.112Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li><p>群组选择器：逗号“,”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">div, p                //选择所有&lt;div&gt;元素和所有&lt;p&gt;元素</div></pre></td></tr></table></figure>
+</li>
+<li><p>简单选择器：ID、标签、类、属性、通配符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">#test                 //选择id=&quot;test&quot;的所有元素</div><div class="line">p                     //选择所有&lt;p&gt;元素</div><div class="line">.intro                //选择class=&quot;intro&quot;的所有元素</div><div class="line">[target]              //选择带有target属性的所有元素</div><div class="line">[target=_blank]       //选择target=&quot;_blank&quot;的所有元素</div><div class="line">[title~=flower]       //选择titl属性包含单词&quot;flower&quot;的所有元素</div><div class="line">[lang|=en]            //选择属性值以&quot;en&quot;开头的所有元素</div><div class="line">a[src^=&quot;https&quot;]       //选择src属性值以&quot;https&quot;开头的所有&lt;a&gt;元素</div><div class="line">a[src$=&quot;.pdf&quot;]        //选择src属性值以&quot;.pdf&quot;结尾的所有&lt;a&gt;元素</div><div class="line">a[src*=&quot;abc&quot;]         //选择src属性值中包含&quot;abc&quot;子串的所有&lt;a&gt;元素</div><div class="line">*                     //选择所有元素</div></pre></td></tr></table></figure>
+</li>
+<li><p>关系选择器：孩子、后代、相邻兄弟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">div &gt; p               //选择父元素为&lt;div&gt;元素的所有&lt;p&gt;元素</div><div class="line">div p                 //选择&lt;div&gt;元素内部的所有&lt;p&gt;元素</div><div class="line">div + p               //选择紧接在&lt;div&gt;元素之后的所有&lt;p&gt;元素</div><div class="line">p ~ ul                //选择前面有&lt;p&gt;元素的每个&lt;ul&gt;元素</div></pre></td></tr></table></figure>
+</li>
+<li><p>伪类选择器：动作伪类、目标伪类、语言伪类、状态伪类、结构伪类、取反伪类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">a:link                //选择所有未被访问的链接</div><div class="line">a:visited             //选择所有已被访问链接</div><div class="line">a:active              //选择活动链接</div><div class="line">a:hover               //选择鼠标指针位于其上的链接</div><div class="line">input:focus           //选择获得焦点的input元素</div><div class="line">:before               //在每个&lt;p&gt;元素的内容之前插入内容</div><div class="line">:after                //在每个&lt;p&gt;元素的内容之后插入内容</div><div class="line">p:lang(it)            //选择带有以&quot;it&quot;开头的lang属性值的所有&lt;p&gt;元素</div><div class="line">#news:target          //选择当前活动的#news元素</div><div class="line">input:enabled         //选择所有启用的&lt;input&gt;元素</div><div class="line">input:disabled        //选择所有禁用的&lt;input&gt;元素</div><div class="line">input:checked         //选择所有被选中的&lt;input&gt;元素</div><div class="line">::selection           //选择被用户选取的元素部分</div><div class="line">p:first-of-type       //选择属于其父元素的首个&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:last-of-type        //选择属于其父元素的最后&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:only-of-type        //选择属于其父元素唯一的&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:nth-of-type(2)      //选择属于其父元素第二个&lt;p&gt;元素的所有&lt;p&gt;元素</div><div class="line">p:only-child          //选择属于其父元素的唯一子元素的所有&lt;p&gt;元素</div><div class="line">p:nth-child(2)        //选择属于其父元素的第二个子元素的所有&lt;p&gt;元素</div><div class="line">p:last-child          //选择属于其父元素最后一个子元素的所有&lt;p&gt;元素</div><div class="line">p:nth-last-child(2)   //同上，从最后一个子元素开始计数</div><div class="line">:root                 //选择文档的根元素</div><div class="line">:empty                //选择没有子元素的所有&lt;p&gt;元素</div><div class="line">:not(p)               //选择非&lt;p&gt;元素的所有元素</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="CSS的解析原理"><a href="#CSS的解析原理" class="headerlink" title="CSS的解析原理"></a>CSS的解析原理</h4><p>HTML 经过解析生成 DOM Tree；而在 CSS 解析完毕后，需要将解析的结果与 DOM Tree 的内容一起进行分析建立一棵 Render Tree，最终用来进行绘图。Render Tree 中的元素（WebKit 中称为「renderers」，Firefox 下为「frames」）与 DOM 元素相对应，但非一一对应：一个 DOM 元素可能会对应多个 renderer，如文本折行后，不同的「行」会成为 render tree 种不同的 renderer。也有的 DOM 元素被 Render Tree 完全无视，比如 display:none 的元素。</p>
+<p>在建立 Render Tree 时（WebKit 中的「Attachment」过程），浏览器就要为每个 DOM Tree 中的元素根据 CSS 的解析结果（Style Rules）来确定生成怎样的 renderer。对于每个 DOM 元素，必须在所有 Style Rules 中找到符合的 selector 并将对应的规则进行合并。选择器的「解析」实际是在这里执行的，在遍历 DOM Tree 时，从 Style Rules 中去寻找对应的 selector。</p>
+<p>因为所有样式规则可能数量很大，而且绝大多数不会匹配到当前的 DOM 元素（因为数量很大所以一般会建立规则索引树），所以有一个快速的方法来判断「这个 selector 不匹配当前元素」就是极其重要的。</p>
+<p>如果正向解析，例如「div div p em」，我们首先就要检查当前元素到 html 的整条路径，找到最上层的 div，再往下找，如果遇到不匹配就必须回到最上层那个 div，往下再去匹配选择器中的第一个 div，回溯若干次才能确定匹配与否，效率很低。</p>
+<p>逆向匹配则不同，如果当前的 DOM 元素是 div，而不是 selector 最后的 em，那只要一步就能排除。只有在匹配时，才会不断向上找父节点进行验证。</p>
+<p>但因为匹配的情况远远低于不匹配的情况，所以逆向匹配带来的优势是巨大的。同时我们也能够看出，在选择器结尾加上「*」就大大降低了这种优势，这也就是很多优化原则提到的尽量避免在选择器末尾添加通配符的原因。</p>
+<h4 id="getElementBy系列-与-querySelectorAll"><a href="#getElementBy系列-与-querySelectorAll" class="headerlink" title="getElementBy系列 与 querySelectorAll"></a>getElementBy系列 与 querySelectorAll</h4><ul>
+<li>getElementById（或者其他）获取的是动态集合，querySelector获取的是静态集合</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>aaa<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>bbb<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>ccc<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// demo1</span></div><div class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'ul'</span>)[<span class="number">0</span>],</div><div class="line">    lis = ul.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line"><span class="comment">//动态插入标签</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lis.length; i ++) &#123;</div><div class="line">  ul.appendChild(<span class="built_in">document</span>.creatElement(<span class="string">'li'</span>));</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(lis.length); <span class="comment">//6</span></div><div class="line"></div><div class="line"><span class="comment">// demo2</span></div><div class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.querySeletorAll(<span class="string">'ul'</span>),</div><div class="line">    lis = ul.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"><span class="comment">//插入动态标签</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lis.length; i ++) &#123;</div><div class="line">  ul.appendChild(<span class="built_in">document</span>.creatElement(<span class="string">'li'</span>));</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(lis.length); <span class="comment">//3</span></div></pre></td></tr></table></figure>
+<p>demo1中的lis是一个动态的NodeList，每一次调用lis都会重新对文档进行查询，导致无限循环的问题。</p>
+<p>demo2中的lis是一个静态的NodeList，是一个 li 集合的快照，对文档的任何操作都不会对其产生影响。</p>
+<p>而在chrome浏览器中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">'a'</span>).toString();    <span class="comment">// return "[object NodeList]"</span></div><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">'a'</span>).toString();    <span class="comment">// return "[object HTMLCollection]"</span></div></pre></td></tr></table></figure></p>
+<p>在现代浏览器中，querySelectorAll 的返回值是一个静态的 NodeList 对象，而 getElementsBy 系列的返回值实际上是一个 HTMLCollection 对象。</p>
+<p>▼ <strong>什么是NodeList：</strong><br>NodeList本质上是一个动态的Node集合，只是规范中对querySelectorAll有明确要求，规定其必须返回一个静态的NodeList对象。</p>
+<p>▼ <strong>什么是HTMLCollection：</strong><br>HTMLCollection 和 NodeList 十分相似，都是一个动态的元素集合，每次访问都需要重新对文档进行查询。两者的本质上差别在于，HTMLCollection 是属于 Document Object Model HTML 规范，而 NodeList 属于 Document Object Model Core 规范。</p>
+<p>NodeList 对象会包含文档中的所有节点，如 Element、Text 和 Comment 等。HTMLCollection  对象只会包含文档中的 Element 节点。另外，HTMLCollection 对象比 NodeList 对象 多提供了一个 namedItem 方法。</p>
+<p>▼ <strong>getElementBy系列的速度比querySelectorAll快：</strong><br>因为getElementById只返回一个元素，而且内部做了缓存，但是querySelectorAll会返回拥有这个id值的多个元素，尽管页面id一般是唯一的，但如果出现了多个同样id的情况下，getElementById还是只返回一个元素，而querySelectorAll会返回多个。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>) == <span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>)  <span class="comment">// true</span></div><div class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>) == <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>)  <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>返回true的，意味着它们拿到的同是cache引用。返回false意味着每次返回都是不一样的object。创建一个动态的NodeList对象比创建一个静态的StaticNodeList对象快。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;CSS选择器&quot;&gt;&lt;a href=&quot;#CSS选择器&quot; class=&quot;headerlink&quot; title=&quot;CSS选择器&quot;&gt;&lt;/a&gt;CSS选择器&lt;/h2&gt;&lt;h4 id=&quot;分类&quot;&gt;&lt;a href=&quot;#分类&quot; class=&quot;headerlink&quot; title=&quot;分类&quot;&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>jQuery源码学习笔记(02)</title>
     <link href="http://yoursite.com/2017/10/10/17-10-10-29/"/>
     <id>http://yoursite.com/2017/10/10/17-10-10-29/</id>
     <published>2017-10-10T12:44:41.000Z</published>
-    <updated>2017-10-10T13:00:02.820Z</updated>
+    <updated>2017-10-14T03:13:13.358Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A simple way to check for HTML strings</span></div><div class="line"><span class="comment">// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)</span></div><div class="line"><span class="comment">// Strict HTML recognition (#11290: must start with &lt;)</span></div><div class="line">rquickExpr = <span class="regexp">/^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/</span></div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<h2 id="jQuery-fn-init"><a href="#jQuery-fn-init" class="headerlink" title="jQuery.fn.init"></a>jQuery.fn.init</h2><h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A simple way to check for HTML strings</span></div><div class="line"><span class="comment">// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)</span></div><div class="line"><span class="comment">// Strict HTML recognition (#11290: must start with &lt;)</span></div><div class="line">rquickExpr = <span class="regexp">/^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/</span></div></pre></td></tr></table></figure>
 <p>这是一个简单的检测HTML字符串的表达式，它可以分成两部分：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">\s*(&lt;[\w\W]+&gt;)[^&gt;]*</div><div class="line">// 用来匹配"  &lt;xxx&gt;&lt;xxx&gt;xxxx"形式的字符串</div></pre></td></tr></table></figure></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#([\w-]*)</div><div class="line">// 用来匹配"#xx-xx-xx.."形式的字符串</div></pre></td></tr></table></figure>
 <ul>
@@ -73,7 +125,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;选择器&quot;&gt;&lt;a href=&quot;#选择器&quot; class=&quot;headerlink&quot; title=&quot;选择器&quot;&gt;&lt;/a&gt;选择器&lt;/h2&gt;&lt;h4 id=&quot;正则表达式&quot;&gt;&lt;a href=&quot;#正则表达式&quot; class=&quot;headerlink&quot; title=&quot;正则表达式&quot;&gt;&lt;/a&gt;
+      &lt;h2 id=&quot;jQuery-fn-init&quot;&gt;&lt;a href=&quot;#jQuery-fn-init&quot; class=&quot;headerlink&quot; title=&quot;jQuery.fn.init&quot;&gt;&lt;/a&gt;jQuery.fn.init&lt;/h2&gt;&lt;h4 id=&quot;正则表达式&quot;&gt;&lt;a href=&quot;#
     
     </summary>
     
@@ -1165,39 +1217,6 @@ Vue.config.productionTip = <span class="literal">false</span>
 &lt;li&gt;view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。&lt;/li&gt;
 &lt;li&gt;相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>从零开始的backbone.js（一）</title>
-    <link href="http://yoursite.com/2017/03/28/17-03-28-8/"/>
-    <id>http://yoursite.com/2017/03/28/17-03-28-8/</id>
-    <published>2017-03-28T08:24:10.000Z</published>
-    <updated>2017-10-05T16:03:55.715Z</updated>
-    
-    <content type="html"><![CDATA[<p>实习项目用的框架：backbone.js</p>
-<blockquote>
-<p>Backbone.js为复杂WEB应用程序提供<strong>模型(models)</strong>、<strong>集合(collections)</strong>、<strong>视图(views)</strong>的结构。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="Backbone-Model（模型）"><a href="#Backbone-Model（模型）" class="headerlink" title="Backbone.Model（模型）"></a>Backbone.Model（模型）</h2><ul>
-<li><p>Model的作用：对业务中实体对象的抽象，把数据以文件、数据库的形式存储在磁盘上，与服务器端进行数据交互。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//相当于public class ...</span></div><div class="line"><span class="comment">//可以存放基本的数值以及方法</span></div><div class="line"><span class="keyword">var</span> Man = Backbone.Model.extend(&#123;</div><div class="line">	<span class="comment">//模型在服务器上位置的url</span></div><div class="line">	<span class="comment">//调用save方法时会post对象的所有属性到server端，数据形式是json</span></div><div class="line">	url: <span class="string">'/man/'</span>,</div><div class="line">	<span class="comment">//定义了一个Model，实现了初始化方法（initialize函数）</span></div><div class="line">	initialize: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		alert(<span class="string">'Hey,you create me!'</span>);</div><div class="line">		<span class="comment">//jQuery.bind(),对jQuery对象进行事件绑定，可绑定一个或者多个</span></div><div class="line">		<span class="comment">//当name发生改变时触发该函数</span></div><div class="line">		<span class="keyword">this</span>.bind(<span class="string">"change:name"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="keyword">var</span> name = <span class="keyword">this</span>.get(<span class="string">"name"</span>);</div><div class="line">			alert(<span class="string">"you change the name:"</span> + name);</div><div class="line">		&#125;);</div><div class="line">		<span class="keyword">this</span>.bind(<span class="string">"invalid"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">model,error</span>)</span>&#123;</div><div class="line">			alert(error);</div><div class="line">			<span class="comment">//error是来自validate校验的错误</span></div><div class="line">		&#125;)</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//定义默认值（属性）name &amp; age</span></div><div class="line">	defaults: &#123;</div><div class="line">		<span class="attr">name</span>: <span class="string">'tom'</span>,</div><div class="line">		<span class="attr">age</span>: <span class="string">'18'</span></div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//Model.validate(attributes, options)，默认为未定义</span></div><div class="line">	<span class="comment">//默认在save之前调用，如果&#123;validate:true&#125;，则也能在set之前调用</span></div><div class="line">	<span class="comment">//当校验失败时，会触发"invalid"事件</span></div><div class="line">	validate: <span class="function"><span class="keyword">function</span>(<span class="params">attributes</span>) </span>&#123;</div><div class="line">		<span class="keyword">if</span>(attributes.name == <span class="string">''</span>) <span class="keyword">return</span> <span class="string">"name不能为空"</span>;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//定义了名为aboutMe的一个方法（函数）</span></div><div class="line">	aboutMe: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"I'm"</span> + <span class="keyword">this</span>.get(<span class="string">'name'</span>) + <span class="string">","</span> + <span class="keyword">this</span>.get(<span class="string">'age'</span>) </div><div class="line">		+ <span class="string">"years old."</span>;</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//实例化Model，并会直接调用initialize函数</span></div><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man;</div><div class="line"><span class="comment">//Model.set(attribute),用来给Model修改或设置属性</span></div><div class="line"><span class="comment">//改变了name的值，可以触发change事件，alert</span></div><div class="line">man.set(&#123;<span class="attr">name</span> : <span class="string">'jane'</span>&#125;);</div><div class="line"><span class="comment">//设置时并不会触发校验</span></div><div class="line">man.set(&#123;<span class="attr">name</span> : <span class="string">''</span>&#125;);</div><div class="line"><span class="comment">//model.save(attributes, options)，保存模型到数据库</span></div><div class="line"><span class="comment">//如果验证成功，返回jqXHR，否则false</span></div><div class="line"><span class="comment">//触发校验，根据验证规则弹出错误提示。</span></div><div class="line">man.save();</div><div class="line"><span class="comment">//从服务器端获取数据</span></div><div class="line"><span class="keyword">var</span> man1 = <span class="keyword">new</span> Man;</div><div class="line"><span class="comment">//第一种情况，他会发送get请求到model.url中，在服务器端判断来进行操作</span></div><div class="line">man1.fetch();</div><div class="line"><span class="comment">//第二种情况，他会发送get请求到/getmans/这个url种，然后返回json</span></div><div class="line">man1.fetch(&#123;<span class="attr">url</span> : <span class="string">'/man/'</span>&#125;);</div><div class="line"><span class="comment">//在服务器端返回数据的方法：</span></div><div class="line">man1.fetch(&#123;<span class="attr">url</span>:<span class="string">'/man/'</span>,<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">model,response</span>) </span>&#123;</div><div class="line">		<span class="comment">//model为获取到的数据</span></div><div class="line">		alert(<span class="string">'success'</span>);</div><div class="line">		alert(model.get(<span class="string">'name'</span>));</div><div class="line">	&#125;,<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//当返回格式不正确或不是json数据时，会执行此方法</span></div><div class="line">		alert(<span class="string">'error'</span>);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>tip：</strong> 关于<code>$(selector).bind(event,data,function)</code><br>event：必填项，可以添加一个或多个，用空格隔开。<br>data：可以填可以不填，用来传递额外的数据<br>function：必填项，事件发生时运行的函数<br><a href="http://www.w3school.com.cn/jquery/jquery_ref_events.asp" target="_blank" rel="external">关于jQuery的事件方法</a></p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;实习项目用的框架：backbone.js&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Backbone.js为复杂WEB应用程序提供&lt;strong&gt;模型(models)&lt;/strong&gt;、&lt;strong&gt;集合(collections)&lt;/strong&gt;、&lt;strong&gt;视图(views)&lt;/strong&gt;的结构。&lt;/p&gt;
-&lt;/blockquote&gt;
     
     </summary>
     
