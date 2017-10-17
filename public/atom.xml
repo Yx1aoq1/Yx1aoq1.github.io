@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-17T13:19:36.458Z</updated>
+  <updated>2017-10-17T13:33:50.187Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>前端自动化工具</title>
-    <link href="http://yoursite.com/2017/10/14/17-10-14-31/"/>
-    <id>http://yoursite.com/2017/10/14/17-10-14-31/</id>
-    <published>2017-10-14T15:00:33.000Z</published>
-    <updated>2017-10-17T13:19:36.458Z</updated>
+    <link href="http://yoursite.com/2017/10/17/17-10-14-31/"/>
+    <id>http://yoursite.com/2017/10/17/17-10-14-31/</id>
+    <published>2017-10-17T15:00:33.000Z</published>
+    <updated>2017-10-17T13:33:50.187Z</updated>
     
     <content type="html"><![CDATA[<p>在这段时间工作的时候，遇到了很多以前没有接触过的名词，比如fekit，Webpack之类的，也用小黑框输入了很多指令，但是对于它们都做了些什么还不太清楚。</p>
 <h2 id="前端自动化工具都做了什么"><a href="#前端自动化工具都做了什么" class="headerlink" title="前端自动化工具都做了什么"></a>前端自动化工具都做了什么</h2><p>前端自动化工具有很多，其中如Grunt，Gulp，Webpack什么的各种常见，当然还有很多其他的各种不明意义的词。它们到底做了些什么呢？</p>
