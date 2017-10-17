@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        这磨人的小妖精 · Yx1aoq1&#39;s Blog
+        前端自动化工具 · Yx1aoq1&#39;s Blog
         
     </title>
     <link rel="icon" href= /assests/favicon.ico>
@@ -81,7 +81,7 @@
                 <a href="/" >Yx1aoq1&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">这磨人的小妖精</a>
+                <a href="#" class="post-name">前端自动化工具</a>
             </div>
     </div>
     
@@ -102,7 +102,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            这磨人的小妖精
+            前端自动化工具
             <!-- 404 -->
             
         </h1>
@@ -120,13 +120,13 @@
             
                 <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 吐槽>吐槽</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
     
 </div>
             
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2017/02/28</span>
+                <span class="post-intro-time">2017/10/14</span>
             </div>
         
     </div>
@@ -134,20 +134,68 @@
         <div class="container">
             <main class="main post-page">
     <article class="article-entry">
-        <p>终于！把！这个！磨人的！小妖精！建好了！！<br>超累超心痛的熬夜到四点，连银魂都忘记看了！大早上又接着起来捣鼓 =。=<br>大概是我太蠢了才会弄这么久哦，好气哦<br>好了我要努力读书去了</p>
-<a id="more"></a>
+        <p>在这段时间工作的时候，遇到了很多以前没有接触过的名词，比如fekit，Webpack之类的，也用小黑框输入了很多指令，但是对于它们都做了些什么还不太清楚。</p>
+<h2 id="前端自动化工具都做了什么"><a href="#前端自动化工具都做了什么" class="headerlink" title="前端自动化工具都做了什么"></a>前端自动化工具都做了什么</h2><p>前端自动化工具有很多，其中如Grunt，Gulp，Webpack什么的各种常见，当然还有很多其他的各种不明意义的词。它们到底做了些什么呢？</p>
+<p>作为开发工具，其实它们本质上做的事可以分为：</p>
+<ul>
+<li>帮你安装东西</li>
+<li>帮你做事</li>
+</ul>
+<p>再将两个事拓展一下，可以大致为：</p>
+<ul>
+<li>拷贝安装CSS库、JS库</li>
+<li>为你的开发环境安装服务器</li>
+<li>安装测试库、其他的开发工具等</li>
+<li>在一个文件中替换文本字符串</li>
+<li>创建文件夹，并且将文件转移到这些文件夹中</li>
+<li>用一条单命令运行单元测试</li>
+<li>在我保存文件的时候刷新浏览器</li>
+<li>所有JavaScript文件整合为一个文件，将所有CSS文件整合为一个文件</li>
+<li>对所有JavaScript和CSS进行简化处理（去除注释换行符等）</li>
+<li>在html页面中修改<code>&lt;script&gt;</code>标签的位置</li>
+</ul>
+<h2 id="开发环节中遇到的事情"><a href="#开发环节中遇到的事情" class="headerlink" title="开发环节中遇到的事情"></a>开发环节中遇到的事情</h2><h3 id="调试服务器"><a href="#调试服务器" class="headerlink" title="调试服务器"></a>调试服务器</h3><p>页面操作离不开各种请求，要处理请求就必须要开启一个web服务器。web服务器处理的工作有：</p>
+<ul>
+<li>建立TCP链接</li>
+<li>处理客户端发送的HTTP请求</li>
+<li>向客户端发送处理过后的结果</li>
+<li>关闭链接</li>
+</ul>
+<p>常用web服务器有：tomcat、Apache、Nginx等。但这部分搭建在我理解里应该是属于后端处理的内容。在<strong>前后端不分离</strong>的情况下，开发模式应该会这样：前端实现页面，但遇到ajax请求的时候，调试只能等待后端完成这部分模块完成后才能看到效果，这就十分的影响工作效率了。</p>
+<p>在大公司中都在强调前后端分离的思想，前后端分离是怎样工作的呢？</p>
+<ul>
+<li>前端的工作：实现整一个前端页面以及交互逻辑，以及利用ajax与Nodejs服务器（中间层）交互</li>
+<li>后端的工作：提供API接口，利用redis来管理session,与数据库交互</li>
+</ul>
+<p><strong>Nodejs前端服务器的职责：</strong></p>
+<ul>
+<li>作为静态文件服务器，当用户访问网站的时候，将index.html以及其引入的js、css、fonts以及图片返回给用户</li>
+<li>负责将客户端发来的ajax请求转发给后台服务器</li>
+</ul>
+<p>这种分离的方式可以大致体现在：</p>
+<ul>
+<li>前端依赖指定格式的mock数据来进行UI开发</li>
+<li>前端的开发和测试都基于这些mock数据</li>
+<li>后端产生指定格式的mock数据</li>
+<li>后端需要测试来确保生成的mock数据正是前端需要的</li>
+</ul>
+<h3 id="调试自动更新"><a href="#调试自动更新" class="headerlink" title="调试自动更新"></a>调试自动更新</h3><p>在调试网页的时候，如果修改一点代码，想要在浏览器查看效果，就得按f5刷新，如此反复势必造成许多的时间浪费。所以自动化工具会带有帮你检测本地文件的修改然后实时刷新页面的功能。</p>
+<h3 id="解决浏览器缓存"><a href="#解决浏览器缓存" class="headerlink" title="解决浏览器缓存"></a>解决浏览器缓存</h3><p>由于浏览器会缓存已经加载过的文件，来提高网页响应的速度，但是在开发中，我们想看到的是我们保存的最新的文件的效果，所以要让浏览器不缓存我们的代码文件（通过文件名末尾增加哈希值来保证文件是最新的）。</p>
+<h3 id="其他代码格式"><a href="#其他代码格式" class="headerlink" title="其他代码格式"></a>其他代码格式</h3><p>最常见的是css预处理器，如LESS、SASS和Stylus之类的。它们需要通过编译成CSS文件在浏览器中展现出效果，而这些编译的工作自然也是交给前端自动化工具实现。</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>在工作中有许多复杂的交互，可能需要你组织非常复杂的代码功能。前端自动化工具的使用也有利于我们模块的划分。</p>
+<h3 id="资源合并优化"><a href="#资源合并优化" class="headerlink" title="资源合并优化"></a>资源合并优化</h3><p>当完成开发阶段的时候，我们需要提交自己开发的代码到线上服务器，在提交之前我们需要考虑将开发的资源进行最优化。为了减少http请求的次数，我们需要将分开写的js根据依赖关系去合并成较少的文件数目，并且进行压缩。类似的还有CSS文件和图片文件的压缩等等。</p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2017/02/28/17-02-28-2/" title= Sublime Text3前端插件分享 >
-                    <span>Next Post</span>
-                    <span>Sublime Text3前端插件分享</span>
+        
+            <li class="previous">
+                <a href= "/2017/10/14/17-10-14-30/" title= jQuery源码学习笔记(03) >
+                    <span>Previous Post</span>
+                    <span>jQuery源码学习笔记(03)</span>
                 </a>
             </li>
-        
         
     </ul>
     <!-- 评论插件 -->
@@ -210,7 +258,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前端自动化工具都做了什么"><span class="toc-number">1.</span> <span class="toc-text">前端自动化工具都做了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开发环节中遇到的事情"><span class="toc-number">2.</span> <span class="toc-text">开发环节中遇到的事情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#调试服务器"><span class="toc-number">2.1.</span> <span class="toc-text">调试服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试自动更新"><span class="toc-number">2.2.</span> <span class="toc-text">调试自动更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决浏览器缓存"><span class="toc-number">2.3.</span> <span class="toc-text">解决浏览器缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他代码格式"><span class="toc-number">2.4.</span> <span class="toc-text">其他代码格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块化"><span class="toc-number">2.5.</span> <span class="toc-text">模块化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资源合并优化"><span class="toc-number">2.6.</span> <span class="toc-text">资源合并优化</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>

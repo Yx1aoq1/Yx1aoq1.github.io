@@ -95,7 +95,7 @@
     
     <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg-3.jpeg)"></div>
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-3.jpeg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
@@ -163,13 +163,19 @@
 <p>在现代浏览器中，querySelectorAll 的返回值是一个静态的 NodeList 对象，而 getElementsBy 系列的返回值实际上是一个 HTMLCollection 对象。</p>
 <p>▼ <strong>什么是NodeList：</strong><br>NodeList本质上是一个动态的Node集合，只是规范中对querySelectorAll有明确要求，规定其必须返回一个静态的NodeList对象。</p>
 <p>▼ <strong>什么是HTMLCollection：</strong><br>HTMLCollection 和 NodeList 十分相似，都是一个动态的元素集合，每次访问都需要重新对文档进行查询。两者的本质上差别在于，HTMLCollection 是属于 Document Object Model HTML 规范，而 NodeList 属于 Document Object Model Core 规范。</p>
-<p>NodeList 对象会包含文档中的所有节点，如 Element、Text 和 Comment 等。HTMLCollection  对象只会包含文档中的 Element 节点。另外，HTMLCollection 对象比 NodeList 对象 多提供了一个 namedItem 方法。</p>
-<p>▼ <strong>getElementBy系列的速度比querySelectorAll快：</strong><br>因为getElementById只返回一个元素，而且内部做了缓存，但是querySelectorAll会返回拥有这个id值的多个元素，尽管页面id一般是唯一的，但如果出现了多个同样id的情况下，getElementById还是只返回一个元素，而querySelectorAll会返回多个。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>) == <span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>)  <span class="comment">// true</span></div><div class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>) == <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>)  <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
-<p>返回true的，意味着它们拿到的同是cache引用。返回false意味着每次返回都是不一样的object。创建一个动态的NodeList对象比创建一个静态的StaticNodeList对象快。</p>
+<p>▼ <strong>getElementBy系列的速度比querySelectorAll快：</strong><br>由于getElementBy系列的是一个实时的集合，这种集合是不需要在一开始就获取到所有的信息的；而通过querySelectorAll方法获取的集合是静态的集合，这个集合相当于一个快照，就是在这个方法运行的这个时间里，它所要获取的集合元素的一个快照，所以这个集合要保存大量的信息。</p>
+<p><strong>使用getElementsByTagName方法我们得到的结果就像是一个对象的索引，而通过querySelectorAll方法我们得到的是一个对象的克隆；所以当这个对象数据量非常大的时候，显然克隆这个对象所需要花费的时间是很长的。</strong></p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2017/10/14/17-10-14-31/" title= 前端自动化工具 >
+                    <span>Next Post</span>
+                    <span>前端自动化工具</span>
+                </a>
+            </li>
         
         
             <li class="previous">
@@ -569,7 +575,24 @@
     
     
     
-    <div class="total-archive"> Total : 27 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
     
@@ -578,6 +601,11 @@
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-31/" >前端自动化工具</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -719,27 +747,27 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     

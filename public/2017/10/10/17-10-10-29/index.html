@@ -95,7 +95,7 @@
     
     <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg-3.jpeg)"></div>
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-3.jpeg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
@@ -161,7 +161,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = <span class="literal">null</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>可以判断是第三种或第四种情况，当为#id时，不需要指定上下文context，当为<htmltag>时，需要指定上下文<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( match &amp;&amp; (match[<span class="number">1</span>] || !context) ) &#123;</div></pre></td></tr></table></figure></htmltag></p>
+<p>可以判断是第三种或第四种情况，当为#id时，不需要指定上下文context，当为<code>&lt;htmltag&gt;</code>时，需要指定上下文<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( match &amp;&amp; (match[<span class="number">1</span>] || !context) ) &#123;</div></pre></td></tr></table></figure></p>
 <h4 id="匹配模式一：-“-id”"><a href="#匹配模式一：-“-id”" class="headerlink" title="匹配模式一：$(“#id”)"></a>匹配模式一：$(“#id”)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">elem = <span class="built_in">document</span>.getElementById( match[<span class="number">2</span>] );</div><div class="line"></div><div class="line"><span class="comment">// Check parentNode to catch when Blackberry 4.6 returns</span></div><div class="line"><span class="comment">// nodes that are no longer in the document #6963</span></div><div class="line"><span class="keyword">if</span> ( elem &amp;&amp; elem.parentNode ) &#123;</div><div class="line">  <span class="comment">// Inject the element directly into the jQuery object</span></div><div class="line">  <span class="keyword">this</span>.length = <span class="number">1</span>;</div><div class="line">  <span class="keyword">this</span>[<span class="number">0</span>] = elem;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">this</span>.context = <span class="built_in">document</span>;</div><div class="line"><span class="keyword">this</span>.selector = selector;</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>;</div></pre></td></tr></table></figure>
 <h4 id="匹配模式二：-htmltag"><a href="#匹配模式二：-htmltag" class="headerlink" title="匹配模式二：$(htmltag)"></a>匹配模式二：$(htmltag)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HANDLE: $(html) -&gt; $(array)</span></div><div class="line"><span class="keyword">if</span> ( match[<span class="number">1</span>] ) &#123;</div><div class="line">  context = context <span class="keyword">instanceof</span> jQuery ? context[<span class="number">0</span>] : context;</div><div class="line">  <span class="comment">// 当context为jQuery对象时，把context转换成Js的原生DOM对象</span></div><div class="line">  <span class="comment">// 从上面可知context[0]即document.getElementById获取的elem</span></div><div class="line">  <span class="comment">// scripts is true for back-compat</span></div><div class="line">  jQuery.merge( <span class="keyword">this</span>, jQuery.parseHTML(</div><div class="line">    match[<span class="number">1</span>],</div><div class="line">    context &amp;&amp; context.nodeType ? context.ownerDocument || context : <span class="built_in">document</span>,</div><div class="line">    <span class="literal">true</span></div><div class="line">  ) );</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(html, props)</span></div><div class="line">  <span class="comment">// 对应：$(html标签, 对象)</span></div><div class="line">  <span class="keyword">if</span> ( rsingleTag.test( match[<span class="number">1</span>] ) &amp;&amp; jQuery.isPlainObject( context ) ) &#123;</div><div class="line">    <span class="keyword">for</span> ( match <span class="keyword">in</span> context ) &#123;</div><div class="line">      <span class="comment">// Properties of context are called as methods if possible</span></div><div class="line">      <span class="keyword">if</span> ( jQuery.isFunction( <span class="keyword">this</span>[ match ] ) ) &#123;</div><div class="line">        <span class="keyword">this</span>[ match ]( context[ match ] );</div><div class="line"></div><div class="line">      <span class="comment">// ...and otherwise set as attributes</span></div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.attr( match, context[ match ] );</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(#id)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>▼ <strong>关于<code>nodeType</code>：</strong><br>nodeType是DOM对象中Node类型的一个属性，返回数字值代表指定节点的节点类型。如果节点是元素节点，则返回1；如果节点是属性节点，则返回2。通过nodeType属性来判断context是不是一个节点。<br>▼ <strong>关于<code>ownerDocument</code>：</strong><br>ownerDocument也是DOM对象中Node类型的一个属性，它返回的创建这个节点的文档对象。由于可能存在iframe或者通过ajax加载的xml文档，所以要区分这些文档与默认文档window.document。<br>▼ <strong>关于<code>$.merge</code>：</strong><br>用于合并两个数组，但是不仅限于数组，还可以是key为数字的对象（类数组元素）<br>▼ <strong>关于<code>$.parseHTML</code>：</strong><br>将字符串转换为存储DOM节点的数组。第一个参数为传入的字符串，第二个为指定的根节点，第三个是boolean值，默认为false，不转换。</p>
@@ -590,7 +590,24 @@
     
     
     
-    <div class="total-archive"> Total : 27 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
     
@@ -599,6 +616,11 @@
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-31/" >前端自动化工具</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -740,27 +762,27 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     

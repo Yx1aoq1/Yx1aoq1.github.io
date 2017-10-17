@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-14T08:24:32.527Z</updated>
+  <updated>2017-10-17T13:19:36.458Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,82 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>前端自动化工具</title>
+    <link href="http://yoursite.com/2017/10/14/17-10-14-31/"/>
+    <id>http://yoursite.com/2017/10/14/17-10-14-31/</id>
+    <published>2017-10-14T15:00:33.000Z</published>
+    <updated>2017-10-17T13:19:36.458Z</updated>
+    
+    <content type="html"><![CDATA[<p>在这段时间工作的时候，遇到了很多以前没有接触过的名词，比如fekit，Webpack之类的，也用小黑框输入了很多指令，但是对于它们都做了些什么还不太清楚。</p>
+<h2 id="前端自动化工具都做了什么"><a href="#前端自动化工具都做了什么" class="headerlink" title="前端自动化工具都做了什么"></a>前端自动化工具都做了什么</h2><p>前端自动化工具有很多，其中如Grunt，Gulp，Webpack什么的各种常见，当然还有很多其他的各种不明意义的词。它们到底做了些什么呢？</p>
+<p>作为开发工具，其实它们本质上做的事可以分为：</p>
+<ul>
+<li>帮你安装东西</li>
+<li>帮你做事</li>
+</ul>
+<p>再将两个事拓展一下，可以大致为：</p>
+<ul>
+<li>拷贝安装CSS库、JS库</li>
+<li>为你的开发环境安装服务器</li>
+<li>安装测试库、其他的开发工具等</li>
+<li>在一个文件中替换文本字符串</li>
+<li>创建文件夹，并且将文件转移到这些文件夹中</li>
+<li>用一条单命令运行单元测试</li>
+<li>在我保存文件的时候刷新浏览器</li>
+<li>所有JavaScript文件整合为一个文件，将所有CSS文件整合为一个文件</li>
+<li>对所有JavaScript和CSS进行简化处理（去除注释换行符等）</li>
+<li>在html页面中修改<code>&lt;script&gt;</code>标签的位置</li>
+</ul>
+<h2 id="开发环节中遇到的事情"><a href="#开发环节中遇到的事情" class="headerlink" title="开发环节中遇到的事情"></a>开发环节中遇到的事情</h2><h3 id="调试服务器"><a href="#调试服务器" class="headerlink" title="调试服务器"></a>调试服务器</h3><p>页面操作离不开各种请求，要处理请求就必须要开启一个web服务器。web服务器处理的工作有：</p>
+<ul>
+<li>建立TCP链接</li>
+<li>处理客户端发送的HTTP请求</li>
+<li>向客户端发送处理过后的结果</li>
+<li>关闭链接</li>
+</ul>
+<p>常用web服务器有：tomcat、Apache、Nginx等。但这部分搭建在我理解里应该是属于后端处理的内容。在<strong>前后端不分离</strong>的情况下，开发模式应该会这样：前端实现页面，但遇到ajax请求的时候，调试只能等待后端完成这部分模块完成后才能看到效果，这就十分的影响工作效率了。</p>
+<p>在大公司中都在强调前后端分离的思想，前后端分离是怎样工作的呢？</p>
+<ul>
+<li>前端的工作：实现整一个前端页面以及交互逻辑，以及利用ajax与Nodejs服务器（中间层）交互</li>
+<li>后端的工作：提供API接口，利用redis来管理session,与数据库交互</li>
+</ul>
+<p><strong>Nodejs前端服务器的职责：</strong></p>
+<ul>
+<li>作为静态文件服务器，当用户访问网站的时候，将index.html以及其引入的js、css、fonts以及图片返回给用户</li>
+<li>负责将客户端发来的ajax请求转发给后台服务器</li>
+</ul>
+<p>这种分离的方式可以大致体现在：</p>
+<ul>
+<li>前端依赖指定格式的mock数据来进行UI开发</li>
+<li>前端的开发和测试都基于这些mock数据</li>
+<li>后端产生指定格式的mock数据</li>
+<li>后端需要测试来确保生成的mock数据正是前端需要的</li>
+</ul>
+<h3 id="调试自动更新"><a href="#调试自动更新" class="headerlink" title="调试自动更新"></a>调试自动更新</h3><p>在调试网页的时候，如果修改一点代码，想要在浏览器查看效果，就得按f5刷新，如此反复势必造成许多的时间浪费。所以自动化工具会带有帮你检测本地文件的修改然后实时刷新页面的功能。</p>
+<h3 id="解决浏览器缓存"><a href="#解决浏览器缓存" class="headerlink" title="解决浏览器缓存"></a>解决浏览器缓存</h3><p>由于浏览器会缓存已经加载过的文件，来提高网页响应的速度，但是在开发中，我们想看到的是我们保存的最新的文件的效果，所以要让浏览器不缓存我们的代码文件（通过文件名末尾增加哈希值来保证文件是最新的）。</p>
+<h3 id="其他代码格式"><a href="#其他代码格式" class="headerlink" title="其他代码格式"></a>其他代码格式</h3><p>最常见的是css预处理器，如LESS、SASS和Stylus之类的。它们需要通过编译成CSS文件在浏览器中展现出效果，而这些编译的工作自然也是交给前端自动化工具实现。</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>在工作中有许多复杂的交互，可能需要你组织非常复杂的代码功能。前端自动化工具的使用也有利于我们模块的划分。</p>
+<h3 id="资源合并优化"><a href="#资源合并优化" class="headerlink" title="资源合并优化"></a>资源合并优化</h3><p>当完成开发阶段的时候，我们需要提交自己开发的代码到线上服务器，在提交之前我们需要考虑将开发的资源进行最优化。为了减少http请求的次数，我们需要将分开写的js根据依赖关系去合并成较少的文件数目，并且进行压缩。类似的还有CSS文件和图片文件的压缩等等。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在这段时间工作的时候，遇到了很多以前没有接触过的名词，比如fekit，Webpack之类的，也用小黑框输入了很多指令，但是对于它们都做了些什么还不太清楚。&lt;/p&gt;
+&lt;h2 id=&quot;前端自动化工具都做了什么&quot;&gt;&lt;a href=&quot;#前端自动化工具都做了什么&quot; class=&quot;he
+    
+    </summary>
+    
+    
+      <category term="知识碎片" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/"/>
+    
+  </entry>
+  
+  <entry>
     <title>jQuery源码学习笔记(03)</title>
     <link href="http://yoursite.com/2017/10/14/17-10-14-30/"/>
     <id>http://yoursite.com/2017/10/14/17-10-14-30/</id>
     <published>2017-10-14T03:41:59.000Z</published>
-    <updated>2017-10-14T08:24:32.527Z</updated>
+    <updated>2017-10-17T12:43:25.013Z</updated>
     
     <content type="html"><![CDATA[<h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
 <li><p>群组选择器：逗号“,”</p>
@@ -51,9 +122,8 @@
 <p>在现代浏览器中，querySelectorAll 的返回值是一个静态的 NodeList 对象，而 getElementsBy 系列的返回值实际上是一个 HTMLCollection 对象。</p>
 <p>▼ <strong>什么是NodeList：</strong><br>NodeList本质上是一个动态的Node集合，只是规范中对querySelectorAll有明确要求，规定其必须返回一个静态的NodeList对象。</p>
 <p>▼ <strong>什么是HTMLCollection：</strong><br>HTMLCollection 和 NodeList 十分相似，都是一个动态的元素集合，每次访问都需要重新对文档进行查询。两者的本质上差别在于，HTMLCollection 是属于 Document Object Model HTML 规范，而 NodeList 属于 Document Object Model Core 规范。</p>
-<p>NodeList 对象会包含文档中的所有节点，如 Element、Text 和 Comment 等。HTMLCollection  对象只会包含文档中的 Element 节点。另外，HTMLCollection 对象比 NodeList 对象 多提供了一个 namedItem 方法。</p>
-<p>▼ <strong>getElementBy系列的速度比querySelectorAll快：</strong><br>因为getElementById只返回一个元素，而且内部做了缓存，但是querySelectorAll会返回拥有这个id值的多个元素，尽管页面id一般是唯一的，但如果出现了多个同样id的情况下，getElementById还是只返回一个元素，而querySelectorAll会返回多个。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>) == <span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>)  <span class="comment">// true</span></div><div class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>) == <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>)  <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
-<p>返回true的，意味着它们拿到的同是cache引用。返回false意味着每次返回都是不一样的object。创建一个动态的NodeList对象比创建一个静态的StaticNodeList对象快。</p>
+<p>▼ <strong>getElementBy系列的速度比querySelectorAll快：</strong><br>由于getElementBy系列的是一个实时的集合，这种集合是不需要在一开始就获取到所有的信息的；而通过querySelectorAll方法获取的集合是静态的集合，这个集合相当于一个快照，就是在这个方法运行的这个时间里，它所要获取的集合元素的一个快照，所以这个集合要保存大量的信息。</p>
+<p><strong>使用getElementsByTagName方法我们得到的结果就像是一个对象的索引，而通过querySelectorAll方法我们得到的是一个对象的克隆；所以当这个对象数据量非常大的时候，显然克隆这个对象所需要花费的时间是很长的。</strong></p>
 ]]></content>
     
     <summary type="html">
@@ -72,7 +142,7 @@
     <link href="http://yoursite.com/2017/10/10/17-10-10-29/"/>
     <id>http://yoursite.com/2017/10/10/17-10-10-29/</id>
     <published>2017-10-10T12:44:41.000Z</published>
-    <updated>2017-10-14T08:24:31.033Z</updated>
+    <updated>2017-10-17T12:46:38.305Z</updated>
     
     <content type="html"><![CDATA[<h2 id="jQuery-fn-init"><a href="#jQuery-fn-init" class="headerlink" title="jQuery.fn.init"></a>jQuery.fn.init</h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A simple way to check for HTML strings</span></div><div class="line"><span class="comment">// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)</span></div><div class="line"><span class="comment">// Strict HTML recognition (#11290: must start with &lt;)</span></div><div class="line">rquickExpr = <span class="regexp">/^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/</span></div></pre></td></tr></table></figure>
 <p>这是一个简单的检测HTML字符串的表达式，它可以分成两部分：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">\s*(&lt;[\w\W]+&gt;)[^&gt;]*</div><div class="line">// 用来匹配"  &lt;xxx&gt;&lt;xxx&gt;xxxx"形式的字符串</div></pre></td></tr></table></figure></p>
@@ -101,7 +171,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = <span class="literal">null</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>可以判断是第三种或第四种情况，当为#id时，不需要指定上下文context，当为<htmltag>时，需要指定上下文<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( match &amp;&amp; (match[<span class="number">1</span>] || !context) ) &#123;</div></pre></td></tr></table></figure></htmltag></p>
+<p>可以判断是第三种或第四种情况，当为#id时，不需要指定上下文context，当为<code>&lt;htmltag&gt;</code>时，需要指定上下文<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( match &amp;&amp; (match[<span class="number">1</span>] || !context) ) &#123;</div></pre></td></tr></table></figure></p>
 <h4 id="匹配模式一：-“-id”"><a href="#匹配模式一：-“-id”" class="headerlink" title="匹配模式一：$(“#id”)"></a>匹配模式一：$(“#id”)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">elem = <span class="built_in">document</span>.getElementById( match[<span class="number">2</span>] );</div><div class="line"></div><div class="line"><span class="comment">// Check parentNode to catch when Blackberry 4.6 returns</span></div><div class="line"><span class="comment">// nodes that are no longer in the document #6963</span></div><div class="line"><span class="keyword">if</span> ( elem &amp;&amp; elem.parentNode ) &#123;</div><div class="line">  <span class="comment">// Inject the element directly into the jQuery object</span></div><div class="line">  <span class="keyword">this</span>.length = <span class="number">1</span>;</div><div class="line">  <span class="keyword">this</span>[<span class="number">0</span>] = elem;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">this</span>.context = <span class="built_in">document</span>;</div><div class="line"><span class="keyword">this</span>.selector = selector;</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>;</div></pre></td></tr></table></figure>
 <h4 id="匹配模式二：-htmltag"><a href="#匹配模式二：-htmltag" class="headerlink" title="匹配模式二：$(htmltag)"></a>匹配模式二：$(htmltag)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HANDLE: $(html) -&gt; $(array)</span></div><div class="line"><span class="keyword">if</span> ( match[<span class="number">1</span>] ) &#123;</div><div class="line">  context = context <span class="keyword">instanceof</span> jQuery ? context[<span class="number">0</span>] : context;</div><div class="line">  <span class="comment">// 当context为jQuery对象时，把context转换成Js的原生DOM对象</span></div><div class="line">  <span class="comment">// 从上面可知context[0]即document.getElementById获取的elem</span></div><div class="line">  <span class="comment">// scripts is true for back-compat</span></div><div class="line">  jQuery.merge( <span class="keyword">this</span>, jQuery.parseHTML(</div><div class="line">    match[<span class="number">1</span>],</div><div class="line">    context &amp;&amp; context.nodeType ? context.ownerDocument || context : <span class="built_in">document</span>,</div><div class="line">    <span class="literal">true</span></div><div class="line">  ) );</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(html, props)</span></div><div class="line">  <span class="comment">// 对应：$(html标签, 对象)</span></div><div class="line">  <span class="keyword">if</span> ( rsingleTag.test( match[<span class="number">1</span>] ) &amp;&amp; jQuery.isPlainObject( context ) ) &#123;</div><div class="line">    <span class="keyword">for</span> ( match <span class="keyword">in</span> context ) &#123;</div><div class="line">      <span class="comment">// Properties of context are called as methods if possible</span></div><div class="line">      <span class="keyword">if</span> ( jQuery.isFunction( <span class="keyword">this</span>[ match ] ) ) &#123;</div><div class="line">        <span class="keyword">this</span>[ match ]( context[ match ] );</div><div class="line"></div><div class="line">      <span class="comment">// ...and otherwise set as attributes</span></div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.attr( match, context[ match ] );</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(#id)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>▼ <strong>关于<code>nodeType</code>：</strong><br>nodeType是DOM对象中Node类型的一个属性，返回数字值代表指定节点的节点类型。如果节点是元素节点，则返回1；如果节点是属性节点，则返回2。通过nodeType属性来判断context是不是一个节点。<br>▼ <strong>关于<code>ownerDocument</code>：</strong><br>ownerDocument也是DOM对象中Node类型的一个属性，它返回的创建这个节点的文档对象。由于可能存在iframe或者通过ajax加载的xml文档，所以要区分这些文档与默认文档window.document。<br>▼ <strong>关于<code>$.merge</code>：</strong><br>用于合并两个数组，但是不仅限于数组，还可以是key为数字的对象（类数组元素）<br>▼ <strong>关于<code>$.parseHTML</code>：</strong><br>将字符串转换为存储DOM节点的数组。第一个参数为传入的字符串，第二个为指定的根节点，第三个是boolean值，默认为false，不转换。</p>
@@ -186,16 +256,16 @@
     <link href="http://yoursite.com/2017/10/02/17-10-02-27/"/>
     <id>http://yoursite.com/2017/10/02/17-10-02-27/</id>
     <published>2017-10-02T05:15:36.000Z</published>
-    <updated>2017-10-14T08:24:15.164Z</updated>
+    <updated>2017-10-14T15:01:56.070Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
-<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h4 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h4><ul>
+<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h3 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h3><ul>
 <li><code>document.getElementById</code></li>
 <li><code>document.getElementsByTagName</code></li>
 <li><code>document.getElementsByClassName</code></li>
 <li><code>document.querySelectorAll</code></li>
 </ul>
-<h4 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h4><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
+<h3 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h3><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
 <ul>
 <li>property是DOM中的属性，是JavaScript里的对象；</li>
 <li>attribute是HTML标签上的特性，它的值只能够是字符串；</li>
@@ -227,7 +297,7 @@
 <li>attribute和property之间的数据绑定是单向的，attribute-&gt;property；</li>
 <li>更改property和attribute上的任意值，都会将更新反映到HTML页面中；</li>
 </ul>
-<h4 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
+<h3 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
 <p>有关DOM操作，主要注意点在于性能方面的影响，优化DOM操作方法有：</p>
 <ul>
 <li>减少DOM访问次数</li>
@@ -236,7 +306,7 @@
 <li>注意重排（reflow）和重绘（repaint）</li>
 <li>使用事件委托，减少绑定事件的数量</li>
 </ul>
-<h4 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h4><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
+<h3 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h3><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
 <ul>
 <li>添加或删除DOM元素</li>
 <li>元素位置、大小、内容改变</li>
@@ -254,11 +324,11 @@
 <li>检测浏览器的类型</li>
 <li>拆解url的各部分</li>
 </ul>
-<h4 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h4><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
+<h3 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h3><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
 <ul>
 <li><code>navigator.userAgent</code> //用户代理头的字符串表示</li>
 </ul>
-<h4 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h4><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
+<h3 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h3><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
 <ul>
 <li><code>screen.width/height</code> //屏幕的宽度与高度，以像素计 </li>
 <li><code>screen.availWidth/availHeight</code> //窗口可以使用的屏幕的宽度和高度，以像素计 </li>
@@ -266,7 +336,7 @@
 <li><code>window.moveTo(0, 0);</code></li>
 <li><code>window.resizeTo(screen.availWidth, screen.availHeight);</code> //填充用户的屏幕</li>
 </ul>
-<h4 id="location"><a href="#location" class="headerlink" title="location"></a>location</h4><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
+<h3 id="location"><a href="#location" class="headerlink" title="location"></a>location</h3><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
 <ul>
 <li><code>location.href</code> //当前载入页面的完整URL</li>
 <li><code>location.portocol</code> //URL中使用的协议，即双斜杠之前的部分，如http</li>
@@ -280,7 +350,7 @@
 <li><code>location.replace(&quot;http:www.baidu.com&quot;);</code> //同assign()，但新地址不会被加到浏览器的历史栈中，不能通过back和forward访问</li>
 <li><code>location.reload(true | false);</code> //重新载入当前页面，为false时从浏览器缓存中重载，为true时从服务器端重载，默认为false</li>
 </ul>
-<h4 id="history"><a href="#history" class="headerlink" title="history"></a>history</h4><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
+<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
 <ul>
 <li><code>history.go(-1);</code> //访问浏览器窗口的历史，负数为后退，正数为前进</li>
 <li><code>history.back();</code> //同上</li>
@@ -1232,35 +1302,6 @@ Vue.config.productionTip = <span class="literal">false</span>
     
       &lt;h2 id=&quot;Backbone-Collection（集合）&quot;&gt;&lt;a href=&quot;#Backbone-Collection（集合）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.Collection（集合）&quot;&gt;&lt;/a&gt;Backbone.Collection（集合）&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;model是现实中物体的抽象，而collection则是model对象的一个有序的集合&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="backbone" scheme="http://yoursite.com/tags/backbone/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从零开始的backbone.js（二）</title>
-    <link href="http://yoursite.com/2017/03/29/17-03-29-9/"/>
-    <id>http://yoursite.com/2017/03/29/17-03-29-9/</id>
-    <published>2017-03-29T08:06:16.000Z</published>
-    <updated>2017-10-14T08:50:01.361Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Backbone-View（视图）"><a href="#Backbone-View（视图）" class="headerlink" title="Backbone.View（视图）"></a>Backbone.View（视图）</h2><ul>
-<li>view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。</li>
-<li>相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。</li>
-</ul>
-<a id="more"></a>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> searchView = Backbone.View.extend(&#123;</div><div class="line">	<span class="comment">//引用的DOM元素（没有指定也会指向一个空的div）</span></div><div class="line">	el:<span class="string">"#search_container"</span>,</div><div class="line">	<span class="comment">//绑定事件</span></div><div class="line">	events:&#123;</div><div class="line">		<span class="string">"click input[type=button]"</span>:<span class="string">"doSearch"</span></div><div class="line">		<span class="comment">//当点击input时，会调用doSearch</span></div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//初始化函数（一开始就会调用）</span></div><div class="line">	initialize:<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">//调用render渲染页面</span></div><div class="line">		<span class="keyword">this</span>.render(&#123;<span class="attr">search_label</span>:<span class="string">"搜索按钮"</span>&#125;);</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//渲染页面函数</span></div><div class="line">	render:<span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</div><div class="line">		<span class="comment">//html模板</span></div><div class="line">		<span class="keyword">var</span> template = _.template($(<span class="string">"#search_template"</span>).html());</div><div class="line">		$(<span class="keyword">this</span>.el).html(template(context));</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//doSearch函数定义</span></div><div class="line">	doSearch:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		alert(<span class="string">"search for"</span> + $(<span class="string">"#search_input"</span>).val());</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//实例化</span></div><div class="line"><span class="keyword">var</span> SearchView = <span class="keyword">new</span> searchView();</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Backbone-View（视图）&quot;&gt;&lt;a href=&quot;#Backbone-View（视图）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.View（视图）&quot;&gt;&lt;/a&gt;Backbone.View（视图）&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。&lt;/li&gt;
-&lt;li&gt;相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>

@@ -95,7 +95,7 @@
     
     <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg-3.jpeg)"></div>
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-3.jpeg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
@@ -139,13 +139,13 @@
             <main class="main post-page">
     <article class="article-entry">
         <h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
-<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h4 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h4><ul>
+<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h3 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h3><ul>
 <li><code>document.getElementById</code></li>
 <li><code>document.getElementsByTagName</code></li>
 <li><code>document.getElementsByClassName</code></li>
 <li><code>document.querySelectorAll</code></li>
 </ul>
-<h4 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h4><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
+<h3 id="property与attribute"><a href="#property与attribute" class="headerlink" title="property与attribute"></a>property与attribute</h3><p>虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。</p>
 <ul>
 <li>property是DOM中的属性，是JavaScript里的对象；</li>
 <li>attribute是HTML标签上的特性，它的值只能够是字符串；</li>
@@ -177,7 +177,7 @@
 <li>attribute和property之间的数据绑定是单向的，attribute-&gt;property；</li>
 <li>更改property和attribute上的任意值，都会将更新反映到HTML页面中；</li>
 </ul>
-<h4 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h4><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
+<h3 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/dom-2.png" alt=""></p>
 <p>有关DOM操作，主要注意点在于性能方面的影响，优化DOM操作方法有：</p>
 <ul>
 <li>减少DOM访问次数</li>
@@ -186,7 +186,7 @@
 <li>注意重排（reflow）和重绘（repaint）</li>
 <li>使用事件委托，减少绑定事件的数量</li>
 </ul>
-<h4 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h4><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
+<h3 id="重排（重构）-amp-重绘"><a href="#重排（重构）-amp-重绘" class="headerlink" title="重排（重构）&amp;重绘"></a>重排（重构）&amp;重绘</h3><p>重绘并不一定导致重排，比如修改某个元素的颜色，只会导致重绘；而重排之后，浏览器需要重新绘制受重排影响的部分。导致重排的原因有：</p>
 <ul>
 <li>添加或删除DOM元素</li>
 <li>元素位置、大小、内容改变</li>
@@ -204,11 +204,11 @@
 <li>检测浏览器的类型</li>
 <li>拆解url的各部分</li>
 </ul>
-<h4 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h4><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
+<h3 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h3><p><code>navigator</code>对象：包含大量有关Web浏览器的信息，用于检测浏览器及操作系统。<br>常用方法有：</p>
 <ul>
 <li><code>navigator.userAgent</code> //用户代理头的字符串表示</li>
 </ul>
-<h4 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h4><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
+<h3 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h3><p><code>screen</code>对象：用于获取某些关于用户屏幕的信息。<br>常用方法有：</p>
 <ul>
 <li><code>screen.width/height</code> //屏幕的宽度与高度，以像素计 </li>
 <li><code>screen.availWidth/availHeight</code> //窗口可以使用的屏幕的宽度和高度，以像素计 </li>
@@ -216,7 +216,7 @@
 <li><code>window.moveTo(0, 0);</code></li>
 <li><code>window.resizeTo(screen.availWidth, screen.availHeight);</code> //填充用户的屏幕</li>
 </ul>
-<h4 id="location"><a href="#location" class="headerlink" title="location"></a>location</h4><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
+<h3 id="location"><a href="#location" class="headerlink" title="location"></a>location</h3><p><code>location</code>对象：表示载入窗口的URL。<br>常用方法有：</p>
 <ul>
 <li><code>location.href</code> //当前载入页面的完整URL</li>
 <li><code>location.portocol</code> //URL中使用的协议，即双斜杠之前的部分，如http</li>
@@ -230,7 +230,7 @@
 <li><code>location.replace(&quot;http:www.baidu.com&quot;);</code> //同assign()，但新地址不会被加到浏览器的历史栈中，不能通过back和forward访问</li>
 <li><code>location.reload(true | false);</code> //重新载入当前页面，为false时从浏览器缓存中重载，为true时从服务器端重载，默认为false</li>
 </ul>
-<h4 id="history"><a href="#history" class="headerlink" title="history"></a>history</h4><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
+<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><p><code>history</code>对象：浏览器窗口的历史<br>常用方法有：</p>
 <ul>
 <li><code>history.go(-1);</code> //访问浏览器窗口的历史，负数为后退，正数为前进</li>
 <li><code>history.back();</code> //同上</li>
@@ -318,7 +318,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM本质"><span class="toc-number">1.</span> <span class="toc-text">DOM本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM节点操作"><span class="toc-number">2.</span> <span class="toc-text">DOM节点操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取DOM节点"><span class="toc-number">2.0.1.</span> <span class="toc-text">获取DOM节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#property与attribute"><span class="toc-number">2.0.2.</span> <span class="toc-text">property与attribute</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM操作"><span class="toc-number">2.0.3.</span> <span class="toc-text">DOM操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重排（重构）-amp-重绘"><span class="toc-number">2.0.4.</span> <span class="toc-text">重排（重构）&重绘</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BOM操作"><span class="toc-number">3.</span> <span class="toc-text">BOM操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#navigator"><span class="toc-number">3.0.1.</span> <span class="toc-text">navigator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#screen"><span class="toc-number">3.0.2.</span> <span class="toc-text">screen</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#location"><span class="toc-number">3.0.3.</span> <span class="toc-text">location</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#history"><span class="toc-number">3.0.4.</span> <span class="toc-text">history</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM本质"><span class="toc-number">1.</span> <span class="toc-text">DOM本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM节点操作"><span class="toc-number">2.</span> <span class="toc-text">DOM节点操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取DOM节点"><span class="toc-number">2.1.</span> <span class="toc-text">获取DOM节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property与attribute"><span class="toc-number">2.2.</span> <span class="toc-text">property与attribute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM操作"><span class="toc-number">2.3.</span> <span class="toc-text">DOM操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重排（重构）-amp-重绘"><span class="toc-number">2.4.</span> <span class="toc-text">重排（重构）&重绘</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BOM操作"><span class="toc-number">3.</span> <span class="toc-text">BOM操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator"><span class="toc-number">3.1.</span> <span class="toc-text">navigator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#screen"><span class="toc-number">3.2.</span> <span class="toc-text">screen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#location"><span class="toc-number">3.3.</span> <span class="toc-text">location</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history"><span class="toc-number">3.4.</span> <span class="toc-text">history</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -647,7 +647,24 @@
     
     
     
-    <div class="total-archive"> Total : 27 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
     
@@ -656,6 +673,11 @@
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-31/" >前端自动化工具</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -797,27 +819,27 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     
