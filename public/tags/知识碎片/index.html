@@ -103,7 +103,7 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/10/17/17-10-14-31/" >
+            <a class="content-show-full" href = "/2017/10/17/17-10-14-26/" >
                     <h2 class="abstract-title">
                         
                         <span>前端自动化工具</span>
@@ -145,7 +145,7 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/08/19/17-08-19-24/" >
+            <a class="content-show-full" href = "/2017/08/19/17-08-19-19/" >
                     <h2 class="abstract-title">
                         
                         <span>页面加载——浏览器渲染</span>
@@ -159,9 +159,8 @@
 根据RenderTree开始渲染和展示
 遇到&lt;script&gt;时，会执行并阻塞渲染
 
-
 顺序执行、并发加载因为解析过程是一个从上到下的过程，所以渲染过程是顺序执行的。而所谓的并发加载指的是当浏览器引入&lt;link&gt;或&lt;script&gt;，多个标签的资源可以并发加载。但是并发度是受浏览器自身能力限制的。
-对于&lt;img&gt;所载入的图片，是异步请求的，并不会阻塞页面的渲染，图片的加载速度受其本身大小的影...
+对于&lt;img&gt;所载入的图片，是异步请求的，并不会阻塞页面的渲染，图片的加载速度受其本身大小的影响...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -183,7 +182,7 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/08/17/17-08-17-23/" >
+            <a class="content-show-full" href = "/2017/08/17/17-08-17-18/" >
                     <h2 class="abstract-title">
                         
                         <span>网络知识补充——浏览器请求过程</span>
@@ -225,15 +224,14 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/07/15/17-07-15-19/" >
+            <a class="content-show-full" href = "/2017/07/15/17-07-15-14/" >
                     <h2 class="abstract-title">
                         
                         <span>搭建Hexo博客之后</span>
                     </h2>
                 <div class="abstract-content">
                     这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。恩，然后找到了方法，然而感觉讲的太！不！清！楚！折腾了半天，终于弄好了，以下整理了一下步骤：
-
-使用分支方法解决hexo博客无法在两台电脑上更新的问题创建本地仓库首先，创建一个新的文件夹，和github上的仓库同名：username.github.io然后开始创建本地仓库，以下是创建一个新的本地仓库的git指令123456$ touch README.md...
+使用分支方法解决hexo博客无法在两台电脑上更新的问题创建本地仓库首先，创建一个新的文件夹，和github上的仓库同名：username.github.io然后开始创建本地仓库，以下是创建一个新的本地仓库的git指令123456$ touch README.md$...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -255,7 +253,7 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/10/17-04-10-13/" >
+            <a class="content-show-full" href = "/2017/04/10/17-04-10-10/" >
                     <h2 class="abstract-title">
                         
                         <span>有关CSS的tip</span>
@@ -267,10 +265,9 @@ fixed （老IE不支持）生成绝对定位的元素，相对于浏览器窗口
 relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
 static 默认值。没有定位，元素出现在正常的流中
 
-
 display:none和visibility:hidden的区别？
 display:none 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。
-visibility...
+visibility:...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -294,7 +291,7 @@ visibility...
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/06/17-04-06-12/" >
+            <a class="content-show-full" href = "/2017/04/06/17-04-06-9/" >
                     <h2 class="abstract-title">
                         
                         <span>前端模块化</span>
@@ -303,9 +300,8 @@ visibility...
                     AMD
 AMD 即Asynchronous Module Definition，中文名是异步模块定义的意思。它是一个在浏览器端模块化开发的规范。
 
-
-
 应用：RequireJS解决的主要问题：
+
 多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器
 js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长
 
@@ -313,7 +309,7 @@ js加载的时候浏览器会停止页面渲染，加载文件越多，页面失
 define([id], [dependencies], factory);
 id：可选参数，用来定义模块的标识，如果没有提供该参数，脚本文件名（去掉拓展名）
 dependencies：是一个当前模块依赖的模块名称数组
-factory：工厂方法，模块...
+factory：工厂方法，模块初...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -337,7 +333,7 @@ factory：工厂方法，模块...
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/26/17-03-26-7/" >
+            <a class="content-show-full" href = "/2017/03/26/17-03-26-5/" >
                     <h2 class="abstract-title">
                         
                         <span>iconfont使用方法</span>
@@ -766,6 +762,14 @@ factory：工厂方法，模块...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
@@ -778,127 +782,127 @@ factory：工厂方法，模块...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2017/10/17/17-10-14-31/" >前端自动化工具</a>
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2017/10/19/17-10-19-27/" >Vue.js学习笔记（01）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-30/" >jQuery源码学习笔记(03)</a>
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2017/10/17/17-10-14-26/" >前端自动化工具</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-29/" >jQuery源码学习笔记(02)</a>
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-25/" >jQuery源码学习笔记(03)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-28/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-24/" >jQuery源码学习笔记(02)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-27/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-26/" >JS定时器与单线程</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-25/" >JS变量计算</a>
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-21/" >JS定时器与单线程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-24/" >页面加载——浏览器渲染</a>
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-20/" >JS变量计算</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-23/" >网络知识补充——浏览器请求过程</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-19/" >页面加载——浏览器渲染</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-22/" >JS面向对象学习笔记</a>
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-18/" >网络知识补充——浏览器请求过程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-21/" >JS变量、作用域和内存问题</a>
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-17/" >JS面向对象学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-20/" >异步编程之promise与trigger</a>
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-16/" >JS变量、作用域和内存问题</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-19/" >搭建Hexo博客之后</a>
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-15/" >异步编程之promise与trigger</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-18/" >JS之this指针笔记</a>
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-14/" >搭建Hexo博客之后</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-17/" >JS继承笔记</a>
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-13/" >JS之this指针笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2017/05/11/17-05-11-16/" >Vue.js学习笔记（一）</a>
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-12/" >JS继承笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-14/" >JavaScript正则表达式</a>
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-11/" >JavaScript正则表达式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-13/" >有关CSS的tip</a>
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-10/" >有关CSS的tip</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-12/" >前端模块化</a>
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-9/" >前端模块化</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-11/" >从零开始的backbone.js（三）</a>
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-8/" >从零开始的backbone.js（三）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-9/" >从零开始的backbone.js（二）</a>
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-7/" >从零开始的backbone.js（二）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-8/" >从零开始的backbone.js（一）</a>
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-6/" >从零开始的backbone.js（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-7/" >iconfont使用方法</a>
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-5/" >iconfont使用方法</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-6/" >JSON学习笔记</a>
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-4/" >JSON学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-5/" >AJAX学习笔记</a>
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-3/" >AJAX学习笔记</a>
         </li>
     
     
@@ -921,11 +925,11 @@ factory：工厂方法，模块...
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
@@ -933,25 +937,25 @@ factory：工厂方法，模块...
     
         <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        jQuery源码学习笔记(02) · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href = /css/style.css?v=20171005 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">jQuery源码学习笔记(02)</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            jQuery源码学习笔记(02)
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = jQuery>jQuery</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2017/10/10</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="jQuery-fn-init"><a href="#jQuery-fn-init" class="headerlink" title="jQuery.fn.init"></a>jQuery.fn.init</h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A simple way to check for HTML strings</span></div><div class="line"><span class="comment">// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)</span></div><div class="line"><span class="comment">// Strict HTML recognition (#11290: must start with &lt;)</span></div><div class="line">rquickExpr = <span class="regexp">/^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/</span></div></pre></td></tr></table></figure>
+<p>这是一个简单的检测HTML字符串的表达式，它可以分成两部分：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">\s*(&lt;[\w\W]+&gt;)[^&gt;]*</div><div class="line">// 用来匹配"  &lt;xxx&gt;&lt;xxx&gt;xxxx"形式的字符串</div></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#([\w-]*)</div><div class="line">// 用来匹配"#xx-xx-xx.."形式的字符串</div></pre></td></tr></table></figure>
+<ul>
+<li>tip：关于<code>(?:pattern)</code>，作用是匹配pattern但不获取匹配结果（非获取匹配）。即当使用match或exec的时候，该括号中的pattern匹配结果不会保存在数组中。</li>
+</ul>
+<h3 id="jQuery选择器API"><a href="#jQuery选择器API" class="headerlink" title="jQuery选择器API"></a>jQuery选择器API</h3><p>选择器支持9种方式的处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.$(document)</div><div class="line">2.$(‘&lt;div&gt;’)</div><div class="line">3.$(‘div’)</div><div class="line">4.$(‘#test’)</div><div class="line">5.$(function()&#123;&#125;)</div><div class="line">6.$(&quot;input:radio&quot;, document.forms[0]);</div><div class="line">7.$(‘input’, $(‘div’))</div><div class="line">8.$()</div><div class="line">9.$(&quot;&lt;div&gt;&quot;, &#123;</div><div class="line">         &quot;class&quot;: &quot;test&quot;,</div><div class="line">         text: &quot;Click me!&quot;,</div><div class="line">         click: function()&#123; $(this).toggleClass(&quot;test&quot;); &#125;</div><div class="line">      &#125;).appendTo(&quot;body&quot;);</div><div class="line">10$($(‘.test’))</div></pre></td></tr></table></figure></p>
+<p>源码缩进后的结构：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">init: <span class="function"><span class="keyword">function</span>(<span class="params"> selector, context, rootjQuery </span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> match, elem;</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(""), $(null), $(undefined), $(false)</span></div><div class="line">  <span class="keyword">if</span> ( !selector ) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// Handle HTML strings</span></div><div class="line">  <span class="keyword">if</span> ( <span class="keyword">typeof</span> selector === <span class="string">"string"</span> ) &#123;</div><div class="line">    <span class="comment">// HANDLE: $(DOMElement)</span></div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( selector.nodeType ) &#123;</div><div class="line">    <span class="comment">// HANDLE: $(function)</span></div><div class="line">    <span class="comment">// Shortcut for document ready</span></div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( jQuery.isFunction( selector ) ) &#123;</div><div class="line">    <span class="keyword">return</span> rootjQuery.ready( selector );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> ( selector.selector !== <span class="literal">undefined</span> ) &#123;</div><div class="line">    <span class="keyword">this</span>.selector = selector.selector;</div><div class="line">    <span class="keyword">this</span>.context = selector.context;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> jQuery.makeArray( selector, <span class="keyword">this</span> );</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<h3 id="匹配传入的字符串"><a href="#匹配传入的字符串" class="headerlink" title="匹配传入的字符串"></a>匹配传入的字符串</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( selector.charAt(<span class="number">0</span>) === <span class="string">"&lt;"</span> &amp;&amp; selector.charAt( selector.length - <span class="number">1</span> ) === <span class="string">"&gt;"</span> &amp;&amp; selector.length &gt;= <span class="number">3</span> ) &#123;</div><div class="line">  <span class="comment">// Assume that strings that start and end with &lt;&gt; are HTML and skip the regex check</span></div><div class="line">  match = [ <span class="literal">null</span>, selector, <span class="literal">null</span> ];</div><div class="line"></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  match = rquickExpr.exec( selector );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过分析rquickExpr正则表达式，我们可以得出selector分别为以下几种值时返回值match的结构：</p>
+<ul>
+<li><p><code>selector = &quot;&lt;div&gt;&quot;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = [<span class="literal">null</span>, <span class="string">"&lt;div&gt;"</span>, <span class="literal">null</span>]</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>selector = &quot;&lt;div&gt;content&lt;/div&gt;&quot;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = [<span class="literal">null</span>, <span class="string">"&lt;div&gt;content&lt;/div&gt;"</span>, <span class="literal">null</span>]</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>selector = &quot;&lt;div&gt;&lt;/div&gt;content&quot;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = [<span class="string">"&lt;div&gt;&lt;/div&gt;content"</span>, <span class="string">"&lt;div&gt;&lt;/div&gt;"</span>, <span class="literal">null</span>]</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>selector = #id</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = [#id, null, id]</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>selector = .className</code>等</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">match = <span class="literal">null</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以判断是第三种或第四种情况，当为#id时，不需要指定上下文context，当为<code>&lt;htmltag&gt;</code>时，需要指定上下文<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( match &amp;&amp; (match[<span class="number">1</span>] || !context) ) &#123;</div></pre></td></tr></table></figure></p>
+<h4 id="匹配模式一：-“-id”"><a href="#匹配模式一：-“-id”" class="headerlink" title="匹配模式一：$(“#id”)"></a>匹配模式一：$(“#id”)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">elem = <span class="built_in">document</span>.getElementById( match[<span class="number">2</span>] );</div><div class="line"></div><div class="line"><span class="comment">// Check parentNode to catch when Blackberry 4.6 returns</span></div><div class="line"><span class="comment">// nodes that are no longer in the document #6963</span></div><div class="line"><span class="keyword">if</span> ( elem &amp;&amp; elem.parentNode ) &#123;</div><div class="line">  <span class="comment">// Inject the element directly into the jQuery object</span></div><div class="line">  <span class="keyword">this</span>.length = <span class="number">1</span>;</div><div class="line">  <span class="keyword">this</span>[<span class="number">0</span>] = elem;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">this</span>.context = <span class="built_in">document</span>;</div><div class="line"><span class="keyword">this</span>.selector = selector;</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>;</div></pre></td></tr></table></figure>
+<h4 id="匹配模式二：-htmltag"><a href="#匹配模式二：-htmltag" class="headerlink" title="匹配模式二：$(htmltag)"></a>匹配模式二：$(htmltag)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HANDLE: $(html) -&gt; $(array)</span></div><div class="line"><span class="keyword">if</span> ( match[<span class="number">1</span>] ) &#123;</div><div class="line">  context = context <span class="keyword">instanceof</span> jQuery ? context[<span class="number">0</span>] : context;</div><div class="line">  <span class="comment">// 当context为jQuery对象时，把context转换成Js的原生DOM对象</span></div><div class="line">  <span class="comment">// 从上面可知context[0]即document.getElementById获取的elem</span></div><div class="line">  <span class="comment">// scripts is true for back-compat</span></div><div class="line">  jQuery.merge( <span class="keyword">this</span>, jQuery.parseHTML(</div><div class="line">    match[<span class="number">1</span>],</div><div class="line">    context &amp;&amp; context.nodeType ? context.ownerDocument || context : <span class="built_in">document</span>,</div><div class="line">    <span class="literal">true</span></div><div class="line">  ) );</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(html, props)</span></div><div class="line">  <span class="comment">// 对应：$(html标签, 对象)</span></div><div class="line">  <span class="keyword">if</span> ( rsingleTag.test( match[<span class="number">1</span>] ) &amp;&amp; jQuery.isPlainObject( context ) ) &#123;</div><div class="line">    <span class="keyword">for</span> ( match <span class="keyword">in</span> context ) &#123;</div><div class="line">      <span class="comment">// Properties of context are called as methods if possible</span></div><div class="line">      <span class="keyword">if</span> ( jQuery.isFunction( <span class="keyword">this</span>[ match ] ) ) &#123;</div><div class="line">        <span class="keyword">this</span>[ match ]( context[ match ] );</div><div class="line"></div><div class="line">      <span class="comment">// ...and otherwise set as attributes</span></div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.attr( match, context[ match ] );</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line"></div><div class="line">  <span class="comment">// HANDLE: $(#id)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>▼ <strong>关于<code>nodeType</code>：</strong><br>nodeType是DOM对象中Node类型的一个属性，返回数字值代表指定节点的节点类型。如果节点是元素节点，则返回1；如果节点是属性节点，则返回2。通过nodeType属性来判断context是不是一个节点。<br>▼ <strong>关于<code>ownerDocument</code>：</strong><br>ownerDocument也是DOM对象中Node类型的一个属性，它返回的创建这个节点的文档对象。由于可能存在iframe或者通过ajax加载的xml文档，所以要区分这些文档与默认文档window.document。<br>▼ <strong>关于<code>$.merge</code>：</strong><br>用于合并两个数组，但是不仅限于数组，还可以是key为数字的对象（类数组元素）<br>▼ <strong>关于<code>$.parseHTML</code>：</strong><br>将字符串转换为存储DOM节点的数组。第一个参数为传入的字符串，第二个为指定的根节点，第三个是boolean值，默认为false，不转换。</p>
+<h4 id="匹配模式三：-className"><a href="#匹配模式三：-className" class="headerlink" title="匹配模式三：$(.className)"></a>匹配模式三：$(.className)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">else</span> <span class="keyword">if</span> ( !context || context.jquery )</div></pre></td></tr></table></figure>
+<p>context为空或是context是一个jQuery对象时<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> ( context || rootjQuery ).find( selector );</div><div class="line"><span class="comment">// rootjQuery即为jQuery(document)</span></div><div class="line"><span class="comment">// 相当于 return jQuery( ducument ).find( selector );</span></div></pre></td></tr></table></figure></p>
+<h4 id="匹配模式四：-className-context"><a href="#匹配模式四：-className-context" class="headerlink" title="匹配模式四：$(.className, context)"></a>匹配模式四：$(.className, context)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>.constructor( context ).find( selector );</div><div class="line"><span class="comment">// this.constructor 即为jQuery对象</span></div><div class="line"><span class="comment">// 相当于 return jQuery( context ).find( selector );</span></div></pre></td></tr></table></figure>
+<p>▼ <strong>关于<code>$.find</code>：</strong><br>jQuery的遍历方法，在DOM树中搜索匹配的元素，并构造成一个新的jQuery对象。</p>
+<h4 id="匹配模式五：-DOMElement"><a href="#匹配模式五：-DOMElement" class="headerlink" title="匹配模式五：$(DOMElement)"></a>匹配模式五：$(DOMElement)</h4><p>将DOM节点转换成jQuery对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">else</span> <span class="keyword">if</span> ( selector.nodeType ) &#123;</div><div class="line">  <span class="keyword">this</span>.context = <span class="keyword">this</span>[<span class="number">0</span>] = selector;</div><div class="line">  <span class="keyword">this</span>.length = <span class="number">1</span>;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="匹配模式七：-function"><a href="#匹配模式七：-function" class="headerlink" title="匹配模式七：$(function)"></a>匹配模式七：$(function)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">else</span> <span class="keyword">if</span> ( jQuery.isFunction( selector ) ) &#123;</div><div class="line">  <span class="keyword">return</span> rootjQuery.ready( selector );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>▼ <strong>关于<code>$.ready</code>：</strong><br>当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。也即当加载完成时执行selector函数。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从本质上来说，构建的jQuery对象，其实不仅仅只是dom，还有很多附加的元素，用数组的方式存储，当然各种组合有不一样，但是存储的方式是一样的。</p>
+<p>总的来说分2大类：</p>
+<ul>
+<li>单个DOM元素，如$(ID),直接把DOM元素作数组传递给this对象</li>
+<li>多个DOM元素，集合形式，可以通过CSS选择器匹配是有的DOM元素，过滤操作,构建数据结构</li>
+</ul>
+<p>学习参考：<br><a href="http://www.cnblogs.com/aaronjs/p/3279314.html" target="_blank" rel="external">jQuery源码分析系列</a></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2017/10/14/17-10-14-25/" title= jQuery源码学习笔记(03) >
+                    <span>Next Post</span>
+                    <span>jQuery源码学习笔记(03)</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href= "/2017/10/02/17-10-02-23/" title= jQuery源码学习笔记(01) >
+                    <span>Previous Post</span>
+                    <span>jQuery源码学习笔记(01)</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery-fn-init"><span class="toc-number">1.</span> <span class="toc-text">jQuery.fn.init</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.1.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery选择器API"><span class="toc-number">1.2.</span> <span class="toc-text">jQuery选择器API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配传入的字符串"><span class="toc-number">1.3.</span> <span class="toc-text">匹配传入的字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式一：-“-id”"><span class="toc-number">1.3.1.</span> <span class="toc-text">匹配模式一：$(“#id”)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式二：-htmltag"><span class="toc-number">1.3.2.</span> <span class="toc-text">匹配模式二：$(htmltag)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式三：-className"><span class="toc-number">1.3.3.</span> <span class="toc-text">匹配模式三：$(.className)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式四：-className-context"><span class="toc-number">1.3.4.</span> <span class="toc-text">匹配模式四：$(.className, context)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式五：-DOMElement"><span class="toc-number">1.3.5.</span> <span class="toc-text">匹配模式五：$(DOMElement)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#匹配模式七：-function"><span class="toc-number">1.3.6.</span> <span class="toc-text">匹配模式七：$(function)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2017/10/19/17-10-19-27/" >Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2017/10/17/17-10-14-26/" >前端自动化工具</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-25/" >jQuery源码学习笔记(03)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-24/" >jQuery源码学习笔记(02)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-21/" >JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-20/" >JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-19/" >页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-18/" >网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-17/" >JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-16/" >JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-15/" >异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-14/" >搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-13/" >JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-12/" >JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-11/" >JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-10/" >有关CSS的tip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-9/" >前端模块化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-8/" >从零开始的backbone.js（三）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-7/" >从零开始的backbone.js（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-6/" >从零开始的backbone.js（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-5/" >iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-4/" >JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-3/" >AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2017/03/20/17-03-20-4/" >关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-2/" >Sublime Text3前端插件分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-1/" >这磨人的小妖精</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

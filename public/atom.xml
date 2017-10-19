@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-17T13:33:50.187Z</updated>
+  <updated>2017-10-19T08:39:46.277Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,90 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Vue.js学习笔记（01）</title>
+    <link href="http://yoursite.com/2017/10/19/17-10-19-27/"/>
+    <id>http://yoursite.com/2017/10/19/17-10-19-27/</id>
+    <published>2017-10-19T13:25:58.000Z</published>
+    <updated>2017-10-19T08:39:46.277Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API。</p>
+</blockquote>
+<p>▼ <strong>什么是MVVM：</strong><br>MVVM(Model View ViewModel)是一种基于MVC的设计，开发人员在HTML上写一些Bindings,利用一些指令绑定，就能在Model和ViewModel保持不变的情况下，很方便的将UI设计与业务逻辑分离，从而大大的减少繁琐的DOM操作。</p>
+<ul>
+<li><strong>Model</strong><br>代表我们整个webapp所需要的数据模型，一个典型的例子就是用户信息Model,它应该含有(姓名，年龄等属性)。Model含有大量信息，但它并不具有任何行为逻辑，它只是数据，因而它不会影响浏览器如何展示数据。</li>
+<li><strong>View</strong><br>View这个词出现频率最多的地方应该是MVC。在MVC设计中，View是唯一与用户交互的地方，或者说它是Model变化后的直观反映。在MVVM中，View被认为是主动的而非被动的。一个被动的View时只它只能任由“他人”（Controller）摆布，自己却不能改变任何东西，如利用Jquery操作DOM。而MVVM中View是具有主动性的，因为它包括了一些数据绑定，事件，和行为，这些都会直接影响Model和ViewModel的。它不但负责保持View自己身的行为（展示），而还会将自身的变化同步到ViewModel中。</li>
+<li><strong>ViewModel</strong><br>ViewModel可以被看作是MVC中的Controller,它主要负责数转换（用一定的业务逻辑），它负责将Model的变化反应到View上，而当View自身有变化时也会同步Model进行改变。你可以把ViewModel看作一个藏在View后面的好帮手，它把View需要的数据暴露给它，并且富于View一定的行为能力。</li>
+</ul>
+<h2 id="MVC-和-MVVM-的比较"><a href="#MVC-和-MVVM-的比较" class="headerlink" title="MVC 和 MVVM 的比较"></a>MVC 和 MVVM 的比较</h2><p>刚发现了一篇关于几个模型的博文<a href="http://www.cnblogs.com/indream/p/3602348.html" target="_blank" rel="external">从Script到Code Blocks、Code Behind到MVC、MVP、MVVM</a><br>在这里，简单的对这两个比较常见的设计模型进行一些比较：</p>
+<h3 id="MVC工作流程"><a href="#MVC工作流程" class="headerlink" title="MVC工作流程"></a>MVC工作流程</h3><p>View（界面）触发事件 –&gt; Controller（业务）处理了业务，然后触发了数据更新 –&gt; 不知道谁更新了Model的数据 –&gt; Model（带着数据）回到了View –&gt; View更新数据</p>
+<h3 id="为什么要使用MVC"><a href="#为什么要使用MVC" class="headerlink" title="为什么要使用MVC"></a>为什么要使用MVC</h3><p>由于前端的发展，出现了多页应用和Web App这种东西，使得前端不仅仅做的是简单的数据展示了。使用MVC，有下列一些优点：</p>
+<ul>
+<li>简化代码</li>
+<li>减少重复</li>
+<li>集中精神编写业务逻辑</li>
+<li>易于扩充</li>
+<li>数据触发事件</li>
+<li>面向数据编程</li>
+</ul>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><p>MVC虽然将需求和UI的相关工作分化成了三份，但是由于它们三者的三角关系使得维护很成问题。<strong>在MVC，当你有变化的时候你需要同时维护三个对象和三个交互，这显然让事情复杂化了。</strong></p>
+<p>MVVM与MVC最大的区别在于，MVVM切断了View层和Model层的联系，让View层只和ViewModel层交互，而ViewModel再和Model层交互。在MVVM中，<strong>View和ViewModel间没有了MVP的界面接口，而是直接交互，用数据“绑定”的形式让数据更新的事件不需要开发人员手动去编写特殊用例，而是自动地双向同步。</strong></p>
+<p><strong>MVVM不仅简化了业务与界面的依赖关系，还优化了数据频繁更新的解决方案，甚至可以说提供了一种有效的解决模式。</strong></p>
+<h3 id="为什么要使用MVVM"><a href="#为什么要使用MVVM" class="headerlink" title="为什么要使用MVVM"></a>为什么要使用MVVM</h3><p>随着HTML5的发展，Web App的应用越来越广泛，甚至能媲美Nativ eApp（大部分安卓或IOS应用），但随之也暴露出了三个痛点问题：</p>
+<ul>
+<li>开发者在代码中大量调用相同的 DOM API, 处理繁琐 ，操作冗余，使得代码难以维护。</li>
+<li>大量的DOM 操作使页面渲染性能降低，加载速度变慢，影响用户体验。</li>
+<li>当 Model 频繁发生变化，开发者需要主动更新到View ；当用户的操作导致 Model 发生变化，开发者同样需要将变化的数据同步到Model 中， 这样的工作不仅繁琐，而且很难维护复杂多变的数据状态。</li>
+</ul>
+<p>在MVVM中，ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理，这就完美的解决了以上的问题。</p>
+<h2 id="Vue-js的MVVM应用"><a href="#Vue-js的MVVM应用" class="headerlink" title="Vue.js的MVVM应用"></a>Vue.js的MVVM应用</h2><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/vuejs.png" alt=""></p>
+<ul>
+<li><strong>Observer</strong>：数据监听器，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者，内部采用Object.defineProperty的getter和setter来实现；</li>
+<li><strong>Compile</strong>：指令解析器，它的作用对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数；</li>
+<li><strong>Watcher</strong>：订阅者， 作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数；</li>
+<li><strong>Dep</strong>：消息订阅器，内部维护了一个数组，用来收集订阅者（Watcher），数据变动触发notify 函数，再调用订阅者的 update 方法</li>
+</ul>
+<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>使用git，输入指令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安装vue-cli</span></div><div class="line">$ cnpm install -g vue-cli</div><div class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></div><div class="line">$ vue init webpack my-project</div><div class="line"><span class="comment"># 安装依赖</span></div><div class="line">$ cd my-project</div><div class="line">$ cnmp install</div><div class="line"><span class="comment"># 开启项目</span></div><div class="line">$ npm run dev</div></pre></td></tr></table></figure></p>
+<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 默认调用src里的main.js --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>src/main.js</code></p>
+<pre><code class="javascript"><span class="comment">//import表示导入组件</span>
+<span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span>
+<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span>
+<span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span>
+
+
+Vue.config.productionTip = <span class="literal">false</span>
+
+<span class="comment">/* eslint-disable no-new */</span>
+<span class="keyword">new</span> Vue({
+  <span class="attr">el</span>: <span class="string">'#app'</span>,
+  router,
+  <span class="attr">template</span>: <span class="string">'&lt;App/&gt;'</span>,
+  <span class="attr">components</span>: { App }  <span class="comment">//注册一个app</span>
+})
+</code></pre>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;▼ &lt;strong&gt;什么是MVVM：&lt;/strong&gt;&lt;br&gt;MVVM(M
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
     <title>前端自动化工具</title>
-    <link href="http://yoursite.com/2017/10/17/17-10-14-31/"/>
-    <id>http://yoursite.com/2017/10/17/17-10-14-31/</id>
+    <link href="http://yoursite.com/2017/10/17/17-10-14-26/"/>
+    <id>http://yoursite.com/2017/10/17/17-10-14-26/</id>
     <published>2017-10-17T15:00:33.000Z</published>
-    <updated>2017-10-17T13:33:50.187Z</updated>
+    <updated>2017-10-19T06:12:50.919Z</updated>
     
     <content type="html"><![CDATA[<p>在这段时间工作的时候，遇到了很多以前没有接触过的名词，比如fekit，Webpack之类的，也用小黑框输入了很多指令，但是对于它们都做了些什么还不太清楚。</p>
 <h2 id="前端自动化工具都做了什么"><a href="#前端自动化工具都做了什么" class="headerlink" title="前端自动化工具都做了什么"></a>前端自动化工具都做了什么</h2><p>前端自动化工具有很多，其中如Grunt，Gulp，Webpack什么的各种常见，当然还有很多其他的各种不明意义的词。它们到底做了些什么呢？</p>
@@ -88,10 +167,10 @@
   
   <entry>
     <title>jQuery源码学习笔记(03)</title>
-    <link href="http://yoursite.com/2017/10/14/17-10-14-30/"/>
-    <id>http://yoursite.com/2017/10/14/17-10-14-30/</id>
+    <link href="http://yoursite.com/2017/10/14/17-10-14-25/"/>
+    <id>http://yoursite.com/2017/10/14/17-10-14-25/</id>
     <published>2017-10-14T03:41:59.000Z</published>
-    <updated>2017-10-17T12:43:25.013Z</updated>
+    <updated>2017-10-19T06:12:43.641Z</updated>
     
     <content type="html"><![CDATA[<h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
 <li><p>群组选择器：逗号“,”</p>
@@ -139,10 +218,10 @@
   
   <entry>
     <title>jQuery源码学习笔记(02)</title>
-    <link href="http://yoursite.com/2017/10/10/17-10-10-29/"/>
-    <id>http://yoursite.com/2017/10/10/17-10-10-29/</id>
+    <link href="http://yoursite.com/2017/10/10/17-10-10-24/"/>
+    <id>http://yoursite.com/2017/10/10/17-10-10-24/</id>
     <published>2017-10-10T12:44:41.000Z</published>
-    <updated>2017-10-17T12:46:38.305Z</updated>
+    <updated>2017-10-19T06:12:37.198Z</updated>
     
     <content type="html"><![CDATA[<h2 id="jQuery-fn-init"><a href="#jQuery-fn-init" class="headerlink" title="jQuery.fn.init"></a>jQuery.fn.init</h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A simple way to check for HTML strings</span></div><div class="line"><span class="comment">// Prioritize #id over &lt;tag&gt; to avoid XSS via location.hash (#9521)</span></div><div class="line"><span class="comment">// Strict HTML recognition (#11290: must start with &lt;)</span></div><div class="line">rquickExpr = <span class="regexp">/^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/</span></div></pre></td></tr></table></figure>
 <p>这是一个简单的检测HTML字符串的表达式，它可以分成两部分：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">\s*(&lt;[\w\W]+&gt;)[^&gt;]*</div><div class="line">// 用来匹配"  &lt;xxx&gt;&lt;xxx&gt;xxxx"形式的字符串</div></pre></td></tr></table></figure></p>
@@ -205,10 +284,10 @@
   
   <entry>
     <title>jQuery源码学习笔记(01)</title>
-    <link href="http://yoursite.com/2017/10/02/17-10-02-28/"/>
-    <id>http://yoursite.com/2017/10/02/17-10-02-28/</id>
+    <link href="http://yoursite.com/2017/10/02/17-10-02-23/"/>
+    <id>http://yoursite.com/2017/10/02/17-10-02-23/</id>
     <published>2017-10-02T05:36:40.000Z</published>
-    <updated>2017-10-14T08:24:39.838Z</updated>
+    <updated>2017-10-19T06:12:28.648Z</updated>
     
     <content type="html"><![CDATA[<h2 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h2><h3 id="自调用匿名函数"><a href="#自调用匿名函数" class="headerlink" title="自调用匿名函数"></a>自调用匿名函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"> window, undefined</span>) </span>&#123;</div><div class="line">  <span class="comment">// jquery code</span></div><div class="line">&#125;)(<span class="built_in">window</span>);</div></pre></td></tr></table></figure>
 <p>▼ <strong>使用自调用匿名函数的原因：</strong></p>
@@ -253,10 +332,10 @@
   
   <entry>
     <title>DOM基础知识巩固</title>
-    <link href="http://yoursite.com/2017/10/02/17-10-02-27/"/>
-    <id>http://yoursite.com/2017/10/02/17-10-02-27/</id>
+    <link href="http://yoursite.com/2017/10/02/17-10-02-22/"/>
+    <id>http://yoursite.com/2017/10/02/17-10-02-22/</id>
     <published>2017-10-02T05:15:36.000Z</published>
-    <updated>2017-10-14T15:01:56.070Z</updated>
+    <updated>2017-10-19T06:12:22.755Z</updated>
     
     <content type="html"><![CDATA[<h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
 <h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h3 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h3><ul>
@@ -376,10 +455,10 @@
   
   <entry>
     <title>JS定时器与单线程</title>
-    <link href="http://yoursite.com/2017/09/25/17-09-25-26/"/>
-    <id>http://yoursite.com/2017/09/25/17-09-25-26/</id>
+    <link href="http://yoursite.com/2017/09/25/17-09-25-21/"/>
+    <id>http://yoursite.com/2017/09/25/17-09-25-21/</id>
     <published>2017-09-25T13:28:25.000Z</published>
-    <updated>2017-10-14T08:26:29.892Z</updated>
+    <updated>2017-10-19T06:12:17.420Z</updated>
     
     <content type="html"><![CDATA[<h2 id="JavaScript单线程"><a href="#JavaScript单线程" class="headerlink" title="JavaScript单线程"></a>JavaScript单线程</h2><p>众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。</p>
 <p>这里有个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="comment">//打印才进入时的时间</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'first time: '</span> + date.getTime());</div><div class="line"><span class="comment">//一秒后打印setTimeout里匿名函数的时间</span></div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> date1 = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'second time: '</span> + date1.getTime() );</div><div class="line">  <span class="built_in">console</span>.log( date1.getTime() - date.getTime() );</div><div class="line">&#125;,<span class="number">1000</span>);</div><div class="line"><span class="comment">//重复操作</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="number">10000</span> ; i++)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -429,10 +508,10 @@
   
   <entry>
     <title>JS变量计算</title>
-    <link href="http://yoursite.com/2017/08/24/17-08-24-25/"/>
-    <id>http://yoursite.com/2017/08/24/17-08-24-25/</id>
+    <link href="http://yoursite.com/2017/08/24/17-08-24-20/"/>
+    <id>http://yoursite.com/2017/08/24/17-08-24-20/</id>
     <published>2017-08-24T12:53:29.000Z</published>
-    <updated>2017-10-14T08:27:34.568Z</updated>
+    <updated>2017-10-19T06:12:12.240Z</updated>
     
     <content type="html"><![CDATA[<h2 id="typeof-运算符"><a href="#typeof-运算符" class="headerlink" title="typeof 运算符"></a>typeof 运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// undefined</span></div><div class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span> <span class="comment">// string</span></div><div class="line"><span class="keyword">typeof</span> <span class="number">123</span> <span class="comment">// number</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span> <span class="comment">// boolean</span></div><div class="line"><span class="keyword">typeof</span> &#123;&#125; <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> [] <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span> <span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> <span class="built_in">console</span>.log <span class="comment">// function</span></div></pre></td></tr></table></figure>
 <h2 id="变量运算-强制类型转换"><a href="#变量运算-强制类型转换" class="headerlink" title="变量运算 - 强制类型转换"></a>变量运算 - 强制类型转换</h2><h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">100</span> + <span class="number">10</span> <span class="comment">// 110</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">100</span> + <span class="string">'10'</span> <span class="comment">// '10010'</span></div></pre></td></tr></table></figure>
@@ -457,10 +536,10 @@
   
   <entry>
     <title>页面加载——浏览器渲染</title>
-    <link href="http://yoursite.com/2017/08/19/17-08-19-24/"/>
-    <id>http://yoursite.com/2017/08/19/17-08-19-24/</id>
+    <link href="http://yoursite.com/2017/08/19/17-08-19-19/"/>
+    <id>http://yoursite.com/2017/08/19/17-08-19-19/</id>
     <published>2017-08-19T10:46:53.000Z</published>
-    <updated>2017-10-14T08:28:53.685Z</updated>
+    <updated>2017-10-19T08:39:15.740Z</updated>
     
     <content type="html"><![CDATA[<p>一个网站在浏览器端是如何进行渲染的呢？</p>
 <ul>
@@ -468,8 +547,7 @@
 <li>根据CSS生成<code>CSSOM</code></li>
 <li>将<code>DOM</code>和<code>CSSOM</code>整合形成<code>RenderTree</code></li>
 <li>根据<code>RenderTree</code>开始渲染和展示</li>
-<li>遇到<code>&lt;script&gt;</code>时，会执行并阻塞渲染<a id="more"></a>
-</li>
+<li>遇到<code>&lt;script&gt;</code>时，会执行并阻塞渲染</li>
 </ul>
 <h2 id="顺序执行、并发加载"><a href="#顺序执行、并发加载" class="headerlink" title="顺序执行、并发加载"></a>顺序执行、并发加载</h2><p>因为解析过程是一个从上到下的过程，所以渲染过程是顺序执行的。而所谓的并发加载指的是当浏览器引入<code>&lt;link&gt;</code>或<code>&lt;script&gt;</code>，多个标签的资源可以并发加载。但是并发度是受浏览器自身能力限制的。</p>
 <p>对于<code>&lt;img&gt;</code>所载入的图片，是异步请求的，并不会阻塞页面的渲染，图片的加载速度受其本身大小的影响（图片太大可能在整个页面加载完之后它还没加载出来）。</p>
@@ -514,9 +592,7 @@
 &lt;ul&gt;
 &lt;li&gt;根据HTML结构生成&lt;code&gt;DOM tree&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;根据CSS生成&lt;code&gt;CSSOM&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;将&lt;code&gt;DOM&lt;/code&gt;和&lt;code&gt;CSSOM&lt;/code&gt;整合形成&lt;code&gt;RenderTree&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;根据&lt;code&gt;RenderTree&lt;/code&gt;开始渲染和展示&lt;/li&gt;
-&lt;li&gt;遇到&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;时，会执行并阻塞渲染
+&lt;li&gt;将&lt;code&gt;DOM&lt;/code&gt;和&lt;code&gt;CSSO
     
     </summary>
     
@@ -527,12 +603,12 @@
   
   <entry>
     <title>网络知识补充——浏览器请求过程</title>
-    <link href="http://yoursite.com/2017/08/17/17-08-17-23/"/>
-    <id>http://yoursite.com/2017/08/17/17-08-17-23/</id>
+    <link href="http://yoursite.com/2017/08/17/17-08-17-18/"/>
+    <id>http://yoursite.com/2017/08/17/17-08-17-18/</id>
     <published>2017-08-17T12:49:56.000Z</published>
-    <updated>2017-10-14T08:30:52.132Z</updated>
+    <updated>2017-10-19T08:39:08.041Z</updated>
     
-    <content type="html"><![CDATA[<p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？</p>
 <p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
 <p>首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。<br>以Chrome浏览器为例，其解析过程：</p>
 <ul>
@@ -632,7 +708,9 @@
     
     <summary type="html">
     
-      &lt;p&gt;当我们在浏览器中输入一个url，页面是如何呈现出来的呢？&lt;br&gt;
+      &lt;p&gt;当我们在浏览器中输入一个url，页面是如何呈现出来的呢？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先，
     
     </summary>
     
@@ -645,17 +723,16 @@
   
   <entry>
     <title>JS面向对象学习笔记</title>
-    <link href="http://yoursite.com/2017/08/16/17-08-16-22/"/>
-    <id>http://yoursite.com/2017/08/16/17-08-16-22/</id>
+    <link href="http://yoursite.com/2017/08/16/17-08-16-17/"/>
+    <id>http://yoursite.com/2017/08/16/17-08-16-17/</id>
     <published>2017-08-16T13:20:29.000Z</published>
-    <updated>2017-10-14T08:31:30.240Z</updated>
+    <updated>2017-10-19T08:25:54.842Z</updated>
     
     <content type="html"><![CDATA[<h2 id="面向对象（OOP）的概念"><a href="#面向对象（OOP）的概念" class="headerlink" title="面向对象（OOP）的概念"></a>面向对象（OOP）的概念</h2><p>对于面向对象，有以下几个概念：</p>
 <ul>
 <li>一切事物皆对象</li>
 <li>对象具有封装和继承特性</li>
-<li>对象与对象之间使用消息通信，各自存在信息隐藏<a id="more"></a>
-</li>
+<li>对象与对象之间使用消息通信，各自存在信息隐藏</li>
 </ul>
 <p><strong>对象有哪些特性？</strong></p>
 <ul>
@@ -709,9 +786,7 @@
     
       &lt;h2 id=&quot;面向对象（OOP）的概念&quot;&gt;&lt;a href=&quot;#面向对象（OOP）的概念&quot; class=&quot;headerlink&quot; title=&quot;面向对象（OOP）的概念&quot;&gt;&lt;/a&gt;面向对象（OOP）的概念&lt;/h2&gt;&lt;p&gt;对于面向对象，有以下几个概念：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;一切事物皆对象&lt;/li&gt;
-&lt;li&gt;对象具有封装和继承特性&lt;/li&gt;
-&lt;li&gt;对象与对象之间使用消息通信，各自存在信息隐藏
+&lt;li&gt;一
     
     </summary>
     
@@ -722,10 +797,10 @@
   
   <entry>
     <title>JS变量、作用域和内存问题</title>
-    <link href="http://yoursite.com/2017/08/15/17-08-15-21/"/>
-    <id>http://yoursite.com/2017/08/15/17-08-15-21/</id>
+    <link href="http://yoursite.com/2017/08/15/17-08-15-16/"/>
+    <id>http://yoursite.com/2017/08/15/17-08-15-16/</id>
     <published>2017-08-15T12:30:52.000Z</published>
-    <updated>2017-10-14T08:33:32.018Z</updated>
+    <updated>2017-10-19T06:11:49.062Z</updated>
     
     <content type="html"><![CDATA[<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>在JavaScript中，数据类型分为基本类型和引用类型。</p>
 <ul>
@@ -806,12 +881,12 @@
   
   <entry>
     <title>异步编程之promise与trigger</title>
-    <link href="http://yoursite.com/2017/07/15/17-07-15-20/"/>
-    <id>http://yoursite.com/2017/07/15/17-07-15-20/</id>
+    <link href="http://yoursite.com/2017/07/15/17-07-15-15/"/>
+    <id>http://yoursite.com/2017/07/15/17-07-15-15/</id>
     <published>2017-07-15T08:13:01.000Z</published>
-    <updated>2017-10-14T08:34:48.508Z</updated>
+    <updated>2017-10-19T08:38:20.788Z</updated>
     
-    <content type="html"><![CDATA[<p>这周的学习任务：<code>promise</code>与<code>trigger</code><br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>这周的学习任务：<code>promise</code>与<code>trigger</code></p>
 <h2 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h2><blockquote>
 <p>Javascript语言将任务的执行模式分为同步（Synchronous）和异步（Asynchronous），“同步模式”指的是后一个任务只有等待前一个任务完成之后才能执行，程序执行顺序与任务的排列顺序是一致的、同步的。而“异步模式”指的是每个任务有一个或多个回调函数，前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的、异步的。</p>
 </blockquote>
@@ -857,7 +932,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;这周的学习任务：&lt;code&gt;promise&lt;/code&gt;与&lt;code&gt;trigger&lt;/code&gt;&lt;br&gt;
+      &lt;p&gt;这周的学习任务：&lt;code&gt;promise&lt;/code&gt;与&lt;code&gt;trigger&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;异步编程&quot;&gt;&lt;a href=&quot;#异步编程&quot; class=&quot;headerlink&quot; title=&quot;异步编程&quot;&gt;&lt;/a&gt;异步编程&lt;/h2&gt;&lt;blockqu
     
     </summary>
     
@@ -868,13 +944,12 @@
   
   <entry>
     <title>搭建Hexo博客之后</title>
-    <link href="http://yoursite.com/2017/07/15/17-07-15-19/"/>
-    <id>http://yoursite.com/2017/07/15/17-07-15-19/</id>
+    <link href="http://yoursite.com/2017/07/15/17-07-15-14/"/>
+    <id>http://yoursite.com/2017/07/15/17-07-15-14/</id>
     <published>2017-07-15T06:59:11.000Z</published>
-    <updated>2017-10-14T08:35:30.867Z</updated>
+    <updated>2017-10-19T08:38:07.627Z</updated>
     
     <content type="html"><![CDATA[<p>这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？<br>然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。<br>恩，然后找到了方法，然而感觉讲的太！不！清！楚！<br>折腾了半天，终于弄好了，以下整理了一下步骤：</p>
-<a id="more"></a>
 <h2 id="使用分支方法解决hexo博客无法在两台电脑上更新的问题"><a href="#使用分支方法解决hexo博客无法在两台电脑上更新的问题" class="headerlink" title="使用分支方法解决hexo博客无法在两台电脑上更新的问题"></a>使用分支方法解决hexo博客无法在两台电脑上更新的问题</h2><h3 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h3><p>首先，创建一个新的文件夹，和github上的仓库同名：<code>username.github.io</code><br>然后开始创建本地仓库，以下是创建一个新的本地仓库的git指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ touch README.md</div><div class="line">$ git init </div><div class="line">$ git add README.md</div><div class="line">$ git commit -m &quot;first commit&quot;</div><div class="line">$ git remote add origin 你的项目地址</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure></p>
 <p>在执行push指令的时候可能会报错，让你先pull，这里可以执行以下命令解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git pull --rebase origin master</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure></p>
 <p>这样就可以将本地仓库里的文件更新到github仓库啦~(≧▽≦)/~</p>
@@ -893,7 +968,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？&lt;br&gt;然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。&lt;br&gt;恩，然后找到了方法，然而感觉讲的太！不！清！楚！&lt;br&gt;折腾了半天，终于弄好了，以下整理了一下步骤：&lt;/p&gt;
+      &lt;p&gt;这几天在公司实习，用着公司的电脑，划水的时候想着更新一下博客，然后问题来了：博客的相关文件都在自家电脑没拷来，莫不是要重新搭一个环境？？那我部署之后岂不是之前的都被覆盖了？？？&lt;br&gt;然后突然觉得这丫的好像换电脑更新有点小问题呀就开始百度解决。&lt;br&gt;恩，然后找到了方法，然
     
     </summary>
     
@@ -904,15 +979,14 @@
   
   <entry>
     <title>JS之this指针笔记</title>
-    <link href="http://yoursite.com/2017/07/08/17-07-08-18/"/>
-    <id>http://yoursite.com/2017/07/08/17-07-08-18/</id>
+    <link href="http://yoursite.com/2017/07/08/17-07-08-13/"/>
+    <id>http://yoursite.com/2017/07/08/17-07-08-13/</id>
     <published>2017-07-08T05:48:43.000Z</published>
-    <updated>2017-10-14T08:35:55.350Z</updated>
+    <updated>2017-10-19T08:38:29.439Z</updated>
     
     <content type="html"><![CDATA[<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><blockquote>
 <p>this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</p>
 </blockquote>
-<a id="more"></a>
 <ul>
 <li><p><strong>定义在全局中的函数</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.x = <span class="number">1</span>; <span class="comment">//此处的this指的是window</span></div><div class="line">&#125;</div><div class="line">x = <span class="number">0</span>; <span class="comment">//在全局修改这个x，函数中这个this.x也是会一起改变的</span></div></pre></td></tr></table></figure>
@@ -945,8 +1019,7 @@
     <summary type="html">
     
       &lt;h2 id=&quot;this指针&quot;&gt;&lt;a href=&quot;#this指针&quot; class=&quot;headerlink&quot; title=&quot;this指针&quot;&gt;&lt;/a&gt;this指针&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内
     
     </summary>
     
@@ -957,13 +1030,12 @@
   
   <entry>
     <title>JS继承笔记</title>
-    <link href="http://yoursite.com/2017/07/07/17-07-07-17/"/>
-    <id>http://yoursite.com/2017/07/07/17-07-07-17/</id>
+    <link href="http://yoursite.com/2017/07/07/17-07-07-12/"/>
+    <id>http://yoursite.com/2017/07/07/17-07-07-12/</id>
     <published>2017-07-07T14:02:11.000Z</published>
-    <updated>2017-10-14T08:36:56.535Z</updated>
+    <updated>2017-10-19T08:38:34.973Z</updated>
     
     <content type="html"><![CDATA[<p>在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。<br>由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。</p>
-<a id="more"></a>
 <p>看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-1.png" alt=""><br>通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。</p>
 <p>在以上基础下，得出了几种继承方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//现有两个构造函数</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.species = <span class="string">"动物"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.name = name;</div><div class="line">  <span class="keyword">this</span>.color = color;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h2><ul>
@@ -989,6 +1061,7 @@
     <summary type="html">
     
       &lt;p&gt;在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。&lt;br&gt;由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。&lt;/p&gt;
+&lt;p&gt;看了阮
     
     </summary>
     
@@ -998,61 +1071,15 @@
   </entry>
   
   <entry>
-    <title>Vue.js学习笔记（一）</title>
-    <link href="http://yoursite.com/2017/05/11/17-05-11-16/"/>
-    <id>http://yoursite.com/2017/05/11/17-05-11-16/</id>
-    <published>2017-05-11T13:25:58.000Z</published>
-    <updated>2017-10-14T08:37:22.335Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>使用git，输入指令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安装vue-cli</span></div><div class="line">$ cnpm install -g vue-cli</div><div class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></div><div class="line">$ vue init webpack my-project</div><div class="line"><span class="comment"># 安装依赖</span></div><div class="line">$ cd my-project</div><div class="line">$ cnmp install</div><div class="line"><span class="comment"># 开启项目</span></div><div class="line">$ npm run dev</div></pre></td></tr></table></figure></p>
-<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 默认调用src里的main.js --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><code>src/main.js</code></p>
-<pre><code class="js"><span class="comment">//import表示导入组件</span>
-<span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span>
-<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span>
-<span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span>
-
-
-Vue.config.productionTip = <span class="literal">false</span>
-
-<span class="comment">/* eslint-disable no-new */</span>
-<span class="keyword">new</span> Vue({
-  <span class="attr">el</span>: <span class="string">'#app'</span>,
-  router,
-  <span class="attr">template</span>: <span class="string">'&lt;App/&gt;'</span>,
-  <span class="attr">components</span>: { App }  <span class="comment">//注册一个app</span>
-})
-</code></pre>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
-    
-  </entry>
-  
-  <entry>
     <title>JavaScript正则表达式</title>
-    <link href="http://yoursite.com/2017/04/21/17-04-21-14/"/>
-    <id>http://yoursite.com/2017/04/21/17-04-21-14/</id>
+    <link href="http://yoursite.com/2017/04/21/17-04-21-11/"/>
+    <id>http://yoursite.com/2017/04/21/17-04-21-11/</id>
     <published>2017-04-21T07:22:18.000Z</published>
-    <updated>2017-10-14T08:37:48.956Z</updated>
+    <updated>2017-10-19T08:38:40.809Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。</p>
 </blockquote>
-<a id="more"></a>
 <h2 id="正则表达式的定义"><a href="#正则表达式的定义" class="headerlink" title="正则表达式的定义"></a>正则表达式的定义</h2><ul>
 <li><p>一种是使用正则表达式直接量，将其包含在一对斜杠<code>/</code>之间的字符</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pattern = <span class="regexp">/s$/</span>;</div></pre></td></tr></table></figure>
@@ -1113,6 +1140,7 @@ Vue.config.productionTip = <span class="literal">false</span>
       &lt;blockquote&gt;
 &lt;p&gt;正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2 id=&quot;正则表达式的定义&quot;&gt;&lt;a href=&quot;#正则表达式的定义&quot; cla
     
     </summary>
     
@@ -1123,10 +1151,10 @@ Vue.config.productionTip = <span class="literal">false</span>
   
   <entry>
     <title>有关CSS的tip</title>
-    <link href="http://yoursite.com/2017/04/10/17-04-10-13/"/>
-    <id>http://yoursite.com/2017/04/10/17-04-10-13/</id>
+    <link href="http://yoursite.com/2017/04/10/17-04-10-10/"/>
+    <id>http://yoursite.com/2017/04/10/17-04-10-10/</id>
     <published>2017-04-10T02:16:38.000Z</published>
-    <updated>2017-10-14T08:44:37.619Z</updated>
+    <updated>2017-10-19T08:38:45.399Z</updated>
     
     <content type="html"><![CDATA[<h4 id="position的值，relative和absolute分别是相对于谁进行定位的？"><a href="#position的值，relative和absolute分别是相对于谁进行定位的？" class="headerlink" title="position的值，relative和absolute分别是相对于谁进行定位的？"></a>position的值，relative和absolute分别是相对于谁进行定位的？</h4><ul>
 <li><code>absolute</code> 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。</li>
@@ -1134,7 +1162,6 @@ Vue.config.productionTip = <span class="literal">false</span>
 <li><code>relative</code> 生成相对定位的元素，相对于其在普通流中的位置进行定位。</li>
 <li><code>static</code> 默认值。没有定位，元素出现在正常的流中</li>
 </ul>
-<a id="more"></a>
 <h4 id="display-none和visibility-hidden的区别？"><a href="#display-none和visibility-hidden的区别？" class="headerlink" title="display:none和visibility:hidden的区别？"></a>display:none和visibility:hidden的区别？</h4><ul>
 <li><code>display:none</code> 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。</li>
 <li><code>visibility:hidden</code> 隐藏对应的元素，但是在文档布局中仍保留原来的空间。</li>
@@ -1193,12 +1220,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     
     <summary type="html">
     
-      &lt;h4 id=&quot;position的值，relative和absolute分别是相对于谁进行定位的？&quot;&gt;&lt;a href=&quot;#position的值，relative和absolute分别是相对于谁进行定位的？&quot; class=&quot;headerlink&quot; title=&quot;position的值，relative和absolute分别是相对于谁进行定位的？&quot;&gt;&lt;/a&gt;position的值，relative和absolute分别是相对于谁进行定位的？&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;absolute&lt;/code&gt; 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;fixed&lt;/code&gt; （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;relative&lt;/code&gt; 生成相对定位的元素，相对于其在普通流中的位置进行定位。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;static&lt;/code&gt; 默认值。没有定位，元素出现在正常的流中&lt;/li&gt;
-&lt;/ul&gt;
+      &lt;h4 id=&quot;position的值，relative和absolute分别是相对于谁进行定位的？&quot;&gt;&lt;a href=&quot;#position的值，relative和absolute分别是相对于谁进行定位的？&quot; class=&quot;headerlink&quot; title=&quot;position的值
     
     </summary>
     
@@ -1211,17 +1233,16 @@ Vue.config.productionTip = <span class="literal">false</span>
   
   <entry>
     <title>前端模块化</title>
-    <link href="http://yoursite.com/2017/04/06/17-04-06-12/"/>
-    <id>http://yoursite.com/2017/04/06/17-04-06-12/</id>
+    <link href="http://yoursite.com/2017/04/06/17-04-06-9/"/>
+    <id>http://yoursite.com/2017/04/06/17-04-06-9/</id>
     <published>2017-04-06T06:46:01.000Z</published>
-    <updated>2017-10-14T08:38:35.183Z</updated>
+    <updated>2017-10-19T08:38:49.667Z</updated>
     
     <content type="html"><![CDATA[<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><ul>
-<li>AMD 即<code>Asynchronous Module Definition</code>，中文名是<strong>异步模块定义</strong>的意思。它是一个在浏览器端模块化开发的规范。</li>
-</ul>
-<a id="more"></a>
+<li><p>AMD 即<code>Asynchronous Module Definition</code>，中文名是<strong>异步模块定义</strong>的意思。它是一个在浏览器端模块化开发的规范。</p>
+</li>
+<li><p>应用：<strong>RequireJS</strong><br>解决的主要问题：</p>
 <ul>
-<li>应用：<strong>RequireJS</strong><br>解决的主要问题：<ul>
 <li>多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器</li>
 <li>js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长</li>
 </ul>
@@ -1273,8 +1294,7 @@ Vue.config.productionTip = <span class="literal">false</span>
     <summary type="html">
     
       &lt;h2 id=&quot;AMD&quot;&gt;&lt;a href=&quot;#AMD&quot; class=&quot;headerlink&quot; title=&quot;AMD&quot;&gt;&lt;/a&gt;AMD&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;AMD 即&lt;code&gt;Asynchronous Module Definition&lt;/code&gt;，中文名是&lt;strong&gt;异步模块定义&lt;/strong&gt;的意思。它是一个在浏览器端模块化开发的规范。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;&lt;p&gt;AMD 即&lt;code&gt;Asynchronous Module Definition&lt;/code&gt;，中文名是&lt;str
     
     </summary>
     
@@ -1287,22 +1307,19 @@ Vue.config.productionTip = <span class="literal">false</span>
   
   <entry>
     <title>从零开始的backbone.js（三）</title>
-    <link href="http://yoursite.com/2017/04/06/17-04-06-11/"/>
-    <id>http://yoursite.com/2017/04/06/17-04-06-11/</id>
+    <link href="http://yoursite.com/2017/04/06/17-04-06-8/"/>
+    <id>http://yoursite.com/2017/04/06/17-04-06-8/</id>
     <published>2017-04-06T05:47:54.000Z</published>
-    <updated>2017-10-14T08:38:57.258Z</updated>
+    <updated>2017-10-19T08:38:54.471Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Backbone-Collection（集合）"><a href="#Backbone-Collection（集合）" class="headerlink" title="Backbone.Collection（集合）"></a>Backbone.Collection（集合）</h2><ul>
 <li>model是现实中物体的抽象，而collection则是model对象的一个有序的集合</li>
 </ul>
-<a id="more"></a>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Book = Backbone.Model.extend(&#123;</div><div class="line">	<span class="attr">defaults</span>:&#123;</div><div class="line">		<span class="attr">title</span>:<span class="string">"default"</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">initialize</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		alert(<span class="keyword">this</span>.title);</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> BookShelf = Backbone.Collection.extend(&#123;</div><div class="line">	<span class="comment">//model Book的集合</span></div><div class="line">	model:Book;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//创建三个Book model</span></div><div class="line"><span class="keyword">var</span> book1 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book1"</span>&#125;);</div><div class="line"><span class="keyword">var</span> book2 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book2"</span>&#125;);</div><div class="line"><span class="keyword">var</span> book3 = <span class="keyword">new</span> Book(&#123;<span class="attr">title</span>:<span class="string">"book3"</span>&#125;);</div><div class="line"><span class="comment">//创建一个bookShelf数组集合</span></div><div class="line"><span class="keyword">var</span> bookShelf = <span class="keyword">new</span> BookShelf([book1,book2,book3]);</div><div class="line"><span class="comment">//或者，可以使用add将book1,book2,book3加入到集合中</span></div><div class="line"><span class="comment">/*</span></div><div class="line">bookShelf.add(book1);</div><div class="line">bookShelf.add(book2);</div><div class="line">bookShelf.add(book3);</div><div class="line">*/</div><div class="line"><span class="comment">//还可以对里面的model进行其他操作</span></div><div class="line">bookShelf.remove(book3);</div><div class="line"><span class="comment">//可以用each对其进行遍历</span></div><div class="line">bookShelf.each(<span class="function"><span class="keyword">function</span>(<span class="params">book</span>)</span>&#123;</div><div class="line">	alert(book.get(<span class="string">"title"</span>));</div><div class="line">&#125;);</div><div class="line"><span class="comment">//相当于ajax的操作</span></div><div class="line">bookShelf.url = <span class="string">'/books/'</span></div><div class="line">bookShelf.fetch(&#123;</div><div class="line">	<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//...</span></div><div class="line">	&#125;,</div><div class="line">	<span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">//...</span></div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//create方法，将model对象（json数据）POST到对应的url上</span></div><div class="line"><span class="keyword">var</span> NewBooks = Backbone.Collection.extend(&#123;</div><div class="line">	<span class="attr">model</span>:Book,</div><div class="line">	<span class="attr">url</span>:<span class="string">'/books/'</span></div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> books =  <span class="keyword">new</span> NewBooks;</div><div class="line"><span class="keyword">var</span> onebook = books.create(&#123;</div><div class="line">	<span class="attr">title</span>: <span class="string">"I'm coming"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;Backbone-Collection（集合）&quot;&gt;&lt;a href=&quot;#Backbone-Collection（集合）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.Collection（集合）&quot;&gt;&lt;/a&gt;Backbone.Collection（集合）&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;model是现实中物体的抽象，而collection则是model对象的一个有序的集合&lt;/li&gt;
-&lt;/ul&gt;
+      &lt;h2 id=&quot;Backbone-Collection（集合）&quot;&gt;&lt;a href=&quot;#Backbone-Collection（集合）&quot; class=&quot;headerlink&quot; title=&quot;Backbone.Collection（集合）&quot;&gt;&lt;/a&gt;Backbone.Collecti
     
     </summary>
     

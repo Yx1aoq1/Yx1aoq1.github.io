@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        网络知识补充——浏览器请求过程 · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href = /css/style.css?v=20171005 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">网络知识补充——浏览器请求过程</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            网络知识补充——浏览器请求过程
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 网络>网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2017/08/17</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>当我们在浏览器中输入一个url，页面是如何呈现出来的呢？</p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http.png" alt=""></p>
+<p>首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。<br>以Chrome浏览器为例，其解析过程：</p>
+<ul>
+<li>搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存</li>
+<li>搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经失效）</li>
+<li>读取本地的HOST文件（操作系统的DNS缓存也没有找到）</li>
+<li>浏览器发起一个DNS的一个系统调用，向宽带运营商的DNS服务器发送一个域名请求</li>
+</ul>
+<p>紧接着我们就来到了DNS服务器，DNS服务器接受到请求后，开始如下操作：</p>
+<ul>
+<li>查找本地缓存</li>
+<li>如果未找到对应条目，则服务器将发起一个迭代DNS解析的请求</li>
+<li>将迭代查询后的结果返回给操作系统内核同时进行缓存</li>
+</ul>
+<p>之后操作系统内核把结果返回给浏览器，浏览器拿到了域名对应的IP地址。这时，浏览器就可以向这个IP地址发送请求，请求通过我们的协议，经过了层层的网络，到达服务端。服务端有一个MVC架构，请求首先会进入<code>Controller</code>层，进行相关的逻辑处理，以及请求的分发，然后来调用<code>Model</code>层，<code>Model</code>层主要负责与数据的交互，在交互过程中会它会读取<code>redis</code>和数据库中存储的数据，最终将渲染好的页面通过<code>View</code>层返回给网络。这时，<code>httpResponse</code>就通过层层网络回到浏览器，浏览器根据请求回来的<code>html</code>、<code>css</code>、<code>js</code>进行渲染，最终将页面展现在我们面前。</p>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>DNS全名Domain Name System，我们在互联网中，我们通过IP地址来进行通信，由于IP地址是用数字表示的，看着很不直观难以记忆，所以使用域名来帮助记忆，如：<code>http://www.baidu.com/</code>，而DNS的作用就是将域名转换成IP，或将IP转换成域名，这个过程也叫做解析。<br><strong>Tip：</strong>电脑中的HOST文件是通过静态匹配IP和域名</p>
+<h3 id="域名空间结构"><a href="#域名空间结构" class="headerlink" title="域名空间结构"></a>域名空间结构</h3><ul>
+<li>根域：<code>.</code>，根域名的服务器只有13台</li>
+<li><p>顶级域（一级域）：<code>edu</code>、<code>gov</code>、<code>com</code>、<code>org</code>、<code>mil</code>、<code>cn</code>等，由域名分配组织ISO决定</p>
+<ul>
+<li><p>组织域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">gov         政府部门</div><div class="line">com         商业部门</div><div class="line">edu         教育部门</div><div class="line">org         民间团体组织</div><div class="line">net         网络服务机构</div><div class="line">mil         军事部门</div></pre></td></tr></table></figure>
+</li>
+<li><p>国家或地区域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cn          中国</div><div class="line">jp          日本</div><div class="line">uk          英国</div><div class="line">au          澳大利亚</div><div class="line">hk          中国香港</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>二级域：个人和企业向域名分配组织申请的，需要购买，如<code>baidu</code>、<code>sina</code>等</p>
+</li>
+<li>主机名（三级域）：申请完二级域名后自己规定的，如<code>www</code>（代表网页服务）、<code>NEWS</code></li>
+</ul>
+<p>一个完整的域名是由三级域 + 二级域 + 一级域组成的，并且是全球唯一的。<br>在互联网中，域名是由结构有规划的。因为域名进行了分级，在进行域名和IP地址解析时才能更容易的找到，即根域名只负责管理一级域名，而一级域名负责管理自己以下的二级域名，以此类推。</p>
+<h3 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/http-2.png" alt=""></p>
+<p>客户机向指定的域名服务器发送请求，说我想要访问<code>www.baidu.com.cn</code>这个网站，如果这台域名服务器并没有缓存这个域名的IP地址，那么它就会向根DNS服务器询问（每个本地域名服务器都会保存全球13台根服务器的IP地址），根DNS服务器将会返回它管理下的一级域名（<code>cn</code>）的IP地址，紧接着本地域名服务器就向<code>cn</code>服务器发送询问，<code>cn</code>服务器返回<code>com.cn</code>服务器的IP，然后本地服务器接着询问，直到找到<code>www.baidu.com.cn</code>的IP地址，再返回给客户机。这个过程就是<strong>DNS迭代查询</strong>。</p>
+<h2 id="ISO-OSI-七层模型"><a href="#ISO-OSI-七层模型" class="headerlink" title="ISO/OSI 七层模型"></a>ISO/OSI 七层模型</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>ISO：国际标准化组织</li>
+<li>OSI：开放系统互联模型</li>
+<li>IOS：在计算机网络中，IOS是互联网操作系统，是思科公司为其网络设备开发的操作维护系统</li>
+<li>OSI七层模型的划分：OSI定义了网络互连的七层框架（物理层、数据链路层、网络层、传输层、会话层、表示层、应用层），即ISO开放互联系统参考模型。如下图。</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/osi.png" alt=""></p>
+<p>每一层实现各自的功能和协议，并完成与相邻层的接口通信。OSI的服务定义详细说明了各层所提供的服务。某一层的服务就是该层及其下各层的一种能力，它通过接口提供给更高一层。各层所提供的服务与这些服务是怎么实现的无关。<br><strong>注意点：</strong>各层通信的接口并不是真实存在的接口，整个分层模型也只是逻辑上的分层。数据传递只在物理层进行，其他层的数据传递只是逻辑上的概念，并没有真实数据传递。</p>
+<p><strong>为什么要进行分层？</strong></p>
+<p>因为分层可以将功能进行划分，一旦数据传输出了问题，或者需要设计修改相关的功能软件，这样只要针对其中的一层进行排查和修改。分层的目的就是便于管理。</p>
+<p><strong>传输单位：</strong></p>
+<ul>
+<li>比特：bit，机器码的传输单位，每个0或1就是一个比特。</li>
+<li>帧：由帧头和帧数据组成。帧头包括接收方主机物理地址的定位以及其他信息。其中这个物理地址就是MAC地址（负责局域网通信）。而帧数据区含有一个数据体。</li>
+<li>报文：保存的基本信息为IP地址（负责外网通信）。</li>
+<li>TPDU：传输协议数据单元。</li>
+<li>APDU/PPDU/SPDU：由于上三层并不做数据传输，所以这三个单位可用可不用。SPDU是会话协议数据单元，PPDU是表示协议数据单元，ADPU是应用协议数据单元。</li>
+</ul>
+<h3 id="七层详解"><a href="#七层详解" class="headerlink" title="七层详解"></a>七层详解</h3><ul>
+<li>物理层：设备之间的比特流的传输、物理接口、电气特性等。（网线，网卡）</li>
+<li>数据链路层：成帧、用MAC地址访问媒介、错误检测与修正。</li>
+<li>网络层：提供逻辑地址（IP）、选路。</li>
+<li>传输层：可靠与不可靠的传输（TCP/UDP协议）、传输前的错误检测、流控。（确定端口号，而端口号是用于确定计算机所提供的服务的，例如www,mail等）</li>
+<li>会话层：对应用会话的管理、同步。</li>
+<li>表示层：数据的表现形式（将机器码转换成我们可以理解的字符，文件格式，反之亦可）、特定功能的实现如加密。</li>
+<li>应用层：用户接口（可以理解为各自桌面应用）。</li>
+</ul>
+<h2 id="TCP-IP-四层模型"><a href="#TCP-IP-四层模型" class="headerlink" title="TCP/IP 四层模型"></a>TCP/IP 四层模型</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>网络接口层：与OSI参考模型中的<strong>物理层</strong>和<strong>数据链路层</strong>相对应。它负责监视数据在主机和网络之间的交换。事实上，TCP/IP本身并未定义该层的协议，而由参与互连的各网络使用自己的物理层和数据链路层协议，然后与TCP/IP的网络接入层进行连接。<strong>地址解析协议（ARP）</strong>工作在此层，即OSI参考模型的数据链路层。</li>
+<li>网际互联层：对应OSI参考模型的网络层，主要解决主机到主机的通信问题。它所包含的协议涉及数据包在整个网络上的逻辑传输。该层有三个主要协议：<strong>网际协议（IP）</strong>、<strong>互联网组管理协议（IGMP）</strong>和<strong>互联网控制报文协议（ICMP）</strong>。</li>
+<li>传输层：对应OSI参考模型的传输层，为应用层实体提供端到端的通信功能，保证了数据包的顺序传送及数据的完整性。该层定义了两个主要的协议：<strong>传输控制协议（TCP）</strong>和<strong>用户数据报协议（UDP）</strong>。</li>
+<li>应用层：对应OSI参考模型的高层，为用户提供所需要的各自服务，例如：FTP、Telnet、DNS、SMTP等。</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/tcp-ip.png" alt=""></p>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><ul>
+<li>共同点：<ul>
+<li>都采用了层次结构的概念；</li>
+<li>都能够提供面向连接和无连接两种通信服务机制；</li>
+</ul>
+</li>
+<li>不同点：<ul>
+<li>前者七层模型，后者四层结构；</li>
+<li>对可靠性的要求不同（后者更高）；</li>
+<li>OSI模型是在协议开发前设计的，具有通用性。TCP/IP是先有协议集然后建立模型，不适用于非TCP/IP网络。</li>
+<li>实际市场应用不同（OSI模型只是理论上的模型，并没有成熟的产品，而TCP/IP已经成为“实际上的国际标准”）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="TCP-IP-通信"><a href="#TCP-IP-通信" class="headerlink" title="TCP/IP 通信"></a>TCP/IP 通信</h2><p><strong>当浏览器向服务器发送HTTP请求的时候，数据是如何到达服务器的呢？</strong></p>
+<p>首先，为了传输的方便，在传输层（TCP协议）把从应用层处收到的数据（HTTP请求报文）进行分割，并在各个报文打上标记序号及端口号后转发给网络层。<br>在网络层（IP协议），增加作为通信目的地的MAC地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。<br>接收端的服务器在链路层接收到数据，按序往上层发送，每经过一层就将对应的首部去掉，最终到达服务器的应用层。</p>
+<h3 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h3><p>IP网际协议位于网络层，其作用是把各种数据包传送给对方，而要保证确实传送到，则需要满足各类条件，其中两个重要的条件是<strong>IP地址</strong>和<strong>MAC地址</strong>（Media Access Control Address）。IP地址指明了节点被分配到的地址，MAC地址是指网卡所属的固定地址。IP地址可以和MAC地址进行配对。IP地址可变换，但MAC地址基本上不会改变。</p>
+<p><strong>APR协议：</strong>通过APR协议对IP地址进行解析，可以查出通信方对应的MAC地址，从而进行通信。<br><strong>路由选择：</strong>在到达通信目标前的中转过程中，计算机与路由器等网络设备的传输线路不是固定的。</p>
+<h3 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h3><p>TCP协议位于传输层，提供可靠的字节流服务。其中<strong>字节流服务</strong>是指，将大块的数据分割成以报文为单位的数据包进行管理。<strong>可靠的传输服务</strong>是指能够把数据准确可靠的传给对方。</p>
+<p><strong>三次握手：</strong>为了确保数据准确传送，TCP协议把数据包传送出去后，会向对方确认是否成功送达。握手过程中使用了TCP标志——SYN（synchronize）和ACK（acknowledgement）。</p>
+<p>发送端首先发送一个带SYN标志的数据包给对方，接收端收到后，回传一个带有SYN/ACK标志的数据包以示传达确认信息。最后，发送端再回传一个带有ACK标志的数据包，代表握手结束。若握手过程中某个阶段莫名中断，TCP协议会再次以相同的顺序发送相同的数据包。</p>
+<blockquote>
+<p><strong>「我给你讲个TCP的笑话吧」</strong></p>
+<p>“我给你讲一个TCP的笑话吧？”<br>“给我讲一个TCP笑话呗！”<br>“好的，我会给你讲一个TCP的笑话。”</p>
+</blockquote>
+<p><strong>TCP与UDP比较：</strong>UDP也是一种传输协议，但是UDP是不可靠的，将数据包发送之后，就不会验证数据包和回复。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2017/08/19/17-08-19-19/" title= 页面加载——浏览器渲染 >
+                    <span>Next Post</span>
+                    <span>页面加载——浏览器渲染</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href= "/2017/08/16/17-08-16-17/" title= JS面向对象学习笔记 >
+                    <span>Previous Post</span>
+                    <span>JS面向对象学习笔记</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS"><span class="toc-number">1.</span> <span class="toc-text">DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#域名空间结构"><span class="toc-number">1.1.</span> <span class="toc-text">域名空间结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS查询过程"><span class="toc-number">1.2.</span> <span class="toc-text">DNS查询过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ISO-OSI-七层模型"><span class="toc-number">2.</span> <span class="toc-text">ISO/OSI 七层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">2.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七层详解"><span class="toc-number">2.2.</span> <span class="toc-text">七层详解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-四层模型"><span class="toc-number">3.</span> <span class="toc-text">TCP/IP 四层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念-1"><span class="toc-number">3.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较"><span class="toc-number">3.2.</span> <span class="toc-text">比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP-通信"><span class="toc-number">4.</span> <span class="toc-text">TCP/IP 通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP协议"><span class="toc-number">4.1.</span> <span class="toc-text">IP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP协议"><span class="toc-number">4.2.</span> <span class="toc-text">TCP协议</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2017/10/19/17-10-19-27/" >Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2017/10/17/17-10-14-26/" >前端自动化工具</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-25/" >jQuery源码学习笔记(03)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-24/" >jQuery源码学习笔记(02)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-21/" >JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-20/" >JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-19/" >页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-18/" >网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-17/" >JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-16/" >JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-15/" >异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-14/" >搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-13/" >JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-12/" >JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-11/" >JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-10/" >有关CSS的tip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-9/" >前端模块化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-8/" >从零开始的backbone.js（三）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-7/" >从零开始的backbone.js（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-6/" >从零开始的backbone.js（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-5/" >iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-4/" >JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-3/" >AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2017/03/20/17-03-20-4/" >关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-2/" >Sublime Text3前端插件分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-1/" >这磨人的小妖精</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+
