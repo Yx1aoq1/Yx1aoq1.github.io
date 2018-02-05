@@ -122,6 +122,10 @@
     
         <a class="post-tag" href="javascript:void(0);" data-href = Vue>Vue</a>
     
+        <a class="post-tag" href="javascript:void(0);" data-href = MVC>MVC</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = MVVM>MVVM</a>
+    
 </div>
             
             <div class="post-intro-meta">
@@ -144,8 +148,9 @@
 <li><strong>ViewModel</strong><br>ViewModel可以被看作是MVC中的Controller,它主要负责数转换（用一定的业务逻辑），它负责将Model的变化反应到View上，而当View自身有变化时也会同步Model进行改变。你可以把ViewModel看作一个藏在View后面的好帮手，它把View需要的数据暴露给它，并且富于View一定的行为能力。</li>
 </ul>
 <h2 id="MVC-和-MVVM-的比较"><a href="#MVC-和-MVVM-的比较" class="headerlink" title="MVC 和 MVVM 的比较"></a>MVC 和 MVVM 的比较</h2><p>刚发现了一篇关于几个模型的博文<a href="http://www.cnblogs.com/indream/p/3602348.html" target="_blank" rel="external">从Script到Code Blocks、Code Behind到MVC、MVP、MVVM</a><br>在这里，简单的对这两个比较常见的设计模型进行一些比较：</p>
-<h3 id="MVC工作流程"><a href="#MVC工作流程" class="headerlink" title="MVC工作流程"></a>MVC工作流程</h3><p>View（界面）触发事件 –&gt; Controller（业务）处理了业务，然后触发了数据更新 –&gt; 不知道谁更新了Model的数据 –&gt; Model（带着数据）回到了View –&gt; View更新数据</p>
-<h3 id="为什么要使用MVC"><a href="#为什么要使用MVC" class="headerlink" title="为什么要使用MVC"></a>为什么要使用MVC</h3><p>由于前端的发展，出现了多页应用和Web App这种东西，使得前端不仅仅做的是简单的数据展示了。使用MVC，有下列一些优点：</p>
+<h3 id="MVC结构图"><a href="#MVC结构图" class="headerlink" title="MVC结构图"></a>MVC结构图</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/mvc.png" alt=""></p>
+<h3 id="MVVM结构图"><a href="#MVVM结构图" class="headerlink" title="MVVM结构图"></a>MVVM结构图</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/mvvm.png" alt=""></p>
+<h3 id="MVC的优点"><a href="#MVC的优点" class="headerlink" title="MVC的优点"></a>MVC的优点</h3><p>由于前端的发展，出现了多页应用和Web App这种东西，使得前端不仅仅做的是简单的数据展示了。使用MVC，有下列一些优点：</p>
 <ul>
 <li>简化代码</li>
 <li>减少重复</li>
@@ -154,16 +159,15 @@
 <li>数据触发事件</li>
 <li>面向数据编程</li>
 </ul>
-<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><p>MVC虽然将需求和UI的相关工作分化成了三份，但是由于它们三者的三角关系使得维护很成问题。<strong>在MVC，当你有变化的时候你需要同时维护三个对象和三个交互，这显然让事情复杂化了。</strong></p>
+<h3 id="MVC缺点"><a href="#MVC缺点" class="headerlink" title="MVC缺点"></a>MVC缺点</h3><p>MVC虽然将需求和UI的相关工作分化成了三份，但是由于它们三者的三角关系使得维护很成问题。<strong>在MVC，当你有变化的时候你需要同时维护三个对象和三个交互，这显然让事情复杂化了。</strong></p>
 <p>MVVM与MVC最大的区别在于，MVVM切断了View层和Model层的联系，让View层只和ViewModel层交互，而ViewModel再和Model层交互。在MVVM中，<strong>View和ViewModel间没有了MVP的界面接口，而是直接交互，用数据“绑定”的形式让数据更新的事件不需要开发人员手动去编写特殊用例，而是自动地双向同步。</strong></p>
-<p><strong>MVVM不仅简化了业务与界面的依赖关系，还优化了数据频繁更新的解决方案，甚至可以说提供了一种有效的解决模式。</strong></p>
-<h3 id="为什么要使用MVVM"><a href="#为什么要使用MVVM" class="headerlink" title="为什么要使用MVVM"></a>为什么要使用MVVM</h3><p>随着HTML5的发展，Web App的应用越来越广泛，甚至能媲美Nativ eApp（大部分安卓或IOS应用），但随之也暴露出了三个痛点问题：</p>
+<p>随着HTML5的发展，Web App的应用越来越广泛，甚至能媲美Nativ eApp（大部分安卓或IOS应用），但随之也暴露出了三个痛点问题：</p>
 <ul>
 <li>开发者在代码中大量调用相同的 DOM API, 处理繁琐 ，操作冗余，使得代码难以维护。</li>
 <li>大量的DOM 操作使页面渲染性能降低，加载速度变慢，影响用户体验。</li>
 <li>当 Model 频繁发生变化，开发者需要主动更新到View ；当用户的操作导致 Model 发生变化，开发者同样需要将变化的数据同步到Model 中， 这样的工作不仅繁琐，而且很难维护复杂多变的数据状态。</li>
 </ul>
-<p>在MVVM中，ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理，这就完美的解决了以上的问题。</p>
+<h3 id="MVVM优点"><a href="#MVVM优点" class="headerlink" title="MVVM优点"></a>MVVM优点</h3><p>在MVVM中，ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理，这就完美的解决了以上的问题。</p>
 <h2 id="Vue-js的MVVM应用"><a href="#Vue-js的MVVM应用" class="headerlink" title="Vue.js的MVVM应用"></a>Vue.js的MVVM应用</h2><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/vuejs.png" alt=""></p>
 <ul>
 <li><strong>Observer</strong>：数据监听器，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者，内部采用Object.defineProperty的getter和setter来实现；</li>
@@ -172,28 +176,21 @@
 <li><strong>Dep</strong>：消息订阅器，内部维护了一个数组，用来收集订阅者（Watcher），数据变动触发notify 函数，再调用订阅者的 update 方法</li>
 </ul>
 <h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>使用git，输入指令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安装vue-cli</span></div><div class="line">$ cnpm install -g vue-cli</div><div class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></div><div class="line">$ vue init webpack my-project</div><div class="line"><span class="comment"># 安装依赖</span></div><div class="line">$ cd my-project</div><div class="line">$ cnmp install</div><div class="line"><span class="comment"># 开启项目</span></div><div class="line">$ npm run dev</div></pre></td></tr></table></figure></p>
-<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 默认调用src里的main.js --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><code>src/main.js</code></p>
-<pre><code class="javascript"><span class="comment">//import表示导入组件</span>
-<span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span>
-<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span>
-<span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span>
-
-
-Vue.config.productionTip = <span class="literal">false</span>
-
-<span class="comment">/* eslint-disable no-new */</span>
-<span class="keyword">new</span> Vue({
-  <span class="attr">el</span>: <span class="string">'#app'</span>,
-  router,
-  <span class="attr">template</span>: <span class="string">'&lt;App/&gt;'</span>,
-  <span class="attr">components</span>: { App }  <span class="comment">//注册一个app</span>
-})
-</code></pre>
+<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code>：放在项目根目录下，是项目的入口<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- app为一个组件，默认调用src里的main.js --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>src/main.js</code>：注册组件app<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//import表示导入组件，ES6语法</span></div><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span></div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span></div><div class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span></div><div class="line"></div><div class="line"></div><div class="line">Vue.config.productionTip = <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment">/* eslint-disable no-new */</span></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">el</span>: <span class="string">'#app'</span>,</div><div class="line">  router,</div><div class="line">  <span class="attr">template</span>: <span class="string">'&lt;App/&gt;'</span>,</div><div class="line">  <span class="attr">components</span>: &#123; App &#125;  <span class="comment">//注册一个app</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p><code>src/App.vue</code>：组件的主要代码，包括<code>template</code>、<code>script</code>、<code>style</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"./assets/logo.png"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">router-view</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 渲染路径匹配到的视图组件，方便渲染你指定路由对应的组件 --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'app'</span></div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-id">#app</span> &#123;</div><div class="line">  <span class="attribute">font-family</span>: <span class="string">'Avenir'</span>, Helvetica, Arial, sans-serif;</div><div class="line">  <span class="attribute">-webkit-font-smoothing</span>: antialiased;</div><div class="line">  <span class="attribute">-moz-osx-font-smoothing</span>: grayscale;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#2c3e50</span>;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>router/index.js</code>： 创建路由并配置路由映射 ，并通过export输出router到main.js文件中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></div><div class="line"><span class="keyword">import</span> HelloWorld <span class="keyword">from</span> <span class="string">'@/components/HelloWorld'</span> </div><div class="line"><span class="comment">// 在这里引入另一个名为HelloWorld的组件</span></div><div class="line"><span class="comment">// 即components目录下的HelloWorld.vue</span></div><div class="line"></div><div class="line">Vue.use(Router)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</div><div class="line">  <span class="attr">routes</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">path</span>: <span class="string">'/'</span>,</div><div class="line">      <span class="attr">name</span>: <span class="string">'Hello'</span>,</div><div class="line">      <span class="attr">component</span>: HelloWorld</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/01/15/18-01-15-28/" title= Webpack学习笔记 >
+                    <span>Next Post</span>
+                    <span>Webpack学习笔记</span>
+                </a>
+            </li>
         
         
             <li class="previous">
@@ -264,7 +261,7 @@ Vue.config.productionTip = <span class="literal">false</span>
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC-和-MVVM-的比较"><span class="toc-number">1.</span> <span class="toc-text">MVC 和 MVVM 的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC工作流程"><span class="toc-number">1.1.</span> <span class="toc-text">MVC工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用MVC"><span class="toc-number">1.2.</span> <span class="toc-text">为什么要使用MVC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较"><span class="toc-number">1.3.</span> <span class="toc-text">比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用MVVM"><span class="toc-number">1.4.</span> <span class="toc-text">为什么要使用MVVM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-js的MVVM应用"><span class="toc-number">2.</span> <span class="toc-text">Vue.js的MVVM应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建开发环境"><span class="toc-number">3.</span> <span class="toc-text">搭建开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板解析"><span class="toc-number">4.</span> <span class="toc-text">模板解析</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC-和-MVVM-的比较"><span class="toc-number">1.</span> <span class="toc-text">MVC 和 MVVM 的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC结构图"><span class="toc-number">1.1.</span> <span class="toc-text">MVC结构图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM结构图"><span class="toc-number">1.2.</span> <span class="toc-text">MVVM结构图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC的优点"><span class="toc-number">1.3.</span> <span class="toc-text">MVC的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC缺点"><span class="toc-number">1.4.</span> <span class="toc-text">MVC缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM优点"><span class="toc-number">1.5.</span> <span class="toc-text">MVVM优点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-js的MVVM应用"><span class="toc-number">2.</span> <span class="toc-text">Vue.js的MVVM应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建开发环境"><span class="toc-number">3.</span> <span class="toc-text">搭建开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板解析"><span class="toc-number">4.</span> <span class="toc-text">模板解析</span></a></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -612,12 +609,39 @@ Vue.config.productionTip = <span class="literal">false</span>
     
     
     
-    <div class="total-archive"> Total : 28 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 29 </div>
     
     <div class="post-archive">
     
     
     
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/2018/01/15/18-01-15-28/" >Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
@@ -644,12 +668,12 @@ Vue.config.productionTip = <span class="literal">false</span>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
         </li>
     
     
@@ -775,21 +799,19 @@ Vue.config.productionTip = <span class="literal">false</span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
     
@@ -797,7 +819,15 @@ Vue.config.productionTip = <span class="literal">false</span>
     
         <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

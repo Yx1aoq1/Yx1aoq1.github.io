@@ -103,25 +103,14 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/08/17/17-08-17-18/" >
+            <a class="content-show-full" href = "/2018/01/15/18-01-15-28/" >
                     <h2 class="abstract-title">
                         
-                        <span>网络知识补充——浏览器请求过程</span>
+                        <span>Webpack学习笔记</span>
                     </h2>
                 <div class="abstract-content">
-                    当我们在浏览器中输入一个url，页面是如何呈现出来的呢？
-
-首先，我们在浏览器中输入一个url，浏览器的核心代码会将这个url进行拆分解析。以Chrome浏览器为例，其解析过程：
-
-搜索浏览器自身的DNS缓存，看这个域名的IP地址是否已经缓存
-搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经失效）
-读取本地的HOST文件（操作系统的DNS缓存也没有找到）
-浏览器发起一个DNS的一个系统调用，向宽带运营商的DNS服务器发送一个域名请求
-
-紧接着我们就来到了DNS服务器，DNS服务器接受到请求后，开始如下操作：
-
-查找本地缓存
-如果未找到对应条目，则服务器将发起一个迭代DNS解析的...
+                    Webpack 基本介绍▼ 什么是Webpack：webpack是近期最火的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情。
+▼ 为什那么要使用Webpack：现今的很多网页其实可以看做是功能丰富的应用，它们拥有着复杂的JavaScript代码和一大堆依赖包。为了简化开发的复杂度，...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -129,65 +118,13 @@
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 网络>网络</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = Webpack>Webpack</a>
     
 </div>
                 
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/17</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/20/17-03-20-4/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>关于HTTP请求小记</span>
-                    </h2>
-                <div class="abstract-content">
-                    
-HTTP： 是计算机通过网络进行通信的规则
-步骤：
-建立TCP连接
-Web浏览器向Web服务器发送请求命令
-Web浏览器发送请求头信息
-Web服务器应答
-Web服务器发送应答头信息
-Web服务器向浏览器发送数据
-Web服务器关闭TCP连接
-
-
-
-
-
-组成：
-
-HTTP请求的方法或动作，比如是GET还是POST请求
-正在请求的URL
-请求头，包含一些客户端环境信息，身份验证信息等
-请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等123456789101112131415GET /login.php HTTP/1.1 //请求地址//请求头Host:localhostConn...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = http>http</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 网络>网络</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/20</span>
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/15</span>
                 </div>
             </div>
         </article>
