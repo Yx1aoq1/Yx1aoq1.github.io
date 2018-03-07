@@ -154,13 +154,20 @@
 <p>后面的参数“–display-error-details”是推荐加上的，方便出错时能查阅更详尽的信息（比如 webpack 寻找模块的过程），从而更好定位到问题。<br>其他主要的参数有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ webpack --config XXX.js   //使用另一份配置文件（比如webpack.config2.js）来打包</div><div class="line">$ webpack --watch   //监听变动并自动打包</div><div class="line">$ webpack -p    //压缩混淆脚本，这个非常非常重要！</div><div class="line">$ webpack -d    //生成map映射文件，告知哪些模块被最终打包到哪里了</div></pre></td></tr></table></figure></p>
 <h2 id="实战应用"><a href="#实战应用" class="headerlink" title="实战应用"></a>实战应用</h2><p>项目文件夹结构如下图：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/webpack-1.png" alt=""></p>
 <ul>
-<li>src目录下的文件夹存放源代码，dist目录下存放打包过后的代码<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./src/index.js'</span>, <span class="comment">// 以index.js为入口</span></div><div class="line">  output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'js/canvas-filter.bundle.js'</span>, <span class="comment">// 打包后生成的文件</span></div><div class="line">    path: path.resolve(__dirname,<span class="string">'./dist'</span>) <span class="comment">// 使用绝对路径</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123; <span class="comment">// 使js中能够require css 文件的loader</span></div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得less文件能够解析成css的loader</span></div><div class="line">        test: <span class="regexp">/\.less$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'less-loader'</span>,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得能够正确引用文件路径的loader</span></div><div class="line">        test: <span class="regexp">/\.(png|jpg|gif|svg)$/i</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'file-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">// 再项目中使用jquery时所需要的配置</span></div><div class="line">    <span class="keyword">new</span> webpack.ProvidePlugin(&#123;</div><div class="line">      <span class="attr">$</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="attr">jQuery</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.jQuery'</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.$'</span>: <span class="string">'jquery'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="comment">// 使用webpack-dev-server，开启本地服务器</span></div><div class="line">    hot: <span class="literal">true</span>,</div><div class="line">    <span class="attr">inline</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<li>src目录下的文件夹存放源代码，dist目录下存放打包过后的代码<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./src/index.js'</span>, <span class="comment">// 以index.js为入口</span></div><div class="line">  output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'js/canvas-filter.bundle.js'</span>, <span class="comment">// 打包后生成的文件</span></div><div class="line">    path: path.resolve(__dirname,<span class="string">'./dist'</span>) <span class="comment">// 使用绝对路径</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123; <span class="comment">// 使js中能够require css 文件的loader</span></div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得less文件能够解析成css的loader</span></div><div class="line">        test: <span class="regexp">/\.less$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'less-loader'</span>,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得能够正确引用图片文件路径的loader</span></div><div class="line">        test: <span class="regexp">/\.(png|jpg|gif|svg)$/i</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'file-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">// 再项目中使用jquery时所需要的配置</span></div><div class="line">    <span class="keyword">new</span> webpack.ProvidePlugin(&#123;</div><div class="line">      <span class="attr">$</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="attr">jQuery</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.jQuery'</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.$'</span>: <span class="string">'jquery'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="comment">// 使用webpack-dev-server，开启本地服务器</span></div><div class="line">    hot: <span class="literal">true</span>,</div><div class="line">    <span class="attr">inline</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/03/07/18-03-07-29/" title= ES6 核心向新特性（01） >
+                    <span>Next Post</span>
+                    <span>ES6 核心向新特性（01）</span>
+                </a>
+            </li>
         
         
             <li class="previous">
@@ -594,7 +601,18 @@
     
     
     
-    <div class="total-archive"> Total : 29 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 30 </div>
     
     <div class="post-archive">
     
@@ -603,6 +621,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2018/03/07/18-03-07-29/" >ES6 核心向新特性（01）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -765,23 +788,23 @@
     
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
@@ -793,13 +816,13 @@
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVC</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVVM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

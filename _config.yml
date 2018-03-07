@@ -69,7 +69,7 @@ theme: archer
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 
   type: git #部署类型，使用github
-  repository: https://github.com/Yx1aoq1/Yx1aoq1.github.io.git #部署的仓库SSH
+  repository: https://Yx1aoq1:Tmd.233!@github.com/Yx1aoq1/Yx1aoq1.github.io.git #部署的仓库SSH
   branch: master #部署的分支
   message: update #默认类型
 

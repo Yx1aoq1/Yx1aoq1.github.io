@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-05T05:33:00.831Z</updated>
+  <updated>2018-03-07T07:57:08.827Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,83 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ES6 核心向新特性（01）</title>
+    <link href="http://yoursite.com/2018/03/07/18-03-07-29/"/>
+    <id>http://yoursite.com/2018/03/07/18-03-07-29/</id>
+    <published>2018-03-07T06:19:15.000Z</published>
+    <updated>2018-03-07T07:57:08.827Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="块级作用域变量声明关键字-let-、-const"><a href="#块级作用域变量声明关键字-let-、-const" class="headerlink" title="块级作用域变量声明关键字 let 、 const"></a>块级作用域变量声明关键字 let 、 const</h2><h3 id="let-、-const-与-var-的对比"><a href="#let-、-const-与-var-的对比" class="headerlink" title="let 、 const 与 var 的对比"></a>let 、 const 与 var 的对比</h3><ul>
+<li><p>不存在变量提升；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// var 的情况</span></div><div class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 输出undefined</span></div><div class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// let 的情况</span></div><div class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></div><div class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>暂时性死区（在代码块内，使用let命令声明变量之前，该变量都是不可用的）；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> x; <span class="comment">// ReferenceError</span></div><div class="line"><span class="keyword">let</span> x;</div></pre></td></tr></table></figure>
+</li>
+<li><p>let 和 const 都只能作为块级作用域变量的声明，且只能在块级作用域内生效，块内声明的变量无法在块级外层引用；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</div><div class="line">  <span class="keyword">var</span> b = <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">a <span class="comment">// ReferenceError: a is not defined.</span></div><div class="line">b <span class="comment">// 1</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 const 声明的变量必须进行初始化赋值，而且一旦赋值就不能再进行第二次修改；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> b = <span class="string">'hello'</span>;</div><div class="line">b = <span class="string">'world'</span>; <span class="comment">// Uncaught TyperError: Assignment to constant variable.</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 let 、 const 在全局作用域下声明的变量不会作为属性添加到全局作用域对象里面；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> A = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a || global.a); <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.A || global.A); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>用 let 、 const 赋值语句的执行速度比使用 var 快约65%；</p>
+<h3 id="使用场景的区分"><a href="#使用场景的区分" class="headerlink" title="使用场景的区分"></a>使用场景的区分</h3><p>模块内不变的引用和常量，使用<code>const</code>定义；可变的变量或引用使用<code>let</code>声明；<code>var</code>仅用于声明函数整个作用域内需要使用的变量。</p>
+</li>
+</ul>
+<h2 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = <span class="string">"Bob"</span>, time = <span class="string">"today"</span>;</div><div class="line"><span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, how are you <span class="subst">$&#123;time&#125;</span>?`</span></div></pre></td></tr></table></figure>
+<ul>
+<li>字符串模板可以在有字符串内容和变量混合连接的场景中，使得代码书写更高效与整洁</li>
+<li>字符串模板不会压缩内部的换行和空格，而是按照原有的格式输出</li>
+</ul>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><p>解决了赋值的编码荣宇和模块按需导出的问题。主要分为数组解构和对象解构。</p>
+<h3 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h3><p>▼ <strong>变量的赋值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [a, b, c] = [<span class="number">11</span>, <span class="number">22</span>];</div><div class="line">a <span class="comment">// 11</span></div><div class="line">b <span class="comment">// 22</span></div><div class="line">c <span class="comment">// undefined</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> [head, ...tail] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</div><div class="line">head <span class="comment">// 1</span></div><div class="line">tail <span class="comment">// [2, 3, 4]</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> [a, [b], d] = [<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>];</div><div class="line">a <span class="comment">// 1</span></div><div class="line">b <span class="comment">// 2</span></div><div class="line">d <span class="comment">// 4</span></div></pre></td></tr></table></figure></p>
+<p>▼ <strong>指定默认值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [foo = <span class="literal">true</span>] = [];</div><div class="line">foo <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<h3 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h3><p>▼ <strong>变量的赋值</strong>（对象的属性没有次序，变量必须与属性同名，才能取到正确的值）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123; foo, bar &#125; = &#123; <span class="attr">foo</span>: <span class="string">"aaa"</span>, <span class="attr">bar</span>: <span class="string">"bbb"</span> &#125;;</div><div class="line">foo <span class="comment">// "aaa"</span></div><div class="line">bar <span class="comment">// "bbb"</span></div></pre></td></tr></table></figure></p>
+<p>▼ <strong>指定默认值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> &#123;x = <span class="number">3</span>&#125; = &#123;&#125;;</div><div class="line">x <span class="comment">// 3</span></div></pre></td></tr></table></figure></p>
+<h2 id="数组的新特性"><a href="#数组的新特性" class="headerlink" title="数组的新特性"></a>数组的新特性</h2><h3 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符(...)"></a>扩展运算符(<code>...</code>)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> arr =[<span class="string">'hello'</span>, <span class="string">'world'</span>];</div><div class="line"><span class="keyword">const</span> newArr = [...arr]; <span class="comment">// ['hello', 'world']</span></div></pre></td></tr></table></figure>
+<p><strong>注意点</strong>： <code>...</code>进行的数组复制是浅拷贝</p>
+<h3 id="扩展API"><a href="#扩展API" class="headerlink" title="扩展API"></a>扩展API</h3><ul>
+<li><p><code>Array.from</code>: 用于将数组对象转化为真正的数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arrayLike = &#123;</div><div class="line">    <span class="string">'0'</span>: <span class="string">'a'</span>,</div><div class="line">    <span class="string">'1'</span>: <span class="string">'b'</span>,</div><div class="line">    <span class="string">'2'</span>: <span class="string">'c'</span>,</div><div class="line">    <span class="attr">length</span>: <span class="number">3</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">// ES5的写法</span></div><div class="line"><span class="keyword">var</span> arr1 = [].slice.call(arrayLike); <span class="comment">// ['a', 'b', 'c']</span></div><div class="line"></div><div class="line"><span class="comment">// ES6的写法</span></div><div class="line"><span class="keyword">let</span> arr2 = <span class="built_in">Array</span>.from(arrayLike); <span class="comment">// ['a', 'b', 'c']</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.of</code>: 将传入的一组参数转换为数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.of(<span class="number">3</span>, <span class="number">11</span>, <span class="number">8</span>) <span class="comment">// [3,11,8]</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.copyWithin</code>: 可以在当前数组内部将指定位置的数组项复制到其他位置，然后返回当前数组，使用<code>copyWithin</code>方法会修改当前数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> colors = [<span class="string">'red'</span>, <span class="string">'blue'</span>, <span class="string">'green'</span>, <span class="string">'green'</span>];</div><div class="line">colors.copyWithin(<span class="number">0</span>, <span class="number">3</span>); <span class="comment">// ['green', 'blue', 'green', 'green']</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.fill</code>: 使用给定值，填充一个数组，会改变原来的数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">colors.fill(<span class="string">'black'</span>); <span class="comment">// ['black', black', black', black']</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Arrau.prototype.find</code>: 用于找出第一个符合条件的数组元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">colors.find(<span class="function"><span class="keyword">function</span>(<span class="params">color</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span>(color === <span class="string">'green'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> color;</div><div class="line">  &#125;</div><div class="line">&#125;) <span class="comment">// green</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.findIndex</code>: 用来返回某个特定数组元素在数组中的位置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">colors.findIndex(<span class="function"><span class="keyword">function</span>(<span class="params">color</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span>(color === <span class="string">'green'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> color;</div><div class="line">  &#125;</div><div class="line">&#125;) <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="新的数组迭代方式"><a href="#新的数组迭代方式" class="headerlink" title="新的数组迭代方式"></a>新的数组迭代方式</h3><p><code>entries()</code>、<code>keys()</code>和<code>values()</code>，均可以用来遍历数组。它们都返回一个迭代器对象，也可以用<code>for...of</code>循环进行遍历，区别是<code>keys()</code>是对数组键名进行遍历，<code>values()</code>是对数组键值进行遍历，<code>entries()</code>是对数组中键值对进行遍历。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].keys()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(index);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 0</span></div><div class="line"><span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> elem <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].values()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(elem);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 'a'</span></div><div class="line"><span class="comment">// 'b'</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [index, elem] <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].entries()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(index, elem);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 0 "a"</span></div><div class="line"><span class="comment">// 1 "b"</span></div></pre></td></tr></table></figure></p>
+<p>学习参考：<br><a href="http://es6.ruanyifeng.com/" target="_blank" rel="external">ECMAScript 6入门——阮一峰</a><br>《现代前端技术解析》</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;块级作用域变量声明关键字-let-、-const&quot;&gt;&lt;a href=&quot;#块级作用域变量声明关键字-let-、-const&quot; class=&quot;headerlink&quot; title=&quot;块级作用域变量声明关键字 let 、 const&quot;&gt;&lt;/a&gt;块级作用域变量声明关键字 l
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Webpack学习笔记</title>
     <link href="http://yoursite.com/2018/01/15/18-01-15-28/"/>
     <id>http://yoursite.com/2018/01/15/18-01-15-28/</id>
     <published>2018-01-15T06:13:32.000Z</published>
-    <updated>2018-03-05T05:33:00.831Z</updated>
+    <updated>2018-03-05T05:51:10.980Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Webpack-基本介绍"><a href="#Webpack-基本介绍" class="headerlink" title="Webpack 基本介绍"></a>Webpack 基本介绍</h2><p>▼ <strong>什么是Webpack：</strong><br>webpack是近期最火的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。<br>我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情。</p>
 <p>▼ <strong>为什那么要使用Webpack：</strong><br>现今的很多网页其实可以看做是功能丰富的应用，它们拥有着复杂的JavaScript代码和一大堆依赖包。为了简化开发的复杂度，前端社区涌现出了很多好的实践方法：</p>
@@ -42,7 +114,7 @@
 <p>后面的参数“–display-error-details”是推荐加上的，方便出错时能查阅更详尽的信息（比如 webpack 寻找模块的过程），从而更好定位到问题。<br>其他主要的参数有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ webpack --config XXX.js   //使用另一份配置文件（比如webpack.config2.js）来打包</div><div class="line">$ webpack --watch   //监听变动并自动打包</div><div class="line">$ webpack -p    //压缩混淆脚本，这个非常非常重要！</div><div class="line">$ webpack -d    //生成map映射文件，告知哪些模块被最终打包到哪里了</div></pre></td></tr></table></figure></p>
 <h2 id="实战应用"><a href="#实战应用" class="headerlink" title="实战应用"></a>实战应用</h2><p>项目文件夹结构如下图：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/webpack-1.png" alt=""></p>
 <ul>
-<li>src目录下的文件夹存放源代码，dist目录下存放打包过后的代码<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./src/index.js'</span>, <span class="comment">// 以index.js为入口</span></div><div class="line">  output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'js/canvas-filter.bundle.js'</span>, <span class="comment">// 打包后生成的文件</span></div><div class="line">    path: path.resolve(__dirname,<span class="string">'./dist'</span>) <span class="comment">// 使用绝对路径</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123; <span class="comment">// 使js中能够require css 文件的loader</span></div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得less文件能够解析成css的loader</span></div><div class="line">        test: <span class="regexp">/\.less$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'less-loader'</span>,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得能够正确引用文件路径的loader</span></div><div class="line">        test: <span class="regexp">/\.(png|jpg|gif|svg)$/i</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'file-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">// 再项目中使用jquery时所需要的配置</span></div><div class="line">    <span class="keyword">new</span> webpack.ProvidePlugin(&#123;</div><div class="line">      <span class="attr">$</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="attr">jQuery</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.jQuery'</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.$'</span>: <span class="string">'jquery'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="comment">// 使用webpack-dev-server，开启本地服务器</span></div><div class="line">    hot: <span class="literal">true</span>,</div><div class="line">    <span class="attr">inline</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<li>src目录下的文件夹存放源代码，dist目录下存放打包过后的代码<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./src/index.js'</span>, <span class="comment">// 以index.js为入口</span></div><div class="line">  output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'js/canvas-filter.bundle.js'</span>, <span class="comment">// 打包后生成的文件</span></div><div class="line">    path: path.resolve(__dirname,<span class="string">'./dist'</span>) <span class="comment">// 使用绝对路径</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123; <span class="comment">// 使js中能够require css 文件的loader</span></div><div class="line">        test: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得less文件能够解析成css的loader</span></div><div class="line">        test: <span class="regexp">/\.less$/</span>,</div><div class="line">        <span class="attr">use</span>: [</div><div class="line">          <span class="string">'style-loader'</span>,</div><div class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">importLoaders</span>: <span class="number">1</span> &#125; &#125;,</div><div class="line">          <span class="string">'less-loader'</span>,</div><div class="line">          <span class="string">'postcss-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; <span class="comment">// 使得能够正确引用图片文件路径的loader</span></div><div class="line">        test: <span class="regexp">/\.(png|jpg|gif|svg)$/i</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'file-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">// 再项目中使用jquery时所需要的配置</span></div><div class="line">    <span class="keyword">new</span> webpack.ProvidePlugin(&#123;</div><div class="line">      <span class="attr">$</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="attr">jQuery</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.jQuery'</span>: <span class="string">'jquery'</span>,</div><div class="line">      <span class="string">'window.$'</span>: <span class="string">'jquery'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="comment">// 使用webpack-dev-server，开启本地服务器</span></div><div class="line">    hot: <span class="literal">true</span>,</div><div class="line">    <span class="attr">inline</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
 ]]></content>
@@ -1261,80 +1333,6 @@
       <category term="知识碎片" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/"/>
     
       <category term="CSS" scheme="http://yoursite.com/tags/CSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>前端模块化</title>
-    <link href="http://yoursite.com/2017/04/06/17-04-06-9/"/>
-    <id>http://yoursite.com/2017/04/06/17-04-06-9/</id>
-    <published>2017-04-06T06:46:01.000Z</published>
-    <updated>2017-10-19T08:38:49.667Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><ul>
-<li><p>AMD 即<code>Asynchronous Module Definition</code>，中文名是<strong>异步模块定义</strong>的意思。它是一个在浏览器端模块化开发的规范。</p>
-</li>
-<li><p>应用：<strong>RequireJS</strong><br>解决的主要问题：</p>
-<ul>
-<li>多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器</li>
-<li>js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长</li>
-</ul>
-</li>
-<li><code>define([id], [dependencies], factory);</code><ul>
-<li>id：可选参数，用来定义模块的标识，如果没有提供该参数，脚本文件名（去掉拓展名）</li>
-<li>dependencies：是一个当前模块依赖的模块名称数组</li>
-<li>factory：工厂方法，模块初始化要执行的函数或对象。如果为函数，它应该只被执行一次。如果是对象，此对象应该为模块的输出值</li>
-</ul>
-</li>
-<li><code>require([dependencies], function(){});</code><ul>
-<li>dependencies：一个数组，表示所依赖的模块</li>
-<li>function：回调函数，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块</li>
-<li><code>require()</code>函数在加载依赖的函数的时候是异步加载的，这样浏览器不会失去响应，它指定的回调函数，只有前面的模块都加载成功后，才会运行，解决了依赖性的问题。</li>
-</ul>
-</li>
-<li>使用例子：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义模块 myModule.js</span></div><div class="line">define([<span class="string">'dependency'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">'Byron'</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">printName</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(name);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">printName</span>: printName</div><div class="line">    &#125;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 加载模块</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'myModule'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">my</span>)</span>&#123;</div><div class="line">　 my.printName();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><ul>
-<li>CMD 即<code>Common Module Definition</code>通用模块定义</li>
-<li>应用：<strong>SeaJS</strong><br>SeaJS要解决的问题和requireJS一样，只不过在模块定义方式和模块加载（可以说运行、解析）时机上有所不同</li>
-<li><code>define([id],[deps],factory)</code><ul>
-<li>一个文件一个模块，所以经常就用文件名作为模块id</li>
-<li>CMD推崇依赖就近，所以一般不在define的参数中写依赖，在factory中写</li>
-<li>factory有三个参数：<code>function(require, exports, module)</code></li>
-</ul>
-</li>
-<li><code>require(id)</code><ul>
-<li>require 是一个方法，接受<strong>模块标识</strong>作为唯一参数，用来获取其他模块提供的接口</li>
-</ul>
-</li>
-<li><code>exports</code><ul>
-<li>exports 是一个对象，用来向外提供模块接口</li>
-</ul>
-</li>
-<li><code>module</code><ul>
-<li>module 是一个对象，上面存储了与当前模块相关联的一些属性和方法</li>
-</ul>
-</li>
-<li>使用例子：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义模块  myModule.js</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">'jquery.js'</span>)</div><div class="line">  $(<span class="string">'div'</span>).addClass(<span class="string">'active'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 加载模块</span></div><div class="line">seajs.use([<span class="string">'myModule.js'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">my</span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="AMD与CMD的区别"><a href="#AMD与CMD的区别" class="headerlink" title="AMD与CMD的区别"></a>AMD与CMD的区别</h2><blockquote>
-<p>AMD 是提前执行，CMD 是延迟执行<br>在模块定义时对依赖的处理不同：AMD推崇依赖前置，在定义模块的时候就要声明其依赖的模块，CMD推崇就近依赖，只有在用到某个模块的时候再去require</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;AMD&quot;&gt;&lt;a href=&quot;#AMD&quot; class=&quot;headerlink&quot; title=&quot;AMD&quot;&gt;&lt;/a&gt;AMD&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;AMD 即&lt;code&gt;Asynchronous Module Definition&lt;/code&gt;，中文名是&lt;str
-    
-    </summary>
-    
-    
-      <category term="知识碎片" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/"/>
-    
-      <category term="模块化" scheme="http://yoursite.com/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
     
   </entry>
   
