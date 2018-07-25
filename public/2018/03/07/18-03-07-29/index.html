@@ -118,6 +118,14 @@
         
             <!-- 文章页标签  -->
             
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = ES6>ES6</a>
+    
+</div>
+            
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
                 <span class="post-intro-time">2018/03/07</span>
@@ -145,9 +153,9 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> A = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a || global.a); <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.A || global.A); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>用 let 、 const 赋值语句的执行速度比使用 var 快约65%；</p>
-<h3 id="使用场景的区分"><a href="#使用场景的区分" class="headerlink" title="使用场景的区分"></a>使用场景的区分</h3><p>模块内不变的引用和常量，使用<code>const</code>定义；可变的变量或引用使用<code>let</code>声明；<code>var</code>仅用于声明函数整个作用域内需要使用的变量。</p>
 </li>
 </ul>
+<h3 id="使用场景的区分"><a href="#使用场景的区分" class="headerlink" title="使用场景的区分"></a>使用场景的区分</h3><p>模块内不变的引用和常量，使用<code>const</code>定义；可变的变量或引用使用<code>let</code>声明；<code>var</code>仅用于声明函数整个作用域内需要使用的变量。</p>
 <h2 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = <span class="string">"Bob"</span>, time = <span class="string">"today"</span>;</div><div class="line"><span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, how are you <span class="subst">$&#123;time&#125;</span>?`</span></div></pre></td></tr></table></figure>
 <ul>
 <li>字符串模板可以在有字符串内容和变量混合连接的场景中，使得代码书写更高效与整洁</li>
@@ -181,11 +189,27 @@
 </li>
 </ul>
 <h3 id="新的数组迭代方式"><a href="#新的数组迭代方式" class="headerlink" title="新的数组迭代方式"></a>新的数组迭代方式</h3><p><code>entries()</code>、<code>keys()</code>和<code>values()</code>，均可以用来遍历数组。它们都返回一个迭代器对象，也可以用<code>for...of</code>循环进行遍历，区别是<code>keys()</code>是对数组键名进行遍历，<code>values()</code>是对数组键值进行遍历，<code>entries()</code>是对数组中键值对进行遍历。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].keys()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(index);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 0</span></div><div class="line"><span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> elem <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].values()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(elem);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 'a'</span></div><div class="line"><span class="comment">// 'b'</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [index, elem] <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].entries()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(index, elem);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 0 "a"</span></div><div class="line"><span class="comment">// 1 "b"</span></div></pre></td></tr></table></figure></p>
+<h2 id="增强函数"><a href="#增强函数" class="headerlink" title="增强函数"></a>增强函数</h2><h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>ES6 对函数参数的改进主要是添加了默认参数、不定参数和拓展参数</p>
+<p>▼ <strong>默认参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name = <span class="string">'ouven'</span></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>);</div><div class="line">&#125;</div><div class="line">sayHi(); <span class="comment">// Hello ouven</span></div></pre></td></tr></table></figure></p>
+<p>▼ <strong>不定参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">...name</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(name.reduce(<span class="function">(<span class="params">a,b</span>) =&gt;</span> <span class="string">`Hello <span class="subst">$&#123;a&#125;</span> <span class="subst">$&#123;b&#125;</span>`</span>));</div><div class="line">&#125;</div><div class="line">sayHi(<span class="string">'oven'</span>, <span class="string">'zhang'</span>); <span class="comment">// Hello ouven zhang</span></div></pre></td></tr></table></figure></p>
+<p>▼ <strong>扩展参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = [<span class="string">'oven'</span>, <span class="string">'zhang'</span>];</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name1, name2</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name1&#125;</span> <span class="subst">$&#123;name2&#125;</span>`</span>);</div><div class="line">&#125;</div><div class="line">sayHello(...name); <span class="comment">// Hello ouven zhang</span></div></pre></td></tr></table></figure></p>
+<p>其中不定参数和扩展参数可以认为恰好是相反的两个模式，不定参数是使用数组来表示多个参数，扩展参数将多个参数映射到一个数组。<br>▼ <strong>不定参数与 arguments 的对比</strong><br>不定参数和<code>arguments</code>都可以使用函数的形参来表示所有的参数组成的列表，但是<code>arguments</code>不是真正的数组，所有使用数组的方法必须使用<code>Array.prototype.slice.call</code>先将其转换成数组，所有使用起来不定参数更加的方便。</p>
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> num1 + num2;</div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> num1 + num2;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>注意点</strong>：箭头函数没有完整的执行上下文，因为其 this 和外层的 this 相同，可以理解为它的执行上下文只有变量对象和作用域链， 没有 this 值。</p>
+<h2 id="增强对象"><a href="#增强对象" class="headerlink" title="增强对象"></a>增强对象</h2><p>es6 中，对象的使用更加方便。在定义对象时通过属性简写、变量作为属性名或省略对象函数属性的书写等方式可以提高编码的效率。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> name = <span class="string">'onven'</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getKey</span>(<span class="params">key</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> key;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> people = &#123;</div><div class="line">  <span class="comment">// 属性简写</span></div><div class="line">  name,</div><div class="line">  <span class="comment">// 返回变量或对象作为属性名</span></div><div class="line">  [getKey(<span class="string">'family'</span>)]: <span class="string">'zhang'</span>,</div><div class="line">  <span class="comment">// 对象方法属性简写声明</span></div><div class="line">  sayHi() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.family&#125;</span>`</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">people.sayHi(); <span class="comment">// Hello ouven zhang</span></div></pre></td></tr></table></figure></p>
+<p><strong>注意点</strong>：为了代码便于维护和理解，建议尽量不将变量或对象作为对象的属性名。</p>
 <p>学习参考：<br><a href="http://es6.ruanyifeng.com/" target="_blank" rel="external">ECMAScript 6入门——阮一峰</a><br>《现代前端技术解析》</p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/03/08/18-03-08-30/" title= ES6 核心向新特性（02） >
+                    <span>Next Post</span>
+                    <span>ES6 核心向新特性（02）</span>
+                </a>
+            </li>
         
         
             <li class="previous">
@@ -256,7 +280,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#块级作用域变量声明关键字-let-、-const"><span class="toc-number">1.</span> <span class="toc-text">块级作用域变量声明关键字 let 、 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let-、-const-与-var-的对比"><span class="toc-number">1.1.</span> <span class="toc-text">let 、 const 与 var 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景的区分"><span class="toc-number">1.2.</span> <span class="toc-text">使用场景的区分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串模板"><span class="toc-number">2.</span> <span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-number">3.</span> <span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-number">3.1.</span> <span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-number">3.2.</span> <span class="toc-text">对象解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的新特性"><span class="toc-number">4.</span> <span class="toc-text">数组的新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展运算符"><span class="toc-number">4.1.</span> <span class="toc-text">扩展运算符(...)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展API"><span class="toc-number">4.2.</span> <span class="toc-text">扩展API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的数组迭代方式"><span class="toc-number">4.3.</span> <span class="toc-text">新的数组迭代方式</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#块级作用域变量声明关键字-let-、-const"><span class="toc-number">1.</span> <span class="toc-text">块级作用域变量声明关键字 let 、 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let-、-const-与-var-的对比"><span class="toc-number">1.1.</span> <span class="toc-text">let 、 const 与 var 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景的区分"><span class="toc-number">1.2.</span> <span class="toc-text">使用场景的区分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串模板"><span class="toc-number">2.</span> <span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-number">3.</span> <span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-number">3.1.</span> <span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-number">3.2.</span> <span class="toc-text">对象解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的新特性"><span class="toc-number">4.</span> <span class="toc-text">数组的新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展运算符"><span class="toc-number">4.1.</span> <span class="toc-text">扩展运算符(...)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展API"><span class="toc-number">4.2.</span> <span class="toc-text">扩展API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的数组迭代方式"><span class="toc-number">4.3.</span> <span class="toc-text">新的数组迭代方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强函数"><span class="toc-number">5.</span> <span class="toc-text">增强函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数参数"><span class="toc-number">5.1.</span> <span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数"><span class="toc-number">5.2.</span> <span class="toc-text">箭头函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强对象"><span class="toc-number">6.</span> <span class="toc-text">增强对象</span></a></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -630,7 +654,83 @@
     
     
     
-    <div class="total-archive"> Total : 30 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 32 </div>
     
     <div class="post-archive">
     
@@ -639,6 +739,16 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/18-03-09-31/" >ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/18-03-08-30/" >ES6 核心向新特性（02）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -804,21 +914,21 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
@@ -833,6 +943,8 @@
         <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     

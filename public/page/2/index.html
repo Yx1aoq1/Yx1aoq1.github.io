@@ -116,6 +116,65 @@
     
     
         <article class="index-post">
+            <a class="content-show-full" href = "/2017/09/25/17-09-25-21/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS定时器与单线程</span>
+                    </h2>
+                <div class="abstract-content">
+                    JavaScript单线程众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。
+这里有个例子：12345678910111213var date = new Date();//打印才进入时的时间console.log('first time: ' + date.getTime());//一秒后打印setTimeout里匿名函数的时间setTimeout(function()&#123;  var date1 = new Date();  console.log('second tim...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/09/25</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2017/08/24/17-08-24-20/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS变量计算</span>
+                    </h2>
+                <div class="abstract-content">
+                    typeof 运算符12345678typeof undefined // undefinedtypeof 'abc' // stringtypeof 123 // numbertypeof true // booleantypeof &#123;&#125; // objecttypeof [] // objecttypeof null // objecttypeof console.log // function
+变量运算 - 强制类型转换字符串拼接12var a = 100 + 10 // 110var b = 100 + '10' // '10010'
+当使用减运算时：1var ...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/08/24</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="content-show-full" href = "/2017/08/19/17-08-19-19/" >
                     <h2 class="abstract-title">
                         
@@ -399,88 +458,10 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/21/17-04-21-11/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>JavaScript正则表达式</span>
-                    </h2>
-                <div class="abstract-content">
-                    
-正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。
-
-正则表达式的定义
-一种是使用正则表达式直接量，将其包含在一对斜杠/之间的字符
-1var pattern = /s$/;
-
-另一种是使用RegExp()构造函数
-1var pattern = new RegExp('s');
-
-
-上面两种表达方式是等价的，用来匹配所有以s结尾的字符串正则表达式的模式规则是由一个字符序列组成的，所有字母和数字都是按照字面含义进行匹配的
-直接量字符非字母的字符匹配，通过\反斜杠作为前缀转义12345678910\0	匹配null...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/21</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/10/17-04-10-10/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>有关CSS的tip</span>
-                    </h2>
-                <div class="abstract-content">
-                    position的值，relative和absolute分别是相对于谁进行定位的？
-absolute 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。
-fixed （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。
-relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
-static 默认值。没有定位，元素出现在正常的流中
-
-display:none和visibility:hidden的区别？
-display:none 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。
-visibility:...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = CSS>CSS</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/10</span>
-                </div>
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/">#PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">#NEXT</a>
+        <a class="extend prev" rel="prev" href="/">#PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">#NEXT</a>
     </nav>
     
 </main>
@@ -950,7 +931,83 @@ visibility:...
     
     
     
-    <div class="total-archive"> Total : 30 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 32 </div>
     
     <div class="post-archive">
     
@@ -959,6 +1016,16 @@ visibility:...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/18-03-09-31/" >ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/18-03-08-30/" >ES6 核心向新特性（02）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1124,21 +1191,21 @@ visibility:...
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
@@ -1153,6 +1220,8 @@ visibility:...
         <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     

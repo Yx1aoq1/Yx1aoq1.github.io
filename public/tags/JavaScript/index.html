@@ -103,6 +103,104 @@
     
     
         <article class="index-post">
+            <a class="content-show-full" href = "/2018/03/09/18-03-09-31/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>ES6 核心向新特性（03）</span>
+                    </h2>
+                <div class="abstract-content">
+                    PromisePromise 是异步编程的一种解决方案，用来避免异步操作函数里的多层嵌套回调（callback）问题。Promise 代表一个异步操作的执行返回状态，这个执行回状态在 Promise 对象创建时是未知的，它允许为异步操作的成功或失败指定处理方法。
+基本用法通常 Promise 的状态有三种：Fulfilled 状态表示执行成功；Rejected 状态表示执行失败；Pending 状态表示正在执行中。123456789101112131415161718192021let status = 1;let promise = new Promise(function(resol...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = ES6>ES6</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/03/09</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2018/03/08/18-03-08-30/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>ES6 核心向新特性（02）</span>
+                    </h2>
+                <div class="abstract-content">
+                    类12345678910111213141516171819202122232425// 类声明class Aminal &#123;  // 类中只能包含一个名为constructor的特殊方法  constructor() &#123;    // ...  &#125;&#125;// extends 创建子类class People extends Aminal &#123;  constructor(contents = &#123;&#125;) &#123;    super(); // 调用父类的构造函数    this.name = contents.name;    ...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = ES6>ES6</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/03/08</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href = "/2018/03/07/18-03-07-29/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>ES6 核心向新特性（01）</span>
+                    </h2>
+                <div class="abstract-content">
+                    块级作用域变量声明关键字 let 、 constlet 、 const 与 var 的对比
+不存在变量提升；
+1234567// var 的情况console.log(foo); // 输出undefinedvar foo = 2;// let 的情况console.log(bar); // 报错ReferenceErrorlet bar = 2;
+
+暂时性死区（在代码块内，使用let命令声明变量之前，该变量都是不可用的）；
+12typeof x; // ReferenceErrorlet x;
+
+let 和 const 都只能作为块级作用域变量的声明，且只能在块级作用域内生效，块内声明...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = ES6>ES6</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/03/07</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="content-show-full" href = "/2017/09/25/17-09-25-21/" >
                     <h2 class="abstract-title">
                         
@@ -337,47 +435,11 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/21/17-04-21-11/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>JavaScript正则表达式</span>
-                    </h2>
-                <div class="abstract-content">
-                    
-正则表达式是一个描述字符模式的对象。JavaScript的RegExp类表示正则表达式，String和RegExp都定义了方法。
-
-正则表达式的定义
-一种是使用正则表达式直接量，将其包含在一对斜杠/之间的字符
-1var pattern = /s$/;
-
-另一种是使用RegExp()构造函数
-1var pattern = new RegExp('s');
-
-
-上面两种表达方式是等价的，用来匹配所有以s结尾的字符串正则表达式的模式规则是由一个字符序列组成的，所有字母和数字都是按照字面含义进行匹配的
-直接量字符非字母的字符匹配，通过\反斜杠作为前缀转义12345678910\0	匹配null...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/21</span>
-                </div>
-            </div>
-        </article>
-    
     <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/tags/JavaScript/page/2/">2</a><a class="extend next" rel="next" href="/tags/JavaScript/page/2/">#NEXT</a>
+    </nav>
     
 </main>
             <!-- profile -->
@@ -797,7 +859,83 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
     
     
-    <div class="total-archive"> Total : 30 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 32 </div>
     
     <div class="post-archive">
     
@@ -806,6 +944,16 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/18-03-09-31/" >ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/18-03-08-30/" >ES6 核心向新特性（02）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -971,21 +1119,21 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
@@ -1000,6 +1148,8 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
         <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     
