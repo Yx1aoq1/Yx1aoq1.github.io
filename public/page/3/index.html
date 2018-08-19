@@ -116,6 +116,36 @@
     
     
         <article class="index-post">
+            <a class="content-show-full" href = "/2017/07/07/17-07-07-12/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS继承笔记</span>
+                    </h2>
+                <div class="abstract-content">
+                    在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。
+看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。
+在以上基础下，得出了几种继承方法：12345678910//现有两个构造函数function Animal() &#123;  this.specie...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/07</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="content-show-full" href = "/2017/04/21/17-04-21-11/" >
                     <h2 class="abstract-title">
                         
@@ -439,56 +469,6 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
                 <!-- date  -->
                 <div class="abstract-date">
                     <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/21</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/20/17-03-20-4/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>关于HTTP请求小记</span>
-                    </h2>
-                <div class="abstract-content">
-                    
-HTTP： 是计算机通过网络进行通信的规则
-步骤：
-建立TCP连接
-Web浏览器向Web服务器发送请求命令
-Web浏览器发送请求头信息
-Web服务器应答
-Web服务器发送应答头信息
-Web服务器向浏览器发送数据
-Web服务器关闭TCP连接
-
-
-
-
-
-组成：
-
-HTTP请求的方法或动作，比如是GET还是POST请求
-正在请求的URL
-请求头，包含一些客户端环境信息，身份验证信息等
-请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等123456789101112131415GET /login.php HTTP/1.1 //请求地址//请求头Host:localhostConn...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = http>http</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 网络>网络</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/20</span>
                 </div>
             </div>
         </article>
@@ -1035,14 +1015,7 @@ HTTP请求的方法或动作，比如是GET还是POST请求
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 32 </div>
+    <div class="total-archive"> Total : 33 </div>
     
     <div class="post-archive">
     
@@ -1051,6 +1024,11 @@ HTTP请求的方法或动作，比如是GET还是POST请求
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2018/07/25/18-07-25-32/" >Vue.js学习笔记（02）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1226,45 +1204,47 @@ HTTP请求的方法或动作，比如是GET还是POST请求
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVC</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

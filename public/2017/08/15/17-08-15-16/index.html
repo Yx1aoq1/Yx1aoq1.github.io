@@ -183,7 +183,7 @@
 </li>
 </ul>
 <h3 id="JS解析机制-预解析"><a href="#JS解析机制-预解析" class="headerlink" title="JS解析机制-预解析"></a>JS解析机制-预解析</h3><p>JS在解析代码的时候，会先进性预解析，进行完预解析后，才开始逐行解析。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">'xm'</span>;</div><div class="line"><span class="keyword">var</span> age = <span class="number">18</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">argument</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(name);</div><div class="line">  <span class="keyword">var</span> name = <span class="string">'xh'</span>;</div><div class="line">  <span class="keyword">var</span> age = <span class="number">10</span>;</div><div class="line">&#125;</div><div class="line">fn(); <span class="comment">//undefined</span></div></pre></td></tr></table></figure></p>
-<p>就以上代码来看，这个JS中包含了两个作用域，那么预解析就会分别在两个作用域中进行。首先它会将所有的<code>var</code>找出来，并且将所有的变量都赋值为<code>undefined</code>。然后查找该域中的<code>function</code>，并直接进行声明。也就是说函数在域解析的时候就已经声明好了，但是变量值都还是<code>undefined</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">//window域预解析</div><div class="line">var name = undefiied;</div><div class="line">var age = undefined;</div><div class="line">function fn(argument) &#123;</div><div class="line">  console.log(name);</div><div class="line">  var name = &apos;xh&apos;;</div><div class="line">  var age = 10;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//fn域预解析</div><div class="line">var name = undefined;</div><div class="line">var age = undefined;</div><div class="line"></div><div class="line">//逐行解析</div><div class="line">name = &apos;xm&apos;;</div><div class="line">age = 18;</div><div class="line">fn(argument) &#123;</div><div class="line">  console.log(name); //此时fn中的name被预解析赋值为undefined，所有打印出的结果为undefined</div><div class="line">  name = &apos;xh&apos;;</div><div class="line">  age = 10;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>就以上代码来看，这个JS中包含了两个作用域，那么预解析就会分别在两个作用域中进行。首先它会将所有的<code>var</code>找出来，并且将所有的变量都赋值为<code>undefined</code>。然后查找该域中的<code>function</code>，并直接进行声明。也就是说函数在域解析的时候就已经声明好了，但是变量值都还是<code>undefined</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//window域预解析</span></div><div class="line"><span class="keyword">var</span> name = undefiied;</div><div class="line"><span class="keyword">var</span> age = <span class="literal">undefined</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">argument</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(name);</div><div class="line">  <span class="keyword">var</span> name = <span class="string">'xh'</span>;</div><div class="line">  <span class="keyword">var</span> age = <span class="number">10</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//fn域预解析</span></div><div class="line"><span class="keyword">var</span> name = <span class="literal">undefined</span>;</div><div class="line"><span class="keyword">var</span> age = <span class="literal">undefined</span>;</div><div class="line"></div><div class="line"><span class="comment">//逐行解析</span></div><div class="line">name = <span class="string">'xm'</span>;</div><div class="line">age = <span class="number">18</span>;</div><div class="line">fn(argument) &#123;</div><div class="line">  <span class="built_in">console</span>.log(name); <span class="comment">//此时fn中的name被预解析赋值为undefined，所有打印出的结果为undefined</span></div><div class="line">  name = <span class="string">'xh'</span>;</div><div class="line">  age = <span class="number">10</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>在预解析的机制中，如果变量名与函数名冲突，预解析的时候会只保留函数。如果函数名和函数名冲突的时候，则后面声明的函数会保留。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line">a = <span class="number">1</span>; <span class="comment">//预解析不解析没有var的变量，所以浏览器会报错</span></div></pre></td></tr></table></figure></p>
 <h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><p><strong>垃圾回收机制：</strong>释放无用的数据，回收内存。可分为自动和手动。JS会自动的帮我们回收垃圾。其原理就是，找出没用的数据，打上标记，释放内存，并按照一定的周期执行。<br><strong>标识无用数据的策略：</strong></p>
 <ul>
@@ -718,14 +718,7 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 32 </div>
+    <div class="total-archive"> Total : 33 </div>
     
     <div class="post-archive">
     
@@ -734,6 +727,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2018/07/25/18-07-25-32/" >Vue.js学习笔记（02）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -909,45 +907,47 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVC</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
