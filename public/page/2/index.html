@@ -116,6 +116,39 @@
     
     
         <article class="index-post">
+            <a class="content-show-full" href = "/2017/10/02/17-10-02-23/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>jQuery源码学习笔记(01)</span>
+                    </h2>
+                <div class="abstract-content">
+                    总体架构自调用匿名函数123(function( window, undefined) &#123;  // jquery code&#125;)(window);
+▼ 使用自调用匿名函数的原因：
+通过定义一个匿名函数，创建了一个“私有”的命名空间，该命名空间的变量和方法，不会破坏全局的命名空间，保证jQuery创建的变量不能和导入他的程序所使用的变量发生冲突。
+▼ 自调用匿名函数的写法：
+写法11234(function() &#123;  // code&#125;(window));//括号包括了函数参数
+写法21234(function() &#123;  // code&#12...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = jQuery>jQuery</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/10/02</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="content-show-full" href = "/2017/10/02/17-10-02-22/" >
                     <h2 class="abstract-title">
                         
@@ -429,42 +462,6 @@ Javascript语言将任务的执行模式分为同步（Synchronous）和异步�
                 <!-- date  -->
                 <div class="abstract-date">
                     <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/15</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/07/08/17-07-08-13/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>JS之this指针笔记</span>
-                    </h2>
-                <div class="abstract-content">
-                    this指针
-this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。
-
-
-定义在全局中的函数
-1234function test() &#123;  this.x = 1; //此处的this指的是window&#125;x = 0; //在全局修改这个x，函数中这个this.x也是会一起改变的
-
-作为对象方法的调用
-12345678function test() &#123;  alert(this.x);&#125;va...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/08</span>
                 </div>
             </div>
         </article>
@@ -1006,12 +1003,7 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
     
     
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 33 </div>
+    <div class="total-archive"> Total : 34 </div>
     
     <div class="post-archive">
     
@@ -1020,6 +1012,11 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/18-08-19-33/" >Vue.js学习笔记（03）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1200,17 +1197,17 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
@@ -1218,9 +1215,15 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
     
@@ -1236,11 +1239,9 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
         <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue指令</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue事件</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

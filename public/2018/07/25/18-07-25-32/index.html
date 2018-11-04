@@ -147,22 +147,35 @@
 <h3 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h3><p><strong>作用：</strong>用来定义实例的一些处理方法，如绑定的事件等。<strong>注意，在<code>methods</code>不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    plus () &#123;</div><div class="line">      <span class="keyword">this</span>.a ++</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p><strong>作用：</strong>用来观察实例中数据的变化。数据类型可以是字符串、函数、对象和数组。<strong>同样，不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>， c: <span class="number">3</span> &#125;,</div><div class="line">  <span class="attr">watch</span>: &#123;</div><div class="line">    a (curVal, oldVal) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`new: %s, old: %s`</span>, curVal, oldVal)</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">b</span>: <span class="string">'someMethod'</span>, <span class="comment">// 这里的someMehod是对应的处理函数的名字</span></div><div class="line">    c: &#123;</div><div class="line">      <span class="attr">handler</span>: <span class="function"><span class="keyword">function</span> (<span class="params">curVal, oldVal</span>) </span>&#123; <span class="comment">/*...*/</span> &#125;,</div><div class="line">      <span class="attr">deep</span>: <span class="literal">true</span>, <span class="comment">//深度 watcher，为了发现对象内部值的变化</span></div><div class="line">      immediate: <span class="literal">true</span> <span class="comment">// 立即以表达式的当前值触发回调</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><p>每个Vue实例被创建时，都会经历一系列的初始化过程，同时也会调用相应的生命周期钩子，我们可以利用这些钩子，在合适的时机执行相应的操作，下图即是官网上的生命周期图示：<br><img src="https://cn.vuejs.org/images/lifecycle.png" alt=""></p>
-<h2 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h2><h3 id="beforeCreate"><a href="#beforeCreate" class="headerlink" title="beforeCreate"></a>beforeCreate</h3><p>实例创建前，此时无法访问到<code>el</code>属性和<code>data</code>属性</p>
-<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>实例创建完成，属性已经绑定，但是DOM还未生成，<code>el</code>属性还无法访问</p>
-<h3 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a>beforeMount</h3><p>模板编译/挂在之前，<strong>只有绑定了<code>el</code>属性，才会执行到这里，否则到<code>created</code>就已经停止生命周期</strong></p>
+<h2 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h2><p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeCreate</strong></span> 实例创建前，此时无法访问到<code>el</code>属性和<code>data</code>属性</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>created</strong></span> 实例创建完成，属性已经绑定，但是DOM还未生成，<code>el</code>属性还无法访问</p>
+<p>▼ <strong>关于属性</strong><br>不仅仅是<code>data</code>属性，还有<code>props</code>和<code>method</code>都在<code>created</code>的时候绑定完成</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeMount</strong></span> 模板编译/挂在之前，<strong>只有绑定了<code>el</code>属性，才会执行到这里，否则到<code>created</code>就已经停止生命周期</strong></p>
 <p>▼ <strong>关于模板编译的顺序</strong></p>
 <ul>
 <li>当实例对象中有<code>template</code>参数的时候，则将其作为模板编译成<code>render</code>函数</li>
 <li>如果没有<code>template</code>参数时，则将外部HTML作为模板编译</li>
 <li>在Vue对象中还有一个<code>render</code>函数，它是以<code>createElement</code>作为参数，然后做渲染操作，可以直接嵌入JSX，它的执行优先级高于<code>template</code>与<code>outer HTML</code></li>
 </ul>
-<h3 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a>mounted</h3><p>模板编译/挂在之后，<strong>此时data数据绑定在页面上是以虚拟DOM的形式存在的</strong></p>
-<h3 id="beforeUpdate-amp-amp-updated"><a href="#beforeUpdate-amp-amp-updated" class="headerlink" title="beforeUpdate &amp;&amp; updated"></a>beforeUpdate &amp;&amp; updated</h3><p>data数据更新之前 &amp;&amp; 更新之后，组件重新渲染</p>
-<h3 id="beforeDestroy-amp-amp-destroyed"><a href="#beforeDestroy-amp-amp-destroyed" class="headerlink" title="beforeDestroy &amp;&amp; destroyed"></a>beforeDestroy &amp;&amp; destroyed</h3><p>实例销毁之前 &amp;&amp; 销毁之后，销毁之后所有的绑定都会被解除，事件监听也会被移除，同时子实例也同时被销毁</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>mounted</strong></span> 模板编译/挂在之后，<strong>此时data数据绑定在页面上是以虚拟DOM的形式存在的</strong></p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeUpdate &amp;&amp; updated</strong></span> data数据更新之前 &amp;&amp; 更新之后，组件重新渲染</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeDestroy &amp;&amp; destroyed</strong></span> 实例销毁之前 &amp;&amp; 销毁之后，销毁之后所有的绑定都会被解除，事件监听也会被移除，同时子实例也同时被销毁</p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/08/19/18-08-19-33/" title= Vue.js学习笔记（03） >
+                    <span>Next Post</span>
+                    <span>Vue.js学习笔记（03）</span>
+                </a>
+            </li>
         
         
             <li class="previous">
@@ -233,7 +246,7 @@
         <div class="toc-catalog">
             CATALOG
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue实例化输入的选项对象基本介绍"><span class="toc-number">1.</span> <span class="toc-text">Vue实例化输入的选项对象基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data"><span class="toc-number">1.1.</span> <span class="toc-text">data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#props"><span class="toc-number">1.2.</span> <span class="toc-text">props</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#propsData"><span class="toc-number">1.3.</span> <span class="toc-text">propsData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computed"><span class="toc-number">1.4.</span> <span class="toc-text">computed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#methods"><span class="toc-number">1.5.</span> <span class="toc-text">methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch"><span class="toc-number">1.6.</span> <span class="toc-text">watch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue的生命周期"><span class="toc-number">2.</span> <span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期钩子函数"><span class="toc-number">3.</span> <span class="toc-text">生命周期钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#beforeCreate"><span class="toc-number">3.1.</span> <span class="toc-text">beforeCreate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#created"><span class="toc-number">3.2.</span> <span class="toc-text">created</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#beforeMount"><span class="toc-number">3.3.</span> <span class="toc-text">beforeMount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mounted"><span class="toc-number">3.4.</span> <span class="toc-text">mounted</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#beforeUpdate-amp-amp-updated"><span class="toc-number">3.5.</span> <span class="toc-text">beforeUpdate && updated</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#beforeDestroy-amp-amp-destroyed"><span class="toc-number">3.6.</span> <span class="toc-text">beforeDestroy && destroyed</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue实例化输入的选项对象基本介绍"><span class="toc-number">1.</span> <span class="toc-text">Vue实例化输入的选项对象基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data"><span class="toc-number">1.1.</span> <span class="toc-text">data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#props"><span class="toc-number">1.2.</span> <span class="toc-text">props</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#propsData"><span class="toc-number">1.3.</span> <span class="toc-text">propsData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computed"><span class="toc-number">1.4.</span> <span class="toc-text">computed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#methods"><span class="toc-number">1.5.</span> <span class="toc-text">methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch"><span class="toc-number">1.6.</span> <span class="toc-text">watch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue的生命周期"><span class="toc-number">2.</span> <span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期钩子函数"><span class="toc-number">3.</span> <span class="toc-text">生命周期钩子函数</span></a></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -671,12 +684,7 @@
     
     
     
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 33 </div>
+    <div class="total-archive"> Total : 34 </div>
     
     <div class="post-archive">
     
@@ -685,6 +693,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/18-08-19-33/" >Vue.js学习笔记（03）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -865,17 +878,17 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
@@ -883,9 +896,15 @@
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
     
@@ -901,11 +920,9 @@
     
         <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue指令</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue事件</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

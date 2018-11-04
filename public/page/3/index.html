@@ -116,6 +116,42 @@
     
     
         <article class="index-post">
+            <a class="content-show-full" href = "/2017/07/08/17-07-08-13/" >
+                    <h2 class="abstract-title">
+                        
+                        <span>JS之this指针笔记</span>
+                    </h2>
+                <div class="abstract-content">
+                    this指针
+this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。
+
+
+定义在全局中的函数
+1234function test() &#123;  this.x = 1; //此处的this指的是window&#125;x = 0; //在全局修改这个x，函数中这个this.x也是会一起改变的
+
+作为对象方法的调用
+12345678function test() &#123;  alert(this.x);&#125;va...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/08</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="content-show-full" href = "/2017/07/07/17-07-07-12/" >
                     <h2 class="abstract-title">
                         
@@ -424,45 +460,6 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
                 <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-href = JSON>JSON</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/21</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/21/17-03-21-3/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>AJAX学习笔记</span>
-                    </h2>
-                <div class="abstract-content">
-                    
-AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不是新的编程语言，而是一种使用现有标准的新方法。AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。
-
-同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式
-异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）
-
-
-
-实现
-实现页面
-运用XMLHttpRequest和web服务器进行数据的异步交换
-运用javascript...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = Ajax>Ajax</a>
     
 </div>
                 
@@ -1010,12 +1007,7 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
     
     
     
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 33 </div>
+    <div class="total-archive"> Total : 34 </div>
     
     <div class="post-archive">
     
@@ -1024,6 +1016,11 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/18-08-19-33/" >Vue.js学习笔记（03）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1204,17 +1201,17 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">http</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
     
@@ -1222,9 +1219,15 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
     
         <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
     
@@ -1240,11 +1243,9 @@ AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不
     
         <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue指令</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href= "#">Vue事件</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

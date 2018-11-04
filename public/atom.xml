@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-08-19T05:24:20.470Z</updated>
+  <updated>2018-08-23T14:00:13.916Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,44 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Vue.js学习笔记（03）</title>
+    <link href="http://yoursite.com/2018/08/19/18-08-19-33/"/>
+    <id>http://yoursite.com/2018/08/19/18-08-19-33/</id>
+    <published>2018-08-19T05:32:38.000Z</published>
+    <updated>2018-08-23T14:00:13.916Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>一个.vue文件包含着三个部分，<code>template</code>、<code>script</code>和<code>style</code>，其中指令的作用就是为了模板的渲染，Vue的指令包含了一下几种：</p>
+<ul>
+<li>更新元素内容的指令：v-text、v-html</li>
+<li>模板渲染：v-show、v-if、v-else、v-else-if、v-for</li>
+<li>事件绑定：v-on</li>
+<li>绑定属性或class与style：v-bind</li>
+<li>绑定表单控件：v-model</li>
+<li>特殊：v-pre、v-cloak、v-once</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;指令&quot;&gt;&lt;a href=&quot;#指令&quot; class=&quot;headerlink&quot; title=&quot;指令&quot;&gt;&lt;/a&gt;指令&lt;/h2&gt;&lt;p&gt;一个.vue文件包含着三个部分，&lt;code&gt;template&lt;/code&gt;、&lt;code&gt;script&lt;/code&gt;和&lt;code&gt;style&lt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+    
+      <category term="Vue指令" scheme="http://yoursite.com/tags/Vue%E6%8C%87%E4%BB%A4/"/>
+    
+      <category term="Vue事件" scheme="http://yoursite.com/tags/Vue%E4%BA%8B%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Vue.js学习笔记（02）</title>
     <link href="http://yoursite.com/2018/07/25/18-07-25-32/"/>
     <id>http://yoursite.com/2018/07/25/18-07-25-32/</id>
     <published>2018-07-25T12:13:45.000Z</published>
-    <updated>2018-08-19T05:24:20.470Z</updated>
+    <updated>2018-11-04T14:44:02.706Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Vue实例化输入的选项对象基本介绍"><a href="#Vue实例化输入的选项对象基本介绍" class="headerlink" title="Vue实例化输入的选项对象基本介绍"></a>Vue实例化输入的选项对象<a href="https://cn.vuejs.org/v2/api/#data" target="_blank" rel="external">基本介绍</a></h2><p>当我们<code>new</code>一个Vue实例的时候，包含了如下几个基本的属性：</p>
 <h3 id="data"><a href="#data" class="headerlink" title="data"></a>data</h3><p><strong>作用：</strong>声明双向绑定的数据，可以是对象或者函数，<strong>当定义组件的时候，<code>data</code>只能是函数</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>hello, &#123;&#123; name &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure></p>
@@ -33,18 +66,24 @@
 <h3 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h3><p><strong>作用：</strong>用来定义实例的一些处理方法，如绑定的事件等。<strong>注意，在<code>methods</code>不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    plus () &#123;</div><div class="line">      <span class="keyword">this</span>.a ++</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p><strong>作用：</strong>用来观察实例中数据的变化。数据类型可以是字符串、函数、对象和数组。<strong>同样，不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>， c: <span class="number">3</span> &#125;,</div><div class="line">  <span class="attr">watch</span>: &#123;</div><div class="line">    a (curVal, oldVal) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`new: %s, old: %s`</span>, curVal, oldVal)</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">b</span>: <span class="string">'someMethod'</span>, <span class="comment">// 这里的someMehod是对应的处理函数的名字</span></div><div class="line">    c: &#123;</div><div class="line">      <span class="attr">handler</span>: <span class="function"><span class="keyword">function</span> (<span class="params">curVal, oldVal</span>) </span>&#123; <span class="comment">/*...*/</span> &#125;,</div><div class="line">      <span class="attr">deep</span>: <span class="literal">true</span>, <span class="comment">//深度 watcher，为了发现对象内部值的变化</span></div><div class="line">      immediate: <span class="literal">true</span> <span class="comment">// 立即以表达式的当前值触发回调</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><p>每个Vue实例被创建时，都会经历一系列的初始化过程，同时也会调用相应的生命周期钩子，我们可以利用这些钩子，在合适的时机执行相应的操作，下图即是官网上的生命周期图示：<br><img src="https://cn.vuejs.org/images/lifecycle.png" alt=""></p>
-<h2 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h2><h3 id="beforeCreate"><a href="#beforeCreate" class="headerlink" title="beforeCreate"></a>beforeCreate</h3><p>实例创建前，此时无法访问到<code>el</code>属性和<code>data</code>属性</p>
-<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>实例创建完成，属性已经绑定，但是DOM还未生成，<code>el</code>属性还无法访问</p>
-<h3 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a>beforeMount</h3><p>模板编译/挂在之前，<strong>只有绑定了<code>el</code>属性，才会执行到这里，否则到<code>created</code>就已经停止生命周期</strong></p>
+<h2 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h2><p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeCreate</strong></span> 实例创建前，此时无法访问到<code>el</code>属性和<code>data</code>属性</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>created</strong></span> 实例创建完成，属性已经绑定，但是DOM还未生成，<code>el</code>属性还无法访问</p>
+<p>▼ <strong>关于属性</strong><br>不仅仅是<code>data</code>属性，还有<code>props</code>和<code>method</code>都在<code>created</code>的时候绑定完成</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeMount</strong></span> 模板编译/挂在之前，<strong>只有绑定了<code>el</code>属性，才会执行到这里，否则到<code>created</code>就已经停止生命周期</strong></p>
 <p>▼ <strong>关于模板编译的顺序</strong></p>
 <ul>
 <li>当实例对象中有<code>template</code>参数的时候，则将其作为模板编译成<code>render</code>函数</li>
 <li>如果没有<code>template</code>参数时，则将外部HTML作为模板编译</li>
 <li>在Vue对象中还有一个<code>render</code>函数，它是以<code>createElement</code>作为参数，然后做渲染操作，可以直接嵌入JSX，它的执行优先级高于<code>template</code>与<code>outer HTML</code></li>
 </ul>
-<h3 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a>mounted</h3><p>模板编译/挂在之后，<strong>此时data数据绑定在页面上是以虚拟DOM的形式存在的</strong></p>
-<h3 id="beforeUpdate-amp-amp-updated"><a href="#beforeUpdate-amp-amp-updated" class="headerlink" title="beforeUpdate &amp;&amp; updated"></a>beforeUpdate &amp;&amp; updated</h3><p>data数据更新之前 &amp;&amp; 更新之后，组件重新渲染</p>
-<h3 id="beforeDestroy-amp-amp-destroyed"><a href="#beforeDestroy-amp-amp-destroyed" class="headerlink" title="beforeDestroy &amp;&amp; destroyed"></a>beforeDestroy &amp;&amp; destroyed</h3><p>实例销毁之前 &amp;&amp; 销毁之后，销毁之后所有的绑定都会被解除，事件监听也会被移除，同时子实例也同时被销毁</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>mounted</strong></span> 模板编译/挂在之后，<strong>此时data数据绑定在页面上是以虚拟DOM的形式存在的</strong></p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeUpdate &amp;&amp; updated</strong></span> data数据更新之前 &amp;&amp; 更新之后，组件重新渲染</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeDestroy &amp;&amp; destroyed</strong></span> 实例销毁之前 &amp;&amp; 销毁之后，销毁之后所有的绑定都会被解除，事件监听也会被移除，同时子实例也同时被销毁</p>
 ]]></content>
     
     <summary type="html">
@@ -1232,57 +1271,6 @@
     
     
       <category term="知识碎片" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JS之this指针笔记</title>
-    <link href="http://yoursite.com/2017/07/08/17-07-08-13/"/>
-    <id>http://yoursite.com/2017/07/08/17-07-08-13/</id>
-    <published>2017-07-08T05:48:43.000Z</published>
-    <updated>2017-10-19T08:38:29.439Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><blockquote>
-<p>this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</p>
-</blockquote>
-<ul>
-<li><p><strong>定义在全局中的函数</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.x = <span class="number">1</span>; <span class="comment">//此处的this指的是window</span></div><div class="line">&#125;</div><div class="line">x = <span class="number">0</span>; <span class="comment">//在全局修改这个x，函数中这个this.x也是会一起改变的</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>作为对象方法的调用</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  alert(<span class="keyword">this</span>.x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">o.x = <span class="number">1</span>;</div><div class="line">o.m = test;</div><div class="line">o.m(); <span class="comment">//1</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>作为构造函数调用</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  <span class="attr">test</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.x = <span class="number">1</span>;</div><div class="line">  &#125; <span class="comment">//这是定义在对象中的函数，而此时this指的是对象o</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="this指向的改变"><a href="#this指向的改变" class="headerlink" title="this指向的改变"></a>this指向的改变</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  <span class="attr">test</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//在构造函数的时候也会调用其他的函数，所以this的指向就会变</span></div><div class="line">    $(<span class="keyword">this</span>.xx).on(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">//比如调用了on绑定事件的函数，那么这个函数里的this就不是对象o了</span></div><div class="line">    &#125;)</div><div class="line">  &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在javascript中有几个函数是可以改变this的指向的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xm = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">"小明"</span>,</div><div class="line">  <span class="attr">sex</span>: <span class="string">"男"</span>,</div><div class="line">  <span class="attr">age</span>: <span class="string">"18"</span>,</div><div class="line">  <span class="attr">say</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name + <span class="string">","</span> + <span class="keyword">this</span>.sex + <span class="string">","</span> + <span class="keyword">this</span>.age);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> xh = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">"小红"</span>,</div><div class="line">  <span class="attr">sex</span>: <span class="string">"女"</span>,</div><div class="line">  <span class="attr">age</span>: <span class="string">"20"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p><code>apply(thisObj,[argArray])</code><br>参数：替换目标对象（如果为空，则指的是window对象），数组（存放所需要的参数）<br>定义：应用某一对象的一个方法，用另一个对象替换当前对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.apply(xh); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><code>call(thisObj,arg1,arg2...)</code><br>参数：替换目标对象，需要的参数arg1,arg2…<br>定义：应用某一对象的一个方法，用另一个对象替换当前对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.call(xh); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><code>bind(thisObj)(arg1,arg2...)</code><br>参数：替换目标对象，需要的参数arg1,arg2…<br>定义：创建一个新函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入 bind()方法的第一个参数作为 this，传入 bind() 方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。<br>说明：bind是在EcmaScript5中扩展的方法（IE6,7,8不支持）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xm.say.bind(xh)(); <span class="comment">//小红,女,20</span></div></pre></td></tr></table></figure>
-</li>
-<li><p><code>$.proxy(fn,context)</code><br>参数：函数，函数所在的对象的名称<br>定义：用于向上下文指向不同对象的元素添加事件。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.txt = <span class="string">"这是一个对象属性"</span>;</div><div class="line">  $(<span class="string">"div"</span>).click($.proxy(<span class="keyword">this</span>.myClick,<span class="keyword">this</span>));</div><div class="line">  <span class="comment">//本来调用click的话，this会指向div，但是使用$.proxy后this还是test</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">test.prototype.myClick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="keyword">this</span>.txt);</div><div class="line">  alert(event.currentTarget.nodeName);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = <span class="keyword">new</span> test();</div></pre></td></tr></table></figure>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;this指针&quot;&gt;&lt;a href=&quot;#this指针&quot; class=&quot;headerlink&quot; title=&quot;this指针&quot;&gt;&lt;/a&gt;this指针&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内
-    
-    </summary>
-    
-    
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
     
   </entry>
   
