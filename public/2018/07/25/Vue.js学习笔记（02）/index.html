@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        
+        Vue.js学习笔记（02） · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href="/assests/favicon.ico">
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Vue.js学习笔记（02）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Vue.js学习笔记（02）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="Vue">Vue</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="Vue生命周期">Vue生命周期</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/07/25</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="Vue实例化输入的选项对象基本介绍"><a href="#Vue实例化输入的选项对象基本介绍" class="headerlink" title="Vue实例化输入的选项对象基本介绍"></a>Vue实例化输入的选项对象<a href="https://cn.vuejs.org/v2/api/#data" target="_blank" rel="noopener">基本介绍</a></h2><p>当我们<code>new</code>一个Vue实例的时候，包含了如下几个基本的属性：</p>
+<h3 id="data"><a href="#data" class="headerlink" title="data"></a>data</h3><p><strong>作用：</strong>声明双向绑定的数据，可以是对象或者函数，<strong>当定义组件的时候，<code>data</code>只能是函数</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>hello, &#123;&#123; name &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    name: <span class="string">'xiaoming'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="props"><a href="#props" class="headerlink" title="props"></a>props</h3><p><strong>作用：</strong>用于接受来自父组件的数据，对象允许配置高级选项，如类型检测<code>type</code>，自定义校验<code>require validator</code>，默认值<code>default</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">blog-post</span> <span class="attr">title</span>=<span class="string">"my Vue"</span>&gt;</span><span class="tag">&lt;/<span class="name">blog-post</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'blog-post'</span>, &#123;</span><br><span class="line">  props: [<span class="string">'title'</span>],</span><br><span class="line">  template: <span class="string">'&lt;h3&gt;&#123;&#123; title &#125;&#125;&lt;/h3&gt;'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 比较简单的组件示例，在项目中并不会这样使用组件，而是通过路由的方式</span></span><br></pre></td></tr></table></figure>
+<p>▼ <strong>设置默认和校验</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'bkog-post'</span>, &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    title: &#123;</span><br><span class="line">      type: <span class="built_in">String</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">'title'</span>,</span><br><span class="line">      required: <span class="literal">true</span>,</span><br><span class="line">      validator: <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value != <span class="string">'abc'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="propsData"><a href="#propsData" class="headerlink" title="propsData"></a>propsData</h3><p><strong>作用：</strong>创建实例时传递<code>props</code>，主要作用是方便测试。基本上，没有用过</p>
+<h3 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h3><p><strong>作用：</strong>用来定义一些需要计算得到的数据，计算的结果会被缓存，除非依赖的响应式属性变化才会重新计算<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    aDouble () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.a * <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h3><p><strong>作用：</strong>用来定义实例的一些处理方法，如绑定的事件等。<strong>注意，在<code>methods</code>不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    plus () &#123;</span><br><span class="line">      <span class="keyword">this</span>.a ++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p><strong>作用：</strong>用来观察实例中数据的变化。数据类型可以是字符串、函数、对象和数组。<strong>同样，不能使用箭头函数来定义函数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data: &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>， c: <span class="number">3</span> &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    a (curVal, oldVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`new: %s, old: %s`</span>, curVal, oldVal)</span><br><span class="line">    &#125;,</span><br><span class="line">    b: <span class="string">'someMethod'</span>, <span class="comment">// 这里的someMehod是对应的处理函数的名字</span></span><br><span class="line">    c: &#123;</span><br><span class="line">      handler: <span class="function"><span class="keyword">function</span> (<span class="params">curVal, oldVal</span>) </span>&#123; <span class="comment">/*...*/</span> &#125;,</span><br><span class="line">      deep: <span class="literal">true</span>, <span class="comment">//深度 watcher，为了发现对象内部值的变化</span></span><br><span class="line">      immediate: <span class="literal">true</span> <span class="comment">// 立即以表达式的当前值触发回调</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><p>每个Vue实例被创建时，都会经历一系列的初始化过程，同时也会调用相应的生命周期钩子，我们可以利用这些钩子，在合适的时机执行相应的操作，下图即是官网上的生命周期图示：<br><img src="https://cn.vuejs.org/images/lifecycle.png" alt></p>
+<h2 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h2><p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeCreate</strong></span> 实例创建前，此时无法访问到<code>el</code>属性和<code>data</code>属性</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>created</strong></span> 实例创建完成，属性已经绑定，但是DOM还未生成，<code>el</code>属性还无法访问</p>
+<p>▼ <strong>关于属性</strong><br>不仅仅是<code>data</code>属性，还有<code>props</code>和<code>method</code>都在<code>created</code>的时候绑定完成</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeMount</strong></span> 模板编译/挂在之前，<strong>只有绑定了<code>el</code>属性，才会执行到这里，否则到<code>created</code>就已经停止生命周期</strong></p>
+<p>▼ <strong>关于模板编译的顺序</strong></p>
+<ul>
+<li>当实例对象中有<code>template</code>参数的时候，则将其作为模板编译成<code>render</code>函数</li>
+<li>如果没有<code>template</code>参数时，则将外部HTML作为模板编译</li>
+<li>在Vue对象中还有一个<code>render</code>函数，它是以<code>createElement</code>作为参数，然后做渲染操作，可以直接嵌入JSX，它的执行优先级高于<code>template</code>与<code>outer HTML</code></li>
+</ul>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>mounted</strong></span> 模板编译/挂在之后，<strong>此时data数据绑定在页面上是以虚拟DOM的形式存在的</strong></p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeUpdate &amp;&amp; updated</strong></span> data数据更新之前 &amp;&amp; 更新之后，组件重新渲染</p>
+<hr>
+<p><span style="font-size: 20px; color: #199475;">▶ <strong>beforeDestroy &amp;&amp; destroyed</strong></span> 实例销毁之前 &amp;&amp; 销毁之后，销毁之后所有的绑定都会被解除，事件监听也会被移除，同时子实例也同时被销毁</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href="/2018/08/19/Vue.js学习笔记（03）/" title="Vue.js学习笔记（03）">
+                    <span>Next Post</span>
+                    <span>Vue.js学习笔记（03）</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href="/2018/03/09/ES6 核心向新特性（03）/" title="ES6" 核心向新特性（03）>
+                    <span>Previous Post</span>
+                    <span>ES6 核心向新特性（03）</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue实例化输入的选项对象基本介绍"><span class="toc-number">1.</span> <span class="toc-text">Vue实例化输入的选项对象基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data"><span class="toc-number">1.1.</span> <span class="toc-text">data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#props"><span class="toc-number">1.2.</span> <span class="toc-text">props</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#propsData"><span class="toc-number">1.3.</span> <span class="toc-text">propsData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computed"><span class="toc-number">1.4.</span> <span class="toc-text">computed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#methods"><span class="toc-number">1.5.</span> <span class="toc-text">methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch"><span class="toc-number">1.6.</span> <span class="toc-text">watch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue的生命周期"><span class="toc-number">2.</span> <span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期钩子函数"><span class="toc-number">3.</span> <span class="toc-text">生命周期钩子函数</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 26 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        
+        有关一些数组和对象方法的比较和总结 · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href="/assests/favicon.ico">
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">有关一些数组和对象方法的比较和总结</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            有关一些数组和对象方法的比较和总结
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="JavaScript">JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="lodash">lodash</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/11/04</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>最近搬砖的时候总觉得自己对一些数组和对象的方法了解不够透彻，所以连着一些lodash的方法放在一起做个比较和总结</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="元素的添加与删除"><a href="#元素的添加与删除" class="headerlink" title="元素的添加与删除"></a>元素的添加与删除</h3><p>▶ <strong>posh &amp; pop</strong> 数组的栈方法，在数组的末端增加和删除一个元素<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a.posh(<span class="number">4</span>) <span class="comment">// [1, 2, 3, 4]</span></span><br><span class="line">a.pop() <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>shift &amp; unshift</strong> 数组的队列方法，在数组的第一个位置增加和删除一个元素<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a.shift(<span class="number">0</span>) <span class="comment">// [0, 1, 2, 3]</span></span><br><span class="line">a.unshift() <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>splice</strong> 用于删除原数组的一部分元素，可以在被删除的位置加入新元素，会改变原数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">a.splice(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>) <span class="comment">// [3, 4]</span></span><br><span class="line">a <span class="comment">// [1, 2, 5]</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="数组的分割与合并"><a href="#数组的分割与合并" class="headerlink" title="数组的分割与合并"></a>数组的分割与合并</h3><p>▶ <strong>slice</strong> 用于提取数组的某个部分，参数是开始位置与结束位置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">a.slice() <span class="comment">// 参数为空时相当于复制数组 [1, 2, 3, 4]</span></span><br><span class="line">a.slice(<span class="number">1</span>) <span class="comment">// 只有一个参数时默认提取到最后一个 [2, 3, 4]</span></span><br><span class="line">a.slice(<span class="number">1</span>, <span class="number">3</span>) <span class="comment">// 结束位置的那个元素并不包括 [2, 3]</span></span><br><span class="line">a.slice(<span class="number">-2</span>, <span class="number">-1</span>) <span class="comment">// 参数为负数时会取倒数第n个元素 [3]</span></span><br><span class="line"><span class="comment">// 正数从0开始而倒数从1开始</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>concat</strong> 用于多个数组的合并，返回新数组，不会改变原数组；同时也可以用于对象的合并。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, [<span class="number">2</span>]]</span><br><span class="line"><span class="keyword">let</span> b = [<span class="number">3</span>, [<span class="number">4</span>]]</span><br><span class="line">a.concat(b) <span class="comment">// [1, [2], 3, [4]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在ES6中等同于[..a,..b]</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>▶ <strong>sort</strong> 对元素进行排序，会改变原数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line">a.sort() <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>reverse</strong> 颠倒元素的顺序，会改变原数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line">a.reverse() <span class="comment">// [4, 1, 2, 3]</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>▶ <strong>forEach</strong> 遍历，参数分别是当前元素、当前位置和整个数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].forEach(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'['</span> + index + <span class="string">'] = '</span> + item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [0] = 1</span></span><br><span class="line"><span class="comment">// [1] = 2</span></span><br><span class="line"><span class="comment">// [2] = 3</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>map</strong> 遍历，参数分别是当前元素、当前位置和整个数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item * index</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [0, 2, 6]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>filter</strong> 过滤数据，遍历数据查找符合输入函数条件的元素，返回一个新的数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].filter(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt; <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [4, 5]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>some &amp; every</strong> 断言，判断数组的每个元素是否符合某条件，返回布尔值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].some(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt;= <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].every(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt;= <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>reduce &amp; reduceRight</strong> 接受函数作为累加器，让每个值最终合成一个值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].reduce(<span class="function">(<span class="params">acc, cur, idx, src</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> acc + cur</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line"><span class="comment">// reduce(callback, initialValue) 可设置acc第一次计算的默认值，不设置的话是数组第一个元素</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>▶ <strong>indexOf</strong> 查找某元素的索引，不存在返回-1<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>].indexOf(<span class="number">5</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>find &amp; findIndex</strong> 查找满足条件的元素，返回第一个符合条件的元素，未找到返回<code>undefined</code>，<strong>findIndex</strong>返回的是索引<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>].find(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt; <span class="number">2</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>includes</strong> 判断当前数组是否包含某指定的值，返回布尔值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].includes(<span class="string">'a'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="字符串相关"><a href="#字符串相关" class="headerlink" title="字符串相关"></a>字符串相关</h3><p>▶ <strong>join</strong> 输入指定分隔符将数组拼成一个字符串<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].join(<span class="string">','</span>) <span class="comment">// a,b,c</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>toString</strong> 将数组转换为字符串，间隔符为逗号<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].toString() <span class="comment">// a,b,c</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>▶ <strong>from</strong> 从一个类似数组或可迭代对象中创建一个新的数组实例（ES6）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], x =&gt; x + x) <span class="comment">// [2, 4, 6]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 合并数组并去重</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">combine</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arr = [].concat.apply([], <span class="built_in">arguments</span>)</span><br><span class="line">  <span class="comment">// new Set为ES6的新数据结构，类似于数组，但它的成员是唯一的</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(arr))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">combine([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]) <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>copyWithin</strong> 将当前数组内部制定位置的成员复制到其他位置，返回当前新数组，原数组改变。接收三个参数【从该位置开始替换|从该位置开始读取数据|到该位置停止读取数据】（ES6）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].copyWithin(<span class="number">0</span>, <span class="number">3</span>) <span class="comment">// [4, 5, 3, 4, 5]</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>fill</strong> 用给定的值填充一个数组（ES6）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].fill(<span class="number">7</span>) <span class="comment">// [7, 7, 7]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Objcet"><a href="#Objcet" class="headerlink" title="Objcet"></a>Objcet</h2><p>▶ <strong>Object.assign</strong> 合并对象，合并时含有相同属性则后者覆盖前者，会改变目标对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.assign(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;, &#123;<span class="attr">b</span>: <span class="number">3</span>, <span class="attr">c</span>: <span class="number">4</span>&#125;)</span><br><span class="line"><span class="comment">// &#123;a: 1, b: 3, c: 4&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>Object.is</strong> 用来判断两个值是否是同一个值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.is(&apos;haorooms&apos;, &apos;haorooms&apos;);     // true</span><br><span class="line">Object.is(window, window);   // true</span><br><span class="line"></span><br><span class="line">Object.is(&apos;foo&apos;, &apos;bar&apos;);     // false</span><br><span class="line">Object.is([], []);           // false</span><br><span class="line"></span><br><span class="line">var test = &#123; a: 1 &#125;;</span><br><span class="line">Object.is(test, test);       // true</span><br><span class="line"></span><br><span class="line">Object.is(null, null);       // true</span><br><span class="line"></span><br><span class="line">// 特例</span><br><span class="line">Object.is(0, -0);            // false</span><br><span class="line">Object.is(-0, -0);           // true</span><br><span class="line">Object.is(NaN, 0/0);         // true</span><br></pre></td></tr></table></figure></p>
+<p>▶ <strong>Object.keys</strong> 回一个由给定对象的自身可枚举属性组成的数组，数组中属性名的排列顺序和使用 <code>for...in</code>循环遍历该对象时返回的顺序一致<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;</span><br><span class="line"><span class="built_in">Object</span>.keys(obj) <span class="comment">// ['a', 'b']</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Lodash"><a href="#Lodash" class="headerlink" title="Lodash"></a>Lodash</h2><p>由于lodash的方法实在是太多了，只提一下最最最常用的<code>merge</code>，用于两个对象的合并，可以实现深拷贝，但是在合并数组的时候有一个坑<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  name: <span class="string">'xm'</span>,</span><br><span class="line">  age: <span class="number">18</span>,</span><br><span class="line">  tag: [<span class="string">'smart'</span>, <span class="string">'happy'</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b = &#123;</span><br><span class="line">  form: <span class="string">'china'</span>,</span><br><span class="line">  tag: [<span class="string">'smart'</span>]</span><br><span class="line">&#125;</span><br><span class="line">lodash.merge(a, b)</span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//  name: 'xm',</span></span><br><span class="line"><span class="comment">//  age: 18,</span></span><br><span class="line"><span class="comment">//  tag: ['smart', 'happy'],</span></span><br><span class="line"><span class="comment">//  from: 'china'</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>由于是深拷贝，合并时数组会把两个对象的数组合并到一起，区别于<code>Object.assign()</code>，但是有的时候确实必须用深拷贝，又要去后一个数组覆盖目标数组，那么在合并之前就必须先移除掉目标对象中的这个属性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lodash.merge(lodash.omit(a, [<span class="string">'tag'</span>]), b)</span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//  name: 'xm',</span></span><br><span class="line"><span class="comment">//  age: 18,</span></span><br><span class="line"><span class="comment">//  tag: ['smart'],</span></span><br><span class="line"><span class="comment">//  from: 'china'</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href="/2019/05/09/vuex的学习整理/" title="vuex的学习整理">
+                    <span>Next Post</span>
+                    <span>vuex的学习整理</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href="/2018/08/19/Vue.js学习笔记（03）/" title="Vue.js学习笔记（03）">
+                    <span>Previous Post</span>
+                    <span>Vue.js学习笔记（03）</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Array"><span class="toc-number">1.</span> <span class="toc-text">Array</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素的添加与删除"><span class="toc-number">1.1.</span> <span class="toc-text">元素的添加与删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组的分割与合并"><span class="toc-number">1.2.</span> <span class="toc-text">数组的分割与合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排序"><span class="toc-number">1.3.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-number">1.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找元素"><span class="toc-number">1.5.</span> <span class="toc-text">查找元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串相关"><span class="toc-number">1.6.</span> <span class="toc-text">字符串相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">1.7.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objcet"><span class="toc-number">2.</span> <span class="toc-text">Objcet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lodash"><span class="toc-number">3.</span> <span class="toc-text">Lodash</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 26 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

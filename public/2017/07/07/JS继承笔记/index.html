@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        
+        JS继承笔记 · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href="/assests/favicon.ico">
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">JS继承笔记</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            JS继承笔记
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="JavaScript">JavaScript</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2017/07/07</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。<br>由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。</p>
+<p>看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-1.png" alt><br>通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。</p>
+<p>在以上基础下，得出了几种继承方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//现有两个构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.species = <span class="string">"动物"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.color = color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h2><ul>
+<li><p><strong>构造函数绑定：</strong>使用<code>call</code>或<code>apply</code>方法，将父对象的构造函数绑定在子对象上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>) </span>&#123;</span><br><span class="line">  Animal.apply(<span class="keyword">this</span>.arguments);</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.color = color;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> cat1 = <span class="keyword">new</span> Cat(<span class="string">"大毛"</span>,<span class="string">"黄色"</span>);</span><br><span class="line">alert(cat1.species); <span class="comment">//动物</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>prototype模式：</strong>将“猫”的prototype对象指向一个Animal的实例，那么“猫”的实例就能继承Animal了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br><span class="line"><span class="comment">//由于修改了Cat的prototype属性，所以Cat.prototype.constructor会指向Animal</span></span><br><span class="line"><span class="comment">//但是constructor是必须指向其构造函数的，所以要修正成Cat</span></span><br><span class="line"><span class="keyword">var</span> cat1 = <span class="keyword">new</span> Cat(<span class="string">"大毛"</span>,<span class="string">"黄色"</span>);</span><br><span class="line">alert(cat1.species); <span class="comment">//动物</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>直接继承prototype：</strong>由于Animal对象中，不变的属性都可以直接写入Animal.prototype。所以，我们也可以让Cat()跳过 Animal()，直接继承Animal.prototype。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">funtion Animal() &#123;&#125;</span><br><span class="line">Animal.prototype.species = <span class="string">"动物"</span>;</span><br><span class="line"></span><br><span class="line">Cat.prototype = Animal.prototype;</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure>
+<p>  此方法虽然提高了效率（不用执行和建立Animal的实例），但有一个缺点，就是如果修改了Cat.prototype.species，那么Animal.prototype.species也会联动修改。</p>
+</li>
+<li><p><strong>利用空对象作中介：</strong>（重点方法）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">F.prototype = Animal.prototype;</span><br><span class="line">Cat.prototype = <span class="keyword">new</span> F();</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure>
+<p>  可以将此方法封装为一个函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">child,parent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> temp = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">  temp.prototype = parent.prototype;</span><br><span class="line">  child.prototype = <span class="keyword">new</span> temp();</span><br><span class="line">  child.prototype.constructor = child;</span><br><span class="line">  child.uber = parent.prototype;<span class="comment">//为了实现继承的完备性，纯属备用性质</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-2.png" alt></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href="/2017/07/08/JS之this指针笔记/" title="JS之this指针笔记">
+                    <span>Next Post</span>
+                    <span>JS之this指针笔记</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href="/2017/04/21/JavaScript正则表达式/" title="JavaScript正则表达式">
+                    <span>Previous Post</span>
+                    <span>JavaScript正则表达式</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数的继承"><span class="toc-number">1.</span> <span class="toc-text">构造函数的继承</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 26 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

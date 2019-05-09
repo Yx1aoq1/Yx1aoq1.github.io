@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head><meta name="generator" content="Hexo 3.8.0">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>
         
         Yx1aoq1&#39;s Blog
         
     </title>
-    <link rel="icon" href= /assests/favicon.ico>
+    <link rel="icon" href="/assests/favicon.ico">
     <!-- 提前加载place holder  -->
     <style>
         @font-face {
@@ -58,7 +58,7 @@
         }
     }
     </style>
-    <link rel="stylesheet" href = /css/style.css?v=20171005 />
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
     <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
     
     <script src="/scripts/main.js" defer></script>
@@ -76,7 +76,7 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
-    <a class="home-link" href=/>Yx1aoq1's Blog.</a>
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
@@ -108,7 +108,7 @@
             
         <!-- 文章页meta -->
         
-    </div>
+    </p></div>
 </div>
         <div class="container">
             <main class="main index-page">
@@ -116,73 +116,7 @@
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/07/08/17-07-08-13/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>JS之this指针笔记</span>
-                    </h2>
-                <div class="abstract-content">
-                    this指针
-this是Javascript语言的一个关键字。它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。
-
-
-定义在全局中的函数
-1234function test() &#123;  this.x = 1; //此处的this指的是window&#125;x = 0; //在全局修改这个x，函数中这个this.x也是会一起改变的
-
-作为对象方法的调用
-12345678function test() &#123;  alert(this.x);&#125;va...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/08</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/07/07/17-07-07-12/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>JS继承笔记</span>
-                    </h2>
-                <div class="abstract-content">
-                    在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。
-看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。
-在以上基础下，得出了几种继承方法：12345678910//现有两个构造函数function Animal() &#123;  this.specie...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/07/07</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/21/17-04-21-11/" >
+            <a class="content-show-full" href="/2017/04/21/JavaScript正则表达式/">
                     <h2 class="abstract-title">
                         
                         <span>JavaScript正则表达式</span>
@@ -206,9 +140,9 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
             <div class="abstract-post-meta">
                 <!-- tags  -->
                 
-                <div class= abstract-tags >
+                <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-href = JavaScript>JavaScript</a>
+        <a class="post-tag" href="javascript:void(0);" data-href="JavaScript">JavaScript</a>
     
 </div>
                 
@@ -222,186 +156,7 @@ this是Javascript语言的一个关键字。它代表函数运行时，自动生
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/10/17-04-10-10/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>有关CSS的tip</span>
-                    </h2>
-                <div class="abstract-content">
-                    position的值，relative和absolute分别是相对于谁进行定位的？
-absolute 生成绝对定位的元素，相对于最近一级的定位不是 static 的父元素来进行定位。
-fixed （老IE不支持）生成绝对定位的元素，相对于浏览器窗口进行定位。
-relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
-static 默认值。没有定位，元素出现在正常的流中
-
-display:none和visibility:hidden的区别？
-display:none 隐藏对应的元素，在文档布局中不再给它分配空间，它各边的元素会合拢，就当他从来不存在。
-visibility:...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = CSS>CSS</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/10</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/06/17-04-06-9/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>前端模块化</span>
-                    </h2>
-                <div class="abstract-content">
-                    AMD
-AMD 即Asynchronous Module Definition，中文名是异步模块定义的意思。它是一个在浏览器端模块化开发的规范。
-
-应用：RequireJS解决的主要问题：
-
-多个js文件可能有依赖关系，被依赖的文件需要早于依赖它的文件加载到浏览器
-js加载的时候浏览器会停止页面渲染，加载文件越多，页面失去响应时间越长
-
-
-define([id], [dependencies], factory);
-id：可选参数，用来定义模块的标识，如果没有提供该参数，脚本文件名（去掉拓展名）
-dependencies：是一个当前模块依赖的模块名称数组
-factory：工厂方法，模块初...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 模块化>模块化</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/06</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/04/06/17-04-06-8/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>从零开始的backbone.js（三）</span>
-                    </h2>
-                <div class="abstract-content">
-                    Backbone.Collection（集合）
-model是现实中物体的抽象，而collection则是model对象的一个有序的集合
-
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051var Book = Backbone.Model.extend(&#123;	defaults:&#123;		title:"default"	&#125;,	initialize:function()&#123;		alert(this.title);	&#125;...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = backbone>backbone</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/04/06</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/29/17-03-29-7/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>从零开始的backbone.js（二）</span>
-                    </h2>
-                <div class="abstract-content">
-                    Backbone.View（视图）
-view的功能就是将model中的数据显示在页面上，同时也可用来监听DOM上的事件然后做出响应。
-相比较AngularJS，其model变化之后页面数据也会自动变化，而Backbone要手动处理。
-
-
-1234567891011121314151617181920212223242526var searchView = Backbone.View.extend(&#123;	//引用的DOM元素（没有指定也会指向一个空的div）	el:"#search_container",	//绑定事件	events:&#123;		"click input[typ...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = backbone>backbone</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/29</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/28/17-03-28-6/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>从零开始的backbone.js（一）</span>
-                    </h2>
-                <div class="abstract-content">
-                    实习项目用的框架：backbone.js
-
-Backbone.js为复杂WEB应用程序提供模型(models)、集合(collections)、视图(views)的结构。
-
-
-Backbone.Model（模型）
-Model的作用：对业务中实体对象的抽象，把数据以文件、数据库的形式存储在磁盘上，与服务器端进行数据交互。
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364//相当于public class...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = backbone>backbone</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/28</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/26/17-03-26-5/" >
+            <a class="content-show-full" href="/2017/03/26/iconfont使用方法/">
                     <h2 class="abstract-title">
                         
                         <span>iconfont使用方法</span>
@@ -419,9 +174,9 @@ Model的作用：对业务中实体对象的抽象，把数据以文件、数据
             <div class="abstract-post-meta">
                 <!-- tags  -->
                 
-                <div class= abstract-tags >
+                <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 知识碎片>知识碎片</a>
+        <a class="post-tag" href="javascript:void(0);" data-href="知识碎片">知识碎片</a>
     
 </div>
                 
@@ -435,7 +190,7 @@ Model的作用：对业务中实体对象的抽象，把数据以文件、数据
     
     
         <article class="index-post">
-            <a class="content-show-full" href = "/2017/03/21/17-03-21-4/" >
+            <a class="content-show-full" href="/2017/03/21/JSON学习笔记/">
                     <h2 class="abstract-title">
                         
                         <span>JSON学习笔记</span>
@@ -457,9 +212,9 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
             <div class="abstract-post-meta">
                 <!-- tags  -->
                 
-                <div class= abstract-tags >
+                <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-href = JSON>JSON</a>
+        <a class="post-tag" href="javascript:void(0);" data-href="JSON">JSON</a>
     
 </div>
                 
@@ -470,17 +225,144 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
             </div>
         </article>
     
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href="/2017/03/21/AJAX学习笔记/">
+                    <h2 class="abstract-title">
+                        
+                        <span>AJAX学习笔记</span>
+                    </h2>
+                <div class="abstract-content">
+                    
+AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）AJAX 不是新的编程语言，而是一种使用现有标准的新方法。AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。
+
+同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式
+异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）
+
+
+
+实现
+实现页面
+运用XMLHttpRequest和web服务器进行数据的异步交换
+运用javascript...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="Ajax">Ajax</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/21</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href="/2017/03/20/关于HTTP请求小记/">
+                    <h2 class="abstract-title">
+                        
+                        <span>关于HTTP请求小记</span>
+                    </h2>
+                <div class="abstract-content">
+                    
+HTTP： 是计算机通过网络进行通信的规则
+步骤：
+建立TCP连接
+Web浏览器向Web服务器发送请求命令
+Web浏览器发送请求头信息
+Web服务器应答
+Web服务器发送应答头信息
+Web服务器向浏览器发送数据
+Web服务器关闭TCP连接
+
+
+
+
+
+组成：
+
+HTTP请求的方法或动作，比如是GET还是POST请求
+正在请求的URL
+请求头，包含一些客户端环境信息，身份验证信息等
+请求体（请求正文），包含客户提交的查询字符串信息，表单信息等等123456789101112131415GET /login.php HTTP/1.1 //请求地址//请求头Host:localhostConn...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="http">http</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="网络">网络</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/03/20</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="content-show-full" href="/2017/02/28/Sublime Text3前端插件分享/">
+                    <h2 class="abstract-title">
+                        
+                        <span>Sublime Text3前端插件分享</span>
+                    </h2>
+                <div class="abstract-content">
+                    自从寒假抛弃了DW开始用Sublime Text3，一直沉浸在它的好用上面，打代码超快！界面又超好看！超爱哦！有几个关于前端的插件特别特别好，下面是安利
+
+
+
+Emmet:快速编写HTML+CSS代码，快捷键ctrl+E关于如何速写的教程
+JSFormat:Javascript的代码格式化插件
+Less:LESS高亮插件
+All Autocomplete:搜索所有打开的文件来寻找匹配的提示词
+AutoFileName:自动检索并补齐文件路径
+CSScomb:使用指定排序方法对CSS的属性进行排序，快捷键ctrl+alt+C虽然好像很厉害的样子但是我安装了之后一直没有反应，还未找到办法
+D...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="Sublime">Sublime</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2017/02/28</span>
+                </div>
+            </div>
+        </article>
+    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/2/">#PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">#NEXT</a>
+        <a class="extend prev" rel="prev" href="/page/2/">#PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
     </nav>
     
 </main>
             <!-- profile -->
             
             <div class="profile">
-    <img class="profile-avatar" src= /avatar/kagura.jpg >
+    <img class="profile-avatar" src="/avatar/kagura.jpg">
     <div class="profile-name">Yx1aoq1</div>
     
     <div class="profile-signature">
@@ -493,7 +375,7 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
     
         
             
-                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
             
         
     
@@ -522,7 +404,7 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
     
         <div class="about-me">
             <div>
-                <a href = "/about" >ABOUT ME</a>
+                <a href="/about">ABOUT ME</a>
             </div>
         </div>
     
@@ -537,7 +419,7 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
     
         
             
-                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
             
         
     
@@ -895,156 +777,63 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 34 </div>
+    <div class="total-archive"> Total : 26 </div>
     
     <div class="post-archive">
     
     
     
     
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/18-08-19-33/" >Vue.js学习笔记（03）</a>
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2018/07/25/18-07-25-32/" >Vue.js学习笔记（02）</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/18-03-09-31/" >ES6 核心向新特性（03）</a>
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/18-03-08-30/" >ES6 核心向新特性（02）</a>
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2018/03/07/18-03-07-29/" >ES6 核心向新特性（01）</a>
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/2018/01/15/18-01-15-28/" >Webpack学习笔记</a>
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
         </li>
     
     
@@ -1058,201 +847,145 @@ JSON数据的书写格式：名称/值对名称/值对组合中的名称写在�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2017/10/19/17-10-19-27/" >Vue.js学习笔记（01）</a>
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2017/10/17/17-10-14-26/" >前端自动化工具</a>
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2017/10/14/17-10-14-25/" >jQuery源码学习笔记(03)</a>
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2017/10/10/17-10-10-24/" >jQuery源码学习笔记(02)</a>
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-22/" >DOM基础知识巩固</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/02</span><a class="archive-post-title" href= "/2017/10/02/17-10-02-23/" >jQuery源码学习笔记(01)</a>
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2017/09/25/17-09-25-21/" >JS定时器与单线程</a>
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2017/08/24/17-08-24-20/" >JS变量计算</a>
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/17-08-19-19/" >页面加载——浏览器渲染</a>
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2017/08/17/17-08-17-18/" >网络知识补充——浏览器请求过程</a>
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2017/08/16/17-08-16-17/" >JS面向对象学习笔记</a>
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/17-08-15-16/" >JS变量、作用域和内存问题</a>
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-15/" >异步编程之promise与trigger</a>
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2017/07/15/17-07-15-14/" >搭建Hexo博客之后</a>
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/17-07-08-13/" >JS之this指针笔记</a>
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/17-07-07-12/" >JS继承笔记</a>
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/17-04-21-11/" >JavaScript正则表达式</a>
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/17-04-10-10/" >有关CSS的tip</a>
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
         </li>
     
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-9/" >前端模块化</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2017/04/06/17-04-06-8/" >从零开始的backbone.js（三）</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2017/03/29/17-03-29-7/" >从零开始的backbone.js（二）</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/28</span><a class="archive-post-title" href= "/2017/03/28/17-03-28-6/" >从零开始的backbone.js（一）</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2017/03/26/17-03-26-5/" >iconfont使用方法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-4/" >JSON学习笔记</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/17-03-21-3/" >AJAX学习笔记</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2017/03/20/17-03-20-4/" >关于HTTP请求小记</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-2/" >Sublime Text3前端插件分享</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2017/02/28/17-02-28-1/" >这磨人的小妖精</a>
-        </li>
-    
-    </div>
+    </ul></div>
   </div>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">Sublime</a></span>
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">http</a></span>
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">网络</a></span>
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">吐槽</a></span>
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Ajax</a></span>
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JSON</a></span>
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">知识碎片</a></span>
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">backbone</a></span>
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">模块化</a></span>
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">CSS</a></span>
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">JavaScript</a></span>
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">DOM</a></span>
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">BOM</a></span>
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">HTML</a></span>
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">jQuery</a></span>
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Vue</a></span>
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">MVC</a></span>
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">MVVM</a></span>
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">Webpack</a></span>
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">ES6</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Vue生命周期</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Vue指令</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">Vue事件</a></span>
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
     3、在根目录_config.yml里添加配置：
     <pre style="color: #888; font-size: 0.6rem;">
 jsonContent:

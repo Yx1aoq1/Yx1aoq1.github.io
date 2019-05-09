@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        
+        Vue.js学习笔记（01） · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href="/assests/favicon.ico">
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Vue.js学习笔记（01）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Vue.js学习笔记（01）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="Vue">Vue</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="MVC">MVC</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="MVVM">MVVM</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2017/10/19</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API。</p>
+</blockquote>
+<p>▼ <strong>什么是MVVM：</strong><br>MVVM(Model View ViewModel)是一种基于MVC的设计，开发人员在HTML上写一些Bindings,利用一些指令绑定，就能在Model和ViewModel保持不变的情况下，很方便的将UI设计与业务逻辑分离，从而大大的减少繁琐的DOM操作。</p>
+<ul>
+<li><strong>Model</strong><br>代表我们整个webapp所需要的数据模型，一个典型的例子就是用户信息Model,它应该含有(姓名，年龄等属性)。Model含有大量信息，但它并不具有任何行为逻辑，它只是数据，因而它不会影响浏览器如何展示数据。</li>
+<li><strong>View</strong><br>View这个词出现频率最多的地方应该是MVC。在MVC设计中，View是唯一与用户交互的地方，或者说它是Model变化后的直观反映。在MVVM中，View被认为是主动的而非被动的。一个被动的View时只它只能任由“他人”（Controller）摆布，自己却不能改变任何东西，如利用Jquery操作DOM。而MVVM中View是具有主动性的，因为它包括了一些数据绑定，事件，和行为，这些都会直接影响Model和ViewModel的。它不但负责保持View自己身的行为（展示），而还会将自身的变化同步到ViewModel中。</li>
+<li><strong>ViewModel</strong><br>ViewModel可以被看作是MVC中的Controller,它主要负责数转换（用一定的业务逻辑），它负责将Model的变化反应到View上，而当View自身有变化时也会同步Model进行改变。你可以把ViewModel看作一个藏在View后面的好帮手，它把View需要的数据暴露给它，并且富于View一定的行为能力。</li>
+</ul>
+<h2 id="MVC-和-MVVM-的比较"><a href="#MVC-和-MVVM-的比较" class="headerlink" title="MVC 和 MVVM 的比较"></a>MVC 和 MVVM 的比较</h2><p>刚发现了一篇关于几个模型的博文<a href="http://www.cnblogs.com/indream/p/3602348.html" target="_blank" rel="noopener">从Script到Code Blocks、Code Behind到MVC、MVP、MVVM</a><br>在这里，简单的对这两个比较常见的设计模型进行一些比较：</p>
+<h3 id="MVC结构图"><a href="#MVC结构图" class="headerlink" title="MVC结构图"></a>MVC结构图</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/mvc.png" alt></p>
+<h3 id="MVVM结构图"><a href="#MVVM结构图" class="headerlink" title="MVVM结构图"></a>MVVM结构图</h3><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/mvvm.png" alt></p>
+<h3 id="MVC的优点"><a href="#MVC的优点" class="headerlink" title="MVC的优点"></a>MVC的优点</h3><p>由于前端的发展，出现了多页应用和Web App这种东西，使得前端不仅仅做的是简单的数据展示了。使用MVC，有下列一些优点：</p>
+<ul>
+<li>简化代码</li>
+<li>减少重复</li>
+<li>集中精神编写业务逻辑</li>
+<li>易于扩充</li>
+<li>数据触发事件</li>
+<li>面向数据编程</li>
+</ul>
+<h3 id="MVC缺点"><a href="#MVC缺点" class="headerlink" title="MVC缺点"></a>MVC缺点</h3><p>MVC虽然将需求和UI的相关工作分化成了三份，但是由于它们三者的三角关系使得维护很成问题。<strong>在MVC，当你有变化的时候你需要同时维护三个对象和三个交互，这显然让事情复杂化了。</strong></p>
+<p>MVVM与MVC最大的区别在于，MVVM切断了View层和Model层的联系，让View层只和ViewModel层交互，而ViewModel再和Model层交互。在MVVM中，<strong>View和ViewModel间没有了MVP的界面接口，而是直接交互，用数据“绑定”的形式让数据更新的事件不需要开发人员手动去编写特殊用例，而是自动地双向同步。</strong></p>
+<p>随着HTML5的发展，Web App的应用越来越广泛，甚至能媲美Nativ eApp（大部分安卓或IOS应用），但随之也暴露出了三个痛点问题：</p>
+<ul>
+<li>开发者在代码中大量调用相同的 DOM API, 处理繁琐 ，操作冗余，使得代码难以维护。</li>
+<li>大量的DOM 操作使页面渲染性能降低，加载速度变慢，影响用户体验。</li>
+<li>当 Model 频繁发生变化，开发者需要主动更新到View ；当用户的操作导致 Model 发生变化，开发者同样需要将变化的数据同步到Model 中， 这样的工作不仅繁琐，而且很难维护复杂多变的数据状态。</li>
+</ul>
+<h3 id="MVVM优点"><a href="#MVVM优点" class="headerlink" title="MVVM优点"></a>MVVM优点</h3><p>在MVVM中，ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理，这就完美的解决了以上的问题。</p>
+<h2 id="Vue-js的MVVM应用"><a href="#Vue-js的MVVM应用" class="headerlink" title="Vue.js的MVVM应用"></a>Vue.js的MVVM应用</h2><p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/vuejs.png" alt></p>
+<ul>
+<li><strong>Observer</strong>：数据监听器，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者，内部采用Object.defineProperty的getter和setter来实现；</li>
+<li><strong>Compile</strong>：指令解析器，它的作用对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数；</li>
+<li><strong>Watcher</strong>：订阅者， 作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数；</li>
+<li><strong>Dep</strong>：消息订阅器，内部维护了一个数组，用来收集订阅者（Watcher），数据变动触发notify 函数，再调用订阅者的 update 方法</li>
+</ul>
+<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>使用git，输入指令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装vue-cli</span></span><br><span class="line">$ cnpm install -g vue-cli</span><br><span class="line"><span class="comment"># 创建一个基于 "webpack" 模板的新项目</span></span><br><span class="line">$ vue init webpack my-project</span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line">$ cd my-project</span><br><span class="line">$ cnmp install</span><br><span class="line"><span class="comment"># 开启项目</span></span><br><span class="line">$ npm run dev</span><br></pre></td></tr></table></figure></p>
+<h2 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h2><p><code>index.html</code>：放在项目根目录下，是项目的入口<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>blog-project<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- app为一个组件，默认调用src里的main.js --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>src/main.js</code>：注册组件app<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//import表示导入组件，ES6语法</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>   <span class="comment">//导入vue框架</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>   <span class="comment">//同级目录下的App.vue</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>   <span class="comment">//同级目录下的router文件夹</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* eslint-disable no-new */</span></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  router,</span><br><span class="line">  template: <span class="string">'&lt;App/&gt;'</span>,</span><br><span class="line">  components: &#123; App &#125;  <span class="comment">//注册一个app</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><code>src/App.vue</code>：组件的主要代码，包括<code>template</code>、<code>script</code>、<code>style</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"./assets/logo.png"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 渲染路径匹配到的视图组件，方便渲染你指定路由对应的组件 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span></span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>router/index.js</code>： 创建路由并配置路由映射 ，并通过export输出router到main.js文件中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></span><br><span class="line"><span class="keyword">import</span> HelloWorld <span class="keyword">from</span> <span class="string">'@/components/HelloWorld'</span> </span><br><span class="line"><span class="comment">// 在这里引入另一个名为HelloWorld的组件</span></span><br><span class="line"><span class="comment">// 即components目录下的HelloWorld.vue</span></span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/'</span>,</span><br><span class="line">      name: <span class="string">'Hello'</span>,</span><br><span class="line">      component: HelloWorld</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href="/2018/01/15/Webpack学习笔记/" title="Webpack学习笔记">
+                    <span>Next Post</span>
+                    <span>Webpack学习笔记</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href="/2017/10/02/DOM本质/" title="DOM基础知识巩固">
+                    <span>Previous Post</span>
+                    <span>DOM基础知识巩固</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC-和-MVVM-的比较"><span class="toc-number">1.</span> <span class="toc-text">MVC 和 MVVM 的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC结构图"><span class="toc-number">1.1.</span> <span class="toc-text">MVC结构图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM结构图"><span class="toc-number">1.2.</span> <span class="toc-text">MVVM结构图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC的优点"><span class="toc-number">1.3.</span> <span class="toc-text">MVC的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC缺点"><span class="toc-number">1.4.</span> <span class="toc-text">MVC缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM优点"><span class="toc-number">1.5.</span> <span class="toc-text">MVVM优点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-js的MVVM应用"><span class="toc-number">2.</span> <span class="toc-text">Vue.js的MVVM应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建开发环境"><span class="toc-number">3.</span> <span class="toc-text">搭建开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板解析"><span class="toc-number">4.</span> <span class="toc-text">模板解析</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 26 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

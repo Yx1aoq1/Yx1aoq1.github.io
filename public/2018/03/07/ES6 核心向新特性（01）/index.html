@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        
+        ES6 核心向新特性（01） · Yx1aoq1&#39;s Blog
+        
+    </title>
+    <link rel="icon" href="/assests/favicon.ico">
+    <!-- 提前加载place holder  -->
+    <style>
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+        @font-face {
+            font-family: 'Source Sans Pro';
+            src: url('/font/Source Sans Pro.woff'),
+            url('/font/Source Sans Pro.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('/font/SourceCodePro-Regular.ttf.woff'),
+            url('/font/SourceCodePro-Regular.ttf.woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+        .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0px;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        99% {
+            transform: translate3d(0, 0, 0);
+        }
+        99.1% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(-226px, 0, 0);
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/style.css?v=20171005">
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Yx1aoq1&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">ES6 核心向新特性（01）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Yx1aoq1's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://omukp916f.bkt.clouddn.com/post-bg-2.jpeg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            ES6 核心向新特性（01）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="JavaScript">JavaScript</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href="ES6">ES6</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/07</span>
+            </div>
+        
+    </div>
+</div>
+        <div class="container">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="块级作用域变量声明关键字-let-、-const"><a href="#块级作用域变量声明关键字-let-、-const" class="headerlink" title="块级作用域变量声明关键字 let 、 const"></a>块级作用域变量声明关键字 let 、 const</h2><h3 id="let-、-const-与-var-的对比"><a href="#let-、-const-与-var-的对比" class="headerlink" title="let 、 const 与 var 的对比"></a>let 、 const 与 var 的对比</h3><ul>
+<li><p>不存在变量提升；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var 的情况</span></span><br><span class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 输出undefined</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// let 的情况</span></span><br><span class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>暂时性死区（在代码块内，使用let命令声明变量之前，该变量都是不可用的）；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> x; <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> x;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>let 和 const 都只能作为块级作用域变量的声明，且只能在块级作用域内生效，块内声明的变量无法在块级外层引用；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">a <span class="comment">// ReferenceError: a is not defined.</span></span><br><span class="line">b <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 const 声明的变量必须进行初始化赋值，而且一旦赋值就不能再进行第二次修改；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> b = <span class="string">'hello'</span>;</span><br><span class="line">b = <span class="string">'world'</span>; <span class="comment">// Uncaught TyperError: Assignment to constant variable.</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 let 、 const 在全局作用域下声明的变量不会作为属性添加到全局作用域对象里面；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> A = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a || global.a); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.A || global.A); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用 let 、 const 赋值语句的执行速度比使用 var 快约65%；</p>
+</li>
+</ul>
+<h3 id="使用场景的区分"><a href="#使用场景的区分" class="headerlink" title="使用场景的区分"></a>使用场景的区分</h3><p>模块内不变的引用和常量，使用<code>const</code>定义；可变的变量或引用使用<code>let</code>声明；<code>var</code>仅用于声明函数整个作用域内需要使用的变量。</p>
+<h2 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = <span class="string">"Bob"</span>, time = <span class="string">"today"</span>;</span><br><span class="line"><span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, how are you <span class="subst">$&#123;time&#125;</span>?`</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串模板可以在有字符串内容和变量混合连接的场景中，使得代码书写更高效与整洁</li>
+<li>字符串模板不会压缩内部的换行和空格，而是按照原有的格式输出</li>
+</ul>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><p>解决了赋值的编码荣宇和模块按需导出的问题。主要分为数组解构和对象解构。</p>
+<h3 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h3><p>▼ <strong>变量的赋值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [a, b, c] = [<span class="number">11</span>, <span class="number">22</span>];</span><br><span class="line">a <span class="comment">// 11</span></span><br><span class="line">b <span class="comment">// 22</span></span><br><span class="line">c <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> [head, ...tail] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">head <span class="comment">// 1</span></span><br><span class="line">tail <span class="comment">// [2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> [a, [b], d] = [<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>];</span><br><span class="line">a <span class="comment">// 1</span></span><br><span class="line">b <span class="comment">// 2</span></span><br><span class="line">d <span class="comment">// 4</span></span><br></pre></td></tr></table></figure></p>
+<p>▼ <strong>指定默认值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [foo = <span class="literal">true</span>] = [];</span><br><span class="line">foo <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h3><p>▼ <strong>变量的赋值</strong>（对象的属性没有次序，变量必须与属性同名，才能取到正确的值）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123; foo, bar &#125; = &#123; <span class="attr">foo</span>: <span class="string">"aaa"</span>, <span class="attr">bar</span>: <span class="string">"bbb"</span> &#125;;</span><br><span class="line">foo <span class="comment">// "aaa"</span></span><br><span class="line">bar <span class="comment">// "bbb"</span></span><br></pre></td></tr></table></figure></p>
+<p>▼ <strong>指定默认值</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;x = <span class="number">3</span>&#125; = &#123;&#125;;</span><br><span class="line">x <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="数组的新特性"><a href="#数组的新特性" class="headerlink" title="数组的新特性"></a>数组的新特性</h2><h3 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符(...)"></a>扩展运算符(<code>...</code>)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr =[<span class="string">'hello'</span>, <span class="string">'world'</span>];</span><br><span class="line"><span class="keyword">const</span> newArr = [...arr]; <span class="comment">// ['hello', 'world']</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意点</strong>： <code>...</code>进行的数组复制是浅拷贝</p>
+<h3 id="扩展API"><a href="#扩展API" class="headerlink" title="扩展API"></a>扩展API</h3><ul>
+<li><p><code>Array.from</code>: 用于将数组对象转化为真正的数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arrayLike = &#123;</span><br><span class="line">    <span class="string">'0'</span>: <span class="string">'a'</span>,</span><br><span class="line">    <span class="string">'1'</span>: <span class="string">'b'</span>,</span><br><span class="line">    <span class="string">'2'</span>: <span class="string">'c'</span>,</span><br><span class="line">    length: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// ES5的写法</span></span><br><span class="line"><span class="keyword">var</span> arr1 = [].slice.call(arrayLike); <span class="comment">// ['a', 'b', 'c']</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ES6的写法</span></span><br><span class="line"><span class="keyword">let</span> arr2 = <span class="built_in">Array</span>.from(arrayLike); <span class="comment">// ['a', 'b', 'c']</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.of</code>: 将传入的一组参数转换为数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.of(<span class="number">3</span>, <span class="number">11</span>, <span class="number">8</span>) <span class="comment">// [3,11,8]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.copyWithin</code>: 可以在当前数组内部将指定位置的数组项复制到其他位置，然后返回当前数组，使用<code>copyWithin</code>方法会修改当前数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> colors = [<span class="string">'red'</span>, <span class="string">'blue'</span>, <span class="string">'green'</span>, <span class="string">'green'</span>];</span><br><span class="line">colors.copyWithin(<span class="number">0</span>, <span class="number">3</span>); <span class="comment">// ['green', 'blue', 'green', 'green']</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.fill</code>: 使用给定值，填充一个数组，会改变原来的数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colors.fill(<span class="string">'black'</span>); <span class="comment">// ['black', black', black', black']</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Arrau.prototype.find</code>: 用于找出第一个符合条件的数组元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colors.find(<span class="function"><span class="keyword">function</span>(<span class="params">color</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(color === <span class="string">'green'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> color;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;) <span class="comment">// green</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.prototype.findIndex</code>: 用来返回某个特定数组元素在数组中的位置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colors.findIndex(<span class="function"><span class="keyword">function</span>(<span class="params">color</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(color === <span class="string">'green'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> color;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="新的数组迭代方式"><a href="#新的数组迭代方式" class="headerlink" title="新的数组迭代方式"></a>新的数组迭代方式</h3><p><code>entries()</code>、<code>keys()</code>和<code>values()</code>，均可以用来遍历数组。它们都返回一个迭代器对象，也可以用<code>for...of</code>循环进行遍历，区别是<code>keys()</code>是对数组键名进行遍历，<code>values()</code>是对数组键值进行遍历，<code>entries()</code>是对数组中键值对进行遍历。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].keys()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(index);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> elem <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].values()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 'a'</span></span><br><span class="line"><span class="comment">// 'b'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [index, elem] <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].entries()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(index, elem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 0 "a"</span></span><br><span class="line"><span class="comment">// 1 "b"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="增强函数"><a href="#增强函数" class="headerlink" title="增强函数"></a>增强函数</h2><h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>ES6 对函数参数的改进主要是添加了默认参数、不定参数和拓展参数</p>
+<p>▼ <strong>默认参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name = <span class="string">'ouven'</span></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line">sayHi(); <span class="comment">// Hello ouven</span></span><br></pre></td></tr></table></figure></p>
+<p>▼ <strong>不定参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">...name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(name.reduce(<span class="function">(<span class="params">a,b</span>) =&gt;</span> <span class="string">`Hello <span class="subst">$&#123;a&#125;</span> <span class="subst">$&#123;b&#125;</span>`</span>));</span><br><span class="line">&#125;</span><br><span class="line">sayHi(<span class="string">'oven'</span>, <span class="string">'zhang'</span>); <span class="comment">// Hello ouven zhang</span></span><br></pre></td></tr></table></figure></p>
+<p>▼ <strong>扩展参数</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = [<span class="string">'oven'</span>, <span class="string">'zhang'</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name1, name2</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;name1&#125;</span> <span class="subst">$&#123;name2&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line">sayHello(...name); <span class="comment">// Hello ouven zhang</span></span><br></pre></td></tr></table></figure></p>
+<p>其中不定参数和扩展参数可以认为恰好是相反的两个模式，不定参数是使用数组来表示多个参数，扩展参数将多个参数映射到一个数组。<br>▼ <strong>不定参数与 arguments 的对比</strong><br>不定参数和<code>arguments</code>都可以使用函数的形参来表示所有的参数组成的列表，但是<code>arguments</code>不是真正的数组，所有使用数组的方法必须使用<code>Array.prototype.slice.call</code>先将其转换成数组，所有使用起来不定参数更加的方便。</p>
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> num1 + num2;</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>注意点</strong>：箭头函数没有完整的执行上下文，因为其 this 和外层的 this 相同，可以理解为它的执行上下文只有变量对象和作用域链， 没有 this 值。</p>
+<h2 id="增强对象"><a href="#增强对象" class="headerlink" title="增强对象"></a>增强对象</h2><p>es6 中，对象的使用更加方便。在定义对象时通过属性简写、变量作为属性名或省略对象函数属性的书写等方式可以提高编码的效率。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">'onven'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getKey</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> key;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> people = &#123;</span><br><span class="line">  <span class="comment">// 属性简写</span></span><br><span class="line">  name,</span><br><span class="line">  <span class="comment">// 返回变量或对象作为属性名</span></span><br><span class="line">  [getKey(<span class="string">'family'</span>)]: <span class="string">'zhang'</span>,</span><br><span class="line">  <span class="comment">// 对象方法属性简写声明</span></span><br><span class="line">  sayHi() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Hello <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.family&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">people.sayHi(); <span class="comment">// Hello ouven zhang</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>注意点</strong>：为了代码便于维护和理解，建议尽量不将变量或对象作为对象的属性名。</p>
+<p>学习参考：<br><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ECMAScript 6入门——阮一峰</a><br>《现代前端技术解析》</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href="/2018/03/08/ES6 核心向新特性（02）/" title="ES6" 核心向新特性（02）>
+                    <span>Next Post</span>
+                    <span>ES6 核心向新特性（02）</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href="/2018/01/15/Webpack学习笔记/" title="Webpack学习笔记">
+                    <span>Previous Post</span>
+                    <span>Webpack学习笔记</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="emailto:yanx1aoq1@gmail.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Yx1aoq1" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <a href="http://weibo.com/4shero" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            CATALOG
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#块级作用域变量声明关键字-let-、-const"><span class="toc-number">1.</span> <span class="toc-text">块级作用域变量声明关键字 let 、 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let-、-const-与-var-的对比"><span class="toc-number">1.1.</span> <span class="toc-text">let 、 const 与 var 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景的区分"><span class="toc-number">1.2.</span> <span class="toc-text">使用场景的区分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串模板"><span class="toc-number">2.</span> <span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-number">3.</span> <span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-number">3.1.</span> <span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-number">3.2.</span> <span class="toc-text">对象解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的新特性"><span class="toc-number">4.</span> <span class="toc-text">数组的新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展运算符"><span class="toc-number">4.1.</span> <span class="toc-text">扩展运算符(...)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展API"><span class="toc-number">4.2.</span> <span class="toc-text">扩展API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的数组迭代方式"><span class="toc-number">4.3.</span> <span class="toc-text">新的数组迭代方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强函数"><span class="toc-number">5.</span> <span class="toc-text">增强函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数参数"><span class="toc-number">5.1.</span> <span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数"><span class="toc-number">5.2.</span> <span class="toc-text">箭头函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强对象"><span class="toc-number">6.</span> <span class="toc-text">增强对象</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 26 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/2019/05/09/vuex的学习整理/">vuex的学习整理</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/2018/11/04/有关一些数组和对象方法的比较和总结/">有关一些数组和对象方法的比较和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2018/08/19/Vue.js学习笔记（03）/">Vue.js学习笔记（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href="/2018/07/25/Vue.js学习笔记（02）/">Vue.js学习笔记（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href="/2018/03/09/ES6 核心向新特性（03）/">ES6 核心向新特性（03）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href="/2018/03/08/ES6 核心向新特性（02）/">ES6 核心向新特性（02）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2018/03/07/ES6 核心向新特性（01）/">ES6 核心向新特性（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/2018/01/15/Webpack学习笔记/">Webpack学习笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2017/10/19/Vue.js学习笔记（01）/">Vue.js学习笔记（01）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span><a class="archive-post-title" href="/2017/10/02/DOM本质/">DOM基础知识巩固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href="/2017/09/25/JavaScript单线程/">JS定时器与单线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href="/2017/08/24/JS变量计算/">JS变量计算</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/页面加载——浏览器渲染/">页面加载——浏览器渲染</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href="/2017/08/17/网络知识补充——浏览器请求过程/">网络知识补充——浏览器请求过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href="/2017/08/16/JS面向对象学习笔记/">JS面向对象学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href="/2017/08/15/JS变量、作用域和内存问题/">JS变量、作用域和内存问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/异步编程之promise与trigger/">异步编程之promise与trigger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/2017/07/15/搭建Hexo博客之后/">搭建Hexo博客之后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href="/2017/07/08/JS之this指针笔记/">JS之this指针笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href="/2017/07/07/JS继承笔记/">JS继承笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href="/2017/04/21/JavaScript正则表达式/">JavaScript正则表达式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/2017/03/26/iconfont使用方法/">iconfont使用方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/JSON学习笔记/">JSON学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/2017/03/21/AJAX学习笔记/">AJAX学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href="/2017/03/20/关于HTTP请求小记/">关于HTTP请求小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href="/2017/02/28/Sublime Text3前端插件分享/">Sublime Text3前端插件分享</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href="#">DOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">BOM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">HTML</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Ajax</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JavaScript</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">ES6</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">JSON</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Sublime</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVC</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">MVVM</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue生命周期</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue指令</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Vue事件</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">Webpack</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">知识碎片</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">vuex</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">http</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">网络</a></span>
+    
+        <span class="sidebar-tag-name"><a href="#">lodash</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+
