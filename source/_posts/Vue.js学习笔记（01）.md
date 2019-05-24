@@ -1,8 +1,19 @@
 ---
 title: Vue.js学习笔记（01）
 date: 2017-10-19 21:25:58
-tags: [Vue, MVC, MVVM]
+categories: Vue相关
+tags: 
+  - Vue
+  - MVC
+  - MVVM
 ---
+> Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API。
+
+▼ **什么是MVVM：**
+MVVM(Model View ViewModel)是一种基于MVC的设计，开发人员在HTML上写一些Bindings,利用一些指令绑定，就能在Model和ViewModel保持不变的情况下，很方便的将UI设计与业务逻辑分离，从而大大的减少繁琐的DOM操作。
+
+<!-- more -->
+
 > Vue.js 是用于构建交互式的 Web 界面的库。它提供了 MVVM 数据绑定和一个可组合的组件系统，具有简单、灵活的 API。
 
 ▼ **什么是MVVM：**

@@ -1,7 +1,9 @@
 ---
 title: AJAX学习笔记
 date: 2017-03-21 16:21:19
-tags: [Ajax]
+categories: 知识碎片
+tags: 
+  - Ajax
 ---
 > AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）
 > AJAX 不是新的编程语言，而是一种使用现有标准的新方法。
@@ -11,6 +13,13 @@ tags: [Ajax]
 （简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）
 
 <!--more-->
+
+> AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）
+> AJAX 不是新的编程语言，而是一种使用现有标准的新方法。
+> AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。
+* 同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式
+* 异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式
+（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）
 
 ## 实现
 * 实现页面

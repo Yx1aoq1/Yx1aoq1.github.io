@@ -1,7 +1,9 @@
 ---
 title: JS变量、作用域和内存问题
 date: 2017-08-15 20:30:52
-tags: [JavaScript]
+categories: JS相关
+tags: 
+  - JavaScript
 ---
 ## 变量
 
@@ -11,8 +13,17 @@ tags: [JavaScript]
 * **基本类型：**数字，字符，布尔值，undefined，null
 * **引用类型：**数组，对象，函数
 * **区别：**基本类型的值是可以修改的，而引用类型的值不可修改
+
 <!--more-->
 
+## 变量
+
+### 数据类型
+
+在JavaScript中，数据类型分为基本类型和引用类型。
+* **基本类型：**数字，字符，布尔值，undefined，null
+* **引用类型：**数组，对象，函数
+* **区别：**基本类型的值是可以修改的，而引用类型的值不可修改
 ```JavaScript
 //eg1
 var num = 4;

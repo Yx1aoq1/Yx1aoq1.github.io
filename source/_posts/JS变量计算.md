@@ -1,8 +1,25 @@
 ---
 title: JS变量计算
 date: 2017-08-24 20:53:29
-tags: [JavaScript]
+categories: JS相关
+tags: 
+  - JavaScript
 ---
+## typeof 运算符
+
+```javascript
+typeof undefined // undefined
+typeof 'abc' // string
+typeof 123 // number
+typeof true // boolean
+typeof {} // object
+typeof [] // object
+typeof null // object
+typeof console.log // function
+```
+
+<!-- more -->
+
 ## typeof 运算符
 
 ```javascript

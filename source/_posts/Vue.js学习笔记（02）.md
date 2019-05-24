@@ -1,7 +1,10 @@
 ---
 title: Vue.js学习笔记（02）
 date: 2018-07-25 20:13:45
-tags: [Vue, Vue生命周期]
+categories: Vue相关
+tags: 
+  - Vue
+  - Vue生命周期
 ---
 ## Vue实例化输入的选项对象[基本介绍](https://cn.vuejs.org/v2/api/#data)
 
@@ -10,6 +13,18 @@ tags: [Vue, Vue生命周期]
 ### data
 
 **作用：**声明双向绑定的数据，可以是对象或者函数，**当定义组件的时候，`data`只能是函数**
+
+<!-- more -->
+
+## Vue实例化输入的选项对象[基本介绍](https://cn.vuejs.org/v2/api/#data)
+
+当我们`new`一个Vue实例的时候，包含了如下几个基本的属性：
+
+### data
+
+**作用：**声明双向绑定的数据，可以是对象或者函数，**当定义组件的时候，`data`只能是函数**
+
+
 ```html
 <template>
   <div id="app">hello, {{ name }}</div>

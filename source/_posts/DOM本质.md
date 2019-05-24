@@ -1,8 +1,26 @@
 ---
 title: DOM基础知识巩固
 date: 2017-10-02 13:15:36
-tags: [DOM,BOM,HTML]
+categories: 知识碎片
+tags: 
+  - DOM
+  - BOM
+  - HTML
 ---
+## DOM本质
+DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。
+
+## DOM节点操作
+
+### 获取DOM节点
+
+* `document.getElementById`
+* `document.getElementsByTagName`
+* `document.getElementsByClassName`
+* `document.querySelectorAll`
+
+<!-- more -->
+
 ## DOM本质
 DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。
 

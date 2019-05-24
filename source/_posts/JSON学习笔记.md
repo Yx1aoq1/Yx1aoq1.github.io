@@ -1,13 +1,19 @@
 ---
 title: JSON学习笔记
 date: 2017-03-21 18:16:43
-tags: [JSON]
+categories: 知识碎片
+tags: 
+  - JSON
 ---
 > JSON = JavaScript Object Notation （JavaScript对象表示法）
 > JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成
 > JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行
 
 <!--more-->
+
+> JSON = JavaScript Object Notation （JavaScript对象表示法）
+> JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成
+> JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行
 
 ## 与XML比较
 * 长度比xml短

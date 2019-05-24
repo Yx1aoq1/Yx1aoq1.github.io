@@ -1,8 +1,16 @@
 ---
 title: JS定时器与单线程
 date: 2017-09-25 21:28:25
-tags: [JavaScript]
+categories: JS相关
+tags: 
+  - JavaScript
 ---
+## JavaScript单线程
+
+众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。
+
+<!-- more -->
+
 ## JavaScript单线程
 
 众所周知，JavaScript语言是单线程的，简而言之就是在同一时间内只能执行一段代码，如果这段代码很长很长，后续的代码也只能等待前一段代码执行完才能够执行。
