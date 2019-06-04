@@ -171,6 +171,80 @@
   
   <div class="post">
     <h1 class="article-title">
+      <a href="/2019/05/26/TypeScript学习笔记（基础）/">
+        <span>TypeScript学习笔记（基础）</span>
+      </a>
+    </h1>
+    <!-- PC端文章信息 -->
+    <div class="article-top-meta pc-view">
+      <span>
+        发布时间 : 2019-05-26
+      </span>
+    </div>
+    <!-- 移动端文章信息 -->
+    <div class="article-top-meta mobile-view">
+      <span>
+        发布 : 2019-05-26
+      </span>
+      
+        <span>
+        分类 :
+          <a href="/categories/TS相关/">
+            TS相关
+          </a>
+        </span>
+      
+      
+        <span>
+          浏览 : <span class="article-timer" data-identity="TypeScript学习笔记（基础）"></span>
+        </span>
+      
+    </div>
+    
+    <!-- 文章简介 -->
+    <div class="article-content">
+      <div class="markdown-body article-content--inner" v-html="mdToHtml(psg.summary)">
+        <h2 id="TS-是什么"><a href="#TS-是什么" class="headerlink" title="TS 是什么"></a>TS 是什么</h2><blockquote>
+<p>TS是一个应用程序级的JavaScript开发语言，是JavaScript的超集，可以编译成纯JavaScript，并遵循JavaScript的语法和语义。</p>
+</blockquote>
+      </div>
+    </div>
+    <div class="article-footer">
+      <div class="article-meta pull-left">
+        <!-- 分类pc端可见 -->
+        <span class="pc-view">
+          
+            <i class="iconfont icon-tag"></i>分类:
+            <a href="/categories/TS相关/">
+              TS相关
+            </a>
+          </span>
+          
+        <span>
+          
+            <i class="iconfont icon-06tags"></i>标签:
+            
+              <span class="span--tag">
+                <a href="/tags/TypeScript/">
+                  #TypeScript
+                </a>
+              </span>
+            
+                    
+        </span>
+      </div>
+      
+        <div class="article-meta pull-right">
+          <span class="pc-view">
+            <i class="iconfont icon-view"></i>浏览: <span class="article-timer" data-identity="TypeScript学习笔记（基础）"></span>
+          </span>
+        </div>
+      
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="article-title">
       <a href="/2019/05/09/vuex的学习整理/">
         <span>vuex的学习整理</span>
       </a>
@@ -890,96 +964,6 @@
     </div>
   </div>
   
-  <div class="post">
-    <h1 class="article-title">
-      <a href="/2017/10/02/DOM本质/">
-        <span>DOM基础知识巩固</span>
-      </a>
-    </h1>
-    <!-- PC端文章信息 -->
-    <div class="article-top-meta pc-view">
-      <span>
-        发布时间 : 2017-10-02
-      </span>
-    </div>
-    <!-- 移动端文章信息 -->
-    <div class="article-top-meta mobile-view">
-      <span>
-        发布 : 2017-10-02
-      </span>
-      
-        <span>
-        分类 :
-          <a href="/categories/知识碎片/">
-            知识碎片
-          </a>
-        </span>
-      
-      
-        <span>
-          浏览 : <span class="article-timer" data-identity="DOM本质"></span>
-        </span>
-      
-    </div>
-    
-    <!-- 文章简介 -->
-    <div class="article-content">
-      <div class="markdown-body article-content--inner" v-html="mdToHtml(psg.summary)">
-        <h2 id="DOM本质"><a href="#DOM本质" class="headerlink" title="DOM本质"></a>DOM本质</h2><p>DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。</p>
-<h2 id="DOM节点操作"><a href="#DOM节点操作" class="headerlink" title="DOM节点操作"></a>DOM节点操作</h2><h3 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h3><ul>
-<li><code>document.getElementById</code></li>
-<li><code>document.getElementsByTagName</code></li>
-<li><code>document.getElementsByClassName</code></li>
-<li><code>document.querySelectorAll</code></li>
-</ul>
-      </div>
-    </div>
-    <div class="article-footer">
-      <div class="article-meta pull-left">
-        <!-- 分类pc端可见 -->
-        <span class="pc-view">
-          
-            <i class="iconfont icon-tag"></i>分类:
-            <a href="/categories/知识碎片/">
-              知识碎片
-            </a>
-          </span>
-          
-        <span>
-          
-            <i class="iconfont icon-06tags"></i>标签:
-            
-              <span class="span--tag">
-                <a href="/tags/DOM/">
-                  #DOM
-                </a>
-              </span>
-            
-              <span class="span--tag">
-                <a href="/tags/BOM/">
-                  #BOM
-                </a>
-              </span>
-            
-              <span class="span--tag">
-                <a href="/tags/HTML/">
-                  #HTML
-                </a>
-              </span>
-            
-                    
-        </span>
-      </div>
-      
-        <div class="article-meta pull-right">
-          <span class="pc-view">
-            <i class="iconfont icon-view"></i>浏览: <span class="article-timer" data-identity="DOM本质"></span>
-          </span>
-        </div>
-      
-    </div>
-  </div>
-  
 
   <nav class="page-navigation">
     
@@ -1133,7 +1117,7 @@ if(true){
 
 <script>
 const timeToNowDOM = document.querySelector("#time-to-now");
-const startTimestamp = new Date(2018, 1, 10).getTime();
+const startTimestamp = new Date(2017, 9, 2).getTime();
 
 const updateTimeStr = () => {
   let offset = parseInt(
