@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
-#!/usr/bin/env sh
-git pull
 hexo g
 hexo d
+git pull
+git add .
+git commit -m "update post"
 git push origin hexo
