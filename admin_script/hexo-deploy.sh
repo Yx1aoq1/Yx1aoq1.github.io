@@ -1,1 +1,4 @@
-hexo g -d && hexo b
+#!/usr/bin/env sh
+hexo g
+hexo d
+hexo b
