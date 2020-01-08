@@ -2,4 +2,5 @@
 hexo g
 hexo d
 hexo b
+git pull
 git push
