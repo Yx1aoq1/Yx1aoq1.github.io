@@ -76,7 +76,7 @@ deploy:
 backup: 
   type: git
   repository: 
-    github: https://github.com/Yx1aoq1/Yx1aoq1.github.io.git,hexo
+    github: git@github.com:Yx1aoq1/Yx1aoq1.github.io.git,hexo
 
 archive_generator:
     per_page: 0
