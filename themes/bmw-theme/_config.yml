@@ -34,7 +34,7 @@ player: true
 
 # 是否开启 分享功能: https://github.com/overtrue/share.js
 social_share:
-  enable: true
+  enable: false
   sites: qzone, qq, weibo, wechat, douban, google, facebook, twitter
   disabled: 
 
