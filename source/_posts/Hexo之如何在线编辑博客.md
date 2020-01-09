@@ -57,12 +57,12 @@ PM2是node进程管理工具，可以利用它来简化很多node应用管理的
 ```app.js
 const { exec } = require('child_process')
 exec('hexo server -d',(error, stdout, stderr) => {
-	if (error){
-		console.log('exec error: ${error}')
-		return
-	}
-	console.log('stdout: ${stdout}');
-	console.log('stderr: ${stderr}');
+  if (error){
+    console.log('exec error: ${error}')
+    return
+  }
+  console.log('stdout: ${stdout}');
+  console.log('stderr: ${stderr}');
 })
 ```
 运行`pm2 start app.js`，我们就可以启动一个nodejs进程，来开启hexo服务，并且持续运行。
@@ -73,13 +73,13 @@ exec('hexo server -d',(error, stdout, stderr) => {
 
 ```
 http {
-	server {
-	listen 80;
-	server_name hexo.y4shero.com;
-		location / {
-			proxy_pass http://localhost:4000;
-		}
-	}
+  server {
+    listen 80;
+    server_name hexo.y4shero.com;
+    location / {
+      proxy_pass http://localhost:4000;
+    }
+  }
 }
 ```
 
@@ -89,7 +89,7 @@ Hexo Admin提供了Deploy的接口，通过配置`deployCommand`来执行发布�
 
 ```yml
 admin:
-	deployCommand: './admin_script/hexo-deploy.sh'
+  deployCommand: './admin_script/hexo-deploy.sh'
 ```
 
 脚本的内容也挺简单的，就是hexo发布的日常操作，以及再发布后，将更新同步到github：
