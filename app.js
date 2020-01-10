@@ -1,5 +1,5 @@
 const { exec } = require('child_process')
-exec('hexo server -d',(error, stdout, stderr) => {
+exec('hexo server -s',(error, stdout, stderr) => {
         if(error){
                 console.log('exec error: ${error}')
                 return
