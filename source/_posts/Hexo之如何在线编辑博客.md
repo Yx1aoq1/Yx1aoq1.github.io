@@ -56,7 +56,7 @@ PM2是node进程管理工具，可以利用它来简化很多node应用管理的
 
 ```app.js
 const { exec } = require('child_process')
-exec('hexo server -d',(error, stdout, stderr) => {
+exec('hexo server -s',(error, stdout, stderr) => {
   if (error){
     console.log('exec error: ${error}')
     return
@@ -66,6 +66,10 @@ exec('hexo server -d',(error, stdout, stderr) => {
 })
 ```
 运行`pm2 start app.js`，我们就可以启动一个nodejs进程，来开启hexo服务，并且持续运行。
+
+▼ **注意点**
+
+之前发现在编辑博客的时候，一段时间过后会导致服务断开502，导致编辑数据丢失，原因是因为之前启动的指令是`hexo server -d`，会监听source文件的变动导致重新部署，使得连接中断需要重新登录。所以将app.js中的启动指令改为了`hexo server -s`，启动静态模式，只会监听public文件夹的变化。
 
 ### Nginx代理
 
@@ -105,5 +109,3 @@ git push origin hexo
 ```
 
 至此，hexo的后台就完全搭建好了，很自动，很方便。
-
-当然，其实它还是有点缺点的：就是登录过段时间就会失效导致好不容易写好的数据没保存。所以现在也只能勉强用用，待我找到解决方案再优化一番~
