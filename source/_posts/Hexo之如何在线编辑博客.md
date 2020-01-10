@@ -99,7 +99,7 @@ admin:
 hexo g
 hexo d
 git pull
-git add .
+git add --all
 git commit -m "update post"
 git push origin hexo
 ```
@@ -110,4 +110,4 @@ git push origin hexo
 
 在编辑博客的时候，发现post文件更新一定程度之后会导致服务断开502，导致编辑数据丢失，原因是因为之前启动的指令是`hexo server -d`，会监听source文件的变动导致重新部署，使得连接中断需要重新登录。所以将app.js中的启动指令改为了`hexo server -s`，启动静态模式，只会监听public文件夹的变化。
 
-但是这依然会有一个问题：就是会导致有博文更新之后Hexo Admin的预览会出错，需要手动重启服务。所以这个解决方案仍然存在着一些不足。
+但是这依然会有一个问题：就是会导致有博文更新之后Hexo Admin的预览会出错。所以在一键发布的脚本里增加了`pm2 restart hexo`，在每次部署完后重启服务。
