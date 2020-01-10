@@ -5,3 +5,4 @@ git pull
 git add .
 git commit -m "update post"
 git push origin hexo
+pm2 restart hexo
