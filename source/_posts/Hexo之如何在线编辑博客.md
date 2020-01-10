@@ -71,7 +71,6 @@ exec('hexo server -s',(error, stdout, stderr) => {
 
 之前发现在编辑博客的时候，一段时间过后会导致服务断开502，导致编辑数据丢失，原因是因为之前启动的指令是`hexo server -d`，会监听source文件的变动导致重新部署，使得连接中断需要重新登录。所以将app.js中的启动指令改为了`hexo server -s`，启动静态模式，只会监听public文件夹的变化。
 
-
 ### Nginx代理
 
 因为一个服务器上总会开着N多个端口不一样的项目，为了通过子域名的形式来区分，所以使用了Nginx代理。只需要配置一下`nginx.conf`：
