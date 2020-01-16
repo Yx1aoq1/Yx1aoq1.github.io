@@ -145,3 +145,14 @@ function timeoutError (t) {
 使用的知识点为`resolve(A)`实际等同于`new Promise(resolve => A)`
 
 ## Async/Await
+
+`async`与`await`是ES2017中提出的，是`Promise`的语法糖，使得异步代码书写起来更像同步代码，更易于阅读和理解。
+
+我们可以对比一下多层回调的情况：
+
+* `Promise`版本：
+
+
+```js
+
+```
