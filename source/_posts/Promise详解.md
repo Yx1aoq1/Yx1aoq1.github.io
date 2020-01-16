@@ -113,17 +113,17 @@ function f1() {
 function f2() {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve(222), 2000);
-  }).then(data => console.log(data));;
+  }).then(data => console.log(data));
 }
 function f3() {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve(333), 3000);
-  }).then(data => console.log(data));;
+  }).then(data => console.log(data));
 }
 function f4() {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve(444), 4000);
-  }).then(data => console.log(data));;
+  }).then(data => console.log(data));
 }
 f1().then(f2).then(f3).then(f4);
 ```
@@ -148,11 +148,52 @@ function timeoutError (t) {
 
 `async`与`await`是ES2017中提出的，是`Promise`的语法糖，使得异步代码书写起来更像同步代码，更易于阅读和理解。
 
-我们可以对比一下多层回调的情况：
+我们可以用上面的例子来对比一下多层回调的情况：
 
-* `Promise`版本：
-
+* `Async/Awiat`版本：
 
 ```js
+async doIt function () {
+  await f1()
+  await f2()
+  await f3()
+  await f4()
+  // do something...
+}
+```
+
+乍看之下可能没什么差别，但是如果有需要参数传递时，就可以看出`Async/Awiat`的优越性：
+
+```js
+function waiter (time) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(time), time);
+  })
+} 
+```
+
+
+* `Promise` 版本：
+
+```js
+waiter(100)
+  .then(time1 => {
+    return waiter(time1).then(time2 => [time1, time2])
+  })
+  .then(([time1, time2]) => {
+    doSomething(time1, time2)
+  })
 
 ```
+
+* `Async/Awiat` 版本：
+
+```js
+async doIt function () {
+  await time1 = waiter(100)
+  await time2 = waiter(time1)
+  doSomething(time1, time2)
+}
+```
+
+可以看出，使用`Async/Awiat`的代码更加的简洁和好理解，如果有需要处理错误，则也和同步代码一样使用`try catch`即可。
