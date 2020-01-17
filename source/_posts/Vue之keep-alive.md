@@ -2,7 +2,8 @@ title: Vue之keep-alive使用指南
 author: Yx1aoq1
 tags:
   - Vue
-categories: []
+categories:
+  - Vue相关
 date: 2020-01-16 16:11:00
 ---
 ## 需求
