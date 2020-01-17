@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-hexo g
-hexo d
+hexo clean
+hexo g -d
 git pull
 git add --all
 git commit -m "update post"
