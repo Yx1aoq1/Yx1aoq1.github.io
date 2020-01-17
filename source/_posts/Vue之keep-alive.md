@@ -10,7 +10,7 @@ tags:
 * 用户前进时，总是进入一个新的页面（不使用缓存）
 * 用户后退时，需要保留之前的操作（使用缓存）
 
-在vue-router中，切换路由时并不会保存组件的状态，而是会重新创建新组件，走一遍完整的生命周期，我们要实现上面的需求，就需要使用`keep-alive`组件来解决。
+在`vue-router`中，切换路由时并不会保存组件的状态，而是会重新创建新组件，走一遍完整的生命周期，我们要实现上面的需求，就需要使用`keep-alive`组件来解决。
 
 ## [keep-alive](https://cn.vuejs.org/v2/api/#keep-alive)
 
@@ -30,7 +30,7 @@ tags:
 简而言之就是需要自己找到`keep-alive`的实例手动删除，并销毁组件。
 
 
-```
+```js
 const destroy = (key) => {
   // 找到keepAlive组件
   const keepAliveVm = global.keepAliveVm // 具体怎么找到keeyAlive组件自己看情况
@@ -92,9 +92,3 @@ Vue.mixin({
   }
 })
 ```
-
-
-
-
-
-
