@@ -8,10 +8,6 @@ date: 2020-01-09 01:58:00
 ---
 在搭了Hexo博客之后一直有一个很蛋疼的问题，就是不能像简书或者WordPress之类的有在线编辑的平台，虽然之前在github上备份了一份配置，但是每次都逃不开换个电脑就得重新`git clone`的命运。
 
-<!--more-->
-
-在搭了Hexo博客之后一直有一个很蛋疼的问题，就是不能像简书或者WordPress之类的有在线编辑的平台，虽然之前在github上备份了一份配置，但是每次都逃不开换个电脑就得重新`git clone`的命运。
-
 于是乎，我找到了一个插件来解决这个问题——[Hexo Admin](https://github.com/jaredly/hexo-admin)
 
 ## Hexo Admin

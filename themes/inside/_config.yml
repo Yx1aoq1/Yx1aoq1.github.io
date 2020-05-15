@@ -28,14 +28,14 @@ appearance:
   font:
     # Url of font css file
     # Below is a font set containing Baloo Bhaijaan, Josefin Sans, Montserrat and Inconsolata from Google Fonts.
-    url: //fonts.googleapis.com/css?family=Lobster|Cedarville+Cursive|Baloo+Bhaijaan|Inconsolata|Josefin+Sans|Montserrat
+    url: //fonts.googleapis.com/css?family=Lobster|Josefin+Sans|Montserrat
 
     # Base font which applied to body
     base: "'Josefin Sans','PingFang SC','Microsoft YaHei'"
     # Sidebar author font, fallback to `base`
     logo: "Lobster"
     # Sidebar menu font, fallback to `base`
-    menu: 'Baloo Bhaijaan'
+    menu: "Lobster"
     # Font for:
     # - percentage on the fab button
     # - month text on archives page
@@ -48,7 +48,7 @@ appearance:
     # Headline(h1, h2, h3, h4, h5, h6) font, fallback to `base`
     heading: 
     # Code and code block
-    code: Inconsolata, Consolas, monospace
+    code: "Consolas, monospace"
     # Base font for printing which applied to body
     print:
 

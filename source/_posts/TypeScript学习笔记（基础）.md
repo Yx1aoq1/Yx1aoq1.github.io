@@ -5,13 +5,6 @@ categories: TS相关
 tags:
   - TypeScript
 ---
-
-## TS 是什么
-
-> TS是一个应用程序级的JavaScript开发语言，是JavaScript的超集，可以编译成纯JavaScript，并遵循JavaScript的语法和语义。
-
-<!-- more -->
-
 ## TS 是什么
 
 > TS是一个应用程序级的JavaScript开发语言，是JavaScript的超集，可以编译成纯JavaScript，并遵循JavaScript的语法和语义。
