@@ -83,12 +83,6 @@ archive_generator:
     yearly: false
     monthly: false
     daily: false
-
-admin:
-  username: Yx1aoq1
-  password_hash: $2a$10$7Zy74YMIwIZuWpDCLjyOk.o1MbhN.dENI/.66Nuh9WKz.kKoewIt6
-  secret: hey hexo
-  deployCommand: './admin_script/hexo-deploy.sh'
     
 # #archer主题配置
 # jsonContent:
