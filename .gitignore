@@ -1,4 +1,7 @@
-.deploy_git
-public
+.DS_Store
+Thumbs.db
 db.json
-node_modules
+*.log
+node_modules/
+public/
+.deploy*/
