@@ -1,3 +1,4 @@
+---
 title: 搭建Hexo博客之后
 categories:
   - 知识碎片

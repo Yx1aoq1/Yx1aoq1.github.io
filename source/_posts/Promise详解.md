@@ -1,3 +1,4 @@
+---
 title: Promise详解
 tags:
   - JavaScript
