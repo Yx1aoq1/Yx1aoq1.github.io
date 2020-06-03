@@ -12,15 +12,6 @@ tags:
 ![](https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-1.png)
 通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。
 
-<!-- more -->
-
-在传统的基于Class的语言如Java、C++中，继承的本质是扩展一个已有的Class，并生成新的Subclass。
-由于这类语言严格区分类和实例，继承实际上是类型的扩展。但是，JavaScript并不存在类，所以需要通过其他的方法模拟出“类”。
-
-看了阮一峰的继承博文，理了理里面各种属性的关系，整理成一张图，大概是这样：
-![](https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/jicheng-1.png)
-通过prototype属性，实例dogA和实例dogB可以共同享有species属性，并且实现了联动修改，节约了内存占用。
-
 在以上基础下，得出了几种继承方法：
 ```javascript
 //现有两个构造函数

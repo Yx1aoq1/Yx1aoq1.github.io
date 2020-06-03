@@ -18,21 +18,6 @@ typeof null // object
 typeof console.log // function
 ```
 
-<!-- more -->
-
-## typeof 运算符
-
-```javascript
-typeof undefined // undefined
-typeof 'abc' // string
-typeof 123 // number
-typeof true // boolean
-typeof {} // object
-typeof [] // object
-typeof null // object
-typeof console.log // function
-```
-
 ## 变量运算 - 强制类型转换
 
 ### 字符串拼接

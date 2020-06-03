@@ -67,8 +67,8 @@ Git 数据库中保存的信息都是以文件内容的哈希值来索引，即�
 
 常用操作的参考资源：
 
-[Git的奇技淫巧]: https://github.com/521xueweihan/git-tips
-[Git 风格指南]: https://github.com/aseaday/git-style-guide
+* [Git的奇技淫巧](https://github.com/521xueweihan/git-tips )
+* [Git 风格指南](https://github.com/aseaday/git-style-guide)
 
 ## Git 原理
 

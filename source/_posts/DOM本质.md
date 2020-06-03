@@ -19,20 +19,6 @@ DOM（Document Object Model）是浏览器将文档转换成的一个树形对�
 * `document.getElementsByClassName`
 * `document.querySelectorAll`
 
-<!-- more -->
-
-## DOM本质
-DOM（Document Object Model）是浏览器将文档转换成的一个树形对象模型，使之能够识别并且进行js操作。
-
-## DOM节点操作
-
-### 获取DOM节点
-
-* `document.getElementById`
-* `document.getElementsByTagName`
-* `document.getElementsByClassName`
-* `document.querySelectorAll`
-
 ### property与attribute
 
 虽然property与attribute两者皆可翻译为“属性”，但二者的本质实际上是有很大区别的。
