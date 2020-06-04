@@ -1,7 +1,8 @@
 ---
 title: JSON学习笔记
 date: 2017-03-21 18:16:43
-categories: 知识碎片
+categories: 
+  - Web基础
 tags: 
   - JSON
 ---

@@ -1,7 +1,8 @@
 ---
 title: vuex的学习整理
 date: 2019-05-09 20:22:24
-categories: Vue相关
+categories: 
+  - Vue相关
 tags:
   - Vuex
 ---

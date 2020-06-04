@@ -1,7 +1,8 @@
 ---
 title: JS定时器与单线程
 date: 2017-09-25 21:28:25
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---

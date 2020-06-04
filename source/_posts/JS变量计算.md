@@ -1,7 +1,8 @@
 ---
 title: JS变量计算
 date: 2017-08-24 20:53:29
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---

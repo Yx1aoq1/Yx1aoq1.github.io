@@ -1,7 +1,8 @@
 ---
 title: 关于HTTP请求小记
 date: 2017-03-20 15:31:38
-categories: 知识碎片
+categories: 
+  - Web基础
 tags: 
   - HTTP
   - 网络

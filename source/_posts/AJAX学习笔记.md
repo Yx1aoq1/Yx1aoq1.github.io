@@ -1,7 +1,8 @@
 ---
 title: AJAX学习笔记
 date: 2017-03-21 16:21:19
-categories: 知识碎片
+categories: 
+  - Web基础
 tags: 
   - Ajax
 ---

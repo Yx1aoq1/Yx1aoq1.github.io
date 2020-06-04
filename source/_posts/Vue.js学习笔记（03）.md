@@ -1,7 +1,8 @@
 ---
 title: Vue.js学习笔记（03）
 date: 2018-08-19 13:32:38
-categories: Vue相关
+categories: 
+  - Vue相关
 tags: 
   - Vue
   - Vue指令

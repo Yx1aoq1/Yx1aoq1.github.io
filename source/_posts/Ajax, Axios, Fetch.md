@@ -1,7 +1,7 @@
 ---
 title: Ajax, Axios, Fetch
 categories:
-  - 知识碎片
+  - Web基础
 tags:
   - HTTP
   - Ajax

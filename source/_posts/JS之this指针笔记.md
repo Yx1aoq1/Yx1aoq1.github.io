@@ -1,7 +1,8 @@
 ---
 title: JS之this指针笔记
 date: 2017-07-08 13:48:43
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---

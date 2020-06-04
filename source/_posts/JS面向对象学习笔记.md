@@ -1,7 +1,8 @@
 ---
 title: JS面向对象学习笔记
 date: 2017-08-16 21:20:29
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---

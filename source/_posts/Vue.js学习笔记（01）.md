@@ -1,7 +1,8 @@
 ---
 title: Vue.js学习笔记（01）
 date: 2017-10-19 21:25:58
-categories: Vue相关
+categories: 
+  - Vue相关
 tags: 
   - Vue
   - MVC

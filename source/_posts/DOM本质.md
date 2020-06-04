@@ -1,7 +1,8 @@
 ---
 title: DOM基础知识巩固
 date: 2017-10-02 13:15:36
-categories: 知识碎片
+categories: 
+  - Web基础
 tags: 
   - DOM
   - BOM

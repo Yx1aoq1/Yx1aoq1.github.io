@@ -1,7 +1,8 @@
 ---
 title: 异步编程之promise与trigger
 date: 2017-07-15 16:13:01
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
   - 异步

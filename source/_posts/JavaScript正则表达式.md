@@ -1,7 +1,8 @@
 ---
 title: JavaScript正则表达式
 date: 2017-04-21 15:22:18
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---
@@ -134,7 +135,7 @@ $$ 	指代美元符号$
 ```
 
 * `split`：按照给定规则进行字符串分割，返回一个数组，包含分隔后的各个成员
-```javascript
+​```javascript
 "123,456,789".split(','); //["123","456","789"]
 ```
 

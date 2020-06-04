@@ -1,7 +1,8 @@
 ---
 title: cli工具之init
 date: 2019-10-19 16:11:11
-categories: node相关
+categories: 
+  - node相关
 tags:
   - node
   - fet源码

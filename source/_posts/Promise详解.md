@@ -4,7 +4,7 @@ tags:
   - JavaScript
   - ES6
 categories:
-  - JS相关
+  - Web基础
 date: 2019-12-03 17:23:00
 ---
 ## Promise

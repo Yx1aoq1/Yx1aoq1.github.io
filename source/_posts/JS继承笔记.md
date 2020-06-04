@@ -1,7 +1,8 @@
 ---
 title: JS继承笔记
 date: 2017-07-07 22:02:11
-categories: JS相关
+categories: 
+  - Web基础
 tags: 
   - JavaScript
 ---
