@@ -56,12 +56,12 @@ function sendAjax (opt) {
 
 ```js
 axios.get('http://link.com')
-	.then(res => {
-  	// success
-	})
-	.catch(error => {
-  	// error
-	})
+  .then(res => {
+    // success
+  })
+  .catch(error => {
+    // error
+  })
 ```
 
 Axios是基于Promise的HTTP 库，可以用在浏览器和 node.js 中。特色：
@@ -98,12 +98,12 @@ function sendAjax (opt) {
 
 ```js
 fetch('http://link.com')
-	.then(res => {
-  	// success
-	})
-	.catch(error => {
-  	// error
-	})
+  .then(res => {
+    // success
+  })
+  .catch(error => {
+    // error
+  })
 ```
 
 [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 提供了一个 JavaScript 接口，用于访问和操纵 HTTP 管道的一些具体部分，例如请求和响应。它还提供了一个全局 [`fetch()`](https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalFetch/fetch) 方法，该方法提供了一种简单，合理的方式来跨网络异步获取资源。
