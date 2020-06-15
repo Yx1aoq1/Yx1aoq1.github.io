@@ -102,3 +102,5 @@ deploy:
   repository: https://github.com/Yx1aoq1/Yx1aoq1.github.io #部署的仓库SSH
   branch: master #部署的分支
   message: update #默认类型
+
+mathjax:
