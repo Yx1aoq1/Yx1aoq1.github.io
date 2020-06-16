@@ -1,3 +1,12 @@
+---
+title: 模块化与webpack原理
+categories: 
+  - 项目自动化
+tags: 
+  - Webpack
+date: 2020-06-16 20:50:11
+---
+
 ## 模块化
 
 早期的 JavaScript 往往作为嵌入到 HTML 页面中的用于控制动画与简单的用户交互的脚本语言，我们习惯这样写：
@@ -16,7 +25,7 @@
 
 ### 什么是模块化
 
-> 简而言之，模块化就是将一个大的功能拆分为多个块，每一个块都是`独立`的，你不需要去担心`污染`全局变量，命名`冲突`什么的。
+> 简而言之，模块化就是将一个大的功能拆分为多个块，每一个块都是**独立**的，你不需要去担心**污染**全局变量，**命名冲突**什么的。
 
 模块化的**好处**：
 
@@ -94,7 +103,7 @@ greeting.sayHello('en') // hello
 <script type="text/javascript">
   greeting.sayHello('en')
   console.log(greeting.helloInLang) //undefined 不能访问模块内部数据
-  greeting.helloInLang = 'xxxx' //不是修改的模块内部的data
+  greeting.helloInLang = 'xxxx' //不是修改的模块内部的helloInLang
   greeting.sayHello('en') //没有改变
 </script>
 ```
@@ -136,9 +145,7 @@ greeting.sayHello('en') // hello
 </script>
 ```
 
-**问题**：虽然解决了依赖，但是js引入的顺序需要十分的注意，如果引入的js很多，他们之间的关系也会变得难以维护。并且依赖多个模块会导致请求数量过多。
-
-* **CommonJS**：主要是应用在Nodejs服务端，属于`动态同步加载`。
+* **CommonJS**：主要是应用在Nodejs服务端，属于**动态同步加载**。
 
 ```js
 // file lib/greeting.js
@@ -163,7 +170,7 @@ var phrase = greeting.sayHello('en')
 document.write(phrase)
 ```
 
-* **AMD && CMD**：AMD是`RequireJS`提出的，主要是`依赖前置`。CMD是`SeaJS`提出的，主要是就近依赖（只要用到才会导入），两者用法接近。属于`异步加载`。
+* **AMD && CMD**：AMD是`RequireJS`提出的，主要是**依赖前置**。CMD是`SeaJS`提出的，主要是就近依赖（只要用到才会导入），两者用法接近。属于**异步加载**。
 
 ```js
 // file lib/greeting.js
@@ -210,7 +217,7 @@ define(['./lib/greeting'], function(greeting) {
 ))
 ```
 
-* **ESM（ES Module）**：ES6新规范，JavaScript终于在语言标准的层面上，实现了模块功能，使得在编译时就能确定模块的依赖关系，以及其输入和输出的变量，属于`静态加载（编译时加载）`。
+* **ESM（ES Module）**：ES6新规范，JavaScript终于在语言标准的层面上，实现了模块功能，使得在编译时就能确定模块的依赖关系，以及其输入和输出的变量，属于**静态加载（编译时加载）**。
 
 ```js
 // file lib/greeting.js
@@ -236,7 +243,7 @@ sayHello('en')
 
 ## Webpack打包机制
 
-由于模块化的原因，我们不得不处理不同模块的依赖关系。随着项目越来越庞大，这种关系会变得越来越难以维护，于是我们就必须请出webpack。
+由于模块化的原因，我们不得不处理不同模块的依赖关系。随着项目越来越庞大，这种关系会变得越来越难以维护。为了方便开发和维护，我们就会使用到打包工具webpack。
 
 webpack可以根据模块的依赖关系进行静态分析，然后将这些模块按照指定的规则生成对应的静态资源。**那么，它究竟是如何处理这些依赖关系的呢**？
 
@@ -298,18 +305,20 @@ export default (val) => {
 
 ```
 * src/index.js (ESM)
-	# ./helloWorld
-	# (async) ./lazy
-	- src/helloWorld.js
-	- (async) src/lazy.js
+  # ./helloWorld
+  # (async) ./lazy
+  - src/helloWorld.js
+  - (async) src/lazy.js
 * src/helloWorld.js (ESM)
-	# ./big
-	- src/big.js
+  # ./big
+  - src/big.js
 * src/big.js
 * src/lazy.js (ESM)
-	# ./big
-	- src/big.js
+  # ./big
+  - src/big.js
 ```
+
+<img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/webpack-module-3.png" style="zoom:33%;" />
 
 使用webpack打包后的结果：
 
@@ -389,10 +398,12 @@ export default (val) => {
 
 #### Step3：实现\__require__和export逻辑
 
-因为webpack兼容了多种模块化方案，因此需要使用自己封装的`__require__`与`export`方法来进行使用。以ESM为例，我们知道import需要具备以下功能：
+我们知道import需要具备以下功能：
 
 * 执行目标模块代码
 * 导出目标模块的export内容给外部使用
+
+因此`__require__`与`export`需要具备以上功能，使代码能在单文件中相互引用并执行：
 
 ```js
 !(function (modules) {
@@ -456,11 +467,11 @@ export default (val) => {
 
 ```js
 __require__.loadChunk('async') // 请求lazy.js的内容
-	.then(__require__.bind(null, './src/lazy.js')) // 请求完毕后将模块 require 进去
-	.then(function (_ref) { // 执行代码内容
-  	var lazy = _ref.default
-  	node.innerHTML = helloWorld + lazy
-	})
+  .then(__require__.bind(null, './src/lazy.js')) // 请求完毕后将模块 require 进去
+  .then(function (_ref) { // 执行代码内容
+    var lazy = _ref.default
+    node.innerHTML = helloWorld + lazy
+  })
 ```
 
 ```js
@@ -521,17 +532,112 @@ console.log(result)
 
 所需依赖工具：
 
-* babylon：js解析器，将文本代码转化成AST（语法树）
-* babel-travse：遍历AST寻找依赖关系
-* babel-core的transformFromAst：将AST代码转化成浏览器所能识别的代码（ES5）
+* @babel/parser：js解析器，将文本代码转化成AST（语法树）
+* @babel/traverse：遍历AST寻找依赖关系
+* @babel/core的transformFromAst：将AST代码转化成浏览器所能识别的代码（ES5）
 
 #### createAsset
 
 ```js
 function createAsset (filename) {
-  const 
+  // 读取文件
+  const content = fs.readFileSync(filename, 'utf-8')
+  // 我们通过 babylon 这个 javascript 解析器来理解 import 进来的字符串 
+  const ast = parser.parse(content, {
+    sourceType: 'module'
+  })
+  // 该模块所依赖的模块的相对路径
+  const dependencies = []
+  // import声明 
+  traverse(ast, {
+    ImportDeclaration: ({ node }) => {
+      dependencies.push(node.source.value)
+    }
+  })
+  // 递增设置模块ID 
+  const id = ID++
+  // AST -> ES5
+  const { code } = transformFromAst(ast, null, {
+    presets: ['@babel/env'],
+  })
+
+  return {
+    id,
+    filename,
+    dependencies,
+    code
+  }
 }
 ```
+
+#### createGraph
+
+```js
+function createGraph (entry) {
+  // 从第一个文件开始,首先解析index文件 
+  const mainAsset = createAsset(entry)
+  // 定义一个依赖队列，一开始的时候只有入口文件 
+  const queue = [mainAsset]
+  // 遍历 queue，广度优
+  for (const asset of queue) {
+    asset.mapping = {}
+
+    const dirname = path.dirname(asset.filename)
+
+    // 遍历依赖数组，解析每一个依赖模块
+    asset.dependencies.forEach(relativePath => {
+      const absolutePath = path.join(dirname, relativePath) + '.js'
+      // 解析
+      const child = createAsset(absolutePath)
+      // 子模块`路径-id`map
+      asset.mapping[relativePath] = child.id
+      queue.push(child)
+    })
+  }
+  return queue
+}
+```
+
+#### bundle
+
+```js
+function bundle (graph) {
+  let modules = ''
+  graph.forEach(mod => {
+    modules += `${mod.id}: [
+      function (require, module, exports) {
+        ${mod.code}
+      },
+      ${JSON.stringify(mod.mapping)}
+    ],`
+  })
+  const result = `
+(function (modules) {
+  function require(id) {
+    const [fn, mapping] = modules[id]
+    function localRequire (name) {
+      return require(mapping[name])
+    }
+
+    const module = { exports: {} }
+
+    fn(localRequire, module, module.exports)
+
+    return module.exports
+  }
+
+  require(0)
+})({
+  ${modules}
+})
+  `
+  return result
+}
+```
+
+
+
+项目地址：[mini-pack](https://github.com/Yx1aoq1/mini-pack)
 
 
 
@@ -540,3 +646,4 @@ function createAsset (filename) {
 * [JavaScript模块化开发的演进历程](https://segmentfault.com/a/1190000011081338)
 * [前端模块化详解(完整版)](https://juejin.im/post/5c17ad756fb9a049ff4e0a62#heading-55)
 * [你真的懂模块化吗？教你CommonJS实现](https://juejin.im/post/5b67c342e51d45172832123d#heading-4)
+* [webpack工程化打包原理解析与实现](https://github.com/airuikun/blog/issues/4)
