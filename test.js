@@ -1,40 +1,44 @@
-function partition (arr, start, end) {
-  console.log('start:', start, 'end:', end)
-  const pivot = arr[start]
-  let left = start
-  let right = end
-  while (left < right) {
-    while (left < right && arr[right] > pivot) {
-      right --
-    }
-    while (left < right && arr[left] <= pivot) {
-      left ++
-    }
-    if (left < right) {
-      swap(arr, left, right)
-    }
+function randomInt (min, max) {
+  return Math.round(Math.random() * (max - min)) + min
+}
+
+function randomArr (len) {
+  let arr = []
+  for (let i = 0; i < len; i ++) {
+    arr.push(randomInt(0, 15))
   }
-  swap(arr, start, left)
-  return left
+  return arr
 }
 
 function swap (arr, i, j) {
-  console.log('swap-left:', i, 'swap-right:', j)
   const temp = arr[i]
   arr[i] = arr[j]
   arr[j] = temp
 }
 
-function quickSort (arr, start, end) {
-  start = typeof start !== 'number' ? 0 : start
-  end = typeof end !== 'number' ? arr.length - 1 : end
-  if (start < end) {
-  	const partitionIndex = partition(arr, start, end)
-    quickSort(arr, start, partitionIndex - 1)
-    quickSort(arr, partitionIndex + 1, end)
+function countingSort (arr, maxValue) {
+  // 开辟空间，maxValue表示可能存在于数组的确定最大值
+  // 以分数为例，已知最高分为满分100，那么 maxValue = 100
+  let bucket = new Array(maxValue + 1)
+  let sortedIndex = 0
+  const arrLen = arr.length
+  const bucketLen = maxValue + 1
+  for (let i = 0; i < arrLen; i ++) {
+  	if (!bucket[arr[i]]) {
+      bucket[arr[i]] = 0
+    }
+    bucket[arr[i]] ++
+  }
+  for (let j = 0; j < bucketLen; j ++) {
+  	while (bucket[j] > 0) {
+      arr[sortedIndex ++] = j
+      bucket[j]--
+    }
   }
   return arr
 }
 
-res = quickSort([2, 4, 6, 1, 3, 7, 9, 8, 5])
-console.log(res)
+const array = randomArr(10)
+console.log('befor sort: ', array)
+const res = countingSort(array, 15)
+console.log('after sort: ', res)
