@@ -1,7 +1,7 @@
 ---
-title: 模块化与webpack原理
+title: 模块化与Webpack原理
 categories: 
-  - 项目自动化
+  - Webpack
 tags: 
   - Webpack
 date: 2020-06-16 20:50:11

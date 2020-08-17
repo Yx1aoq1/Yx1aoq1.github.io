@@ -2,7 +2,7 @@
 title: Webpack学习笔记
 date: 2018-01-15 14:13:32
 categories: 
-  - 项目自动化
+  - Webpack
 tags: 
   - Webpack
 ---

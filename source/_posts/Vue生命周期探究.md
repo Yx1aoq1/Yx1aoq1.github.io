@@ -1,7 +1,7 @@
 ---
 title: Vue生命周期探究
 categories:
-  - Vue相关
+  - Vue
 tags:
   - Vue
   - Vue生命周期

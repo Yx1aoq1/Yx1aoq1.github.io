@@ -2,9 +2,9 @@
 title: cli工具之init
 date: 2019-10-19 16:11:11
 categories: 
-  - node相关
+  - NodeJS
 tags:
-  - node
+  - NodeJS
   - fet源码
   - cli工具
 ---

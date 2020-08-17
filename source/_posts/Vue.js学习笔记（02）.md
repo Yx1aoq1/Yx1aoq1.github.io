@@ -2,7 +2,7 @@
 title: Vue.js学习笔记（02）
 date: 2018-07-25 20:13:45
 categories: 
-  - Vue相关
+  - Vue
 tags: 
   - Vue
   - Vue生命周期
