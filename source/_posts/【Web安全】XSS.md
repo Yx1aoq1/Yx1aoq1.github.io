@@ -1,7 +1,7 @@
 ---
 title: 【Web安全】XSS
 categories:
-  - Web基础
+  - Web安全
 tags:
   - XSS
 date: 2020-08-10 16:59:56

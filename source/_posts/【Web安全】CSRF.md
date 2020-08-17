@@ -1,7 +1,7 @@
 ---
 title: 【Web安全】CSRF
 categories:
-  - Web基础
+  - Web安全
 tags:
   - CSRF
 date: 2020-08-10 17:00:39
