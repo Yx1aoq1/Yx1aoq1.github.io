@@ -1,3 +1,11 @@
+---
+title: 【JS设计模式】策略模式
+categories:
+  - JS设计模式
+tags:
+  - JavaScript
+date: 2020-08-18 17:58:05
+---
 ## 策略模式
 
 在程序设计中，我们常常遇到一种情况：要实现某一个功能，有多种方案可以选择。针对不同的情况，使用不同的方案。要解决这个问题，就会使用到策略模式。
@@ -216,4 +224,176 @@ animate.start('left', 500, 1000, 'strongEaseOut')
 ```
 
 ### 表单校验
+
+假设有一个注册页面，点击注册按钮，需要校验如下几条逻辑：
+
+* 用户名不能为空
+* 密码长度不能少于6位
+* 手机号码必须符合格式
+
+```html
+<html>
+  <body>
+    <form action="http://xxx.com/register" id="registerForm" method="post">
+      请输入用户名：<input type="text" name="userName" />
+      请输入密码：<input type="password" name="password" />
+      请输入手机号码：<input type="text" name="phoneNumber" />
+      <button>提交</button>
+    </form>
+    <script>
+    	var registerForm = document.getElementById('registerForm')
+      registerForm.onsubmit = function () {
+        if (registerForm.userName.value === '') {
+          alert('用户名不能为空')
+          return false
+        }
+        if (registerForm.password.value.length < 6) {
+          alert('密码长度不能少于 6 位')
+          return false
+        }
+        if (!/(^1[3|5|8][0-9]{9}$)/.test( registerForm.phoneNumber.value )) {
+          alert ('手机号码格式不正确')
+          return false
+        }
+      }
+    </script>
+  </body>
+</html>
+```
+
+这是实现需求的最简单的方式，但是它存在一些问题：
+
+* `registerForm.onsubmit`函数比较庞大，包好了许多`if-else`语句，这些语句需要覆盖所有的校验规则
+* `registerForm.onsubmit`函数缺乏弹性，如果增加了一种新的校验规则，或者想把密码的长度校验从6改成8，都必须改动到内部代码，违反了开放-封闭原则
+* 算法复用性差，如果在其他地方有相同的校验，则只能将这段代码复制过去
+
+**▼使用策略模式优化**
+
+```js
+// 校验规则抽成策略类
+var strategies = {
+  isNonEmpty: function (value, errorMsg) { // 不为空
+    if (value === '') {
+      return errorMsg
+    }
+  },
+  minLength: function (value, length, errorMsg) { // 限制最小长度
+    if (value.length < length) {
+      return errorMsg
+    }
+  },
+  isMobile: function (value, errorMsg) { // 手机号码格式
+    if (!/(^1[3|5|8][0-9]{9}$)/.test(value)) {
+      return errorMsg
+    }
+  }
+}
+// Validator类
+var Validator = function () {
+  this.cache = []
+}
+
+Validator.prototype.add = function (dom, rule, errorMsg) {
+  // rule 为 策略名称:策略参数 的格式
+  var ary = rule.split(':')
+  this.cache.push(function () {
+    var strategy = ary.shift()
+    ary.unshift(dom.value)
+    ary.push(errorMsg)
+    // ary = [dom.value, strategyParams, errorMsg]
+    return strategies[strategy].apply(dom, ary)
+  })
+}
+
+Validator.prototype.start = function () {
+  for (var i = 0, validatorFunc; validatorFunc = this.cache[ i++ ];) {
+    var msg = validatorFunc()
+    if (msg) {
+      return msg
+    }
+  }
+}
+// 使用环境
+var validateFunc = function () {
+  var validator = new Validator()
+  
+  validator.add(registerForm.userName, 'isNonEmpty', '用户名不能为空')
+  validator.add(registerForm.password, 'minLength:6', '密码长度不能少于6')
+  validator.add(registerForm.phoneNumber, 'isMobile', '手机号码格式不正确')
+  
+  var errorMsg = validator.start()
+  return errorMsg
+}
+
+var registerForm = document.getElementById('registerForm')
+registerForm.onsubmit = function () {
+  var errorMsg = validateFunc()
+  if (errorMsg) {
+    alert(errorMsg)
+    return false
+  }
+}
+```
+
+使用策略模式重构代码之后，我们仅仅通过“配置”的方式就可以完成一个表单的校验，这些校验规则可以复用在程序的任何地方，还能作为插件的形式，方便地移植到其他项目中。
+
+**▼进阶——同时校验多个规则**
+
+```js
+// 修改Validator类
+var Validator = function () {
+  this.cache = []
+}
+
+Validator.prototype.add = function (dom, rules) {
+  var self = this
+  for (var i = 0, rule; rule = rules[ i++ ];) {
+    (function (rule) {
+      // rule 为 策略名称:策略参数 的格式
+      var strategyAry = rule.strategy.split(':')
+      var errorMsg = rule.errorMsg
+      self.cache.push(function () {
+        var strategy = strategyAry.shift()
+        strategyAry.unshift(dom.value)
+        strategyAry.push(errorMsg)
+        // strategyAry = [dom.value, strategyParams, errorMsg]
+        return strategies[strategy].apply(dom, strategyAry)
+      })
+    })(rule)
+  }
+}
+
+Validator.prototype.start = function () {
+  for (var i = 0, validatorFunc; validatorFunc = this.cache[ i++ ];) {
+    var msg = validatorFunc()
+    if (msg) {
+      return msg
+    }
+  }
+}
+// 使用环境
+var validateFunc = function () {
+  var validator = new Validator()
+  
+  validator.add(registerForm.userName, [{
+    strategy: 'isNonEmpty',
+    errorMsg: '用户名不能为空'
+  }, {
+    strategy: 'minLength:10',
+    errorMsg: '用户名长度不能小于10位'
+  }])
+  
+  var errorMsg = validator.start()
+  return errorMsg
+}
+
+var registerForm = document.getElementById('registerForm')
+registerForm.onsubmit = function () {
+  var errorMsg = validateFunc()
+  if (errorMsg) {
+    alert(errorMsg)
+    return false
+  }
+}
+```
 
