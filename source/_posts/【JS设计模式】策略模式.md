@@ -408,3 +408,6 @@ registerForm.onsubmit = function () {
 * 缺点：
   * 使用策略模式会在程序中增加许多策略类或策略对象
   * 必须了解所有的strategy，才能正确的选择一个合适的strategy。而向客户暴露strategy的实现方式是违反最少知识原则的
+
+文章参考：
+《JavaScript设计模式与开发实践》

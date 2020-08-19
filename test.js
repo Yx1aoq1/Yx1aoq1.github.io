@@ -1,17 +1,24 @@
-var MyApp = {}
-
-MyApp.namespace = function (name) {
-  var parts = name.split('.')
-  var current = MyApp
-  for (let i in parts) {
-    if (!current[parts[i]]) {
-      current[parts[i]] = {}
+let myObj = {
+  [Symbol.iterator]: function () {
+    let index = 0
+    return {
+      next: function () {
+        index ++
+        return {
+          value: index,
+          done: index >= 10
+        }
+      }
     }
-    current = current[parts[i]]
   }
 }
+// for...of遍历
+for (let i of myObj) {
+  console.log(i)
+}
 
-MyApp.namespace('event')
-MyApp.namespace('dom.style')
-
-console.dir(MyApp)
+// 也可以直接获取这个迭代器进行遍历
+let it = myObj[Symbol.iterator]()
+for (let i = it.next(); i.done !== true; i = it.next()){
+  console.log(i.value)
+}

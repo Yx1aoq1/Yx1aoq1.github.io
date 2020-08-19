@@ -139,3 +139,5 @@ var user = (function () {
 })()
 ```
 
+文章参考：
+《JavaScript设计模式与开发实践》

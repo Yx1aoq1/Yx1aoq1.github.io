@@ -286,3 +286,5 @@ handler.apply() // 在调用一个目标对象为函数的代理对象时触发�
 handler.construct() // 在给一个目标对象为构造函数的代理对象构造实例时触发该操作，比如在执行new proxy() 时
 ```
 
+文章参考：
+《JavaScript设计模式与开发实践》
