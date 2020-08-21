@@ -1,3 +1,11 @@
+---
+title: 【JS设计模式】发布-订阅模式
+categories:
+  - JS设计模式
+tags:
+  - JavaScript
+date: 2020-08-21 10:11:15
+---
 ## 发布-订阅模式
 
 发布-订阅模式的定义：
@@ -378,8 +386,6 @@ Event.create('namespace2').listen('click', (a) => {
 Event.create('namespace2').trigger('click', 2)
 ```
 
-## 发布-订阅模式的应用
-
 ## 总结
 
 * 优点：
@@ -388,3 +394,6 @@ Event.create('namespace2').trigger('click', 2)
 * 缺点：
   * 消耗一定的时间和内存
   * 对象与对象间的必要联系被深埋再背后，不利于程序跟踪维护和理解
+
+文章参考：
+《JavaScript设计模式与开发实践》
