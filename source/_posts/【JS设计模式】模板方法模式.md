@@ -1,3 +1,11 @@
+---
+title: 【JS设计模式】模板方法模式
+categories:
+  - JS设计模式
+tags:
+  - JavaScript
+date: 2020-08-24 09:43:03
+---
 ## 模板方法模式
 
 模板方法模式，是一种基于继承的设计模式。
@@ -219,4 +227,53 @@ Beverage.prototype.init = function () {
 在程序设计中，我们允许底层组件将自己挂钩到高层组件中，而高层组件则会决定什么时候，以何种方式去使用这些底层组件。高层组件对待底层组件的方式，跟演艺公司对待新人演员一样，都是“别调用我们，我们会调用你”。
 
 在模板方法模式、发布-订阅模式与回调函数中，都符合这一原则。
+
+## 不使用继承
+
+由于JavaScript语言并没有提供真正的类式继承，而且语法比较灵活，可以用以下方法来达到继承效果：
+
+```js
+var Beverage = function (params) {
+  var boilWater = function {
+    console.log('把水煮沸')
+  }
+  
+  var brew = params.brew || function () {
+    throw new Error('子类必须重写brew方法')
+  }
+  
+  var pourInCup = params.pourInCup || function () {
+    throw new Error('子类必须重写pourInCup方法')
+  }
+  
+  var addCondiments = params.addCondiments || function () {
+    throw new Error('子类必须重写addCondiments方法')
+  }
+  
+  var F = function () {}
+  
+  F.prototype.init = function () {
+    boilWater()
+    brew()
+    pourInCup()
+    addCondiments()
+  }
+  
+  return F
+}
+```
+
+```js
+var Coffee = Beverage({
+  brew: function () {
+    console.log('用沸水冲泡咖啡')
+  },
+  pourInCup: function () {
+    console.log('把咖啡倒进杯子')
+  },
+  addCondiments: function () {
+    console.log('加糖和牛奶')
+  }
+})
+```
 
