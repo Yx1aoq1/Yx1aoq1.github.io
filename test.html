@@ -7,125 +7,44 @@
 </head>
 <body>
   <body>
-    <div id="ball" style="position:absolute;background:#000;width:50px;height:50px;top:50px;left:0;"></div>
-    输入小球移动后的位置：<input id="pos" />
-    <button id="moveBtn">开始移动</button>
-    <button id="undoBtn">撤销</button>
   </body>
   <script>
-    /**
-     * 策略类
-     * @param {number} t 动画已消耗的时间
-     * @param {number} b 小球的原始位置
-     * @param {number} c 小球的目标位置
-     * @param {number} d 动画持续的总时间
-     */
-    let tween = {
-      linear: (t, b, c, d) => {
-        return c * t / d + b
-      },
-      easeIn: (t, b, c, d) => {
-        return c * ( t /= d ) * t + b
-      },
-      strongEaseIn: (t, b, c, d) => {
-        return c * ( t /= d ) * t * t * t * t + b
-      },
-      strongEaseOut: (t, b, c, d) => {
-        return c * ( ( t = t / d - 1) * t * t * t * t + 1 ) + b
-      },
-      sineaseIn: (t, b, c, d) => {
-        return c * ( t /= d) * t * t + b
-      },
-      sineaseOut: (t, b, c, d) => {
-        return c * ( ( t = t / d - 1) * t * t + 1 ) + b
-      }
+    // 对象池工厂函数
+var objectPoolFactory = function (createObjFn) {
+  var objectPool = []
+  
+  return {
+    create: function () {
+      var obj = objectPool.length === 0
+      	? createObjFn.apply(this, arguments)
+        : objectPool.shift()
+        
+      return obj
+    },
+    recover: function (obj) {
+      objectPool.push(obj)
     }
+  }
+}
+// objectPoolFactory 来创建一个装载一些 iframe 的对象池
+var iframeFactory = objectPoolFactory(function () {
+  var iframe = document.createElement('iframe')
+  document.body.appendChild(iframe)
+  iframe.onload = function () {
+    iframe.onload = null // 防止iframe重复加载的bug
+    iframeFactory.recover(iframe) // iframe 加载完成之后回收节点
+  }
+  return iframe
+})
 
-    var Animate = function (dom) {
-      this.dom = dom // 进行运动的dom节点
-      this.startTime = 0 // 动画开始时间
-      this.startPos = 0 // 动画开始时，dom节点的初始位置
-      this.endPos = 0 // 动画结束后，dom节点的目标位置
-      this.propertyName = null // dom节点需要倍改变的css属性名
-      this.easing = null // 缓动算法
-      this.duration = null // 动画持续时间
-    }
-
-    Animate.prototype.start = function (propertyName, endPos, duration, easing) {
-      this.startTime = +new Date()
-      this.startPos = this.dom.getBoundingClientRect()[ propertyName ]
-      this.propertyName = propertyName
-      this.endPos = endPos
-      this.duration = duration
-      this.easing = tween[ easing ]
-      const timer = setInterval(() => { // 启动定时器，开始执行动画
-        if (this.step() === false) { // 如果动画已结束，则清除定时器
-          clearInterval(timer)
-        }
-      }, 19)
-    }
-
-    Animate.prototype.step = function () {
-      const t = +new Date()
-      if (t >= this.startTime + this.duration) {
-        this.update(this.endPos)
-        return false
-      }
-      const pos = this.easing(t - this.startTime, this.startPos, this.endPos - this.startPos, this.duration)
-      this.update(pos)
-    }
-
-    Animate.prototype.update = function (pos) {
-      this.dom.style[this.propertyName] = pos + 'px'
-    }
-
-    var ball = document.getElementById('ball')
-    var pos = document.getElementById('pos')
-    var moveBtn = document.getElementById('moveBtn')
-    var undoBtn = document.getElementById('undoBtn')
-    // var curPos = 0
-    // var oldPos = 0
-    
-    // moveBtn.onclick = function () {
-    //   var animate = new Animate(ball)
-    //   // 在小球正式移动前记录下移动距离
-    //   oldPos = curPos
-    //   curPos = pos.value
-    //   animate.start('left', curPos, 1000, 'strongEaseOut')
-    // }
-
-    // undoBtn.onclick = function () {
-    //   var animate = new Animate(ball)
-    //   curPos = oldPos
-    //   animate.start('left', oldPos, 1000, 'strongEaseOut')
-    // }
-
-    var MoveCommand = function (receiver, pos) {
-      this.receiver = receiver
-      this.pos = pos
-      this.oldPos = null
-    }
-
-    MoveCommand.prototype.execute = function () {
-      this.receiver.start('left', this.pos, 1000, 'strongEaseOut')
-      this.oldPos = this.receiver.dom.getBoundingClientRect()[this.receiver.propertyName]
-    }
-
-    MoveCommand.prototype.undo = function () {
-      this.receiver.start('left', this.oldPos, 1000, 'strongEaseOut')
-    }
-
-    var moveCommand
-
-    moveBtn.onclick = function () {
-      var animate = new Animate(ball)
-      moveCommand = new MoveCommand(animate, pos.value)
-      moveCommand.execute()
-    }
-
-    undoBtn.onclick = function () {
-      moveCommand.undo()
-    }
+var iframe1 = iframeFactory.create()
+iframe1.src = 'http://baidu.com'
+var iframe2 = iframeFactory.create()
+iframe2.src = 'http://QQ.com'
+setTimeout(function () {
+  var iframe3 = iframeFactory.create()
+  iframe3.src = 'http://163.com'
+ }, 3000)
   </script>
 </body>
 </html>
