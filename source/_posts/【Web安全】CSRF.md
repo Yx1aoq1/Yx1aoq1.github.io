@@ -193,7 +193,7 @@ router.post('/login', (req, res) => {
 ```
 
 * **Samesite=Strict**：严格模式，表明这个 Cookie 在任何情况下都不可能作为第三方 Cookie，绝无例外
-* **Samesite=Lax**：宽松模式，比 Strict 放宽了点限制，假如这个请求是这种请求（改变了当前页面或者打开了新页面）且同时是个GET请求，则这个Cookie可以作为第三方Cookie
+* **Samesite=Lax**：宽松模式，比 Strict 放宽了点限制，大多数情况也是不发送第三方 Cookie，但是导航到目标网址的 Get 请求除外
 
 Samesite也同样不是完美的：
 
