@@ -2,7 +2,7 @@
 title: 关于HTTP请求小记
 date: 2017-03-20 15:31:38
 categories: 
-  - Web基础
+  - HTTP/HTTPS
 tags: 
   - HTTP
   - 网络
