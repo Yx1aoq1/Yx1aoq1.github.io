@@ -1,10 +1,9 @@
 ---
 title: 简单的HTTP协议
 categories:
-  - HTTP/HTTPS
+  - 网络技术
 tags:
   - HTTP
-  - 网络
 date: 2020-11-10 14:03:12
 ---
 ## 简单的HTTP协议

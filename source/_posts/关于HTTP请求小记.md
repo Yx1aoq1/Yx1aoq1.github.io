@@ -2,10 +2,9 @@
 title: 关于HTTP请求小记
 date: 2017-03-20 15:31:38
 categories: 
-  - HTTP/HTTPS
+  - 网络技术
 tags: 
   - HTTP
-  - 网络
 ---
 * **HTTP：** 是计算机通过网络进行通信的规则
 * **步骤：**
