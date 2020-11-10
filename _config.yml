@@ -103,4 +103,11 @@ deploy:
   branch: master #部署的分支
   message: update #默认类型
 
+# Generate categories from directory-tree
+# Dependencies: https://github.com/xu-song/hexo-auto-category
+# depth: the max_depth of directory-tree you want to generate, should > 0
+auto_category:
+ enable: true
+ depth: 
+
 mathjax:
