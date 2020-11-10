@@ -4,6 +4,8 @@ categories:
   - 网络技术
 tags:
   - Cookie
+  - 跨域
+  - CORS
 date: 2020-11-10 16:28:33
 ---
 
