@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vue之keep-alive使用指南 - Yx1aoq1's Blog</title>
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<link rel="canonical" href="https://yx1aoq1.github.io/2020/01/16/Vue/Vue%E4%B9%8Bkeep-alive/">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<meta name="description" content="需求 在做业务的时候经常会碰到这样的互动需求：  用户前进时，总是进入一个新的页面（不使用缓存） 用户后退时，需要保留之前的操作（使用缓存）  在vue-router中，切换路由时并不会保存组件的状态，而是会重新创建新组件，走一遍完整的生命周期，我们要实现上面的需求，就需要使用keep-alive组件来解决。 keep-alive 通过结合router-view我们就可以实现缓存页面的问题： 12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vue之keep-alive使用指南">
+<meta property="og:url" content="https://yx1aoq1.github.io/2020/01/16/Vue/Vue%E4%B9%8Bkeep-alive/index.html">
+<meta property="og:site_name" content="Yx1aoq1&#39;s Blog">
+<meta property="og:description" content="需求 在做业务的时候经常会碰到这样的互动需求：  用户前进时，总是进入一个新的页面（不使用缓存） 用户后退时，需要保留之前的操作（使用缓存）  在vue-router中，切换路由时并不会保存组件的状态，而是会重新创建新组件，走一遍完整的生命周期，我们要实现上面的需求，就需要使用keep-alive组件来解决。 keep-alive 通过结合router-view我们就可以实现缓存页面的问题： 12">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
+<meta property="article:published_time" content="2020-01-16T08:11:00.000Z">
+<meta property="article:modified_time" content="2020-11-10T10:30:49.629Z">
+<meta property="article:author" content="Yx1aoq1">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
+
+
+<link href="//fonts.googleapis.com/css?family=Lobster|Josefin+Sans|Montserrat" rel="stylesheet">
+<link href="/styles.c3f8d35f4c49a6d852da.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/theme.535be39e73207fd16457.css" is="theme">
+
+
+<script src="/config.b456b4ac74ecb9f3850a.js"></script>
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body lang="en">
+<is-a></is-a>
+<script src="/runtime.1720a40670866f12654e.js"></script>
+<script src="/polyfills.eefc5b1aaca1e85d221f.js"></script>
+<script src="/main.41823d1d138ca02e839b.js"></script>
+</body>
+</html>
