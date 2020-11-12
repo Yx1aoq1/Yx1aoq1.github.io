@@ -1,10 +1,10 @@
-## Vue响应式原理
+## `Vue`响应式原理
 
-在 Vue 2.x 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即`Object.defineProperty的`getter`和`setter`方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。
+在 `Vue 2.x` 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即`Object.defineProperty`的`getter`和`setter`方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。
 
 那么，具体是怎么实现的呢？
 
-### Object.defineProperty
+### `Object.defineProperty`
 
 首先，我们先了解一下最核心的`Object.defineProperty`的基本用法：
 
@@ -55,13 +55,15 @@ obj.property1
 // 输出：get value 1
 ```
 
-### 实例化一个Vue对象
+### 实例化一个`Vue`对象
 
-以下面一个简单的Vue实例作为分析参考：
+以下面一个简单的`Vue`实例作为分析参考：
 
 ```html
-<div id="app" @click="changeMsg">
-  {{ message }}
+<div id="app">
+  <div @click="changeMsg">
+    {{ message }}
+  </div>
 </div>
 ```
 
@@ -79,42 +81,19 @@ var app = new Vue({
 })
 ```
 
-当我们`new`出一个Vue实例之后，对`data`主要做了如下的初始化操作：
+#### 数据代理
 
-```js
-function initData (vm) {
-  // 拿到传入配置中的data
-  let data = vm.$options.data
-  // data有可能是函数的形式传入，需要做一下判断
-  data = vm._data = typeof data === 'function'
-  	? getData(data, vm)
-  	: data || {}
-  
-  const keys = Object.keys(data)
-  let i = keys.lengths
-  while (i--) {
-    const key = keys[i]
-    // 将data中的数据代理到vm上
-    proxy(vm, `_data`, key)
-  }
-  // 监听对象更新（批量设置对象的set与get）
-  observe(data)
-}
-```
-
-#### proxy
-
-在Vue中，在`props`和`data`中定义的属性，我们都可以在这个Vue实例中通过`this.xxx`获取到。要实现这一目的，我们需要通过**代理**的方式：
+在`Vue`中，我们定义在`data`的数据可以通过`this.xxx`来获取，主要原因在于`Vue`对`data`中的数据做了一层数据代理：
 
 ```js
 const sharedPropertyDefinition = {
   enumerable: true,
   configurable: true,
-  get: undefined,
-  set: undefined
+  get: noop,
+  set: noop
 }
 
-export function proxy (target, sourceKey, key) {
+function proxy (target, sourceKey, key) {
   sharedPropertyDefinition.get = function proxyGetter () {
     return this[sourceKey][key]
   }
@@ -125,87 +104,473 @@ export function proxy (target, sourceKey, key) {
 }
 ```
 
-`proxy`的本质就是通过 `Object.defineProperty` 把 `target[sourceKey][key]` 的读写变成了对 `target[key]` 的读写。对于 `data` 而言，对 `vm._data.xxxx` 的读写变成了对 `vm.xxxx` 的读写，而对于 `vm._data.xxxx` 我们可以访问到定义在 `data` 函数返回对象中的属性，所以我们就可以通过 `vm.xxxx` 访问到定义在 `data` 函数返回对象中的 `xxxx` 属性。
-
-#### observe
-
-当我们改变`this.message`的值时，需要通知视图也进行更新。这里的`observe`方法就是用来监听数据的变化的：
-
 ```js
-export function observe (value) {
-  if (!isObject(value) || value instanceof VNode) {
-    return
+function initData (vm) {
+  let data = vm.$options.data
+  vm._data = data
+  // 判断data的类型是object
+  if (!isPlainObject(data)) {
+    data = {}
   }
-  
-  return new Observer(value)
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    // 数据代理
+    proxy(vm, `_data`, key)
+  }
+  observe(data, true /* asRootData */)
 }
 ```
 
-`observe` 方法的作用就是将我们需要监听变化的数据，实例化为一个`Observer`对象实例。
+代理的实现方式并不难，通过`Object.defineProperty`把`target[sourceKey][key]`的读写变成了对`target[key]`的读写。
 
-#### Observer
+**为什么这样处理呢？**
 
-`Observer`类的作用，就是给对象的属性加上`getter`和`setter`，用于依赖收集和派发更新：
+* **方便读取**：比起用`this._data.xxx`来读取，这样的方式更加直接方便
+* **保证数据统一**：为了实现`this.xxx`的方式获取，当然也可以通过`for`循环把数据一个一个赋值到实例上（methods的处理方式），但是这样做就会导致维护了两份数据，增加了维护的成本
+* **不影响依赖的收集与更新**：当对`this.xxx`进行读取的时候，就会触发`_data.xxx`中的`get`与`set`方法，不会影响到`data`中数据的依赖收集与更新
+
+#### 数据劫持
+
+因为我们需要在`data`数据更新的时候，通知视图的更新，因此我们对`data`中的每一个数据都生成对应的响应式对象，给对象的每一个属性都加上`getter`与`setter`，在`getter`与`setter`中插入消息绑定与发布的动作。
 
 ```js
+// observe 的作用，就是判断传入的value是否符合条件
+// 对符合条件的对象，生成一个Observer对象实例
+export function observe (value, asRootData) {
+  if (!isObject(value)) {
+    return
+  }
+  let ob
+  if (
+    // 判断是否已经定义过响应对象，避免重复定义
+    hasOwn(value, '__ob__') && value.__ob__ instanceof Observer
+  ) {
+    ob = value.__ob__
+  } else {
+    ob = new Observer(value)
+  }
+  if (asRootData && ob) {
+    ob.vmCount++
+  }
+  return ob
+}
+```
+
+```js
+// Observer的作用就是将传入的value中的每个属性批量处理
+// defineReactive就是处理添加getter与setter的方法
 export class Observer {
   constructor (value) {
     this.value = value
-    if (Array.isArray(value)) {
-      this.observeArray(value)
-    } else {
-      this.walk(value)
-    }
+    this.dep = new Dep()
+    this.vmCount = 0
+    // 对已生成响应对象的value增加__ob__属性进行标识
+    def(value, '__ob__', this)
+    this.walk(value)
   }
-  
+  // PS: 这里只放了对于Object类型的处理，Array类型的处理需要另外的考虑
   walk (obj) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
       defineReactive(obj, keys[i])
     }
   }
-  
-  observeArray (items) {
-    for (let i = 0, l = items.length; i < l; i ++) {
-      observe(items[i])
-    }
-  }
 }
 ```
 
-#### defineReactive
-
-`defineReactive` 的功能就是定义一个响应式对象，给对象动态添加 getter 和 setter
-
 ```js
-export function defineReactive (obj, key) {
+export function defineReactive (obj, key, val) {
   const dep = new Dep()
-  let value = obj[key]
-  let childOb = observe(value)
+  const property = Object.getOwnPropertyDescriptor(obj, key)
+  if (property && property.configurable === false) {
+    return
+  }
+
+  // cater for pre-defined getter/setters
+  const getter = property && property.get
+  const setter = property && property.set
+  if ((!getter || setter) && arguments.length === 2) {
+    val = obj[key]
+  }
+  // 监听当前val的所有子属性
+  let childOb = observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
+      const value = getter ? getter.call(obj) : val
       if (Dep.target) {
+        // 依赖收集
         dep.depend()
+        // 存在子属性的响应对象，需要对子属性也进行依赖的收集
         if (childOb) {
           childOb.dep.depend()
-          if (Array.isArray(value)) {
-            dependArray(value)
-          }
         }
       }
-      return val
+      return value
     },
     set: function reactiveSetter (newVal) {
+      const value = getter ? getter.call(obj) : val
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return
       }
-      value = newVal
-      childObj = observe(newVal)
+      val = newVal
+      // 对新的值进行设置响应对象，保证数据响应式
+      childOb = observe(newVal)
+      // 派发更新
       dep.notify()
     }
   })
 }
 ```
 
+通过`defineReactive`初始化`Dep`对象实例，接着拿到`obj`的属性描述符，然后对子对象进行递归调用`ovserve`方法，这样就保证了无论`obj`的结构多复杂，它的所有子属性也能变成响应式的对象，这样我们访问或修改`obj`中一个嵌套较深的属性，也能触发`getter`与`setter`。
+
+#### 依赖收集
+
+在`defineReactive`中，我们实例化了一个`Dep`对象，**`Dep`扮演的对象实际上就是发布-订阅模式中的订阅器，或者说是调度中心**。
+
+```js
+let uid = 0
+
+export default class Dep {
+  constructor () {
+    this.id = uid++
+    this.subs = []
+  }
+
+  addSub (sub) {
+    this.subs.push(sub)
+  }
+
+  removeSub (sub) {
+    remove(this.subs, sub)
+  }
+
+  depend () {
+    // 依赖收集，如果当前有正在处理的Wacter
+    // 将该Dep放进当前Wacter的deps中
+    if (Dep.target) {
+      Dep.target.addDep(this)
+    }
+  }
+
+  notify () {
+    // slice的作用是复制当前的subs队列
+    // 循环处理队列中的每个Watcher的update方法
+    const subs = this.subs.slice()
+    for (let i = 0, l = subs.length; i < l; i++) {
+      subs[i].update()
+    }
+  }
+}
+// 标记全局唯一的一个正在处理的Watcher
+// 在同一时间内，控制只有一个Watcher正在执行
+Dep.target = null
+// 待处理的Watcher队列
+const targetStack = []
+
+export function pushTarget (_target) {
+  if (Dep.target) targetStack.push(Dep.target)
+  Dep.target = _target
+}
+
+export function popTarget () {
+  Dep.target = targetStack.pop()
+}
+```
+
+在`Dep`类中，定义了一个静态属性`target`，是为了存储全局唯一的`Watcher`。因为在同一时间只能由一个全局的`Watcher`被计算，另外它的自身属性`sub`也是`Watcher`的数组。
+
+而`Watcher`所扮演的角色就是观察者，它的主要作用就是为我们需要观察的属性提供回调与收集依赖，当被观察的值发生变化时，就会受到来着`dep`的通知，从而触发回调函数。
+
+```js
+let uid = 0
+
+export default class Watcher {
+  constructor (
+    vm,
+    expOrFn,
+    cb
+  ) {
+    this.vm = vm
+    this.cb = cb
+    this.id = ++uid
+    this.deps = []
+    this.depIds = new Set()
+    this.expression = expOrFn.toString()
+    if (typeof expOrFn === 'function') {
+      this.getter = expOrFn
+    } else {
+      this.getter = parsePath(expOrFn)
+      if (!this.getter) {
+        this.getter = function () {}
+      }
+    }
+    this.value = this.get()
+  }
+
+  get () {
+    pushTarget(this)
+    const vm = this.vm
+    // 这里的 this.getter 会触发对应data的defineProperty
+    // 触发后会将这个Watcher添加到Dep的队列中
+    let value = this.getter.call(vm, vm)
+    // 执行完成后退出Watcher队列
+    popTarget()
+    return value
+  }
+
+  addDep (dep) {
+    const id = dep.id
+    // 保证同一数据不会被添加多个观察者
+    if (!this.depIds.has(id)) {
+      // 将自己加入到当前dep的subs队列
+      dep.addSub(this)
+    }
+  }
+
+  update () {
+    this.run()
+  }
+
+  run () {
+    this.getAndInvoke(this.cb)
+  }
+
+  getAndInvoke (cb) {
+    const value = this.get()
+    const oldValue = this.value
+    if (value !== oldValue) {
+      this.value = value
+      cb.call(this.vm, value, oldValue)
+    }
+  }
+}
+```
+
+当执行`new Watcher`生成一个新的观察者时，就会执行`Watcher`类中的`get`方法，从而触发数据接触中的`getter`方法，将自身加入到`Dep`的`subs`队列中，以此完成依赖收集。
+
+#### 派发更新
+
+同理，当在代码中出现`this.xxx = xxx`的赋值行为时，就会触发数据劫持的`setter`方法，此时`Dep`会通知`subs`队列中的每一个观察者都执行自身的`update`，以此触发`new Watcher`时说绑定的`callback`函数。
+
+#### 模板编译
+
+在`Vue`中，`render`的实现也是一大核心，这里先略过，用最简单的DOM操作来完成一些简单指令的实现：
+
+```js
+const PREFIX = {
+  DIRECTIVE: 'v-',
+  EVENT: '@',
+  ATTR: ':'
+}
+export default class Compile {
+  constructor (el, vm) {
+    this.$vm = vm
+    this.$el = this.isElementNode(el) ? el : document.querySelector(el)
+    if (this.$el) {
+      this.$fragment = this.node2Fragment(this.$el)
+      this.init()
+      this.$el.appendChild(this.$fragment)
+    }
+  }
+
+  node2Fragment (el) {
+    let child
+    // createDocumentFragment 创建文档碎片
+    // 主要用法是作为一个文档的“占位符”，当插入到文档中时，会插入它的所有子孙节点
+    // 作为一个插入节点的过渡，可以减少渲染DOM元素的次数
+    const fragment = document.createDocumentFragment()
+    while (child = el.firstChild) {
+      fragment.appendChild(child)
+    }
+    return fragment
+  }
+
+  init () {
+    this.compileElement(this.$fragment)
+  }
+
+  compileElement (el) {
+    const childNodes = el.childNodes
+    Array.prototype.slice.call(childNodes, this).forEach(node => {
+      const text = node.textContent
+      const reg = /\{\{(.*)\}\}/
+      if (
+        // 如果节点是DOM元素
+        this.isElementNode(node)
+      ) {
+        this.compile(node)
+      } else if (
+        // 如果节点是一个文本，并且包含模板语法{{xxx}}
+        this.isTextNode(node) && reg.test(text)
+      ) {
+        this.compileText(node, RegExp.$1.trim())
+      }
+      // 递归继续遍历子节点
+      if (node.childNodes && node.childNodes.length) {
+        this.compileElement(node)
+      }
+    })
+  }
+
+  compile (node) {
+    const nodeAttrs = node.attributes
+    Array.prototype.slice.call(nodeAttrs, this).forEach(attr => {
+      const attrName = attr.name
+      const exp = attr.value
+      if (
+        // 判断v-xxx指令
+        this.isDirective(attrName)
+      ) {
+        const dir = attrName.replace(PREFIX.DIRECTIVE, '')
+        compileUtil[dir] && compileUtil[dir](node, this.$vm, exp, dir)
+        node.removeAttribute(attrName)
+      } else if (
+        // 判断@xxx指令
+        this.isEventDirective(attrName)
+      ) {
+        const eventType = attrName.replace(PREFIX.EVENT, '')
+        compileUtil.eventHandler(node, this.$vm, exp, eventType)
+        node.removeAttribute(attrName)
+      } else if (
+        // 判断:xxx指令
+        this.isAttrDirective(attrName)
+      ) {
+        const name = attrName.replace(PREFIX.ATTR, '')
+        compileUtil.attrHandler(node, this.$vm, exp, name)
+        node.removeAttribute(attrName)
+      }
+    })
+  }
+
+  compileText (node, exp) {
+    compileUtil.text(node, this.$vm, exp)
+  }
+
+  isDirective (attr) {
+    return attr.indexOf(PREFIX.DIRECTIVE) === 0
+  }
+
+  isAttrDirective (attr) {
+    return attr.indexOf(PREFIX.ATTR) === 0
+  }
+
+  isEventDirective (attr) {
+    return attr.indexOf(PREFIX.EVENT) === 0
+  }
+
+  isBindDirective (dir) {
+    return dir.indexOf(DIRECTIVE.BIND) === 0
+  }
+
+  isElementNode (node) {
+    return node.nodeType === 1
+  }
+
+  isTextNode (node) {
+    return node.nodeType === 3
+  }
+}
+
+const DIRECTIVE = {
+  TEXT: 'text',
+  MODEL: 'model',
+  ON: 'on',
+  BIND: 'bind',
+  ATTR: 'attr'
+}
+
+const compileUtil = {
+  [DIRECTIVE.TEXT]: function (node, vm, exp, dir) {
+    this.createWatcher(node, vm, exp, DIRECTIVE.TEXT)
+  },
+
+  [DIRECTIVE.ON]: function (node, vm, exp, dir) {
+    const eventType = dir.split(':')[1]
+    this.eventHandler(node, vm, exp, eventType)
+  },
+
+  [DIRECTIVE.MODEL]: function (node, vm, exp, dir) {
+    this.createWatcher(node, vm, exp, DIRECTIVE.MODEL)
+    const value = this._getVMVal(vm, exp)
+    node.addEventListener('input', e => {
+      var newValue = e.target.value
+      if (value === newValue) {
+        return
+      }
+      this._setVMVal(vm, exp, newValue)
+    })
+  },
+
+  createWatcher: function (node, vm, exp, dir, ext) {
+    const updaterFn = updater[dir + 'Updater']
+    updaterFn && updaterFn(node, this._getVMVal(vm, exp), undefined, ext)
+    new Watcher(vm, exp, (value, oldValue) => {
+      updaterFn && updaterFn(node, value, oldValue, ext)
+    })
+  },
+
+  eventHandler: function (node, vm, exp, eventType) {
+    const fn = vm.$options.methods && vm.$options.methods[exp]
+    if (eventType && fn) {
+      node.addEventListener(eventType, fn.bind(vm), false)
+    }
+  },
+
+  attrHandler: function (node, vm, exp, attrName) {
+    this.createWatcher(node, vm, exp, DIRECTIVE.ATTR, attrName)
+  },
+
+  _getVMVal: function (vm, exp) {
+    return parsePath(exp).call(vm, vm)
+  },
+
+  _setVMVal: function (vm, exp, value) {
+    let val = vm
+    const segments = exp.split('.')
+    segments.forEach(function(k, i) {
+      // 非最后一个key，更新val的值
+      if (i < segments.length - 1) {
+        val = val[k]
+      } else {
+        val[k] = value
+      }
+    })
+  }
+}
+
+const updater = {
+  // 更新文本
+  [DIRECTIVE.TEXT + 'Updater']: function (node, value) {
+    node.textContent = isDef(value) ? value : ''
+  },
+  // 更新绑定的value
+  [DIRECTIVE.MODEL + 'Updater']: function (node, value, oldValue) {
+    node.value = isDef(value) ? value : ''
+  },
+  // 更新attribute
+  [DIRECTIVE.ATTR + 'Updater']: function (node, value, oldValue, name) {
+    node.setAttribute(name, value)
+  }
+}
+```
+
+可以看到，在模板编译中，针对定义的指令，通过`new Watcher`的方式，将视图与数据绑定在一起，传入对应更新视图的`callback`方法。在每次接收到响应值的更新时，就会执行对应的`updater`方法来完成视图的更新。
+
+### `Vue3` 中的响应式原理
+
+使用`Object.defineProperty`来进行依赖收集与派发更新，存在以下缺点：
+
+* 检测不到对象属性的添加和删除：当你在对象上新加了一个属性`newProperty`，当前新加的这个属性将不会经过`defineReactive`的过程，无法触发`Vue`的更新机制，因此需要通过`vue.$set`方法处理
+* 无法监控到数组下标的变化，导致直接通过数组的下标给数组设值，不能实时响应
+* 当`data`中的数据层级很深时，会有性能问题，因为要通过递归遍历`data`中所有的数据进行`defineReactive`
+
+所以在`vue3`中，改用了`Proxy`。
+
+#### Proxy
+
+`Proxy`是`ES6`中的新特性，在之前的《[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)》中做过介绍，这里就不再赘述。
