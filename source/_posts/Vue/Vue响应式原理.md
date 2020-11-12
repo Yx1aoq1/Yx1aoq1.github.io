@@ -1,3 +1,12 @@
+---
+title: Vue响应式原理
+categories:
+  - Vue
+tags:
+  - Vue
+date: 2020-11-13 02:09:38
+---
+
 ## `Vue`响应式原理
 
 在 `Vue 2.x` 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即`Object.defineProperty`的`getter`和`setter`方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。
@@ -48,11 +57,11 @@ Object.defineProperty(obj, 'property1', {
 
 // 执行赋值
 obj.property1 = 1
-// 输出：set value 1
+// 输出：set value
 
 // 获取值
 obj.property1
-// 输出：get value 1
+// 输出：get value
 ```
 
 ### 实例化一个`Vue`对象
@@ -573,4 +582,182 @@ const updater = {
 
 #### Proxy
 
-`Proxy`是`ES6`中的新特性，在之前的《[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)》中做过介绍，这里就不再赘述。
+`Proxy`是`ES6`中的新特性，在之前的[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)中做过介绍，这里就不再赘述。
+
+对比`Object.defineProperty`与`Proxy`：
+
+```js
+class Observer {
+  constructor (value) {
+    Object.keys(value).forEach(key => {
+      if (typeof value[key] === 'object') {
+        value[key] = new Observer(value[key])
+      }
+      Object.defineProperty(this, key, {
+        enumerable: true,
+        configurable: true,
+        get () {
+          console.log('get value')
+          return value[key]
+        },
+        set (newVal) {
+          console.log('set value')
+          if (newVal === value[key]) {
+            return
+          }
+          value[key] = newVal
+        }
+      })
+    })
+  }
+}
+
+let obj = {
+  propKey: ''
+}
+
+let p = new Observer(obj)
+p.propKey = 'propKey'
+// 输出：set value
+p.propKey
+// 输出：get value
+// 设置原本obj上不存在的属性，无法执行原本定义的getter与setter
+p.newPropKey = 'newPropKey'
+// 无输出
+p.newPropKey
+// 无输出
+```
+
+```js
+let obj = {
+  propKey: ''
+}
+
+const p = new Proxy(obj, {
+  get (target, propKey, receiver) {
+    console.log('get value')
+    return Reflect.get(target, propKey, receiver)
+  },
+  set (target, propKey, value, receiver) {
+    console.log('set value')
+    Reflect.set(target, propKey, value, receiver)
+  }
+})
+
+p.propKey = 'propKey'
+// 输出：set value
+p.propKey
+// 输出：get value
+// 设置原本obj上不存在的属性，同样可以执行getter与setter
+p.newPropKey = 'newPropKey'
+// 输出：set value
+p.newPropKey
+// 输出：get value
+// 对于再深一级的设值，无法触发getter与setter，只能读到deepPropKey这层
+p.deepPropKey = {}
+// 输出：set value
+p.deepPropKey.a = 'a'
+// 输出：get value
+```
+
+`Proxy`如何监听深层级的`object`：
+
+```js
+class DeepProxy {
+  constructor (target, handler) {
+    this._preproxy = new WeakMap()
+    this._handler = handler
+    return this.deepProxy(target, [])
+  }
+
+  deepProxy (obj, path) {
+    for (let key of Object.keys(obj)) {
+      if (typeof obj[key] === 'object') {
+        obj[key] = this.deepProxy(obj[key], [...path, key])
+      }
+    }
+    let p = new Proxy(obj, this.makeHandler(path))
+    this._preproxy.set(p, obj)
+    return p
+  }
+
+  deleteProxy (obj, key) {
+    if (this._preproxy.has(obj[key])) {
+      obj[key] = this._preproxy.get(obj[key])
+      this._preproxy.delete(obj[key])
+    }
+    for (let k of Object.keys(obj[key])) {
+      if (typeof obj[key][k] === 'object') {
+        this.deleteProxy(obj[key], k)
+      }
+    }
+  }
+
+  makeHandler (path) {
+    return {
+      set: (target, key, value, receiver) => {
+        if (typeof value === 'object') {
+          value = this.deepProxy(value, [...path, key])
+        }
+        target[key] = value
+        if (this._handler.set) {
+          this._handler.set(target, [...path, key], value, receiver)
+        }
+        return true
+      },
+      get: (target, key, value, receiver) => {
+        if (!Reflect.has(target, key)) {
+          target[key] = this.deepProxy({}, [...path, key])
+        }
+        if (this._handler.get) {
+          this._handler.get(target, [...path, key], value, receiver)
+        }
+        return target[key]
+      },
+      deleteProperty: (target, key) => {
+        if (Reflect.has(target, key)) {
+          this.deleteProxy(target, key)
+          const deleted = Reflect.deleteProperty(target, key)
+          if (deleted && this._handler.deleteProperty) {
+            this._handler.deleteProperty(target, [...path, key])
+          }
+          return deleted
+        }
+        return false
+      }
+    }
+  }
+}
+```
+
+```js
+let deep = new DeepProxy({}, {
+  set (target, path, value, receiver) {
+    console.log('set', path.join('.'), '=', value)
+  },
+
+  get (target, path, value, receiver) {
+    console.log('get', path.join('.'), '=', value)
+  },
+
+  deleteProperty(target, path) {
+    console.log('delete', path.join('.'))
+  }
+})
+
+deep.a.c = 1
+console.log(deep)
+delete deep.a
+console.log(deep)
+/*
+输出：
+get a = { a: {} }
+set a.c = 1
+{ a: { c: 1 } }
+delete a
+{}
+*/
+```
+
+相关源代码地址：[Yx1aoq1/mvvm](https://github.com/Yx1aoq1/mvvm)
+

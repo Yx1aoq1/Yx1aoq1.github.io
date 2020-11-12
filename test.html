@@ -9,42 +9,93 @@
   <body>
   </body>
   <script>
-    // 对象池工厂函数
-var objectPoolFactory = function (createObjFn) {
-  var objectPool = []
-  
-  return {
-    create: function () {
-      var obj = objectPool.length === 0
-      	? createObjFn.apply(this, arguments)
-        : objectPool.shift()
-        
-      return obj
-    },
-    recover: function (obj) {
-      objectPool.push(obj)
+class DeepProxy {
+  constructor (target, handler) {
+    this._preproxy = new WeakMap()
+    this._handler = handler
+    return this.deepProxy(target, [])
+  }
+
+  deepProxy (obj, path) {
+    for (let key of Object.keys(obj)) {
+      if (typeof obj[key] === 'object') {
+        obj[key] = this.deepProxy(obj[key], [...path, key])
+      }
+    }
+    let p = new Proxy(obj, this.makeHandler(path))
+    this._preproxy.set(p, obj)
+    return p
+  }
+
+  deleteProxy (obj, key) {
+    if (this._preproxy.has(obj[key])) {
+      obj[key] = this._preproxy.get(obj[key])
+      this._preproxy.delete(obj[key])
+    }
+    for (let k of Object.keys(obj[key])) {
+      if (typeof obj[key][k] === 'object') {
+        this.deleteProxy(obj[key], k)
+      }
+    }
+  }
+
+  makeHandler (path) {
+    return {
+      set: (target, key, value, receiver) => {
+        if (typeof value === 'object') {
+          value = this.deepProxy(value, [...path, key])
+        }
+        target[key] = value
+        if (this._handler.set) {
+          this._handler.set(target, [...path, key], value, receiver)
+        }
+        return true
+      },
+      get: (target, key, value, receiver) => {
+        if (!target.hasOwnProperty(key)) {
+          target[key] = this.deepProxy({}, [...path, key])
+        }
+        if (this._handler.get) {
+          this._handler.get(target, [...path, key], value, receiver)
+        }
+        return target[key]
+      },
+      deleteProperty: (target, key) => {
+        if (Reflect.has(target, key)) {
+          this.deleteProxy(target, key)
+          const deleted = Reflect.deleteProperty(target, key)
+          if (deleted && this._handler.deleteProperty) {
+            this._handler.deleteProperty(target, [...path, key])
+          }
+          return deleted
+        }
+        return false
+      }
     }
   }
 }
-// objectPoolFactory 来创建一个装载一些 iframe 的对象池
-var iframeFactory = objectPoolFactory(function () {
-  var iframe = document.createElement('iframe')
-  document.body.appendChild(iframe)
-  iframe.onload = function () {
-    iframe.onload = null // 防止iframe重复加载的bug
-    iframeFactory.recover(iframe) // iframe 加载完成之后回收节点
-  }
-  return iframe
-})
 
-var iframe1 = iframeFactory.create()
-iframe1.src = 'http://baidu.com'
-var iframe2 = iframeFactory.create()
-iframe2.src = 'http://QQ.com'
-setTimeout(function () {
-  var iframe3 = iframeFactory.create()
-  iframe3.src = 'http://163.com'
- }, 3000)
+let obj = {
+  foo: 'baz',
+}
+
+
+let proxied = new DeepProxy(obj, {
+  set(target, path, value, receiver) {
+      // console.log('set', path.join('.'), '=', JSON.stringify(value));
+      console.log('set value')
+  },
+
+  deleteProperty(target, path) {
+      console.log('delete', path.join('.'));
+  }
+});
+
+proxied.foo = 'bar';
+proxied.deep = {}
+// proxied.deep.blue = 'sea';
+// delete proxied.foo;
+// delete proxied.deep; // triggers delete on 'deep' but not 'deep.blue'
   </script>
 </body>
 </html>
