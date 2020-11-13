@@ -188,7 +188,6 @@ export class Observer {
   }
 }
 ```
-
 ```js
 export function defineReactive (obj, key, val) {
   const dep = new Dep()
@@ -364,7 +363,7 @@ export default class Watcher {
 
 #### 派发更新
 
-同理，当在代码中出现`this.xxx = xxx`的赋值行为时，就会触发数据劫持的`setter`方法，此时`Dep`会通知`subs`队列中的每一个观察者都执行自身的`update`，以此触发`new Watcher`时说绑定的`callback`函数。
+同理，当在代码中出现`this.xxx = xxx`的赋值行为时，就会触发数据劫持的`setter`方法，此时`Dep`会通知`subs`队列中的每一个观察者都执行自身的`update`，以此触发`new Watcher`时所绑定的`callback`函数。
 
 #### 模板编译
 
@@ -570,94 +569,293 @@ const updater = {
 
 可以看到，在模板编译中，针对定义的指令，通过`new Watcher`的方式，将视图与数据绑定在一起，传入对应更新视图的`callback`方法。在每次接收到响应值的更新时，就会执行对应的`updater`方法来完成视图的更新。
 
-### `Vue3` 中的响应式原理
+### 响应流程图
+
+![](https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/vuemvvm.png)
+
+### 存在的缺陷
 
 使用`Object.defineProperty`来进行依赖收集与派发更新，存在以下缺点：
 
-* 检测不到对象属性的添加和删除：当你在对象上新加了一个属性`newProperty`，当前新加的这个属性将不会经过`defineReactive`的过程，无法触发`Vue`的更新机制，因此需要通过`vue.$set`方法处理
+* 检测不到对象属性的添加和删除：当你在对象上新加了一个属性`newProperty`，当前新加的这个属性将不会经过`defineReactive`的过程，无法触发`Vue`的更新机制，需要手动触发
 * 无法监控到数组下标的变化，导致直接通过数组的下标给数组设值，不能实时响应
 * 当`data`中的数据层级很深时，会有性能问题，因为要通过递归遍历`data`中所有的数据进行`defineReactive`
 
-所以在`vue3`中，改用了`Proxy`。
-
-#### Proxy
-
-`Proxy`是`ES6`中的新特性，在之前的[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)中做过介绍，这里就不再赘述。
-
-对比`Object.defineProperty`与`Proxy`：
-
 ```js
 class Observer {
-  constructor (value) {
-    Object.keys(value).forEach(key => {
-      if (typeof value[key] === 'object') {
-        value[key] = new Observer(value[key])
-      }
-      Object.defineProperty(this, key, {
-        enumerable: true,
-        configurable: true,
-        get () {
-          console.log('get value')
-          return value[key]
-        },
-        set (newVal) {
-          console.log('set value')
-          if (newVal === value[key]) {
-            return
-          }
-          value[key] = newVal
+  constructor (obj) {
+    if (typeof obj !== 'object') {
+      return
+    }
+    const keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i++) {
+      this.defineReactive(obj, keys[i])
+    }
+  }
+
+  defineReactive (obj, key) {
+    let value = obj[key]
+    let childOb = new Observer(value)
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: true,
+      get: function () {
+        console.log('get', key, '=', value)
+        return value
+      },
+      set: function (newVal) {
+        if (value === newVal) {
+          return
         }
-      })
+        console.log('set', key, '=', newVal)
+        childOb = new Observer(newVal)
+        value = newVal
+      }
     })
   }
 }
-
-let obj = {
-  propKey: ''
-}
-
-let p = new Observer(obj)
-p.propKey = 'propKey'
-// 输出：set value
-p.propKey
-// 输出：get value
-// 设置原本obj上不存在的属性，无法执行原本定义的getter与setter
-p.newPropKey = 'newPropKey'
-// 无输出
-p.newPropKey
-// 无输出
 ```
 
 ```js
 let obj = {
+  a: '1',
+}
+new Observer(obj)
+obj.a = 2
+obj.b = 2
+// 只输出 set a = 2
+// 设置未事先声明的b属性，不会触发setter
+let ary = [0]
+new Observer(ary)
+ary[0] = 1
+ary[1] = 2
+ary.push(3)
+// 只输出set 0 = 1
+// 对于原本不存在元素的下标直接设值，不会触发setter
+// 使用Array原型上的方法对数组进行修改，也不会触发setter
+```
+
+对于`Object`属性的添加与删除，以及`Array`类型通过下标赋值的问题，提供而外的触发函数`set`与`delete`，下面附上实现方式：
+
+```js
+export function set (target, key, val) {
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.length = Math.max(target.length, key)
+    target.splice(key, 1, value)
+    return val
+  }
+  if (key in target && !(key in Object.prototype)) {
+    target[key] = val
+    return val
+  }
+  const ob = target.__ob__
+  if (!ob) {
+    target[key] = val
+    return val
+  }
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}
+```
+
+```js
+export function del (target, key) {
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.splice(key, 1)
+    return
+  }
+  const ob = target.__ob__
+  if (!hasOwn(target, key)) {
+    return
+  }
+  delete target[key]
+  if (!ob) {
+    return
+  }
+  ob.dep.notify()
+}
+```
+
+对于使用`Array`原型方法修改数组的方式，我们需要自己定义一个拦截器覆盖原来的`Array.prototype`，然后在拦截器中触发更新，并使用原生的`Array`原型方法来操作原数组。
+
+拦截器的实现方法：
+
+```js
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+// Array原型方法，这些方法都能改变数组自身
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+
+methodsToPatch.forEach(function (method) {
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    // push、unshift、splice都能插入新值
+    // 将新值inserted也变成一个响应式对象
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // 触发依赖通知
+    ob.dep.notify()
+    return result
+  })
+})
+```
+
+在`Observer`类中，我们需要增加对数组类型的值的判断，并加上不一样的处理方式：
+
+```js
+export class Observer {
+  constructor (value) {
+    this.value = value
+    this.dep = new Dep()
+    this.vmCount = 0
+    // 对已生成响应对象的value增加__ob__属性进行标识
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      // 用拦截器替换原来Array上的原型方法
+      value.__proto__ = arrayMethods
+      this.observeArray(value)
+    } else {
+      this.walk(value)
+    }
+  }
+
+  // 将对象的每一个属性都加上getter与setter
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i++) {
+      defineReactive(obj, keys[i])
+    }
+  }
+
+  // 遍历数组中的元素，将他们都变成响应对象
+  observeArray (items) {
+    for (let i = 0, l = items.length; i < l; i++) {
+      observe(items[i])
+    }
+  }
+}
+```
+
+对应的`getter`依赖收集方法也要做出一定的调整：
+
+```js
+get: function reactiveGetter () {
+  const value = getter ? getter.call(obj) : val
+  if (Dep.target) {
+    // 依赖收集
+    dep.depend()
+    // 存在子属性的响应对象，需要对子属性也进行依赖的收集
+    if (childOb) {
+      childOb.dep.depend()
+      if(Array.isArray(value)) {
+        // 如果是数组，需要对数组的每个元素都进行依赖收集
+        dependArray(value)
+      }
+    }
+  }
+  return value
+},
+```
+
+```js
+function dependArray (value) {
+  // 递归判断元素是否是响应对象，如果是，对其进行依赖收集
+  for (let e, i = 0, l = value.length; i < l; i++) {
+    e = value[i]
+    e && e.__ob__ && e.__ob__.dep.depend()
+    if (Array.isArray(e)) {
+      dependArray(e)
+    }
+  }
+}
+```
+
+### `Vue3` 中的响应式原理
+
+`Vue3`使用了`Proxy`的方式来做数据劫持。`Proxy`是`ES6`中的新特性，在之前的[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)中做过介绍，这里就不再赘述。
+
+对比`Object.defineProperty`与`Proxy`：
+
+```js
+const obj = {
   propKey: ''
 }
 
-const p = new Proxy(obj, {
+const objProxy = new Proxy(obj, {
   get (target, propKey, receiver) {
-    console.log('get value')
-    return Reflect.get(target, propKey, receiver)
+    console.log('get', propKey)
+    return propKey in target ? target[propKey] : undefined
   },
   set (target, propKey, value, receiver) {
-    console.log('set value')
-    Reflect.set(target, propKey, value, receiver)
-  }
+    console.log('set', propKey, '=', value)
+    target[propKey] = value
+    return true
+  },
 })
 
-p.propKey = 'propKey'
-// 输出：set value
-p.propKey
-// 输出：get value
+objProxy.propKey = 'propKey'
+// 输出：set propKey = propKey
+objProxy.propKey
+// 输出：get propKey
 // 设置原本obj上不存在的属性，同样可以执行getter与setter
-p.newPropKey = 'newPropKey'
-// 输出：set value
-p.newPropKey
-// 输出：get value
+objProxy.newPropKey = 'newPropKey'
+// 输出：set newPropKey = newPropKey
+objProxy.newPropKey
+// 输出：get newPropKey
 // 对于再深一级的设值，无法触发getter与setter，只能读到deepPropKey这层
-p.deepPropKey = {}
-// 输出：set value
-p.deepPropKey.a = 'a'
-// 输出：get value
+objProxy.deepPropKey = {}
+// 输出：set deepPropKey = {}
+objProxy.deepPropKey.a = 'a'
+// 输出：get deepPropKey
+```
+
+```js
+const ary = [0]
+const aryProxy = new Proxy(ary, {
+  get (target, propKey, receiver) {
+    console.log('get', propKey)
+    return propKey in target ? target[propKey] : undefined
+  },
+  set (target, propKey, value, receiver) {
+    console.log('set', propKey, '=', value)
+    target[propKey] = value
+    return true
+  },
+
+})
+
+aryProxy[0] = 1
+// 输出：set 0 = 1
+// 直接设值下标值，即使原本不存在也会触发setter
+aryProxy[1] = 2
+// 输出：set 1 = 2
+// 调用原型方法同样有触发setter
+aryProxy.push(3)
+// 输出：
+// get push
+// get length
+// set 2 = 3
+// set length = 3
 ```
 
 `Proxy`如何监听深层级的`object`：
