@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Vue响应式原理 - Yx1aoq1's Blog</title>
+<title>Vue响应式原理（01） - Yx1aoq1's Blog</title>
 <base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-<link rel="canonical" href="https://yx1aoq1.github.io/2020/11/13/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
+<link rel="canonical" href="https://yx1aoq1.github.io/2020/11/13/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8801%EF%BC%89/">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 <meta name="description" content="Vue响应式原理 在 Vue 2.x 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即Object.defineProperty的getter和setter方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。 那么，具体是怎么实现的呢？ Object.defineProperty 首先，我们先了解一下最核心的Object.defineProperty的基本用">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vue响应式原理">
-<meta property="og:url" content="https://yx1aoq1.github.io/2020/11/13/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:title" content="Vue响应式原理（01）">
+<meta property="og:url" content="https://yx1aoq1.github.io/2020/11/13/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8801%EF%BC%89/index.html">
 <meta property="og:site_name" content="Yx1aoq1&#39;s Blog">
 <meta property="og:description" content="Vue响应式原理 在 Vue 2.x 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即Object.defineProperty的getter和setter方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。 那么，具体是怎么实现的呢？ Object.defineProperty 首先，我们先了解一下最核心的Object.defineProperty的基本用">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
 <meta property="article:published_time" content="2020-11-12T18:09:38.000Z">
-<meta property="article:modified_time" content="2020-11-12T18:14:47.991Z">
+<meta property="article:modified_time" content="2020-11-14T05:40:23.834Z">
 <meta property="article:author" content="Yx1aoq1">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="/theme.535be39e73207fd16457.css" is="theme">
 
 
-<script src="/config.b456b4ac74ecb9f3850a.js"></script>
+<script src="/config.2c5cad957973db8646f3.js"></script>
 
 
 <meta name="generator" content="Hexo 4.2.1"></head>
