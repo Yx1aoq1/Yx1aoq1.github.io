@@ -774,6 +774,13 @@
   "resolved" "https://registry.npm.taobao.org/entities/download/entities-2.0.2.tgz"
   "version" "2.0.2"
 
+"errno@^0.1.1":
+  "integrity" "sha1-RoTXF3mtOa8Xfj8AeZb3xnyFJhg="
+  "resolved" "https://registry.npm.taobao.org/errno/download/errno-0.1.7.tgz"
+  "version" "0.1.7"
+  dependencies:
+    "prr" "~1.0.1"
+
 "escape-html@~1.0.3":
   "integrity" "sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg="
   "resolved" "https://registry.npm.taobao.org/escape-html/download/escape-html-1.0.3.tgz"
@@ -1093,7 +1100,7 @@
   dependencies:
     "delegate" "^3.1.2"
 
-"graceful-fs@^4.1.11", "graceful-fs@^4.1.3", "graceful-fs@^4.1.4":
+"graceful-fs@^4.1.11", "graceful-fs@^4.1.2", "graceful-fs@^4.1.3", "graceful-fs@^4.1.4":
   "integrity" "sha1-Ila94U02MpWMRl68ltxGfKB6Kfs="
   "resolved" "https://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.2.4.tgz"
   "version" "4.2.4"
@@ -1297,6 +1304,14 @@
   dependencies:
     "ejs" "^2.6.1"
 
+"hexo-renderer-less@^2.0.2":
+  "integrity" "sha1-9uiR7V8PfTxDCOTNYEBH8tZNhyE="
+  "resolved" "https://registry.npm.taobao.org/hexo-renderer-less/download/hexo-renderer-less-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "less" "^3.9.0"
+    "micromatch" "^4.0.2"
+
 "hexo-renderer-marked@^2.0.0":
   "integrity" "sha1-RYVAsBQUHnz3IUWoLsWRvjWc26E="
   "resolved" "http://172.16.2.10:7001/hexo-renderer-marked/download/hexo-renderer-marked-2.0.0.tgz"
@@ -1441,6 +1456,11 @@
   "version" "0.4.24"
   dependencies:
     "safer-buffer" ">= 2.1.2 < 3"
+
+"image-size@~0.5.0":
+  "integrity" "sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w="
+  "resolved" "https://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz?cache=0&sync_timestamp=1603728987431&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fimage-size%2Fdownload%2Fimage-size-0.5.5.tgz"
+  "version" "0.5.5"
 
 "inflight@^1.0.4":
   "integrity" "sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk="
@@ -1806,6 +1826,28 @@
   "resolved" "http://172.16.2.10:7001/left-pad/download/left-pad-1.3.0.tgz"
   "version" "1.3.0"
 
+"less@^3.9.0":
+  "integrity" "sha1-FX5t0ypohp34hZMUrTjnAhGvOrQ="
+  "resolved" "https://registry.npm.taobao.org/less/download/less-3.12.2.tgz?cache=0&sync_timestamp=1601388846547&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.12.2.tgz"
+  "version" "3.12.2"
+  dependencies:
+    "errno" "^0.1.1"
+    "graceful-fs" "^4.1.2"
+    "image-size" "~0.5.0"
+    "make-dir" "^2.1.0"
+    "mime" "^1.4.1"
+    "native-request" "^1.0.5"
+    "source-map" "~0.6.0"
+    "tslib" "^1.10.0"
+  optionalDependencies:
+    "errno" "^0.1.1"
+    "graceful-fs" "^4.1.2"
+    "image-size" "~0.5.0"
+    "make-dir" "^2.1.0"
+    "mime" "^1.4.1"
+    "native-request" "^1.0.5"
+    "source-map" "~0.6.0"
+
 "levn@~0.3.0":
   "integrity" "sha1-OwmSTt+fCDwEkP3UwLxEIeBHZO4="
   "resolved" "http://172.16.2.10:7001/levn/download/levn-0.3.0.tgz"
@@ -1840,6 +1882,14 @@
   "version" "2.0.1"
   dependencies:
     "tslib" "^1.10.0"
+
+"make-dir@^2.1.0":
+  "integrity" "sha1-XwMQ4YuL6JjMBwCSlaMK5B6R5vU="
+  "resolved" "https://registry.npm.taobao.org/make-dir/download/make-dir-2.1.0.tgz"
+  "version" "2.1.0"
+  dependencies:
+    "pify" "^4.0.1"
+    "semver" "^5.6.0"
 
 "map-cache@^0.2.2":
   "integrity" "sha1-wyq9C9ZSXZsFFkW7TyasXcmKDb8="
@@ -1941,6 +1991,11 @@
   "version" "2.1.27"
   dependencies:
     "mime-db" "1.44.0"
+
+"mime@^1.4.1":
+  "integrity" "sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE="
+  "resolved" "https://registry.npm.taobao.org/mime/download/mime-1.6.0.tgz"
+  "version" "1.6.0"
 
 "mime@^2.4.3":
   "integrity" "sha1-2N4uy5KYLe27ZUHJtoQdfyGOoAk="
@@ -2052,6 +2107,11 @@
     "regex-not" "^1.0.0"
     "snapdragon" "^0.8.1"
     "to-regex" "^3.0.1"
+
+"native-request@^1.0.5":
+  "integrity" "sha1-j2a/YG4PfqJ8DlmV6y9dA+M65vs="
+  "resolved" "https://registry.npm.taobao.org/native-request/download/native-request-1.0.8.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnative-request%2Fdownload%2Fnative-request-1.0.8.tgz"
+  "version" "1.0.8"
 
 "ncp@~2.0.0":
   "integrity" "sha1-GVoh1sRuNh0vsSgbo4uR6d9727M="
@@ -2269,6 +2329,11 @@
   "resolved" "https://registry.npm.taobao.org/picomatch/download/picomatch-2.2.2.tgz?cache=0&sync_timestamp=1584790434095&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpicomatch%2Fdownload%2Fpicomatch-2.2.2.tgz"
   "version" "2.2.2"
 
+"pify@^4.0.1":
+  "integrity" "sha1-SyzSXFDVmHNcUCkiJP2MbfQeMjE="
+  "resolved" "https://registry.npm.taobao.org/pify/download/pify-4.0.1.tgz"
+  "version" "4.0.1"
+
 "pn@^1.1.0":
   "integrity" "sha1-4vTO8OIZ9GPBeas3Rj5OHs3Muvs="
   "resolved" "http://172.16.2.10:7001/pn/download/pn-1.1.0.tgz"
@@ -2307,6 +2372,11 @@
   "integrity" "sha1-eCDZsWEgzFXKmud5JoCufbptf+I="
   "resolved" "https://registry.npm.taobao.org/process-nextick-args/download/process-nextick-args-2.0.1.tgz"
   "version" "2.0.1"
+
+"prr@~1.0.1":
+  "integrity" "sha1-0/wRS6BplaRexok/SEzrHXj19HY="
+  "resolved" "https://registry.npm.taobao.org/prr/download/prr-1.0.1.tgz"
+  "version" "1.0.1"
 
 "psl@^1.1.28":
   "integrity" "sha1-kyb4vPsBOtzABf3/BWrM4CDlHCQ="
@@ -2526,6 +2596,11 @@
   "resolved" "https://registry.npm.taobao.org/semver/download/semver-5.7.1.tgz"
   "version" "5.7.1"
 
+"semver@^5.6.0":
+  "integrity" "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
+  "resolved" "https://registry.npm.taobao.org/semver/download/semver-5.7.1.tgz"
+  "version" "5.7.1"
+
 "semver@^6.0.0":
   "integrity" "sha1-7gpkyK9ejO6mdoexM3YeG+y9HT0="
   "resolved" "https://registry.npm.taobao.org/semver/download/semver-6.3.0.tgz"
@@ -2664,6 +2739,11 @@
   "integrity" "sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w="
   "resolved" "https://registry.npm.taobao.org/source-map/download/source-map-0.5.7.tgz"
   "version" "0.5.7"
+
+"source-map@~0.6.0":
+  "integrity" "sha1-dHIq8y6WFOnCh6jQu95IteLxomM="
+  "resolved" "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz"
+  "version" "0.6.1"
 
 "source-map@~0.6.1":
   "integrity" "sha1-dHIq8y6WFOnCh6jQu95IteLxomM="
