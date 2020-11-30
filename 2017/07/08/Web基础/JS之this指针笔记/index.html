@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2017/07/15/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2%E4%B9%8B%E5%90%8E/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2017/07/07/Web%E5%9F%BA%E7%A1%80/JS%E7%BB%A7%E6%89%BF%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this指针"><span class="toc-number">1.</span> <span class="toc-text">this指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this指向的改变"><span class="toc-number">2.</span> <span class="toc-text">this指向的改变</span></a></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this指针"><span class="toc-number">1.</span> <span class="toc-text">this指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this指向的改变"><span class="toc-number">2.</span> <span class="toc-text">this指向的改变</span></a></li></ol>
+  </div>
 </div>
 
     
@@ -139,7 +112,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xm.say.bind(xh)(); <span class="comment">//小红,女,20</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>$.proxy(fn,context)</code><br>参数：函数，函数所在的对象的名称<br>定义：用于向上下文指向不同对象的元素添加事件。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.txt = <span class="string">"这是一个对象属性"</span>;</span><br><span class="line">  MATHJAX-SSR<span class="number">-13.</span>proxy(<span class="keyword">this</span>.myClick,<span class="keyword">this</span>));</span><br><span class="line">  <span class="comment">//本来调用click的话，this会指向div，但是使用$.proxy后this还是test</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">test.prototype.myClick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  alert(<span class="keyword">this</span>.txt);</span><br><span class="line">  alert(event.currentTarget.nodeName);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="keyword">new</span> test();</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">test = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.txt = <span class="string">"这是一个对象属性"</span>;</span><br><span class="line">  MATHJAX-SSR<span class="number">-9.</span>proxy(<span class="keyword">this</span>.myClick,<span class="keyword">this</span>));</span><br><span class="line">  <span class="comment">//本来调用click的话，this会指向div，但是使用$.proxy后this还是test</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">test.prototype.myClick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  alert(<span class="keyword">this</span>.txt);</span><br><span class="line">  alert(event.currentTarget.nodeName);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="keyword">new</span> test();</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 

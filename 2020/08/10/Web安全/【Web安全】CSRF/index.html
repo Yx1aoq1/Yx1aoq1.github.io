@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2020/08/17/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2020/08/10/Web%E5%AE%89%E5%85%A8/%E3%80%90Web%E5%AE%89%E5%85%A8%E3%80%91XSS/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-原理"><span class="toc-number">1.1.</span> <span class="toc-text">CSRF 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的攻击类型"><span class="toc-number">1.2.</span> <span class="toc-text">常见的攻击类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GET-类型的-CSRF"><span class="toc-number">1.2.1.</span> <span class="toc-text">GET 类型的 CSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST-类型的-CSRF"><span class="toc-number">1.2.2.</span> <span class="toc-text">POST 类型的 CSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链接类型的-CSRF"><span class="toc-number">1.2.3.</span> <span class="toc-text">链接类型的 CSRF</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-防护策略"><span class="toc-number">1.3.</span> <span class="toc-text">CSRF 防护策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#同源检测"><span class="toc-number">1.3.1.</span> <span class="toc-text">同源检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSRF-Token"><span class="toc-number">1.3.2.</span> <span class="toc-text">CSRF Token</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双重-Cookie-验证"><span class="toc-number">1.3.3.</span> <span class="toc-text">双重 Cookie 验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Samesite-Cookie-属性"><span class="toc-number">1.3.4.</span> <span class="toc-text">Samesite Cookie 属性</span></a></li></ol></li></ol></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-原理"><span class="toc-number">1.1.</span> <span class="toc-text">CSRF 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的攻击类型"><span class="toc-number">1.2.</span> <span class="toc-text">常见的攻击类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GET-类型的-CSRF"><span class="toc-number">1.2.1.</span> <span class="toc-text">GET 类型的 CSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST-类型的-CSRF"><span class="toc-number">1.2.2.</span> <span class="toc-text">POST 类型的 CSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链接类型的-CSRF"><span class="toc-number">1.2.3.</span> <span class="toc-text">链接类型的 CSRF</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-防护策略"><span class="toc-number">1.3.</span> <span class="toc-text">CSRF 防护策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#同源检测"><span class="toc-number">1.3.1.</span> <span class="toc-text">同源检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSRF-Token"><span class="toc-number">1.3.2.</span> <span class="toc-text">CSRF Token</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双重-Cookie-验证"><span class="toc-number">1.3.3.</span> <span class="toc-text">双重 Cookie 验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Samesite-Cookie-属性"><span class="toc-number">1.3.4.</span> <span class="toc-text">Samesite Cookie 属性</span></a></li></ol></li></ol></li></ol>
+  </div>
 </div>
 
     

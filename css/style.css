@@ -588,6 +588,24 @@ pre .javascript .function {
   height: 80px;
   border-radius: 50%;
 }
+.header-post {
+  position: fixed;
+  top: 2rem;
+  right: 0;
+  display: inline-block;
+  color: #fff;
+}
+.header-post #menu-icon {
+  float: right;
+  margin-left: 15px;
+  margin-right: 2rem;
+  color: #fff;
+}
+.header-post a {
+  background: none;
+  color: inherit;
+  text-decoration: none;
+}
 .timeline {
   position: relative;
   clear: both;
@@ -765,6 +783,44 @@ pre .javascript .function {
   position: relative;
   display: block;
   font-size: 1rem;
+}
+.toc-wrap {
+  clear: both;
+  text-align: right;
+  margin-top: 1rem;
+  padding-right: 2rem;
+  max-width: 20em;
+  float: right;
+  overflow: auto;
+  max-height: calc(95vh - 7rem);
+}
+.toc-wrap ol {
+  list-style: none;
+}
+.toc-wrap .toc-level-2 {
+  color: #c9cacc;
+  font-size: 0.9rem;
+}
+.toc-wrap .toc-level-2:before {
+  color: #ffe84f;
+  content: "#";
+}
+.toc-wrap .toc-level-3 {
+  color: #666;
+  font-size: 0.8rem;
+}
+.toc-wrap .toc-level-4 {
+  color: #525252;
+  font-size: 0.7rem;
+}
+.toc-wrap .toc-level-5 {
+  display: none;
+}
+.toc-wrap .toc-level-6 {
+  display: none;
+}
+.toc-wrap .toc-number {
+  display: none;
 }
 .underlined {
   text-decoration: none;

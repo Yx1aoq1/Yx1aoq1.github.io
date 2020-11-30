@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2020/06/18/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2020/06/15/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AE%A1%E7%AE%97/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化"><span class="toc-number">1.</span> <span class="toc-text">模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是模块化"><span class="toc-number">1.1.</span> <span class="toc-text">什么是模块化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JS模块化方案"><span class="toc-number">1.2.</span> <span class="toc-text">JS模块化方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack打包机制"><span class="toc-number">2.</span> <span class="toc-text">Webpack打包机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用webpack打包"><span class="toc-number">2.1.</span> <span class="toc-text">使用webpack打包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step1：划分模块，组成模块队列-queue"><span class="toc-number">2.1.1.</span> <span class="toc-text">Step1：划分模块，组成模块队列(queue)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step2：每个模块import和export改写"><span class="toc-number">2.1.2.</span> <span class="toc-text">Step2：每个模块import和export改写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step3：实现-require-和export逻辑"><span class="toc-number">2.1.3.</span> <span class="toc-text">Step3：实现__require__和export逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step4：把处理好的模块作为参数传进IIFE"><span class="toc-number">2.1.4.</span> <span class="toc-text">Step4：把处理好的模块作为参数传进IIFE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异步加载的模块"><span class="toc-number">2.1.5.</span> <span class="toc-text">异步加载的模块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写迷你打包程序"><span class="toc-number">2.2.</span> <span class="toc-text">编写迷你打包程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#createAsset"><span class="toc-number">2.2.1.</span> <span class="toc-text">createAsset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#createGraph"><span class="toc-number">2.2.2.</span> <span class="toc-text">createGraph</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bundle"><span class="toc-number">2.2.3.</span> <span class="toc-text">bundle</span></a></li></ol></li></ol></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化"><span class="toc-number">1.</span> <span class="toc-text">模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是模块化"><span class="toc-number">1.1.</span> <span class="toc-text">什么是模块化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JS模块化方案"><span class="toc-number">1.2.</span> <span class="toc-text">JS模块化方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack打包机制"><span class="toc-number">2.</span> <span class="toc-text">Webpack打包机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用webpack打包"><span class="toc-number">2.1.</span> <span class="toc-text">使用webpack打包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step1：划分模块，组成模块队列-queue"><span class="toc-number">2.1.1.</span> <span class="toc-text">Step1：划分模块，组成模块队列(queue)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step2：每个模块import和export改写"><span class="toc-number">2.1.2.</span> <span class="toc-text">Step2：每个模块import和export改写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step3：实现-require-和export逻辑"><span class="toc-number">2.1.3.</span> <span class="toc-text">Step3：实现__require__和export逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step4：把处理好的模块作为参数传进IIFE"><span class="toc-number">2.1.4.</span> <span class="toc-text">Step4：把处理好的模块作为参数传进IIFE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异步加载的模块"><span class="toc-number">2.1.5.</span> <span class="toc-text">异步加载的模块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写迷你打包程序"><span class="toc-number">2.2.</span> <span class="toc-text">编写迷你打包程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#createAsset"><span class="toc-number">2.2.1.</span> <span class="toc-text">createAsset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#createGraph"><span class="toc-number">2.2.2.</span> <span class="toc-text">createGraph</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bundle"><span class="toc-number">2.2.3.</span> <span class="toc-text">bundle</span></a></li></ol></li></ol></li></ol>
+  </div>
 </div>
 
     

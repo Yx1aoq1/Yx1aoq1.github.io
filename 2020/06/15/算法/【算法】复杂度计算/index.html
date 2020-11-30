@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2020/06/16/Webpack/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8EWebpack%E5%8E%9F%E7%90%86/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2020/06/08/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/Git%20%E5%85%A8%E6%94%BB%E7%95%A5/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#时间复杂度"><span class="toc-number">1.</span> <span class="toc-text">时间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大O符号表示法"><span class="toc-number">1.1.</span> <span class="toc-text">大O符号表示法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的时间复杂度量级"><span class="toc-number">1.2.</span> <span class="toc-text">常见的时间复杂度量级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#O-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">O(1)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n"><span class="toc-number">1.2.2.</span> <span class="toc-text">O(n)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n²"><span class="toc-number">1.2.3.</span> <span class="toc-text">O(n²)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-logn"><span class="toc-number">1.2.4.</span> <span class="toc-text">O(logn)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-nlogn"><span class="toc-number">1.2.5.</span> <span class="toc-text">O(nlogn)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归算法的时间复杂度"><span class="toc-number">1.3.</span> <span class="toc-text">递归算法的时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最好、最坏情况时间复杂度"><span class="toc-number">1.4.</span> <span class="toc-text">最好、最坏情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均情况时间复杂度"><span class="toc-number">1.5.</span> <span class="toc-text">平均情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#均摊复杂度分析"><span class="toc-number">1.6.</span> <span class="toc-text">均摊复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#空间复杂度"><span class="toc-number">2.</span> <span class="toc-text">空间复杂度</span></a></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#时间复杂度"><span class="toc-number">1.</span> <span class="toc-text">时间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大O符号表示法"><span class="toc-number">1.1.</span> <span class="toc-text">大O符号表示法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的时间复杂度量级"><span class="toc-number">1.2.</span> <span class="toc-text">常见的时间复杂度量级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#O-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">O(1)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n"><span class="toc-number">1.2.2.</span> <span class="toc-text">O(n)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n²"><span class="toc-number">1.2.3.</span> <span class="toc-text">O(n²)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-logn"><span class="toc-number">1.2.4.</span> <span class="toc-text">O(logn)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-nlogn"><span class="toc-number">1.2.5.</span> <span class="toc-text">O(nlogn)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归算法的时间复杂度"><span class="toc-number">1.3.</span> <span class="toc-text">递归算法的时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最好、最坏情况时间复杂度"><span class="toc-number">1.4.</span> <span class="toc-text">最好、最坏情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均情况时间复杂度"><span class="toc-number">1.5.</span> <span class="toc-text">平均情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#均摊复杂度分析"><span class="toc-number">1.6.</span> <span class="toc-text">均摊复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#空间复杂度"><span class="toc-number">2.</span> <span class="toc-text">空间复杂度</span></a></li></ol>
+  </div>
 </div>
 
     

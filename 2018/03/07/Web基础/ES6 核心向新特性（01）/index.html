@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/03/08/Web%E5%9F%BA%E7%A1%80/ES6%20%E6%A0%B8%E5%BF%83%E5%90%91%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%8802%EF%BC%89/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/01/15/Webpack/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#块级作用域变量声明关键字-let-、-const"><span class="toc-number">1.</span> <span class="toc-text">块级作用域变量声明关键字 let 、 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let-、-const-与-var-的对比"><span class="toc-number">1.1.</span> <span class="toc-text">let 、 const 与 var 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景的区分"><span class="toc-number">1.2.</span> <span class="toc-text">使用场景的区分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串模板"><span class="toc-number">2.</span> <span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-number">3.</span> <span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-number">3.1.</span> <span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-number">3.2.</span> <span class="toc-text">对象解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的新特性"><span class="toc-number">4.</span> <span class="toc-text">数组的新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展运算符"><span class="toc-number">4.1.</span> <span class="toc-text">扩展运算符(...)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展API"><span class="toc-number">4.2.</span> <span class="toc-text">扩展API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的数组迭代方式"><span class="toc-number">4.3.</span> <span class="toc-text">新的数组迭代方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强函数"><span class="toc-number">5.</span> <span class="toc-text">增强函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数参数"><span class="toc-number">5.1.</span> <span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数"><span class="toc-number">5.2.</span> <span class="toc-text">箭头函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强对象"><span class="toc-number">6.</span> <span class="toc-text">增强对象</span></a></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#块级作用域变量声明关键字-let-、-const"><span class="toc-number">1.</span> <span class="toc-text">块级作用域变量声明关键字 let 、 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let-、-const-与-var-的对比"><span class="toc-number">1.1.</span> <span class="toc-text">let 、 const 与 var 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景的区分"><span class="toc-number">1.2.</span> <span class="toc-text">使用场景的区分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串模板"><span class="toc-number">2.</span> <span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-number">3.</span> <span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-number">3.1.</span> <span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-number">3.2.</span> <span class="toc-text">对象解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的新特性"><span class="toc-number">4.</span> <span class="toc-text">数组的新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展运算符"><span class="toc-number">4.1.</span> <span class="toc-text">扩展运算符(...)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展API"><span class="toc-number">4.2.</span> <span class="toc-text">扩展API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的数组迭代方式"><span class="toc-number">4.3.</span> <span class="toc-text">新的数组迭代方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强函数"><span class="toc-number">5.</span> <span class="toc-text">增强函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数参数"><span class="toc-number">5.1.</span> <span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数"><span class="toc-number">5.2.</span> <span class="toc-text">箭头函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强对象"><span class="toc-number">6.</span> <span class="toc-text">增强对象</span></a></li></ol>
+  </div>
 </div>
 
     

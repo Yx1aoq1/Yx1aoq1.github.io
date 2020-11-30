@@ -15,38 +15,11 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
   <body style="background-color: #2d2d2d">
     
-      <div id="header-post">
+      <div class="header-post">
   <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2019/06/04/NodeJS/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2019/05/09/Vue/Vuex%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%95%B4%E7%90%86/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-是什么"><span class="toc-number">1.</span> <span class="toc-text">TS 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类型"><span class="toc-number">2.</span> <span class="toc-text">TS 中的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础类型"><span class="toc-number">2.1.</span> <span class="toc-text">基础类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#联合类型"><span class="toc-number">2.2.</span> <span class="toc-text">联合类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组与函数"><span class="toc-number">2.3.</span> <span class="toc-text">数组与函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的接口"><span class="toc-number">3.</span> <span class="toc-text">TS 中的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类"><span class="toc-number">4.</span> <span class="toc-text">TS 中的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-的类"><span class="toc-number">4.1.</span> <span class="toc-text">ES6 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES7-的类"><span class="toc-number">4.2.</span> <span class="toc-text">ES7 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TS-的类"><span class="toc-number">4.3.</span> <span class="toc-text">TS 的类</span></a></li></ol></li></ol>
-    </div>
-  </span>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-是什么"><span class="toc-number">1.</span> <span class="toc-text">TS 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类型"><span class="toc-number">2.</span> <span class="toc-text">TS 中的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础类型"><span class="toc-number">2.1.</span> <span class="toc-text">基础类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#联合类型"><span class="toc-number">2.2.</span> <span class="toc-text">联合类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组与函数"><span class="toc-number">2.3.</span> <span class="toc-text">数组与函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的接口"><span class="toc-number">3.</span> <span class="toc-text">TS 中的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类"><span class="toc-number">4.</span> <span class="toc-text">TS 中的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-的类"><span class="toc-number">4.1.</span> <span class="toc-text">ES6 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES7-的类"><span class="toc-number">4.2.</span> <span class="toc-text">ES7 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TS-的类"><span class="toc-number">4.3.</span> <span class="toc-text">TS 的类</span></a></li></ol></li></ol>
+  </div>
 </div>
 
     
