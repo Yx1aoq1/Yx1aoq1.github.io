@@ -5,7 +5,7 @@
 # Site
 title: Yx1aoq1's Blog
 subtitle: ''
-description: ''
+description: '努力翻身的咸鱼'
 keywords:
 author: Yx1aoq1
 language: en
@@ -90,10 +90,10 @@ include:
 exclude:
 ignore:
 
-# Extensions
+# Extension
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: inside
+theme: virgo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
