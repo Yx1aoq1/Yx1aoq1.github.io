@@ -1,43 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Axios上传进度与取消 - Yx1aoq1's Blog</title>
-<base href="/">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-<link rel="canonical" href="https://yx1aoq1.github.io/2020/06/03/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/Axios%E4%B8%8A%E4%BC%A0%E8%BF%9B%E5%BA%A6%E4%B8%8E%E5%8F%96%E6%B6%88/">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-<meta name="description" content="需求 需要实现一个实时展示上传文件进度百分比的展示列表，并且可以中断取消上传。 由于项目中的接口调用都是使用Axios，所以需要基于Axios去实现。 实现 上传进度 1234567let form &#x3D; new FormData()form.append(&#39;file&#39;, file)axios.post(url, form, &amp;#123;  onUploadProgress: progressEve">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Axios上传进度与取消">
-<meta property="og:url" content="https://yx1aoq1.github.io/2020/06/03/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/Axios%E4%B8%8A%E4%BC%A0%E8%BF%9B%E5%BA%A6%E4%B8%8E%E5%8F%96%E6%B6%88/index.html">
-<meta property="og:site_name" content="Yx1aoq1&#39;s Blog">
-<meta property="og:description" content="需求 需要实现一个实时展示上传文件进度百分比的展示列表，并且可以中断取消上传。 由于项目中的接口调用都是使用Axios，所以需要基于Axios去实现。 实现 上传进度 1234567let form &#x3D; new FormData()form.append(&#39;file&#39;, file)axios.post(url, form, &amp;#123;  onUploadProgress: progressEve">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
-<meta property="article:published_time" content="2020-06-03T10:08:34.000Z">
-<meta property="article:modified_time" content="2020-11-10T10:30:49.686Z">
-<meta property="article:author" content="Yx1aoq1">
-<meta property="article:tag" content="Axios">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
-
-
-<link href="//fonts.googleapis.com/css?family=Lobster|Josefin+Sans|Montserrat" rel="stylesheet">
-<link href="/styles.c3f8d35f4c49a6d852da.css" rel="stylesheet">
-
-<link rel="stylesheet" href="/theme.535be39e73207fd16457.css" is="theme">
-
-
-<script src="/config.2c5cad957973db8646f3.js"></script>
-
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Axios上传进度与取消</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
 
 <meta name="generator" content="Hexo 4.2.1"></head>
-<body lang="en">
-<is-a></is-a>
-<script src="/runtime.1720a40670866f12654e.js"></script>
-<script src="/polyfills.eefc5b1aaca1e85d221f.js"></script>
-<script src="/main.41823d1d138ca02e839b.js"></script>
-</body>
+  <body style="background-color: #2d2d2d">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/05/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/03/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传进度"><span class="toc-number">2.1.</span> <span class="toc-text">上传进度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消上传"><span class="toc-number">2.2.</span> <span class="toc-text">取消上传</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Axios上传进度与取消</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-03T10:08:34.000Z" itemprop="datePublished">2020-06-03</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Axios/" rel="tag">Axios</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>需要实现一个实时展示上传文件进度百分比的展示列表，并且可以中断取消上传。</p>
+<p>由于项目中的接口调用都是使用Axios，所以需要基于Axios去实现。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="上传进度"><a href="#上传进度" class="headerlink" title="上传进度"></a>上传进度</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> form = <span class="keyword">new</span> FormData()</span><br><span class="line">form.append(<span class="string">'file'</span>, file)</span><br><span class="line">axios.post(url, form, &#123;</span><br><span class="line">  onUploadProgress: <span class="function"><span class="params">progressEvent</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> complete = (progressEvent.loaded / progressEvent.total * <span class="number">100</span> | <span class="number">0</span>) <span class="comment">// 得到上传的进度百分比</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="取消上传"><a href="#取消上传" class="headerlink" title="取消上传"></a>取消上传</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; CancelToken &#125; <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cancel = <span class="literal">null</span></span><br><span class="line"><span class="keyword">let</span> form = <span class="keyword">new</span> FormData()</span><br><span class="line">form.append(<span class="string">'file'</span>, file)</span><br><span class="line">axios.post(url, form, &#123;</span><br><span class="line">  cancelToken: <span class="keyword">new</span> CancelToken(<span class="function"><span class="params">c</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 需要获取到这个请求的cancelToken</span></span><br><span class="line">  	cancel = c</span><br><span class="line">  &#125;),</span><br><span class="line">  onUploadProgress: <span class="function"><span class="params">progressEvent</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> complete = (progressEvent.loaded / progressEvent.total * <span class="number">100</span> | <span class="number">0</span>) <span class="comment">// 得到上传的进度百分比</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">cancel() <span class="comment">// 在需要中断请求的时候调用</span></span><br></pre></td></tr></table></figure>
+
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/03/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/05/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2020
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
 </html>

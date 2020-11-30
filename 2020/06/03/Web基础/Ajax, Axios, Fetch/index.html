@@ -1,46 +1,206 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Ajax, Axios, Fetch - Yx1aoq1's Blog</title>
-<base href="/">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-<link rel="canonical" href="https://yx1aoq1.github.io/2020/06/03/Web%E5%9F%BA%E7%A1%80/Ajax,%20Axios,%20Fetch/">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-<meta name="description" content="浏览器中的HTTP请求方式  在地址栏输入URL window.location.href &#x3D; ‘http:&#x2F;&#x2F;www.google.com’ Form表单（GET&#x2F;POST)  以上操作都会让浏览器向服务器发出HTTP请求，这些请求通常会触发浏览器的刷新和跳转。 AJAX AJAX是“Asynchronous JavaScript And XML”的缩写，是JS中异步发出HTTP请求的方式，实现">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ajax, Axios, Fetch">
-<meta property="og:url" content="https://yx1aoq1.github.io/2020/06/03/Web%E5%9F%BA%E7%A1%80/Ajax,%20Axios,%20Fetch/index.html">
-<meta property="og:site_name" content="Yx1aoq1&#39;s Blog">
-<meta property="og:description" content="浏览器中的HTTP请求方式  在地址栏输入URL window.location.href &#x3D; ‘http:&#x2F;&#x2F;www.google.com’ Form表单（GET&#x2F;POST)  以上操作都会让浏览器向服务器发出HTTP请求，这些请求通常会触发浏览器的刷新和跳转。 AJAX AJAX是“Asynchronous JavaScript And XML”的缩写，是JS中异步发出HTTP请求的方式，实现">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
-<meta property="article:published_time" content="2020-06-03T06:03:07.000Z">
-<meta property="article:modified_time" content="2020-11-10T10:30:49.649Z">
-<meta property="article:author" content="Yx1aoq1">
-<meta property="article:tag" content="HTTP">
-<meta property="article:tag" content="Ajax">
-<meta property="article:tag" content="Axios">
-<meta property="article:tag" content="Fetch">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lh3.googleusercontent.com/ogw/ADGmqu_IN6piqKWSfC0CuF8p1cwOLzEcu01b18ad-SS0=s83-c-mo">
-
-
-<link href="//fonts.googleapis.com/css?family=Lobster|Josefin+Sans|Montserrat" rel="stylesheet">
-<link href="/styles.c3f8d35f4c49a6d852da.css" rel="stylesheet">
-
-<link rel="stylesheet" href="/theme.535be39e73207fd16457.css" is="theme">
-
-
-<script src="/config.2c5cad957973db8646f3.js"></script>
-
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Ajax, Axios, Fetch</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
 
 <meta name="generator" content="Hexo 4.2.1"></head>
-<body lang="en">
-<is-a></is-a>
-<script src="/runtime.1720a40670866f12654e.js"></script>
-<script src="/polyfills.eefc5b1aaca1e85d221f.js"></script>
-<script src="/main.41823d1d138ca02e839b.js"></script>
-</body>
+  <body style="background-color: #2d2d2d">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/03/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/02/Vue/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%8E%A2%E7%A9%B6/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器中的HTTP请求方式"><span class="toc-number">1.</span> <span class="toc-text">浏览器中的HTTP请求方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX"><span class="toc-number">2.</span> <span class="toc-text">AJAX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Axios"><span class="toc-number">3.</span> <span class="toc-text">Axios</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fetch"><span class="toc-number">4.</span> <span class="toc-text">Fetch</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Ajax, Axios, Fetch</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-03T06:03:07.000Z" itemprop="datePublished">2020-06-03</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Ajax/" rel="tag">Ajax</a>, <a class="tag-link" href="/tags/Axios/" rel="tag">Axios</a>, <a class="tag-link" href="/tags/Fetch/" rel="tag">Fetch</a>, <a class="tag-link" href="/tags/HTTP/" rel="tag">HTTP</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="浏览器中的HTTP请求方式"><a href="#浏览器中的HTTP请求方式" class="headerlink" title="浏览器中的HTTP请求方式"></a>浏览器中的HTTP请求方式</h2><ul>
+<li>在地址栏输入URL</li>
+<li>window.location.href = ‘<a href="http://www.google.com&#39;" target="_blank" rel="noopener">http://www.google.com&#39;</a></li>
+<li>Form表单（GET/POST)</li>
+</ul>
+<p>以上操作都会让浏览器向服务器发出HTTP请求，这些请求通常会触发浏览器的刷新和跳转。</p>
+<h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><p>AJAX是“Asynchronous JavaScript And XML”的缩写，是JS中异步发出HTTP请求的方式，实现了无刷新的请求。其中我们最熟悉的便是Jquery ajax，它的主要原理就是基于原生XHR的封装。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">	type: <span class="string">'POST'</span>,</span><br><span class="line">  url: url,</span><br><span class="line">  data: data,</span><br><span class="line">  dataType: dataType,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">  error: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax 的简单封装</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendAjax</span> (<span class="params">opt</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">  xhr.open(opt.type, opt.url)</span><br><span class="line">  xhr.onreadystatechange = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span> &amp;&amp; xhr.status === <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> data = xhr.response</span><br><span class="line">      opt.success(data)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      opt.error()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  xhr.send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于嵌套请求，AJAX有个难以回避的问题，就是“回调地狱”。随着JS语言的发展，我们有了回避“回调地狱”的解决方法——Promise。</p>
+<h2 id="Axios"><a href="#Axios" class="headerlink" title="Axios"></a>Axios</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">axios.get(<span class="string">'http://link.com'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// success</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// error</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Axios是基于Promise的HTTP 库，可以用在浏览器和 node.js 中。特色：</p>
+<ul>
+<li>从浏览器中创建 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener">XMLHttpRequests</a></li>
+<li>从 node.js 创建 <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener">http</a> 请求</li>
+<li>支持 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise</a> API</li>
+<li>拦截请求和响应</li>
+<li>转换请求数据和响应数据</li>
+<li>取消请求</li>
+<li>自动转换 JSON 数据</li>
+<li>客户端支持防御 <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener">XSRF</a></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基于Promise，对XMLHttpRequest进行封装</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendAjax</span> (<span class="params">opt</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span> (<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    xhr.open(opt.type, opt.url)</span><br><span class="line">    xhr.onreadystatechange = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span> &amp;&amp; xhr.status === <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> data = xhr.response</span><br><span class="line">        resolve(data)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        reject()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.send()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Fetch"><a href="#Fetch" class="headerlink" title="Fetch"></a>Fetch</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://link.com'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// success</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// error</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank" rel="noopener">Fetch API</a> 提供了一个 JavaScript 接口，用于访问和操纵 HTTP 管道的一些具体部分，例如请求和响应。它还提供了一个全局 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalFetch/fetch" target="_blank" rel="noopener"><code>fetch()</code></a> 方法，该方法提供了一种简单，合理的方式来跨网络异步获取资源。</p>
+<p>Fetch是基于Promise设计的，并且脱离了XHR，是一种更理想的替代方法。</p>
+<p>当然，在使用上，还是存在一些缺陷的，例如：</p>
+<ul>
+<li>只对网络请求报错，对400，500都当做成功的请求，需要封装去处理</li>
+<li>默认不会带cookie，需要添加配置项</li>
+<li>不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费</li>
+<li>没有办法原生监测请求的进度，而XHR可以</li>
+</ul>
+<p>Fetch参考资料：</p>
+<p><a href="https://github.com/camsong/blog/issues/2" target="_blank" rel="noopener">传统 Ajax 已死，Fetch 永生</a></p>
+<p><a href="http://undefinedblog.com/window-fetch-is-not-as-good-as-you-imagined/?utm_source=caibaojian.com" target="_blank" rel="noopener">fetch没有你想象的那么美</a></p>
+<p><a href="https://www.cnblogs.com/huilixieqi/p/6494380.html" target="_blank" rel="noopener">fetch使用的常见问题及解决方法</a></p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/02/Vue/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%8E%A2%E7%A9%B6/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/03/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2020
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
 </html>
