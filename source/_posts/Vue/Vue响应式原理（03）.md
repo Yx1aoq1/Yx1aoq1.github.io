@@ -6,7 +6,7 @@ tags:
   - Vue
 date: 2020-12-01 20:58:09
 ---
-在前面两篇响应原理解析中，主要是实现了`Vue`中的`data`与`methods`与视图的交互，而这篇主要是要唠一唠`watch`与`computed`的具体实现。
+在前面两篇响应原理解析中，主要是实现了`Vue`中的`data`与`methods`与视图的交互，而这篇主要是要唠一唠`watch`与`computed`的具体实现，完善重要的`Watcher`类。
 
 ## Watch
 
@@ -20,7 +20,7 @@ var app = new Vue({
   },
   watch: {
     message: function (newValue, oldValue) {
-      console.log(`${oldValue} --> ${newValue}`)
+      console.log(oldValue, '-->' , newValue)
     }
   },
   methods: {
@@ -131,7 +131,7 @@ vm.$watch('a', callback, {
 // 立即以 `a` 的当前值触发回调
 ```
 
-而`$watch`的实现，实际上是对`Watcher`对象的一种封装，它中主要是处理`immediate`，实际上`immediate`就是在创建`Watcher`对象后立即执行回调函数。在使用`Vue`的时候，有时候我们会将在`created`执行的一些处理用`immediate`替代，**但是需要注意的是，`immediate`的执行是早于`created`的**。
+而`$watch`的实现，实际上是对`Watcher`对象的一种封装，它主要是处理的是`immediate`，实际上`immediate`就是在创建`Watcher`对象后立即执行回调函数。在使用`Vue`的时候，有时候我们会将在`created`执行的一些处理用`immediate`替代，**但是需要注意的是，`immediate`的执行是早于`created`的**。
 
 ```js
 Vue.prototype.$watch = function (expOrFn, cb, options) {
