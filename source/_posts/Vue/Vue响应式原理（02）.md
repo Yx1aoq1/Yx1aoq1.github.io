@@ -81,7 +81,7 @@ export function set (target, key, val) {
   if (Array.isArray(target) && isValidArrayIndex(key)) {
     target.length = Math.max(target.length, key)
     // 在key的位置插入新值
-    target.splice(key, 1, value)
+    target.splice(key, 1, val)
     return val
   }
   // 判断target是否是Object类型，以及key是否是新属性

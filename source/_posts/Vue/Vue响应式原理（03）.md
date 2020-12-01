@@ -1,6 +1,10 @@
 ---
+title: Vue响应式原理（03）
 categories:
   - Vue
+tags:
+  - Vue
+date: 2020-12-01 20:58:09
 ---
 在前面两篇响应原理解析中，主要是实现了`Vue`中的`data`与`methods`与视图的交互，而这篇主要是要唠一唠`watch`与`computed`的具体实现。
 
@@ -106,7 +110,7 @@ unwatch()
 
 * **选项：deep**
 
-为了发现对象内部值的变化，可以在选项参数中指定 `deep: true`。注意监听数组的变更不需要这么做。
+为了发现**对象内部值**的变化，可以在选项参数中指定 `deep: true`。注意监听数组的变更不需要这么做。如果数组元素中含有对象，则可以监听到数组内部对象的变化。
 
 ```js
 vm.$watch('someObject', callback, {
@@ -127,7 +131,7 @@ vm.$watch('a', callback, {
 // 立即以 `a` 的当前值触发回调
 ```
 
-而`$watch`的实现，实际上是对`Watcher`对象的一种封装，`$watch`中主要是处理`immediate`，实际上`immediate`就是在创建`Watcher`对象后立即执行回调函数。在使用`Vue`的时候，有时候我们会将在`created`执行的一些处理用`immediate`替代，**但是需要注意的是，`immediate`的执行是早于`created`的**。
+而`$watch`的实现，实际上是对`Watcher`对象的一种封装，它中主要是处理`immediate`，实际上`immediate`就是在创建`Watcher`对象后立即执行回调函数。在使用`Vue`的时候，有时候我们会将在`created`执行的一些处理用`immediate`替代，**但是需要注意的是，`immediate`的执行是早于`created`的**。
 
 ```js
 Vue.prototype.$watch = function (expOrFn, cb, options) {
@@ -150,6 +154,138 @@ Vue.prototype.$watch = function (expOrFn, cb, options) {
 ```
 
 ### 完善Watcher类
+
+由于多了一个`deep`的配置项，我们在`Watcher`中需要新增一个`options`的入参，以及多了一个解除监听的`teardown`方法：
+
+```js
+export default class Watcher {
+  constructor (
+    vm,
+    expOrFn,
+    cb,
+    options
+  ) {
+    vm._watchers.push(this)
+    // 新增传入配置项deep
+    if (options) {
+      this.deep = !!options.deep
+    } else {
+      this.deep = false
+    }
+    this.vm = vm
+    this.cb = cb
+    this.id = ++uid
+    // 存放Dep依赖的数组
+    this.deps = []
+    this.depIds = new Set()
+    this.expression = expOrFn.toString()
+    // expOrFn支持传入函数，如果是函数，直接赋值给getter
+    // 当执行getter时，会同时触发expOrFn中所依赖的参数的依赖收集
+    if (typeof expOrFn === 'function') {
+      this.getter = expOrFn
+    } else {
+      // 当expOrFn不是函数时，则是类似`a.b.c`这样的属性路径
+      // parsePath主要功能就是返回一个函数，函数的执行结果则是获取该路径的值
+      this.getter = parsePath(expOrFn)
+      if (!this.getter) {
+        this.getter = function () {}
+      }
+    }
+    this.value = this.get()
+  }
+
+  get () {
+    pushTarget(this)
+    const vm = this.vm
+    // 这里的 this.getter 会触发对应data的defineProperty
+    // 触发后会将这个Watcher添加到Dep的队列中
+    let value = this.getter.call(vm, vm)
+    if (this.deep) {
+      // 当deep为true时，收集子属性的依赖
+      traverse(value)
+    }
+    // 执行完成后退出Watcher队列
+    popTarget()
+    return value
+  }
+
+  addDep (dep) {
+    const id = dep.id
+    // 保证同一数据不会被添加多个观察者
+    if (!this.depIds.has(id)) {
+      // 将自己加入到当前dep的subs队列
+      this.depIds.add(dep.id)
+      this.deps.push(dep)
+      dep.addSub(this)
+    }
+  }
+
+  update () {
+    const value = this.get()
+    if (value !== this.value || isObject(value) || this.deep) {
+      const oldValue = this.value
+      this.value = value
+      this.cb.call(this.vm, value, oldValue)
+    }
+  }
+
+  teardown () {
+    // 获取这个观察对象的所有依赖
+    // 在所有依赖中遍历地删掉当前的观察对象
+    let i = this.deps.length
+    while (i--) {
+      this.deps[i].removeSub(this)
+    }
+  }
+}
+```
+
+在上面的代码中，如果传入了`deep`配置，则需要在执行`popTarge()`之前调用`traverse`来处理`deep`的逻辑，这样才能保证子集收集的依赖是当前这个`Watcher`。
+
+`traverse`实际上做的就是递归遍历`value`的所有子属性，来触发它的依赖：
+
+```js
+const seenObjects = new Set()
+
+export function traverse (val) {
+  _traverse(val, seenObjects)
+  seenObjects.clear()
+}
+
+function _traverse (val, seen) {
+  let i, keys
+  const isA = Array.isArray(val)
+  if ((!isA && !isObject(val)) || Object.isFrozen(val)) {
+    // 如果传入的值不是数组、对象，或者已被冻结，那么直接返回
+    return
+  }
+  if (val.__ob__) {
+    const depId = val.__ob__.dep.id
+    // 如果传入的之是一个响应对象，收集其依赖
+    // 并且保证收集的依赖id不会重复
+    if (seen.has(depId)) {
+      return
+    }
+    seen.add(depId)
+  }
+  if (isA) {
+    // 对数组对象进行遍历
+    i = val.length
+    while (i--) _traverse(val[i], seen)
+  } else {
+    // 对对象类型的数据遍历所有的key
+    // 在使用val[key[i]]的时候，会触发getter
+    // 由于这个步骤是在popTarge()之前触发的，所以当前的Watcher会被收集
+    keys = Object.keys(val)
+    i = keys.length
+    while (i--) _traverse(val[keys[i]], seen)
+  }
+}
+```
+
+## Computed
+
+
 
 
 

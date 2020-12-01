@@ -294,7 +294,7 @@ export function popTarget () {
 }
 ```
 
-在`Dep`类中，定义了一个静态属性`target`，是为了存储全局唯一的`Watcher`。因为我们在操作数据的时候，必然会涉及到数据的读取，但是我们只需要收集到需要`Watcher`的对象的依赖就好了，因此需要用`Dep.target`来判断是否要进行依赖收集，因为只有在生成`Watcher`时，`Dep.target`才会被赋值。并且在同一段时间内，只能处理一个`Watcher`。
+在`Dep`类中，定义了一个静态属性`target`，是为了存储全局唯一的`Watcher`。因为我们在操作数据的时候，必然会涉及到数据的读取，但是我们只需要收集到需要`Watcher`的对象的依赖就好了，因此需要用`Dep.target`来判断是否要进行依赖收集，当我们运行`Watcher.get()`的时候，`Dep.target`才会被赋值。并且在同一段时间内，只能处理一个`Watcher`。
 
 而`Watcher`所扮演的角色就是观察者，它的主要作用就是为我们需要观察的属性提供回调与收集依赖，当被观察的值发生变化时，就会受到来着`dep`的通知，从而触发回调函数。
 
@@ -340,24 +340,18 @@ export default class Watcher {
     // 保证同一数据不会被添加多个观察者
     if (!this.depIds.has(id)) {
       // 将自己加入到当前dep的subs队列
+      this.depIds.add(dep.id)
+      this.deps.push(dep)
       dep.addSub(this)
     }
   }
 
   update () {
-    this.run()
-  }
-
-  run () {
-    this.getAndInvoke(this.cb)
-  }
-
-  getAndInvoke (cb) {
     const value = this.get()
-    const oldValue = this.value
-    if (value !== oldValue) {
+    if (value !== this.value || isObject(value)) {
+      const oldValue = this.value
       this.value = value
-      cb.call(this.vm, value, oldValue)
+      this.cb.call(this.vm, value, oldValue)
     }
   }
 }
