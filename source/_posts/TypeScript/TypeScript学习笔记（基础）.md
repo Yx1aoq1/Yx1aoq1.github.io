@@ -1,10 +1,10 @@
 ---
 title: TypeScript学习笔记（基础）
-date: 2019-05-26 14:35:02
-categories: 
-  - Web基础
+categories:
+  - TypeScript
 tags:
   - TypeScript
+date: 2019-05-26 14:35:02
 ---
 ## TS 是什么
 

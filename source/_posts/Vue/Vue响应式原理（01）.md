@@ -7,7 +7,7 @@ tags:
 date: 2020-11-13 02:09:38
 ---
 
-## `Vue`响应式原理
+## Vue响应式原理
 
 在 `Vue 2.x` 版本中，实现数据双向绑定的主要原理就是通过数据劫持的方式，即`Object.defineProperty`的`getter`和`setter`方法，配合发布-订阅模式，来监听到数据的赋值与变化，从而通知相关的视图进行更新。
 
@@ -192,7 +192,11 @@ export class Observer {
 export function defineReactive (obj, key, val) {
   const dep = new Dep()
   const property = Object.getOwnPropertyDescriptor(obj, key)
+  
   if (property && property.configurable === false) {
+    // 调用Object.freeze()方法时，configurable会被设为false
+    // 实际上是Vue中提升性能的一种方法
+    // 当有对象被freeze之后，就不能对对象再进行修改，因此也不需要再做数据劫持
     return
   }
 

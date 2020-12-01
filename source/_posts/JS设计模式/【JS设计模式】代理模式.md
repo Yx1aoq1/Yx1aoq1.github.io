@@ -108,7 +108,7 @@ var myImage = (function () {
 当网速很慢的时候，我们会发现在图片被加载好之前会有一段很长的空白时间。现在我们引入`proxyImage`代理对象，在图片被真正加载好之前，放一张占位的loading.gif来提示用户图片正在加载：
 
 ```js
-var proxyImage (function () {
+var proxyImage = (function () {
   var img = new Image
   img.onload = function () {
     myImage.setSrc(this.src)
@@ -119,7 +119,7 @@ var proxyImage (function () {
       img.src = src
     }
   }
-})
+})()
 ```
 
 ### 虚拟代理合并HTTP请求

@@ -243,7 +243,7 @@ function dependArray (value) {
 }
 ```
 
-## `Vue3` 中的响应式原理
+## Vue3中的响应式原理
 
 `Proxy`是`ES6`中的新特性，在之前的[【JS设计模式】代理模式](https://yx1aoq1.github.io/2020/08/19/JS设计模式/[JS设计模式]代理模式/)中做过介绍，这里就不再赘述。由于浏览器对`Proxy`的支持并不是很完善，为了兼容性的考虑`Vue2.x`版本选择了`Object.defineProperty`来实现数据劫持。而新推出的`Vue3`已经改用`Proxy`对原来的数据劫持方法进行了重构。
 
