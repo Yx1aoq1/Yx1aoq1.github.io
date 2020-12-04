@@ -753,15 +753,6 @@ pre .javascript .function {
   user-select: none;
   border-bottom: 1px solid #f0f0f0;
 }
-.accordion-menu li > a {
-  padding-left: 1.6rem;
-  font-size: 0.9rem;
-  border-left: 0.4rem solid #fff;
-}
-.accordion-menu li > a:hover {
-  background: #f8f9fa;
-  border-left: 0.4rem solid #ffe84f;
-}
 .accordion-menu input[type=checkbox] {
   position: absolute;
   opacity: 0;
@@ -778,11 +769,20 @@ pre .javascript .function {
   margin-right: 0.6rem;
 }
 .accordion-menu label,
-.accordion-menu a {
+.accordion-menu .sub-menu li {
   padding: 7px 0px 7px 1em;
   position: relative;
   display: block;
   font-size: 1rem;
+}
+.accordion-menu .sub-menu li {
+  padding-left: 1.6rem;
+  font-size: 0.9rem;
+  border-left: 0.4rem solid #fff;
+}
+.accordion-menu .sub-menu li:hover {
+  background: #f8f9fa;
+  border-left: 0.4rem solid #ffe84f;
 }
 .toc-wrap {
   clear: both;
@@ -838,4 +838,7 @@ pre .javascript .function {
 }
 .inline-block {
   display: inline-block;
+}
+.text-color-desc {
+  color: #bfbfbf;
 }
