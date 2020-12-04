@@ -285,6 +285,37 @@ function _traverse (val, seen) {
 
 ## Computed
 
+`computed`有两种设值方式，下面我们用这个例子来解析一下过程：
+
+```js
+var app = new Vue({
+  el: '#app',
+  data: {
+    name: 'World',
+  },
+  computed: {
+    message () {
+      return `Hello,${this.name}`
+    },
+    message2: {
+      get: function () {
+        return `Goodbye, ${this.name}`
+      },
+      set: function (value) {
+        this.name = Math.random()
+      }
+    }
+  },
+  methods: {
+    changeMsg () {
+      this.message2 = '1'
+    }
+  }
+})
+```
+
+### initComputed
+
 
 
 
