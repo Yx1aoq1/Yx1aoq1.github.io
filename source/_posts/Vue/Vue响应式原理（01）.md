@@ -200,10 +200,7 @@ export function defineReactive (obj, key, val) {
     return
   }
 
-  // cater for pre-defined getter/setters
-  const getter = property && property.get
-  const setter = property && property.set
-  if ((!getter || setter) && arguments.length === 2) {
+  if (arguments.length === 2) {
     val = obj[key]
   }
   // 监听当前val的所有子属性
@@ -212,7 +209,7 @@ export function defineReactive (obj, key, val) {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
-      const value = getter ? getter.call(obj) : val
+      const value = val
       if (Dep.target) {
         // 依赖收集
         dep.depend()
@@ -224,7 +221,7 @@ export function defineReactive (obj, key, val) {
       return value
     },
     set: function reactiveSetter (newVal) {
-      const value = getter ? getter.call(obj) : val
+      const value = val
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return
       }

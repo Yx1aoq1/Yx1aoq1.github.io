@@ -316,6 +316,183 @@ var app = new Vue({
 
 ### initComputed
 
+我们知道计算属性的结果会被缓存，且只有在计算属性所依赖的响应式属性或者说计算计算属性的返回值发生变化时才会重新计算。我们配置了一个`lazy`参数，当`lazy`值被设置为`true`的`Watcher`对象，不会立即求值。
+
+```js
+const computedWatcherOptions = { lazy: true }
+
+function initComputed (vm, computed) {
+  // Object.create(null)创建出来的对象没有原型，它不存在__proto__属性
+  const watchers = vm._computedWatchers = Object.create(null)
+  // 遍历computed上定义的key
+  for (const key in computed) {
+    const userDef = computed[key]
+    // 处理computed的两种定义方式
+    const getter = typeof userDef === 'function' ? userDef : userDef.get
+    // 生成一个Watcher对象
+    watchers[key] = new Watcher(
+      vm,
+      getter || noop,
+      noop,
+      computedWatcherOptions
+    )
+    // 将computed定义的key挂载到Vue实例上，为了可以通过this.xxx获取
+    if (!(key in vm)) {
+      defineComputed(vm, key, userDef)
+    }
+  }
+}
+
+function defineComputed (target, key, userDef) {
+  // 初始化getter与setter
+  if (typeof userDef === 'function') {
+    sharedPropertyDefinition.get = createComputedGetter(key)
+    sharedPropertyDefinition.set = noop
+  } else {
+    sharedPropertyDefinition.get = userDef.get
+      ? createComputedGetter(key)
+      : noop
+    sharedPropertyDefinition.set = userDef.set || noop
+  }
+  // 将定义的computed key 定义到vm实例上，并且配置的getter与setter进行数据劫持
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
+```
+
+### 对计算属性进行数据劫持
+
+```js
+function createComputedGetter (key) {
+  return function computedGetter () {
+    const watcher = this._computedWatchers && this._computedWatchers[key]
+    if (watcher) {
+      if (watcher.dirty) {
+        watcher.evaluate()
+      }
+      if (Dep.target) {
+        watcher.depend()
+      }
+      return watcher.value
+    }
+  }
+}
+```
+
+可以发现`computed`上的属性的`getter`和我们原来在`defineReactive`定义的`getter`是有不同的。它通过`watcher.dirty`属性来判断是否要对值进行重新计算。
+
+```js
+export default class Watcher {
+  constructor (
+    vm,
+    expOrFn,
+    cb,
+    options
+  ) {
+    vm._watchers.push(this)
+    if (options) {
+      this.deep = !!options.deep
+      this.lazy = !!options.lazy
+    } else {
+      this.deep = this.lazy = false
+    }
+    this.vm = vm
+    this.cb = cb
+    this.id = ++uid
+    // computed计算属性使用的参数
+    this.dirty = this.lazy
+    // 存放Dep依赖的数组
+    this.deps = []
+    this.depIds = new Set()
+    this.expression = expOrFn.toString()
+    // expOrFn支持传入函数，如果是函数，直接赋值给getter
+    // 当执行getter时，会同时触发expOrFn中所依赖的参数的依赖收集
+    if (typeof expOrFn === 'function') {
+      this.getter = expOrFn
+    } else {
+      // 当expOrFn不是函数时，则是类似`a.b.c`这样的属性路径
+      // parsePath主要功能就是返回一个函数，函数的执行结果则是获取该路径的值
+      this.getter = parsePath(expOrFn)
+      if (!this.getter) {
+        this.getter = function () {}
+      }
+    }
+    // lazy 为 true 的 Watcher，不会立即计算出结果
+    this.value = this.lazy
+      ? undefined
+      : this.get()
+  }
+
+  get () {
+    pushTarget(this)
+    const vm = this.vm
+    // 这里的 this.getter 会触发对应data的defineProperty
+    // 触发后会将这个Watcher添加到Dep的队列中
+    let value = this.getter.call(vm, vm)
+    if (this.deep) {
+      // 当deep为true时，收集子属性的依赖
+      traverse(value)
+    }
+    // 执行完成后退出Watcher队列
+    popTarget()
+    return value
+  }
+	// 触发computed计算
+  // 计算完成之后dirty则会被设置为false
+  evaluate () {
+    this.value = this.get()
+    this.dirty = false
+  }
+
+  depend () {
+    let i = this.deps.length
+    while (i--) {
+      this.deps[i].depend()
+    }
+  }
+
+  addDep (dep) {
+    const id = dep.id
+    // 保证同一数据不会被添加多个观察者
+    if (!this.depIds.has(id)) {
+      // 将自己加入到当前dep的subs队列
+      this.depIds.add(dep.id)
+      this.deps.push(dep)
+      dep.addSub(this)
+    }
+  }
+
+  update () {
+    // 判断是否是lazy watcher，如果是，则将dirty设置为true
+    // 当数据被使用的时候，就会触发对应的getter，这个时候就会触发evaluate计算结果
+    if (this.lazy) {
+      this.dirty = true
+    } else {
+      this.run()
+    }
+  }
+
+  run () {
+    const value = this.get()
+    if (value !== this.value || isObject(value) || this.deep) {
+      const oldValue = this.value
+      this.value = value
+      this.cb.call(this.vm, value, oldValue)
+    }
+  }
+
+  teardown () {
+    // 获取这个观察对象的所有依赖
+    // 在所有依赖中遍历地删掉当前的观察对象
+    let i = this.deps.length
+    while (i--) {
+      this.deps[i].removeSub(this)
+    }
+  }
+}
+```
+
+
+
 
 
 
