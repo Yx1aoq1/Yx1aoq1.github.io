@@ -416,7 +416,7 @@ export default class Watcher {
         this.getter = function () {}
       }
     }
-    // lazy 为 true 的 Watcher，不会立即计算出结果
+    // lazy 为 true 的 Watcher，不会立即计算出结果 
     this.value = this.lazy
       ? undefined
       : this.get()
