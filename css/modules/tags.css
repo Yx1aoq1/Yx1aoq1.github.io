@@ -1,0 +1,17 @@
+.tag-list li {
+  font-size: 0.9rem;
+  display: inline-block;
+  padding: 10px;
+}
+.tag-list .tag-list-link {
+  position: relative;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+.tag-list-count,
+.category-list-count {
+  padding: 0 5px;
+  color: #aaa;
+  font-size: 0.5rem;
+  vertical-align: top;
+}
