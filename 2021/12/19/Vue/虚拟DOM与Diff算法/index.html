@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>虚拟DOM与Diff算法</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟DOM"><span class="toc-number">1.</span> <span class="toc-text">虚拟DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用虚拟DOM"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要使用虚拟DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tree-Diff"><span class="toc-number">2.</span> <span class="toc-text">Tree Diff</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue2-算法-——-snabbdom-js"><span class="toc-number">2.1.</span> <span class="toc-text">Vue2 算法 —— snabbdom.js</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#patch"><span class="toc-number">2.1.1.</span> <span class="toc-text">patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#patchNode"><span class="toc-number">2.1.2.</span> <span class="toc-text">patchNode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updateChildren-划重点"><span class="toc-number">2.1.3.</span> <span class="toc-text">updateChildren (划重点)</span></a></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">虚拟DOM与Diff算法</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2021-12-19T15:17:38.000Z" itemprop="datePublished">2021-12-19</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Diff/" rel="tag">Diff</a>, <a class="tag-link" href="/tags/Vitual-DOM/" rel="tag">Vitual DOM</a>, <a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h2><p>在React、Vue两个前端框架中，都使用了虚拟DOM的概念，虚拟DOM是什么呢？其实它的本质是JavaScript对象，用来模拟真实的DOM节点。</p>
+<p>虚拟 DOM 节点目前是一个规范化的数据结构，类似如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  tag: <span class="string">'div'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    style: &#123;</span><br><span class="line">      backgroundColor: <span class="string">'blue'</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  children: &#123;</span><br><span class="line">    tag: <span class="literal">null</span>,</span><br><span class="line">    data: <span class="literal">null</span>,</span><br><span class="line">    children: <span class="string">'文本内容'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用这个数据结构，最终可以转化为 DOM 节点，等价于如下所示 DOM 元素：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color: blue"</span>&gt;</span></span><br><span class="line">  文本内容</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么要使用虚拟DOM"><a href="#为什么要使用虚拟DOM" class="headerlink" title="为什么要使用虚拟DOM"></a>为什么要使用虚拟DOM</h3><ul>
+<li>我们都知道，前端性能优化的一个秘诀就是尽可能地减少DOM操作，不仅仅是因为DOM操作的性能差，更是因为频繁的变动DOM会造成浏览器的回流与重绘，因此当我们加了一层虚拟DOM之后，通过对比前后的变化，再更新到真实DOM上，就能有效的减少操作真实DOM的次数。</li>
+<li>省略手动DOM操作，可以提升开发效率</li>
+<li>可以更好的跨平台<ul>
+<li>浏览器平台渲染DOM</li>
+<li>服务端渲染SSR（Nuxt.js/Next.js），前端是Vue向的，后者是React向</li>
+<li>原生应用（Weex/React Native）</li>
+<li>小程序（mpvue/uni-app）等</li>
+</ul>
+</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>首次渲染大量DOM时，由于多了一层虚拟DOM的计算，会比innerHTML插入慢。虚拟DOM需要在内存中维护一份DOM的副本。</li>
+<li>如果你的场景是虚拟DOM大量更改，这是合适的。但是单一的、频繁的更新的话，虚拟DOM将会花费更多的时间处理计算的工作。比如，你有一个DOM节点相对较少的页面，用虚拟DOM，它实际上有可能会更慢。但是对于大多数单页应用，都会更快。这也是为啥React和Vue中的更新用了异步的方法，频繁更新时，只更新最后一次的。</li>
+</ul>
+<h2 id="Tree-Diff"><a href="#Tree-Diff" class="headerlink" title="Tree Diff"></a>Tree Diff</h2><h3 id="Vue2-算法-——-snabbdom-js"><a href="#Vue2-算法-——-snabbdom-js" class="headerlink" title="Vue2 算法 —— snabbdom.js"></a>Vue2 算法 —— snabbdom.js</h3><p>Vue2的Diff实现主要参考的是<a href="https://github.com/snabbdom/snabbdom" target="_blank" rel="noopener">snabbdom</a>。</p>
+<p>这是snabbdom中vnode的定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> interface VNodeData &#123;</span><br><span class="line">    props?: Props</span><br><span class="line">    attrs?: Attrs</span><br><span class="line">    class?: Classes</span><br><span class="line">    style?: VNodeStyle</span><br><span class="line">    dataset?: Dataset</span><br><span class="line">    on?: On</span><br><span class="line">    hero?: Hero</span><br><span class="line">    attachData?: AttachData</span><br><span class="line">    hook?: Hooks</span><br><span class="line">    key?: Key</span><br><span class="line">    ns?: string <span class="comment">// for SVGs</span></span><br><span class="line">    fn?: <span class="function"><span class="params">()</span> =&gt;</span> VNode <span class="comment">// for thunks</span></span><br><span class="line">    args?: any[] <span class="comment">// for thunks</span></span><br><span class="line">    [key: string]: any <span class="comment">// for any other 3rd party module</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> type Key = string | number</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> interface VNode = &#123;</span><br><span class="line">    sel: string | <span class="literal">undefined</span>, <span class="comment">// 选择器</span></span><br><span class="line">    data: VNodeData | <span class="literal">undefined</span>, <span class="comment">// VNodeData上面定义的VNodeData</span></span><br><span class="line">    children: <span class="built_in">Array</span>&lt;VNode | string&gt; | <span class="literal">undefined</span>, <span class="comment">//子节点,与text互斥</span></span><br><span class="line">    text: string | <span class="literal">undefined</span>, <span class="comment">// 标签中间的文本内容</span></span><br><span class="line">    elm: Node | <span class="literal">undefined</span>, <span class="comment">// 转换而成的真实DOM</span></span><br><span class="line">    key: Key | <span class="literal">undefined</span> <span class="comment">// 字符串或者数字</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们跳过创建vnode的过程，直接看它的核心patch过程。</p>
+<h4 id="patch"><a href="#patch" class="headerlink" title="patch"></a>patch</h4><p>patch函数主要是做一个中继站，将新旧节点相同的情况与新旧节点不同的情况划分为两种处理：</p>
+<p><img src="/images/patch.png" alt=""></p>
+<p>源码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">patch</span>(<span class="params">oldVnode: VNode | Element, vnode: VNode</span>): <span class="title">VNode</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">let</span> i: number, <span class="attr">elm</span>: Node, <span class="attr">parent</span>: Node</span><br><span class="line">    <span class="keyword">const</span> insertedVnodeQueue: VNodeQueue = []</span><br><span class="line">    <span class="comment">// cbs.pre就是所有模块的pre钩子函数集合</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; cbs.pre.length; ++i) cbs.pre[i]()</span><br><span class="line">    <span class="comment">// isVnode函数时判断oldVnode是否是一个虚拟DOM对象</span></span><br><span class="line">    <span class="keyword">if</span> (!isVnode(oldVnode)) &#123;</span><br><span class="line">        <span class="comment">// 若不是即把Element转换成一个虚拟DOM对象</span></span><br><span class="line">        oldVnode = emptyNodeAt(oldVnode)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// sameVnode函数用于判断两个虚拟DOM是否是相同的,源码见补充1;</span></span><br><span class="line">    <span class="keyword">if</span> (sameVnode(oldVnode, vnode)) &#123;</span><br><span class="line">        <span class="comment">// 相同则运行patchVnode对比两个节点;</span></span><br><span class="line">        patchVnode(oldVnode, vnode, insertedVnodeQueue)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        elm = oldVnode.elm! <span class="comment">// !是ts的一种写法代码oldVnode.elm肯定有值</span></span><br><span class="line">        <span class="comment">// parentNode就是获取父元素</span></span><br><span class="line">        parent = api.parentNode(elm) <span class="keyword">as</span> Node</span><br><span class="line"></span><br><span class="line">        <span class="comment">// createElm是用于创建一个dom元素插入到vnode中(新的虚拟DOM)</span></span><br><span class="line">        createElm(vnode, insertedVnodeQueue)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (parent !== <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 把dom元素插入到父元素中,并且把旧的dom删除</span></span><br><span class="line">            api.insertBefore(parent, vnode.elm!, api.nextSibling(elm))<span class="comment">// 把新创建的元素放在旧的dom后面</span></span><br><span class="line">            removeVnodes(parent, [oldVnode], <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; insertedVnodeQueue.length; ++i) &#123;</span><br><span class="line">        insertedVnodeQueue[i].data!.hook!.insert!(insertedVnodeQueue[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; cbs.post.length; ++i) cbs.post[i]()</span><br><span class="line">    <span class="keyword">return</span> vnode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>补充1：sameVnode函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sameVnode</span>(<span class="params">vnode1: VNode, vnode2: VNode</span>): <span class="title">boolean</span> </span>&#123; <span class="comment">// 通过key和sel选择器判断是否是相同节点</span></span><br><span class="line">    <span class="keyword">return</span> vnode1.key === vnode2.key &amp;&amp; vnode1.sel === vnode2.sel</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="patchNode"><a href="#patchNode" class="headerlink" title="patchNode"></a>patchNode</h4><p>patchNode函数主要处理两个相同节点的<code>text</code>与<code>children</code>的对比。</p>
+<p><img src="/images/patchNode.png" alt=""></p>
+<p>源码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">patchVnode</span>(<span class="params">oldVnode: VNode, vnode: VNode, insertedVnodeQueue: VNodeQueue</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> hook = vnode.data?.hook</span><br><span class="line">    hook?.prepatch?.(oldVnode, vnode)</span><br><span class="line">    <span class="keyword">const</span> elm = vnode.elm = oldVnode.elm!</span><br><span class="line">    <span class="keyword">const</span> oldCh = oldVnode.children <span class="keyword">as</span> VNode[]</span><br><span class="line">    <span class="keyword">const</span> ch = vnode.children <span class="keyword">as</span> VNode[]</span><br><span class="line">    <span class="keyword">if</span> (oldVnode === vnode) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> (vnode.data !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)</span><br><span class="line">        vnode.data.hook?.update?.(oldVnode, vnode)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isUndef(vnode.text)) &#123; <span class="comment">// 新节点的text属性是undefined</span></span><br><span class="line">        <span class="keyword">if</span> (isDef(oldCh) &amp;&amp; isDef(ch)) &#123; <span class="comment">// 当新旧节点都存在子节点</span></span><br><span class="line">            <span class="keyword">if</span> (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue) <span class="comment">// 并且他们的子节点不相同执行updateChildren函数</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDef(ch)) &#123; <span class="comment">// 只有新节点有子节点</span></span><br><span class="line">            <span class="comment">// 当旧节点有text属性就会把''赋予给真实dom的text属性</span></span><br><span class="line">            <span class="keyword">if</span> (isDef(oldVnode.text)) api.setTextContent(elm, <span class="string">''</span>) </span><br><span class="line">            <span class="comment">// 并且把新节点的所有子节点插入到真实dom中</span></span><br><span class="line">            addVnodes(elm, <span class="literal">null</span>, ch, <span class="number">0</span>, ch.length - <span class="number">1</span>, insertedVnodeQueue)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDef(oldCh)) &#123; <span class="comment">// 若旧节点有子节点,就把所有的子节点删除</span></span><br><span class="line">            removeVnodes(elm, oldCh, <span class="number">0</span>, oldCh.length - <span class="number">1</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDef(oldVnode.text)) &#123; <span class="comment">// 把''赋予给真实dom的text属性</span></span><br><span class="line">            api.setTextContent(elm, <span class="string">''</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (oldVnode.text !== vnode.text) &#123; <span class="comment">// 若旧节点的text与新节点的text不相同</span></span><br><span class="line">        <span class="keyword">if</span> (isDef(oldCh)) &#123; <span class="comment">// 若旧节点有子节点,就把所有的子节点删除</span></span><br><span class="line">            removeVnodes(elm, oldCh, <span class="number">0</span>, oldCh.length - <span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        api.setTextContent(elm, vnode.text!) <span class="comment">// 把新节点的text赋予给真实dom</span></span><br><span class="line">    &#125;</span><br><span class="line">    hook?.postpatch?.(oldVnode, vnode) <span class="comment">// 更新视图</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="updateChildren-划重点"><a href="#updateChildren-划重点" class="headerlink" title="updateChildren (划重点)"></a>updateChildren (划重点)</h4><p>这个部分的函数可以分为三个部分，部分1：声明变量，部分2：<strong>同级节点比较（四种命中查找，Diff优化策略）</strong>，部分3：循环结束的收尾工作。</p>
+<p><strong>同级别节点比较</strong>的<strong>五种</strong>情况：</p>
+<ol>
+<li><code>oldStartVnode/newStartVnode</code>（旧开始节点/新开始节点）相同</li>
+<li><code>oldEndVnode/newEndVnode</code>（旧结束节点/新结束节点）相同</li>
+<li><code>oldStartVnode/newEndVnode</code>（旧开始节点/新结束节点）相同</li>
+<li><code>oldEndVnode/newStartVnode</code>（旧结束节点/新开始节点）相同</li>
+<li><strong>特殊情况当1、2、3、4的情况都不符合</strong>的时候就会执行，在<code>oldVnodes</code>里面寻找跟<code>newStartVnode</code>一样的节点然后位移到<code>oldStartVnode</code>,若没有找到在就<code>oldStartVnode</code>创建一个</li>
+</ol>
+<p>我们来一一探究每种情况的实现方式：</p>
+<p><strong>▼情况1：旧开始节点与新开始节点相同</strong></p>
+<p>若符合情况1：</p>
+<ul>
+<li>执行<code>patchVnode</code>更新节点</li>
+<li><code>oldStartIdx++/newStartIdx++</code></li>
+</ul>
+<img src="/images/updateChildren-1.GIF" style="zoom: 25%;" />
+
+<p><strong>▼情况2：旧结束节点与新结束节点相同</strong></p>
+<p>若符合情况2：</p>
+<ul>
+<li>执行<code>patchVnode</code>更新节点</li>
+<li><code>oldEndIdx--/newEndIdx--</code></li>
+</ul>
+<img src="/images/updateChildren-2.GIF" style="zoom: 25%;" />
+
+<p><strong>▼情况3：旧开始节点与新结束节点相同</strong></p>
+<ul>
+<li>执行<code>patchVnode</code>更新节点</li>
+<li><code>oldCh[oldStartIdx]对应的真实dom</code>位移到<code>oldCh[oldEndIdx]对应的真实dom</code>后</li>
+<li><code>oldStartIdx++/newEndIdx--</code></li>
+</ul>
+<img src="/images/updateChildren-3.GIF" style="zoom: 25%;" />
+
+<p><strong>▼情况4：旧结束节点与新开始节点相同</strong></p>
+<ul>
+<li>执行<code>patchVnode</code>更新节点</li>
+<li><code>oldCh[oldEndIdx]对应的真实dom</code>位移到<code>oldCh[oldStartIdx]对应的真实dom</code>前</li>
+<li><code>oldEndIdx--/newStartIdx++</code></li>
+</ul>
+<img src="/images/updateChildren-4.GIF" style="zoom: 25%;" />
+
+<p><strong>▼情况5：</strong></p>
+<ul>
+<li>遍历<code>oldCh</code>找到与<code>newStartNode</code>相同的节点</li>
+<li>当可以找到相同节点时，将相同的节点插入到<code>oldStartNode</code>前</li>
+<li>当无法找到相同节点时，在<code>oldStartNode</code>前新增一个新节点</li>
+</ul>
+<img src="/images/updateChildren-5.GIF" style="zoom: 25%;" />
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateChildren</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    parentElm: Node,</span></span></span><br><span class="line"><span class="function"><span class="params">    oldCh: VNode[],</span></span></span><br><span class="line"><span class="function"><span class="params">    newCh: VNode[],</span></span></span><br><span class="line"><span class="function"><span class="params">    insertedVnodeQueue: VNodeQueue</span></span></span><br><span class="line"><span class="function"><span class="params">  </span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> oldStartIdx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> newStartIdx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> oldEndIdx = oldCh.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> oldStartVnode = oldCh[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">let</span> oldEndVnode = oldCh[oldEndIdx];</span><br><span class="line">    <span class="keyword">let</span> newEndIdx = newCh.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> newStartVnode = newCh[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">let</span> newEndVnode = newCh[newEndIdx];</span><br><span class="line">    <span class="keyword">let</span> oldKeyToIdx: KeyToIndexMap | <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">let</span> idxInOld: number;</span><br><span class="line">    <span class="keyword">let</span> elmToMove: VNode;</span><br><span class="line">    <span class="keyword">let</span> before: any;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (oldStartIdx &lt;= oldEndIdx &amp;&amp; newStartIdx &lt;= newEndIdx) &#123;</span><br><span class="line">      <span class="keyword">if</span> (oldStartVnode == <span class="literal">null</span>) &#123;</span><br><span class="line">        oldStartVnode = oldCh[++oldStartIdx]; <span class="comment">// Vnode might have been moved left</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (oldEndVnode == <span class="literal">null</span>) &#123;</span><br><span class="line">        oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (newStartVnode == <span class="literal">null</span>) &#123;</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (newEndVnode == <span class="literal">null</span>) &#123;</span><br><span class="line">        newEndVnode = newCh[--newEndIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldStartVnode, newStartVnode)) &#123; <span class="comment">// 情况1：旧开始节点与新开始节点相同</span></span><br><span class="line">        patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);</span><br><span class="line">        oldStartVnode = oldCh[++oldStartIdx];</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldEndVnode, newEndVnode)) &#123; <span class="comment">// 情况2：旧结束节点与新结束节点相同</span></span><br><span class="line">        patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);</span><br><span class="line">        oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">        newEndVnode = newCh[--newEndIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldStartVnode, newEndVnode)) &#123; <span class="comment">// 情况3：旧开始节点与新结束节点相同</span></span><br><span class="line">        patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);</span><br><span class="line">        <span class="comment">// 将oldStartVnode插入到oldEndVnode之后</span></span><br><span class="line">        api.insertBefore(</span><br><span class="line">          parentElm,</span><br><span class="line">          oldStartVnode.elm!,</span><br><span class="line">          api.nextSibling(oldEndVnode.elm!)</span><br><span class="line">        );</span><br><span class="line">        oldStartVnode = oldCh[++oldStartIdx];</span><br><span class="line">        newEndVnode = newCh[--newEndIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldEndVnode, newStartVnode)) &#123; <span class="comment">// 情况4：旧结束节点与新开始节点相同</span></span><br><span class="line">        patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);</span><br><span class="line">        <span class="comment">// 将oldEndVnode插入到oldStartVnode之前</span></span><br><span class="line">        api.insertBefore(parentElm, oldEndVnode.elm!, oldStartVnode.elm!);</span><br><span class="line">        oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (oldKeyToIdx === <span class="literal">undefined</span>) &#123; <span class="comment">// 情况5：前几种匹配都没有命中</span></span><br><span class="line">          <span class="comment">// 遍历oldCh，生成一个Map</span></span><br><span class="line">          oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 在oldCh中找到与newStartVnode Key相同的节点</span></span><br><span class="line">        idxInOld = oldKeyToIdx[newStartVnode.key <span class="keyword">as</span> string];</span><br><span class="line">        <span class="keyword">if</span> (isUndef(idxInOld)) &#123;</span><br><span class="line">          <span class="comment">// 当未找到相同Key节点时，创建新的DOM，并插入到oldStartVnode之前</span></span><br><span class="line">          <span class="comment">// New element</span></span><br><span class="line">          api.insertBefore(</span><br><span class="line">            parentElm,</span><br><span class="line">            createElm(newStartVnode, insertedVnodeQueue),</span><br><span class="line">            oldStartVnode.elm!</span><br><span class="line">          );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 当找到相同Key节点时</span></span><br><span class="line">          elmToMove = oldCh[idxInOld];</span><br><span class="line">          <span class="comment">// 节点标签不同，创建新的DOM，并插入到oldStartVnode之前</span></span><br><span class="line">          <span class="keyword">if</span> (elmToMove.sel !== newStartVnode.sel) &#123;</span><br><span class="line">            api.insertBefore(</span><br><span class="line">              parentElm,</span><br><span class="line">              createElm(newStartVnode, insertedVnodeQueue),</span><br><span class="line">              oldStartVnode.elm!</span><br><span class="line">            );</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 节点标签相同，更新节点，并插入到oldStartVnode之前</span></span><br><span class="line">            <span class="comment">// 旧节点置为undefined</span></span><br><span class="line">            patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);</span><br><span class="line">            oldCh[idxInOld] = <span class="literal">undefined</span> <span class="keyword">as</span> any;</span><br><span class="line">            api.insertBefore(parentElm, elmToMove.elm!, oldStartVnode.elm!);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newStartIdx &lt;= newEndIdx) &#123;</span><br><span class="line">      before = newCh[newEndIdx + <span class="number">1</span>] == <span class="literal">null</span> ? <span class="literal">null</span> : newCh[newEndIdx + <span class="number">1</span>].elm;</span><br><span class="line">      addVnodes(</span><br><span class="line">        parentElm,</span><br><span class="line">        before,</span><br><span class="line">        newCh,</span><br><span class="line">        newStartIdx,</span><br><span class="line">        newEndIdx,</span><br><span class="line">        insertedVnodeQueue</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (oldStartIdx &lt;= oldEndIdx) &#123;</span><br><span class="line">      removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/12/01/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8803%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2025/02/03/Vue/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8801%EF%BC%89/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

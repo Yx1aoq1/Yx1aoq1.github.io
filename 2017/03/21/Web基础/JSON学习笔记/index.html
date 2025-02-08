@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>JSON学习笔记</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#与XML比较"><span class="toc-number">1.</span> <span class="toc-text">与XML比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法规则"><span class="toc-number">2.</span> <span class="toc-text">语法规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON解析"><span class="toc-number">3.</span> <span class="toc-text">JSON解析</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">JSON学习笔记</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2017-03-21T10:16:43.000Z" itemprop="datePublished">2017-03-21</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JSON/" rel="tag">JSON</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <blockquote>
+<p>JSON = JavaScript Object Notation （JavaScript对象表示法）<br>JSON 是存储和交换文本信息的语法，类似XML。它采用键值对的方式来组织，易于人们阅读和编写，同时也易于及其解析和生成<br>JSON 是独立于语言的，也就是说不管什么语言，都可以解析json，只需要按照json的规则来就行</p>
+</blockquote>
+<h2 id="与XML比较"><a href="#与XML比较" class="headerlink" title="与XML比较"></a>与XML比较</h2><ul>
+<li>长度比xml短</li>
+<li>读写速度更快</li>
+<li>json可以使用Javascript内建的方法直接进行解析，转换成Javascript对象，非常方便</li>
+</ul>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><ul>
+<li>JSON数据的书写格式：名称/值对<br>名称/值对组合中的名称写在前面（在双引号中），值对写在后面（同样在双引号中），中间用冒号隔开：比如<code>&quot;name&quot;:&quot;jane&quot;</code></li>
+<li>可以使用的数据类型<ul>
+<li>数字（整数或浮点数）</li>
+<li>字符串（双引号）</li>
+<li>逻辑值（true or false）</li>
+<li>数组（ […] ）</li>
+<li>对象（ {…} ）</li>
+<li>null</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON解析"><a href="#JSON解析" class="headerlink" title="JSON解析"></a>JSON解析</h2><ul>
+<li>eval和JSON.parse</li>
+<li>尽可能使用<code>JSON.parse()</code>方法解析字符串本身，该方法可以捕捉JSON中的语法错误。eval使用存在风险，特别是第三方JSON数据存在恶意代码时。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> jsondata = <span class="string">'&#123;"staff":[&#123;"name":"aaa","age":70&#125;,&#123;"name":"bbb","age":12&#125;]&#125;'</span>;</span><br><span class="line"><span class="keyword">var</span> jsonobj = <span class="built_in">JSON</span>.parse(jsondata);</span><br><span class="line"><span class="comment">//解析完毕</span></span><br><span class="line">alert(jsonobj.staff[<span class="number">0</span>].name);</span><br><span class="line"><span class="comment">//直接对对象进行操作</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>tip：</strong> <code>JSON.stringify()</code>方法是将对象解析成JSON<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;</span><br><span class="line"><span class="built_in">JSON</span>.stringify(a) <span class="comment">//"&#123;"a":1,"b":2&#125;"</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2017/03/21/Web%E5%9F%BA%E7%A1%80/AJAX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2017/03/26/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/iconfont%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

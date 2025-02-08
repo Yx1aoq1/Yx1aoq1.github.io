@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【JS设计模式】命令模式</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令模式"><span class="toc-number">1.</span> <span class="toc-text">命令模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子-——-菜单程序"><span class="toc-number">1.1.</span> <span class="toc-text">举个例子 —— 菜单程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令模式的应用"><span class="toc-number">2.</span> <span class="toc-text">命令模式的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#撤销命令"><span class="toc-number">2.1.</span> <span class="toc-text">撤销命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#撤销与重做"><span class="toc-number">2.2.</span> <span class="toc-text">撤销与重做</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他命令"><span class="toc-number">2.3.</span> <span class="toc-text">其他命令</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【JS设计模式】命令模式</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-08-21T06:07:17.000Z" itemprop="datePublished">2020-08-21</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JS设计模式</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h2><p>命令模式的定义：</p>
+<blockquote>
+<p>用于将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及执行可撤销的操作。</p>
+</blockquote>
+<p>命令模式最常见的<strong>应用场景</strong>是：有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁，页不知道被请求的操作是什么。<strong>此时希望用一种松耦合的方式来设计程序，使得请求发送者和请求接收者能够消除彼此之间耦合的关系</strong>。</p>
+<p>例如客人向一个餐厅订餐，需要向厨师发出请求，但是完全不知道这些厨师的名字和联系方式，也不知道厨师炒菜的方法和步骤。命令模式把客人的订单请求封装成一个<code>command</code>对象，也就是订餐中的订单，订单通过服务员传给厨师，厨师便知道了自己需要做什么菜，怎么安排。这样一来，客人就不必知道厨师的名字，从而解开了请求调用者和请求接收者之间的耦合关系。</p>
+<h3 id="举个例子-——-菜单程序"><a href="#举个例子-——-菜单程序" class="headerlink" title="举个例子 —— 菜单程序"></a>举个例子 —— 菜单程序</h3><p>假设有一个用户界面，上面有许多的Button，每个Button对应不同的操作。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"button1"</span>&gt;</span>按钮1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"button2"</span>&gt;</span>按钮2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"button3"</span>&gt;</span>按钮3<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> button1 = <span class="built_in">document</span>.getElementById(<span class="string">'button1'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> button2 = <span class="built_in">document</span>.getElementById(<span class="string">'button2'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> button3 = <span class="built_in">document</span>.getElementById(<span class="string">'button3'</span>)</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们为每个菜单绑定一个不同的事件：</p>
+<p><strong>▼简单的做法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bindClick = <span class="function"><span class="keyword">function</span> (<span class="params">button, fn</span>) </span>&#123;</span><br><span class="line">  button.onclick = fn</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> MenuBar = &#123;</span><br><span class="line">  refresh: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'刷新菜单界面'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> SubMenu = &#123;</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'增加子菜单'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">delete</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'删除子菜单'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bindClick(button1, MenuBar.refresh)</span><br><span class="line">bindClick(button2, SubMenu.add)</span><br><span class="line">bindClick(button3, SubMenu.delete)</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼使用命令模式</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> setCommand = <span class="function"><span class="keyword">function</span> (<span class="params">button, command</span>) </span>&#123;</span><br><span class="line">  button.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    command,execute()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> MenuBar = &#123;</span><br><span class="line">  refresh: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'刷新菜单界面'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> RefreshMenuBarCommand = <span class="function"><span class="keyword">function</span> (<span class="params">receiver</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">  	execute: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      receiver.refresh()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar)</span><br><span class="line"></span><br><span class="line">setCommand(button1, refreshMenuBarCommand)</span><br></pre></td></tr></table></figure>
+
+<p>对比以上的两种实现方法，会发现，命令模式引入了<code>command</code>对象和<code>receiver</code>这两个无中生有的对象，把简单的事情复杂化了。但是如果我们把“绑定菜单事件”作为一个客户操作，第一个实现方式中，你必须清楚的知道<code>MenuBar</code>内部的方法。而在命令模式中，则通过<code>RefreshMenuBarCommand</code>做了内部的处理，客户只需要使用<code>RefreshMenuBarCommand</code>，而并不需要知晓<code>MenuBar</code>中用什么方式来实现。</p>
+<h2 id="命令模式的应用"><a href="#命令模式的应用" class="headerlink" title="命令模式的应用"></a>命令模式的应用</h2><h3 id="撤销命令"><a href="#撤销命令" class="headerlink" title="撤销命令"></a>撤销命令</h3><p>在之前的策略模式中实现了一个<code>Animate</code>动画，假设页面上有一个<code>input</code>输入框与一个<code>button</code>按钮，在输入框中输入数字，并点击按钮后，页面上的小球就会水平移动输入的距离。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ball"</span> <span class="attr">style</span>=<span class="string">"position:absolute;background:#000;width:50px;height:50px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  输入小球移动后的位置：<span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"pos"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"moveBtn"</span>&gt;</span>开始移动<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"undoBtn"</span>&gt;</span>撤销<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时，我们希望增加一个“撤销”按钮，点击后小球将还原到移动前的位置：</p>
+<p><strong>▼使用命令模式</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ball = <span class="built_in">document</span>.getElementById(<span class="string">'ball'</span>)</span><br><span class="line"><span class="keyword">var</span> pos = <span class="built_in">document</span>.getElementById(<span class="string">'pos'</span>)</span><br><span class="line"><span class="keyword">var</span> moveBtn = <span class="built_in">document</span>.getElementById(<span class="string">'moveBtn'</span>)</span><br><span class="line"><span class="keyword">var</span> undoBtn = <span class="built_in">document</span>.getElementById(<span class="string">'undoBtn'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> MoveCommand = <span class="function"><span class="keyword">function</span> (<span class="params">receiver, pos</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.receiver = receiver</span><br><span class="line">  <span class="keyword">this</span>.pos = pos</span><br><span class="line">  <span class="keyword">this</span>.oldPos = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MoveCommand.prototype.execute = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.receiver.start(<span class="string">'left'</span>, <span class="keyword">this</span>.pos, <span class="number">1000</span>, <span class="string">'strongEaseOut'</span>)</span><br><span class="line">  <span class="keyword">this</span>.oldPos = <span class="keyword">this</span>.receiver.dom.getBoundingClientRect()[<span class="keyword">this</span>.receiver.propertyName]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MoveCommand.prototype.undo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.receiver.start(<span class="string">'left'</span>, <span class="keyword">this</span>.oldPos, <span class="number">1000</span>, <span class="string">'strongEaseOut'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> moveCommand</span><br><span class="line"></span><br><span class="line">moveBtn.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> animate = <span class="keyword">new</span> Animate(ball)</span><br><span class="line">  moveCommand = <span class="keyword">new</span> MoveCommand(animate, pos.value)</span><br><span class="line">  moveCommand.execute()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">undoBtn.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  moveCommand.undo()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="撤销与重做"><a href="#撤销与重做" class="headerlink" title="撤销与重做"></a>撤销与重做</h3><p>上面的例子是如何撤销一个命令，但很多时候，我们需要撤销的是一系列命令。比如一个围棋程序，现在已下了10步棋，我们想悔棋到第5步，我们可以把所有执行过的命令都存储在一个历史列表中，然后倒叙循环来依次执行这些命令的<code>undo</code>操作，直到循环执行到第5步。</p>
+<p>然而，在某些情况下无法顺利地利用<code>undo</code>操作让对象回到<code>execute</code>之前地状态，比如在一个Canvas画图地程序中，很难为命令对象定义一个擦除某条曲线的<code>undo</code>操作。<strong>这个时候最好的办法是先清除画布，然后把执行过的命令再重新执行一遍</strong>。这是逆转不可逆命令的一个好办法。</p>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><ul>
+<li><strong>宏命令</strong>：一组命令的集合，通过执行宏命令的方式，可以一次执行一批命令。</li>
+<li><strong>智能命令</strong>：不需要接收者存在的命令，即不需要向命令对象传参数<code>receiver。</code></li>
+<li><strong>傻瓜命令</strong>：与智能命令相对应，即需要<code>receiver</code>参数的命令。并且只负责把客户的请求转交给接收者来执行，目的是让请求发起者和请求接收者之间解耦。</li>
+</ul>
+<p>文章参考：<br>《JavaScript设计模式与开发实践》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/08/21/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/08/21/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

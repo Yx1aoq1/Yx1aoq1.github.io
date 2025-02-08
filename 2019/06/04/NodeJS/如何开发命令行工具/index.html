@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>如何开发命令行工具</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#commander-js"><span class="toc-number">2.</span> <span class="toc-text">commander.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何挂载到npm上"><span class="toc-number">3.</span> <span class="toc-text">如何挂载到npm上</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置入口文件，并在入口文件开头写上-usr-bin-env-node"><span class="toc-number">4.</span> <span class="toc-text">设置入口文件，并在入口文件开头写上#! &#x2F;usr&#x2F;bin&#x2F;env node</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">如何开发命令行工具</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2019-06-04T14:46:00.000Z" itemprop="datePublished">2019-06-04</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/NodeJS/" rel="tag">NodeJS</a>, <a class="tag-link" href="/tags/cli%E5%B7%A5%E5%85%B7/" rel="tag">cli工具</a>, <a class="tag-link" href="/tags/fet%E6%BA%90%E7%A0%81/" rel="tag">fet源码</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>这是基于新哥的脚手架工具fet源码阅读的学习笔记第一篇，主要内容是如何基于<code>node</code>和其他的一些工具包来完成一些简单的命令行小工具。主要实践为一个批量重命名的命令行工具（巨简单的那种），大概梳理流程和思路。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在<code>node</code>中，有一个变量叫做<code>process</code>的全局变量，当启动一个 Node.js 进程时，我们可以通过<code>process.argv</code>获得传入的命令行参数。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/ys-1.png" alt=""><br>其中：</p>
+<ul>
+<li><code>argv[0]</code>为<a href="http://nodejs.cn/s/MCrAya" target="_blank" rel="noopener"><code>process.execPath</code></a></li>
+<li><code>argv[1]</code>为正在执行 JavaScript 文件的路径</li>
+<li>其余元素是任何其他命令行参数</li>
+</ul>
+<p>通过解析<code>process.argv</code>，我们就可以执行不同的操作。</p>
+<h2 id="commander-js"><a href="#commander-js" class="headerlink" title="commander.js"></a>commander.js</h2><p>我们可以引用<code>commander.js</code>，让命令行变得更加简单。<br>下面简单示例一个图片重命名的node实现。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> program = <span class="built_in">require</span>(<span class="string">'commander'</span>)</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="string">'./'</span></span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .version(<span class="string">'0.0.1'</span>)</span><br><span class="line">  .description(<span class="string">'a test cli program'</span>)</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .command(<span class="string">'rename &lt;format&gt;'</span>) <span class="comment">// 设置指令</span></span><br><span class="line">  .option(<span class="string">'-n, --number &lt;number&gt;'</span>, <span class="string">'设置rename数字，默认从1开始'</span>, <span class="number">1</span>) <span class="comment">// 设置参数</span></span><br><span class="line">  .option(<span class="string">'-a, --after'</span>, <span class="string">'将fomat字符固定在数字后，默认在前'</span>)</span><br><span class="line">  .action(<span class="function"><span class="keyword">function</span> (<span class="params">format, opts</span>) </span>&#123; <span class="comment">// 执行操作</span></span><br><span class="line">    fs.readdir(path, <span class="function"><span class="keyword">function</span>(<span class="params">err, files</span>) </span>&#123;</span><br><span class="line">      files.map(<span class="function"><span class="keyword">function</span>(<span class="params">filename</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> extname = getExtname(filename)</span><br><span class="line">        <span class="keyword">if</span> (isImage(extname)) &#123;</span><br><span class="line">          <span class="keyword">var</span> newname = getNewName(format, opts, extname)</span><br><span class="line">          fs.rename(filename, newname, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(filename + <span class="string">' --&gt; '</span> + newname)</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">program.parse(process.argv)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isImage</span> (<span class="params">extname</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> imageTypes = [<span class="string">'webp'</span>, <span class="string">'png'</span>, <span class="string">'svg'</span>, <span class="string">'gif'</span>, <span class="string">'jpg'</span>, <span class="string">'jpeg'</span>, <span class="string">'bmp'</span>]</span><br><span class="line">  <span class="keyword">return</span> imageTypes.includes(extname)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExtname</span> (<span class="params">filename</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> filenameWithoutSuffix = filename.split(<span class="regexp">/#|\?/</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">return</span> (<span class="regexp">/[^./\\]*$/</span>.exec(filenameWithoutSuffix) || [<span class="string">''</span>])[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNewName</span> (<span class="params">format, opts, extname</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> opts.after</span><br><span class="line">         ? (opts.number ++) + format + <span class="string">'.'</span> + extname</span><br><span class="line">         : format + (opts.number ++) + <span class="string">'.'</span> + extname</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如图所示：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/ys-2.png" alt=""></p>
+<h2 id="如何挂载到npm上"><a href="#如何挂载到npm上" class="headerlink" title="如何挂载到npm上"></a>如何挂载到<code>npm</code>上</h2><p>虽然已经有这个效果，但是<code>rename.js</code>能做的也只是将它所在文件夹地下的文件进行重命名，但我们实际的情况是，想在某个文件夹底下执行<code>rename xxx</code>的命令，而不是将<code>rename.js</code>搬来搬去。因此，我们可以将这个命令通过<code>npm link</code>挂到<code>npm</code>上。</p>
+<p>我们通过<code>npm init</code>生成<code>package.json</code>文件，并增加一个<code>bin</code>的字段来定义我们的指令开头：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"cmd-test"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"node图片重命名命令行工具"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"bin"</span>: &#123;</span><br><span class="line">    <span class="attr">"mycmd"</span>: <span class="string">"./index.js"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">"yx1aoq1"</span>,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"ISC"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="设置入口文件，并在入口文件开头写上-usr-bin-env-node"><a href="#设置入口文件，并在入口文件开头写上-usr-bin-env-node" class="headerlink" title="设置入口文件，并在入口文件开头写上#! /usr/bin/env node"></a>设置入口文件，并在入口文件开头写上<code>#! /usr/bin/env node</code></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /usr/bin/env node</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'../rename.js'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在执行了<code>npm link</code>之后，就可以看到，我们的命令已经可以起作用了。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/ys-3.png" alt=""></p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2019/05/26/TypeScript/TypeScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2019/10/19/NodeJS/cli%E5%B7%A5%E5%85%B7%E4%B9%8Binit/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

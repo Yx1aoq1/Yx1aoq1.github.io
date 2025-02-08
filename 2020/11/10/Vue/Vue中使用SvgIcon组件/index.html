@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Vue中使用SvgIcon组件</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#在src-components-下创建SvgIcon组件"><span class="toc-number">1.</span> <span class="toc-text">在src&#x2F;components&#x2F;下创建SvgIcon组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在src-下创建一个icons目录，目录结构如下："><span class="toc-number">2.</span> <span class="toc-text">在src&#x2F;下创建一个icons目录，目录结构如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在main-js中引入"><span class="toc-number">3.</span> <span class="toc-text">在main.js中引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改默认的loader"><span class="toc-number">4.</span> <span class="toc-text">修改默认的loader:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用？"><span class="toc-number">5.</span> <span class="toc-text">如何使用？</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Vue中使用SvgIcon组件</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-11-10T03:33:13.000Z" itemprop="datePublished">2020-11-10</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="在src-components-下创建SvgIcon组件"><a href="#在src-components-下创建SvgIcon组件" class="headerlink" title="在src/components/下创建SvgIcon组件"></a>在<code>src/components/</code>下创建<code>SvgIcon</code>组件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;svg :class&#x3D;&quot;svgClass&quot; aria-hidden&#x3D;&quot;true&quot;&gt;</span><br><span class="line">    &lt;use :xlink:href&#x3D;&quot;iconName&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;svg&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;SvgIcon&#39;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    iconClass: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true,</span><br><span class="line">    &#125;,</span><br><span class="line">    className: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &#39;&#39;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    iconName () &#123;</span><br><span class="line">      return &#96;#icon-$&#123;this.iconClass&#125;&#96;</span><br><span class="line">    &#125;,</span><br><span class="line">    svgClass () &#123;</span><br><span class="line">      if (this.className) &#123;</span><br><span class="line">        return &#39;svg-icon &#39; + this.className</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return &#39;svg-icon&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.svg-icon &#123;</span><br><span class="line">  width: 1em;</span><br><span class="line">  height: 1em;</span><br><span class="line">  vertical-align: -0.15em;</span><br><span class="line">  fill: currentColor;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在src-下创建一个icons目录，目录结构如下："><a href="#在src-下创建一个icons目录，目录结构如下：" class="headerlink" title="在src/下创建一个icons目录，目录结构如下："></a>在<code>src/</code>下创建一个<code>icons</code>目录，目录结构如下：</h3><p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/166a4060f570529f" alt="img"></p>
+<p><code>index.js</code>文件内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> requireAll = <span class="function"><span class="params">requireContext</span> =&gt;</span> requireContext.keys().map(requireContext)</span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">'./svg'</span>, <span class="literal">false</span>, /\.svg$/)</span><br><span class="line">requireAll(req)</span><br></pre></td></tr></table></figure>
+
+<h3 id="在main-js中引入"><a href="#在main-js中引入" class="headerlink" title="在main.js中引入"></a>在<code>main.js</code>中引入</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'@/icons'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改默认的loader"><a href="#修改默认的loader" class="headerlink" title="修改默认的loader:"></a>修改默认的<code>loader</code>:</h3><p><code>vue-cli3</code>中的<code>vue.config.js</code>配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 将 icons 目录排除在 svg 默认规则之外</span></span><br><span class="line">  config.module</span><br><span class="line">    .rule(<span class="string">'svg'</span>)</span><br><span class="line">    .exclude.add(resolve(<span class="string">'src/icons'</span>))</span><br><span class="line">    .end()</span><br><span class="line">  <span class="comment">// 用 svg-sprite-loader 处理 icons 下的 svg</span></span><br><span class="line">  config.module</span><br><span class="line">    .rule(<span class="string">'icons'</span>)</span><br><span class="line">    .test(<span class="regexp">/\.svg$/</span>)</span><br><span class="line">    .include.add(resolve(<span class="string">'src/icons'</span>))</span><br><span class="line">    .end()</span><br><span class="line">    .use(<span class="string">'svg-sprite-loader'</span>)</span><br><span class="line">    .loader(<span class="string">'svg-sprite-loader'</span>)</span><br><span class="line">    .options(&#123;</span><br><span class="line">      symbolId: <span class="string">'icon-[name]'</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .end()</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h3><ul>
+<li>把<code>.svg</code>文件放到<code>src/icons/svg</code>的目录下；</li>
+<li>点击<code>svg</code>查看源码，修改<code>fill</code>属性， <code>fill=&quot;currentColor&quot;</code>，或者<code>fill=&quot;&quot;</code>，如果无此属性，就不用管，这样做是可以让外部控制icon的颜色，或随父元素的color；</li>
+<li>注意<code>svg</code>命名和<code>SvgIcon</code>命名一致，看一下最终使用：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg-icon icon-class&#x3D;&quot;go-back&quot;&gt;&lt;&#x2F;svg-icon&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考链接：</p>
+<ul>
+<li><a href="https://juejin.im/post/6844903697999200263#heading-2" target="_blank" rel="noopener">在vue项目中优雅的使用Svg</a></li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/09/06/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/11/10/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E5%8D%8F%E8%AE%AE/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Hexo之如何在线编辑博客</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-Admin"><span class="toc-number">1.</span> <span class="toc-text">Hexo Admin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署线上"><span class="toc-number">2.</span> <span class="toc-text">部署线上</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PM2与Nginx代理"><span class="toc-number">3.</span> <span class="toc-text">PM2与Nginx代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PM2"><span class="toc-number">3.1.</span> <span class="toc-text">PM2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx代理"><span class="toc-number">3.2.</span> <span class="toc-text">Nginx代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一键发布"><span class="toc-number">4.</span> <span class="toc-text">一键发布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Hexo之如何在线编辑博客</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-01-08T17:58:00.000Z" itemprop="datePublished">2020-01-09</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/hexo/" rel="tag">hexo</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>在搭了Hexo博客之后一直有一个很蛋疼的问题，就是不能像简书或者WordPress之类的有在线编辑的平台，虽然之前在github上备份了一份配置，但是每次都逃不开换个电脑就得重新<code>git clone</code>的命运。</p>
+<p>于是乎，我找到了一个插件来解决这个问题——<a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">Hexo Admin</a></p>
+<h2 id="Hexo-Admin"><a href="#Hexo-Admin" class="headerlink" title="Hexo Admin"></a>Hexo Admin</h2><p>这个插件就是可以在运行<code>hexo server</code>的时候，可以在<code>localhost:4000/admin</code>访问到一个文章管理系统。</p>
+<p><img src="https://github.com/jaredly/hexo-admin/blob/master/docs/pasted-0.png?raw=true" alt=""></p>
+<p>根据官方文档，可以在hexo的配置文件<code>_config.yml</code>中配置登录的用户名密码：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">admin:</span></span><br><span class="line">  <span class="attr">username:</span> <span class="string">myfavoritename</span> <span class="comment"># 用户名</span></span><br><span class="line">  <span class="attr">password_hash:</span> <span class="string">be121740bf988b2225a313fa1f107ca1</span> <span class="comment"># bcrypt 加密后的密码</span></span><br><span class="line">  <span class="attr">secret:</span> <span class="string">a</span> <span class="string">secret</span> <span class="string">something</span> <span class="comment"># cookies</span></span><br></pre></td></tr></table></figure>
+
+<p>如此就可以满足一个后台系统的全部需求。</p>
+<h2 id="部署线上"><a href="#部署线上" class="headerlink" title="部署线上"></a>部署线上</h2><p>想要线上访问，首先，就得有一台服务器。在服务器上安装上完整环境：</p>
+<ul>
+<li><a href="http://liaolongdong.com/2018/11/01/alicloud-node-mongodb.html" target="_blank" rel="noopener">安装nodejs</a></li>
+<li><a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git" target="_blank" rel="noopener">安装git</a></li>
+</ul>
+<p>然后就是hexo的一套基本操作：</p>
+<ul>
+<li><code>git clone ${hexo项目}</code></li>
+<li><code>npm install</code></li>
+<li><code>npm install hexo -g</code></li>
+<li><code>hexo server</code></li>
+</ul>
+<p>一顿操作，我们就可通过访问<code>${你的服务器ip}:4000/admin</code>来访问到后台了。但是此时就有个问题了，如果我断开和服务器的连接或者要做其他操作，那么此时启动的服务就会断开。那么，有什么办法能让<code>hexo server</code>一直开启着吗？</p>
+<h2 id="PM2与Nginx代理"><a href="#PM2与Nginx代理" class="headerlink" title="PM2与Nginx代理"></a>PM2与Nginx代理</h2><h3 id="PM2"><a href="#PM2" class="headerlink" title="PM2"></a>PM2</h3><p>PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，如性能监控、自动重启、负载均衡等，而且使用非常简单。</p>
+<p>我们需要在项目的根目录创建一个app.js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const &#123; exec &#125; &#x3D; require(&#39;child_process&#39;)</span><br><span class="line">exec(&#39;hexo server -s&#39;,(error, stdout, stderr) &#x3D;&gt; &#123;</span><br><span class="line">  if (error)&#123;</span><br><span class="line">    console.log(&#39;exec error: $&#123;error&#125;&#39;)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(&#39;stdout: $&#123;stdout&#125;&#39;);</span><br><span class="line">  console.log(&#39;stderr: $&#123;stderr&#125;&#39;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>运行<code>pm2 start app.js</code>，我们就可以启动一个nodejs进程，来开启hexo服务，并且持续运行。</p>
+<h3 id="Nginx代理"><a href="#Nginx代理" class="headerlink" title="Nginx代理"></a>Nginx代理</h3><p>因为一个服务器上总会开着N多个端口不一样的项目，为了通过子域名的形式来区分，所以使用了Nginx代理。只需要配置一下<code>nginx.conf</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name hexo.y4shero.com;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass http:&#x2F;&#x2F;localhost:4000;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一键发布"><a href="#一键发布" class="headerlink" title="一键发布"></a>一键发布</h2><p>Hexo Admin提供了Deploy的接口，通过配置<code>deployCommand</code>来执行发布脚本：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">admin:</span></span><br><span class="line">  <span class="attr">deployCommand:</span> <span class="string">'./admin_script/hexo-deploy.sh'</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本的内容也挺简单的，就是hexo发布的日常操作，以及再发布后，将更新同步到github：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env sh</span></span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br><span class="line">git pull</span><br><span class="line">git add --all</span><br><span class="line">git commit -m "update post"</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+
+<p>至此，hexo的后台就完全搭建好了，很自动，很方便。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在编辑博客的时候，发现post文件更新一定程度之后会导致服务断开502，导致编辑数据丢失，原因是因为之前启动的指令是<code>hexo server -d</code>，会监听source文件的变动导致重新部署，使得连接中断需要重新登录。所以将app.js中的启动指令改为了<code>hexo server -s</code>，启动静态模式，只会监听public文件夹的变化。</p>
+<p>但是这依然会有一个问题：就是会导致有博文更新之后Hexo Admin的预览会出错。所以在一键发布的脚本里增加了<code>pm2 restart hexo</code>，在每次部署完后重启服务。</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2019/12/03/ES6/Promise%E8%AF%A6%E8%A7%A3/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/01/16/Vue/Vue%E4%B9%8Bkeep-alive/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

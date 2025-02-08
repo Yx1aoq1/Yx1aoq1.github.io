@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>JS面向对象学习笔记</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象（OOP）的概念"><span class="toc-number">1.</span> <span class="toc-text">面向对象（OOP）的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于类vs基于原型"><span class="toc-number">1.1.</span> <span class="toc-text">基于类vs基于原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new操作符"><span class="toc-number">1.2.</span> <span class="toc-text">new操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原型对象"><span class="toc-number">1.3.</span> <span class="toc-text">原型对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原型链"><span class="toc-number">2.</span> <span class="toc-text">原型链</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#属性查找"><span class="toc-number">2.1.</span> <span class="toc-text">属性查找</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建对象"><span class="toc-number">3.</span> <span class="toc-text">创建对象</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">JS面向对象学习笔记</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2017-08-16T13:20:29.000Z" itemprop="datePublished">2017-08-16</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="面向对象（OOP）的概念"><a href="#面向对象（OOP）的概念" class="headerlink" title="面向对象（OOP）的概念"></a>面向对象（OOP）的概念</h2><p>对于面向对象，有以下几个概念：</p>
+<ul>
+<li>一切事物皆对象</li>
+<li>对象具有封装和继承特性</li>
+<li>对象与对象之间使用消息通信，各自存在信息隐藏</li>
+</ul>
+<p><strong>对象有哪些特性？</strong></p>
+<ul>
+<li><strong>封装性：</strong>通过封装可以为对象内部的数据提供不同级别的保护，避免了外界的干扰和不确定性。</li>
+<li><strong>继承：</strong>很好的支持了代码的重用性，通过一个类派生一个新的类，这个新类不仅可以具有原来的类的特性，还可以拥有新的特性。</li>
+<li><strong>多态：</strong>多态指的不同类的对象对同一消息作出不同的响应。</li>
+</ul>
+<p><strong>面向对象的优点：</strong>易维护、易复用、易扩展，由于面向对象有封装、继承、多态的特性，可以设计出低耦合的系统，使系统更加灵活、易于维护。</p>
+<p>JavaScript作为一门面向对象的语言，却并不是通过<strong>类</strong>来实现面向对象的，而是通过<strong>原型（prototype）</strong>。那么这两者实现面向对象究竟有什么区别呢？</p>
+<h3 id="基于类vs基于原型"><a href="#基于类vs基于原型" class="headerlink" title="基于类vs基于原型"></a>基于类vs基于原型</h3><p>基于类的面向对象语言，比如Java和C++，是构建在两个不同实体的概念之上的：即类和实例。</p>
+<ul>
+<li><strong>类（class）：</strong>定义了所有具有某一组特征对象的属性（可以将Java中的方法和变量以及C++中的成员都视作属性）。类是抽象的事物，而不是其所描述的全部对象中的任何特定的个体。</li>
+<li><strong>实例（instance）：</strong>类的实例化体系；或者说，是类的一个成员。实例具有和其父类完全一致的属性。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  String name;</span><br><span class="line">  <span class="keyword">int</span> age;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">walking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">sleeping</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  Person(x,y) &#123;</span><br><span class="line">    name = x;</span><br><span class="line">    age = y;</span><br><span class="line">  &#125;<span class="comment">//类的构造函数</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实例化</span></span><br><span class="line">Person xm = <span class="keyword">new</span> Person(<span class="string">'xm'</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+
+<p>其中，创建类的实例必须调用类的构造方法。类的构造方法是一类和类同名的方法，用于创建类的实例并初始化对象。<br>而对于JavaScript，我们不需要定义一个类，而只需要定义一个构造函数，然后通过这个构造函数就可以创建实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xm = <span class="keyword">new</span> Person(<span class="string">'xm'</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="new操作符"><a href="#new操作符" class="headerlink" title="new操作符"></a>new操作符</h3><p>在Java中，new操作符做的是在内存中开辟一个空间，然后生成的实例会通过指针指向这个空间。<br>在JS中，new操作符不仅仅在内存开辟了一个空间，还进行了另外的<strong>两个步骤</strong></p>
+<ul>
+<li>将实例的<code>._proto_</code>指向构造函数的<code>prototype</code>属性。</li>
+<li>调用构造函数来初始化实例对象。（<code>call</code>、<code>apply</code>）</li>
+</ul>
+<h3 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h3><p>对象不仅仅有自己独特的属性，例如<code>Person</code>，每个<code>Person</code>的实例对象不仅有属于自己的姓名与年龄，还有许多共用的方法。如果在每个对象的实例中都存一份方法就会造成空间的浪费。</p>
+<p>在Java中，共用的方法会采用静态的方式用<code>static</code>修饰将这些方法定义成静态成员，这些静态成员会存放在另外的内存空间中，直到该类被卸载的时候才会被回收。</p>
+<p>而在JS中，则引入了原型对象。原型对象就是构造函数的<code>prototype</code>属性，这个属性存放着实例对象需要共享的属性和方法，而那些不需要共享的属性和方法就放在构造函数里面。而在这个原型对象中则存在一个<code>constructor</code>属性来指向该原型实例的构造函数。</p>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>由于JS中，实例是对象，函数是对象，原型也是对象，他们都包含各自的<code>_proto_</code>属性，<code>constructor</code>属性和<code>prototype</code>属性，它们相互指来指去，就形成了一条原型链。</p>
+<p>以<code>Person</code>这个构造函数为例，我们创建了它的实例<code>xm</code>，于是以下的原型链中我们就包含了三种不同的对象，一个是实例，一个是构造函数，还有构造函数的原型对象。其中<code>_proto_</code>其实是浏览器为我们提供的非标准的查看对象原型的访问器，并不是真实存在的属性，所以用虚线表示。</p>
+<p><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/prototype.png" alt=""></p>
+<h3 id="属性查找"><a href="#属性查找" class="headerlink" title="属性查找"></a>属性查找</h3><p>当查找一个对象的属性时，JS会向上遍历原型链，直到找到给定名称的属性为止，如果查找到原型链的终点（null）时，仍然没有找到，则会返回<code>undefined</code>。</p>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><ul>
+<li>基于Object对象创建</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">person.name = <span class="string">'xm'</span>;</span><br><span class="line">person.age = <span class="number">18</span>;</span><br><span class="line">person.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字面量的方式：清晰的查找对象包含的属性和方法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  name: <span class="string">'xm'</span>,</span><br><span class="line">  age: <span class="number">18</span>,</span><br><span class="line">  getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>工厂模式：用于批量创建多构造类似的对象，缺点是无法识别对象的类型（都是Object）。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">functioni createPerson(name,age) &#123;</span><br><span class="line">  <span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  o.name = name;</span><br><span class="line">  o.age = age;</span><br><span class="line">  o.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = createPerson(<span class="string">'xm'</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>构造函数模式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">'xm'</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Object.create(prototype, descriptors)</code>：是E5中提出的一种新的对象创建方式。它会新建一个对象，并且让这个对象的原型指向参数<code>prototype</code>。<br>参数说明：<br><code>prototype</code>：必需。要用作原型的对象，可以为<code>null</code>。<br><code>descriptors</code>：可选。包含一个或多个属性描述符的JavaScript对象。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123;<span class="attr">x</span>:<span class="number">1</span>&#125;);</span><br><span class="line">obj.hasOwnProperty(<span class="string">'x'</span>);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2017/08/15/Web%E5%9F%BA%E7%A1%80/JS%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2017/08/17/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85%E2%80%94%E2%80%94%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

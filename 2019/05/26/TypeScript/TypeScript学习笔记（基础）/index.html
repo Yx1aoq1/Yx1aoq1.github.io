@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>TypeScript学习笔记（基础）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-是什么"><span class="toc-number">1.</span> <span class="toc-text">TS 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类型"><span class="toc-number">2.</span> <span class="toc-text">TS 中的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础类型"><span class="toc-number">2.1.</span> <span class="toc-text">基础类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#联合类型"><span class="toc-number">2.2.</span> <span class="toc-text">联合类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组与函数"><span class="toc-number">2.3.</span> <span class="toc-text">数组与函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的接口"><span class="toc-number">3.</span> <span class="toc-text">TS 中的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS-中的类"><span class="toc-number">4.</span> <span class="toc-text">TS 中的类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-的类"><span class="toc-number">4.1.</span> <span class="toc-text">ES6 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES7-的类"><span class="toc-number">4.2.</span> <span class="toc-text">ES7 的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TS-的类"><span class="toc-number">4.3.</span> <span class="toc-text">TS 的类</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">TypeScript学习笔记（基础）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2019-05-26T06:35:02.000Z" itemprop="datePublished">2019-05-26</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/TypeScript/">TypeScript</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/TypeScript/" rel="tag">TypeScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="TS-是什么"><a href="#TS-是什么" class="headerlink" title="TS 是什么"></a>TS 是什么</h2><blockquote>
+<p>TS是一个应用程序级的JavaScript开发语言，是JavaScript的超集，可以编译成纯JavaScript，并遵循JavaScript的语法和语义。</p>
+</blockquote>
+<p>▼ <strong>TS与JS相比，有什么优势</strong></p>
+<ul>
+<li>TS 与 JS 对比，最主要是增加了静态类型，这样就能在调试的时候做到类型检查，越界检查，在构建的时候就可以发现问题，可以减少潜在的BUG</li>
+<li>提供了类、模块和接口，更有利于构建组件</li>
+</ul>
+<p>对比TS，其实ES6也已经对JS做了一些类、模块之类的改进，那么为什么还要学习TS呢？其实由TS的名字就可以感受到，它的重点：<code>Type</code>，JS本身与大部分其他语言的不同之处就在于弱类型，声明一个变量，它就可以是任何类型，这就给代码的管理上造成了隐患。强类型的本意就在于用规则约束自己的代码，有了这些规则，自然而然的就能够避免一些低级的BUG。当然，BUG是永远不可能消失滴。</p>
+<p>TS能够更好的帮助管理大型工程，也可以减少代码中一堆isxxx的类型判断。并且TS提供了定义对象类型的接口（Interfaces），对于开发，我们只需要在接口处标明类型，其它的内部过程交由 ts 推理就好，这也减少了许多额外的工作。</p>
+<h2 id="TS-中的类型"><a href="#TS-中的类型" class="headerlink" title="TS 中的类型"></a>TS 中的类型</h2><h3 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> isDone: <span class="built_in">boolean</span> = <span class="literal">false</span> <span class="comment">// 布尔值</span></span><br><span class="line"><span class="keyword">let</span> num: <span class="built_in">number</span> = <span class="number">100</span> <span class="comment">// 数值</span></span><br><span class="line"><span class="keyword">let</span> str: <span class="built_in">string</span> = <span class="string">'Hello'</span> <span class="comment">// 字符串（支持模板字符串$&#123;&#125;）</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertName</span>(<span class="params"></span>): <span class="title">void</span> </span>&#123; <span class="comment">// 空值，表示没有任何返回值的函数</span></span><br><span class="line">  alert(<span class="string">'My name is Tom'</span>) <span class="comment">// 变量声明为void并没有什么用，因为只能是null 或 undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> u: <span class="literal">undefined</span> = <span class="literal">undefined</span> <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">let</span> n: <span class="literal">null</span> = <span class="literal">null</span> <span class="comment">// null</span></span><br><span class="line"><span class="comment">// 与 void 区别在与其他类型可以赋值为 undefined 或 null 而不报错，但是不能赋值为 void</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anyThing: <span class="built_in">any</span> = <span class="string">'hello'</span> <span class="comment">// 任意值</span></span><br><span class="line"><span class="comment">// 在任意值上访问任何属性都是允许的</span></span><br><span class="line"><span class="built_in">console</span>.log(anyThing.myName)</span><br><span class="line"><span class="built_in">console</span>.log(anyThing.myName.firstName)</span><br><span class="line"><span class="comment">// 也允许调用任何方法</span></span><br><span class="line">anyThing.setName(<span class="string">'Jerry'</span>)</span><br><span class="line">anyThing.setName(<span class="string">'Jerry'</span>).sayHello()</span><br><span class="line">anyThing.myName.setFirstName(<span class="string">'Cat'</span>)</span><br><span class="line"><span class="comment">// 对它的任何操作，返回的内容的类型都是任意值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个变量时，可以指定它为多种类型</span></span><br><span class="line"><span class="comment">//因为不确定是哪种类型，只能访问联合类型共有的属性和方法</span></span><br><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span></span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span></span><br><span class="line">myFavoriteNumber =  <span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数组与函数"><a href="#数组与函数" class="headerlink" title="数组与函数"></a>数组与函数</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义后数组内只能存在这种类型的值</span></span><br><span class="line"><span class="keyword">let</span> fibonacci: <span class="built_in">number</span>[] = [<span class="number">1</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 限定输入类型和输出类型，及参数的个数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span> (<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TS-中的接口"><a href="#TS-中的接口" class="headerlink" title="TS 中的接口"></a>TS 中的接口</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于定义对象的类型</span></span><br><span class="line"><span class="comment">// 定义好后，指定的变量多一个类型或少一个类型都不可以</span></span><br><span class="line"><span class="keyword">interface</span> Person = &#123;</span><br><span class="line">  name: <span class="built_in">string</span>,</span><br><span class="line">  age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">  name: <span class="string">'Tom'</span>,</span><br><span class="line">  age: <span class="number">25</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用可选类型和任意属性来灵活拓展，只读属性来设定不可修改</span></span><br><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">  readonly id: <span class="built_in">number</span></span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  age?: <span class="built_in">number</span></span><br><span class="line">  [propName: <span class="built_in">string</span>]: <span class="built_in">any</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">  id: <span class="number">89757</span>, <span class="comment">// 创建时赋值后便不可修改</span></span><br><span class="line">  name: <span class="string">'Tom'</span>,</span><br><span class="line">  gender: <span class="string">'male'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义数组接口和函数接口</span></span><br><span class="line"><span class="keyword">interface</span> Eg &#123;</span><br><span class="line">  [index: <span class="built_in">number</span>]: <span class="built_in">number</span>, <span class="comment">// 数组类型</span></span><br><span class="line">  (x: <span class="built_in">number</span>, y: <span class="built_in">number</span>): <span class="built_in">number</span><span class="comment">// 函数类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TS-中的类"><a href="#TS-中的类" class="headerlink" title="TS 中的类"></a>TS 中的类</h2><h3 id="ES6-的类"><a href="#ES6-的类" class="headerlink" title="ES6 的类"></a>ES6 的类</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Human&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">  sayHi () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`My name is <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">get</span> name () &#123; <span class="comment">// 存取器</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Jack'</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">set</span> name (value) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setter:'</span> + value)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">static</span> isHuman (a) &#123; <span class="comment">// 静态方法</span></span><br><span class="line">    <span class="keyword">return</span> a <span class="keyword">instanceof</span> Human</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Human(<span class="string">'Tom'</span>)</span><br><span class="line">a.sayHi() <span class="comment">// My name is Tome</span></span><br><span class="line">Human.isHuman(a) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承</span></span><br><span class="line"><span class="keyword">class</span> Chinese extend Human &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(name) <span class="comment">// 调用父类的 constructor(name)</span></span><br><span class="line">  &#125;</span><br><span class="line">  sayHi()  &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'China,'</span> + <span class="keyword">super</span>.sayHi() <span class="comment">// 调用父类的 sayHi()</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ES7-的类"><a href="#ES7-的类" class="headerlink" title="ES7 的类"></a>ES7 的类</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 支持在构造函数外定义变量</span></span><br><span class="line"><span class="keyword">class</span> Human&#123;</span><br><span class="line">  name: <span class="string">'Tom'</span></span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 支持定义静态变量</span></span><br><span class="line"><span class="keyword">class</span> Human&#123;</span><br><span class="line">  <span class="keyword">static</span> name = <span class="string">'Tom'</span></span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Human.name <span class="comment">// Tom</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TS-的类"><a href="#TS-的类" class="headerlink" title="TS 的类"></a>TS 的类</h3><ul>
+<li>支持ES6、ES7的类定义</li>
+<li>增加三种修饰符<code>public</code>、<code>private</code>、<code>protected</code>，对，和当年学 C++ 一模一样</li>
+<li>支持抽象类（过于抽象，还不知道如何使用）</li>
+<li>支持定义类型（和接口类似）</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Human&#123;</span><br><span class="line">  <span class="keyword">public</span> name: <span class="built_in">string</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">constructor</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">private</span> sayHi (): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`My name is <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2019/05/09/Vue/Vuex%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%95%B4%E7%90%86/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2019/06/04/NodeJS/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

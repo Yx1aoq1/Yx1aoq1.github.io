@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Vue3源码学习——响应式原理（01）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue3-项目结构"><span class="toc-number">1.</span> <span class="toc-text">Vue3 项目结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pnpm管理monorepo仓库"><span class="toc-number">1.1.</span> <span class="toc-text">pnpm管理monorepo仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#全局依赖包"><span class="toc-number">1.1.1.</span> <span class="toc-text">全局依赖包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安装子项目的依赖"><span class="toc-number">1.1.2.</span> <span class="toc-text">安装子项目的依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#子项目互相依赖"><span class="toc-number">1.1.3.</span> <span class="toc-text">子项目互相依赖</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#响应式的实现原理"><span class="toc-number">2.</span> <span class="toc-text">响应式的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Reactive"><span class="toc-number">2.1.</span> <span class="toc-text">Reactive</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#track"><span class="toc-number">2.2.</span> <span class="toc-text">track</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#trigger"><span class="toc-number">2.3.</span> <span class="toc-text">trigger</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Vue3源码学习——响应式原理（01）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-03T05:51:30.000Z" itemprop="datePublished">2025-02-03</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="Vue3-项目结构"><a href="#Vue3-项目结构" class="headerlink" title="Vue3 项目结构"></a>Vue3 项目结构</h3><p>Vue3 采用的是<code>monorepo</code>的方式进行项目代码管理。其目录结构大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── package.json</span><br><span class="line">└── packages&#x2F; # 这里将存放所有子 repo 目录</span><br><span class="line">    ├── project_1&#x2F;</span><br><span class="line">    │   ├── index.js</span><br><span class="line">    │   ├── node_modules&#x2F;</span><br><span class="line">    │   └── package.json</span><br><span class="line">    ├── project_2&#x2F;</span><br><span class="line">    │   ├── index.js</span><br><span class="line">    │   ├── node_module&#x2F;</span><br><span class="line">    │   └── package.json</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>monorepo</code>的优势在于：</p>
+<ul>
+<li><p><strong>代码重用将变得容易</strong>：由于所有的项目代码都集中于一个代码仓库，很容易抽离出各个项目共用的业务组件或工具，在代码内引用；</p>
+</li>
+<li><p><strong>依赖管理将变得简单</strong>：由于项目之间的引用路径内化在同一个仓库之中，容易追踪当某个项目的代码修改后，会影响到其他哪些项目。通过使用 lerna 一些工具，可以做到版本依赖管理和版本号自动升级；</p>
+</li>
+<li><p><strong>统一构建和测试</strong>：使用统一的构建配置和流程，减少配置和维护的工作量。此外，可以在整个 Monorepo 中执行统一的测试流程，确保所有项目质量和稳定性。</p>
+</li>
+<li><p><strong>便于协作和开发</strong>：在一个代码仓库中，更容易地浏览、搜索和理解整个项目的代码，便于团队成员之间的协作。Monorepo 还可以促进跨项目的合作和知识共享，提高团队的整体效率和协同能力。</p>
+</li>
+<li><p><strong>更少的内存</strong>：多个项目引用相同的依赖，只需要安装一份依赖即可，减少重复安装节省内存空间</p>
+</li>
+</ul>
+<h4 id="pnpm管理monorepo仓库"><a href="#pnpm管理monorepo仓库" class="headerlink" title="pnpm管理monorepo仓库"></a><code>pnpm</code>管理<code>monorepo</code>仓库</h4><p>实现<code>monorepo</code>仓库管理的方式有很多，这里以<code>pnpm</code>为例，我们需要在项目的根目录下创建<code>pnpm-workspace.yaml</code>文件，告诉 pnpm 包管理目录是  <code>packages</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">packages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">'packages/*'</span></span><br></pre></td></tr></table></figure>
+
+<p>依赖的安装与移除的操作与  <code>npm</code>类似，但有一些针对<code>monorepo</code>的特殊场景</p>
+<h5 id="全局依赖包"><a href="#全局依赖包" class="headerlink" title="全局依赖包"></a>全局依赖包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add rollup -w</span><br></pre></td></tr></table></figure>
+
+<p>在安装全局依赖时，在根目录下执行安装命令时，需要加上<code>-w</code>，如果是开发环境的依赖，则加上<code>-wD</code></p>
+<h5 id="安装子项目的依赖"><a href="#安装子项目的依赖" class="headerlink" title="安装子项目的依赖"></a>安装子项目的依赖</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm --filter project_1 add vue</span><br></pre></td></tr></table></figure>
+
+<p>安装子包的依赖时，需要加上<code>--filter</code> 后面跟上需要安装依赖的子项目名称，注意这里的项目名称需要与子项目下的<code>package.json</code>的<code>name</code>对应，而不是文件夹名称</p>
+<h5 id="子项目互相依赖"><a href="#子项目互相依赖" class="headerlink" title="子项目互相依赖"></a>子项目互相依赖</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm --filter project_1 add project_2 --workspace</span><br></pre></td></tr></table></figure>
+
+<p>假设<code>project_1</code>有依赖<code>project_2</code>所导出的方法，需要在<code>project_1</code>中安装依赖<code>project_2</code>，则命令需要增加<code>--workspace</code></p>
+<h3 id="响应式的实现原理"><a href="#响应式的实现原理" class="headerlink" title="响应式的实现原理"></a>响应式的实现原理</h3><h4 id="Reactive"><a href="#Reactive" class="headerlink" title="Reactive"></a>Reactive</h4><p>首先，我们知道，vue3 实现响应的底层原理就是使用了 ES6 的<code>Proxy</code>，当我们使用 vue3 的 API <code>reactive</code>时，传入的对象会变成一个<code>Proxy</code>对象，因此我们可以简单的写出<code>reactive</code>实现的一个简单框架：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> reactive = <span class="function">(<span class="params">target</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(target, &#123;</span><br><span class="line">    <span class="keyword">get</span>: (target, key, receiver) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="built_in">Reflect</span>.get(target, key, receiver)</span><br><span class="line">      <span class="comment">// 依赖收集</span></span><br><span class="line">      track(target, key)</span><br><span class="line">      <span class="comment">// 递归处理对象</span></span><br><span class="line">      <span class="keyword">if</span> (isObject(result)) &#123;</span><br><span class="line">        <span class="keyword">return</span> reactive(result)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span>: (target, key, newValue, receiver) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="built_in">Reflect</span>.set(target, key, newValue, receiver)</span><br><span class="line">      <span class="comment">// 派发更新</span></span><br><span class="line">      trigger(target, key)</span><br><span class="line">      <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> proxy</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>vue3 与 vue2 的响应式更新的原理是相同的，都需要有依赖收集与派发更新的步骤，这两个工作就是由<code>effect.ts</code>文件中的<code>track</code>与<code>trigger</code>两个函数共同实现的，比较不同的是 vue3 多了个 effect，副作用函数的概念，副作用函数的作用就是传入一个函数，当依赖更新时，触发函数的执行，本质上是用来实现<code>watch</code>、<code>computed</code>和视图更新的底层实现函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 当前被执行的effect */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> activeEffect</span><br><span class="line"><span class="comment">/** effect的执行栈，作用是在嵌套执行effect函数时能正确的获取当前执行的effect函数 */</span></span><br><span class="line"><span class="keyword">const</span> effectStack = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> effect = <span class="function">(<span class="params">fn</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> effect = createReactiveEffect(fn)</span><br><span class="line">  effect()</span><br><span class="line">  <span class="keyword">return</span> effect</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createReactiveEffect</span>(<span class="params">fn, options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> effect = <span class="function"><span class="keyword">function</span> <span class="title">reactiveEffect</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!effectStack.includes(effect)) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        effectStack.push(effect)</span><br><span class="line">        activeEffect = effect</span><br><span class="line">        <span class="keyword">return</span> fn()</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        effectStack.pop()</span><br><span class="line">        activeEffect = effectStack[effectStack.length - <span class="number">1</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> effect</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="track"><a href="#track" class="headerlink" title="track"></a>track</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 使用WeakMap 数据结构来收集effect */</span></span><br><span class="line"><span class="keyword">const</span> targetMap = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 依赖收集</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;*&#125;</span> <span class="variable">target</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;*&#125;</span> <span class="variable">key</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> track = <span class="function">(<span class="params">target, key</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (activeEffect === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`触发 Getter 依赖收集 track -&gt; target:`</span>, target, <span class="string">` key:<span class="subst">$&#123;key&#125;</span>`</span>)</span><br><span class="line">  <span class="comment">// 1、获取全局存储的 effect</span></span><br><span class="line">  <span class="keyword">let</span> depsMap = targetMap.get(target)</span><br><span class="line">  <span class="keyword">if</span> (!depsMap) &#123;</span><br><span class="line">    depsMap = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    <span class="comment">// 存储到全局变量 targetMap</span></span><br><span class="line">    targetMap.set(target, depsMap)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'全局收集到的effect -&gt; targetMap:'</span>, targetMap)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> deps = depsMap.get(key)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!deps) &#123;</span><br><span class="line">    deps = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">    depsMap.set(key, deps)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将当前执行的effect存入映射，方便之后取值</span></span><br><span class="line">  deps.add(activeEffect)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里存储全局的<code>effect</code>用到的是<code>WeakMap</code>，它的键值必须是对象或者非全局注册的<code>Symbol</code>。存储全局<code>effect</code>用到的键值是我们<code>reactive</code>执行后返回的<code>Proxy</code>对象，当<code>Proxy</code>对象作为<code>WeakMap</code>的键值时，只要它被被垃圾回收后，<code>WeakMap</code>中也会相应删除对应的键值，而不像<code>Map</code>一样会因为引用关系而一直不被回收。</p>
+<h4 id="trigger"><a href="#trigger" class="headerlink" title="trigger"></a>trigger</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2021/12/19/Vue/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

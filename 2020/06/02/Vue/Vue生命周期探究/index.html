@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Vue生命周期探究</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#父子孙组件创建顺序"><span class="toc-number">1.</span> <span class="toc-text">父子孙组件创建顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#父子孙销毁顺序"><span class="toc-number">2.</span> <span class="toc-text">父子孙销毁顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在keep-alive缓存时"><span class="toc-number">3.</span> <span class="toc-text">存在keep-alive缓存时</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建"><span class="toc-number">3.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#销毁"><span class="toc-number">3.2.</span> <span class="toc-text">销毁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在路由守卫时"><span class="toc-number">4.</span> <span class="toc-text">存在路由守卫时</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-1"><span class="toc-number">4.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#销毁-1"><span class="toc-number">4.2.</span> <span class="toc-text">销毁</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Vue生命周期探究</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-02T07:35:22.000Z" itemprop="datePublished">2020-06-02</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>, <a class="tag-link" href="/tags/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">Vue生命周期</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>项目地址：<a href="https://github.com/Yx1aoq1/vue-life-cycle" target="_blank" rel="noopener">https://github.com/Yx1aoq1/vue-life-cycle</a></p>
+<h2 id="父子孙组件创建顺序"><a href="#父子孙组件创建顺序" class="headerlink" title="父子孙组件创建顺序"></a>父子孙组件创建顺序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Parent beforeCreate</span><br><span class="line">Parent created</span><br><span class="line">Parent beforeMount</span><br><span class="line">Children beforeCreate</span><br><span class="line">Children created</span><br><span class="line">Children beforeMount</span><br><span class="line">Grandson beforeCreate</span><br><span class="line">Grandson created</span><br><span class="line">Grandson beforeMount</span><br><span class="line">Grandson mounted</span><br><span class="line">Children mounted</span><br><span class="line">Parent mounted</span><br></pre></td></tr></table></figure>
+
+<h2 id="父子孙销毁顺序"><a href="#父子孙销毁顺序" class="headerlink" title="父子孙销毁顺序"></a>父子孙销毁顺序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Parent beforeDestroy</span><br><span class="line">Children beforeDestroy</span><br><span class="line">Grandson beforeDestroy</span><br><span class="line">Grandson destroyed</span><br><span class="line">Children destroyed</span><br><span class="line">Parent destroyed</span><br></pre></td></tr></table></figure>
+
+<h2 id="存在keep-alive缓存时"><a href="#存在keep-alive缓存时" class="headerlink" title="存在keep-alive缓存时"></a>存在keep-alive缓存时</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Parent beforeCreate</span><br><span class="line">Parent created</span><br><span class="line">Parent beforeMount</span><br><span class="line">Children beforeCreate</span><br><span class="line">Children created</span><br><span class="line">Children beforeMount</span><br><span class="line">Grandson beforeCreate</span><br><span class="line">Grandson created</span><br><span class="line">Grandson beforeMount</span><br><span class="line">Grandson mounted</span><br><span class="line">Children mounted</span><br><span class="line">Parent mounted</span><br><span class="line">--- 创建 ---</span><br><span class="line">Grandson activated</span><br><span class="line">Children activated</span><br><span class="line">Parent activated</span><br></pre></td></tr></table></figure>
+
+<h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Grandson deactivated</span><br><span class="line">Children deactivated</span><br><span class="line">Parent deactivated</span><br></pre></td></tr></table></figure>
+
+<h2 id="存在路由守卫时"><a href="#存在路由守卫时" class="headerlink" title="存在路由守卫时"></a>存在路由守卫时</h2><h3 id="创建-1"><a href="#创建-1" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Parent beforeRouteEnter</span><br><span class="line">--- 进入路由 ---</span><br><span class="line">Parent beforeCreate</span><br><span class="line">Parent created</span><br><span class="line">Parent beforeMount</span><br><span class="line">Children beforeCreate</span><br><span class="line">Children created</span><br><span class="line">Children beforeMount</span><br><span class="line">Grandson beforeCreate</span><br><span class="line">Grandson created</span><br><span class="line">Grandson beforeMount</span><br><span class="line">Grandson mounted</span><br><span class="line">Children mounted</span><br><span class="line">Parent mounted</span><br><span class="line">--- 创建 ---</span><br></pre></td></tr></table></figure>
+
+<h3 id="销毁-1"><a href="#销毁-1" class="headerlink" title="销毁"></a>销毁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Parent beforeRouteLeave</span><br><span class="line">--- 离开路由 ---</span><br><span class="line">Parent beforeDestroy</span><br><span class="line">Children beforeDestroy</span><br><span class="line">Grandson beforeDestroy</span><br><span class="line">Grandson destroyed</span><br><span class="line">Children destroyed</span><br><span class="line">Parent destroyed</span><br><span class="line">--- 销毁 ---</span><br></pre></td></tr></table></figure>
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/02/Web%E5%9F%BA%E7%A1%80/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/03/Web%E5%9F%BA%E7%A1%80/Ajax,%20Axios,%20Fetch/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

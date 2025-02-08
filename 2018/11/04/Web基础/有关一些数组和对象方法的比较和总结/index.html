@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>有关一些数组和对象方法的比较和总结</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Array"><span class="toc-number">1.</span> <span class="toc-text">Array</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素的添加与删除"><span class="toc-number">1.1.</span> <span class="toc-text">元素的添加与删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组的分割与合并"><span class="toc-number">1.2.</span> <span class="toc-text">数组的分割与合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排序"><span class="toc-number">1.3.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-number">1.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找元素"><span class="toc-number">1.5.</span> <span class="toc-text">查找元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串相关"><span class="toc-number">1.6.</span> <span class="toc-text">字符串相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">1.7.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objcet"><span class="toc-number">2.</span> <span class="toc-text">Objcet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lodash"><span class="toc-number">3.</span> <span class="toc-text">Lodash</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">有关一些数组和对象方法的比较和总结</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2018-11-04T14:57:01.000Z" itemprop="datePublished">2018-11-04</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link" href="/tags/lodash/" rel="tag">lodash</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>最近搬砖的时候总觉得自己对一些数组和对象的方法了解不够透彻，所以连着一些lodash的方法放在一起做个比较和总结</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><h3 id="元素的添加与删除"><a href="#元素的添加与删除" class="headerlink" title="元素的添加与删除"></a>元素的添加与删除</h3><p>▶ <strong>posh &amp; pop</strong> 数组的栈方法，在数组的末端增加和删除一个元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a.posh(<span class="number">4</span>) <span class="comment">// [1, 2, 3, 4]</span></span><br><span class="line">a.pop() <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>shift &amp; unshift</strong> 数组的队列方法，在数组的第一个位置增加和删除一个元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a.shift(<span class="number">0</span>) <span class="comment">// [0, 1, 2, 3]</span></span><br><span class="line">a.unshift() <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>splice</strong> 用于删除原数组的一部分元素，可以在被删除的位置加入新元素，会改变原数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">a.splice(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>) <span class="comment">// [3, 4]</span></span><br><span class="line">a <span class="comment">// [1, 2, 5]</span></span><br></pre></td></tr></table></figure>
+<h3 id="数组的分割与合并"><a href="#数组的分割与合并" class="headerlink" title="数组的分割与合并"></a>数组的分割与合并</h3><p>▶ <strong>slice</strong> 用于提取数组的某个部分，参数是开始位置与结束位置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">a.slice() <span class="comment">// 参数为空时相当于复制数组 [1, 2, 3, 4]</span></span><br><span class="line">a.slice(<span class="number">1</span>) <span class="comment">// 只有一个参数时默认提取到最后一个 [2, 3, 4]</span></span><br><span class="line">a.slice(<span class="number">1</span>, <span class="number">3</span>) <span class="comment">// 结束位置的那个元素并不包括 [2, 3]</span></span><br><span class="line">a.slice(<span class="number">-2</span>, <span class="number">-1</span>) <span class="comment">// 参数为负数时会取倒数第n个元素 [3]</span></span><br><span class="line"><span class="comment">// 正数从0开始而倒数从1开始</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>concat</strong> 用于多个数组的合并，返回新数组，不会改变原数组；同时也可以用于对象的合并。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, [<span class="number">2</span>]]</span><br><span class="line"><span class="keyword">let</span> b = [<span class="number">3</span>, [<span class="number">4</span>]]</span><br><span class="line">a.concat(b) <span class="comment">// [1, [2], 3, [4]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在ES6中等同于[..a,..b]</span></span><br></pre></td></tr></table></figure>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>▶ <strong>sort</strong> 对元素进行排序，会改变原数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line">a.sort() <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>reverse</strong> 颠倒元素的顺序，会改变原数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line">a.reverse() <span class="comment">// [4, 1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>▶ <strong>forEach</strong> 遍历，参数分别是当前元素、当前位置和整个数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].forEach(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'['</span> + index + <span class="string">'] = '</span> + item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [0] = 1</span></span><br><span class="line"><span class="comment">// [1] = 2</span></span><br><span class="line"><span class="comment">// [2] = 3</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>map</strong> 遍历，参数分别是当前元素、当前位置和整个数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item * index</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [0, 2, 6]</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>filter</strong> 过滤数据，遍历数据查找符合输入函数条件的元素，返回一个新的数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].filter(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt; <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [4, 5]</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>some &amp; every</strong> 断言，判断数组的每个元素是否符合某条件，返回布尔值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].some(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt;= <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].every(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt;= <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>reduce &amp; reduceRight</strong> 接受函数作为累加器，让每个值最终合成一个值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].reduce(<span class="function">(<span class="params">acc, cur, idx, src</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> acc + cur</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line"><span class="comment">// reduce(callback, initialValue) 可设置acc第一次计算的默认值，不设置的话是数组第一个元素</span></span><br></pre></td></tr></table></figure>
+<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>▶ <strong>indexOf</strong> 查找某元素的索引，不存在返回-1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>].indexOf(<span class="number">5</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>find &amp; findIndex</strong> 查找满足条件的元素，返回第一个符合条件的元素，未找到返回<code>undefined</code>，<strong>findIndex</strong>返回的是索引</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>].find(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> item &gt; <span class="number">2</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>▶ <strong>includes</strong> 判断当前数组是否包含某指定的值，返回布尔值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].includes(<span class="string">'a'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h3 id="字符串相关"><a href="#字符串相关" class="headerlink" title="字符串相关"></a>字符串相关</h3><p>▶ <strong>join</strong> 输入指定分隔符将数组拼成一个字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].join(<span class="string">','</span>) <span class="comment">// a,b,c</span></span><br></pre></td></tr></table></figure>
+
+<p>▶ <strong>toString</strong> 将数组转换为字符串，间隔符为逗号</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].toString() <span class="comment">// a,b,c</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>▶ <strong>from</strong> 从一个类似数组或可迭代对象中创建一个新的数组实例（ES6）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], x =&gt; x + x) <span class="comment">// [2, 4, 6]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 合并数组并去重</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">combine</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arr = [].concat.apply([], <span class="built_in">arguments</span>)</span><br><span class="line">  <span class="comment">// new Set为ES6的新数据结构，类似于数组，但它的成员是唯一的</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(arr))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">combine([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]) <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p>▶ <strong>copyWithin</strong> 将当前数组内部制定位置的成员复制到其他位置，返回当前新数组，原数组改变。接收三个参数【从该位置开始替换|从该位置开始读取数据|到该位置停止读取数据】（ES6）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].copyWithin(<span class="number">0</span>, <span class="number">3</span>) <span class="comment">// [4, 5, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+
+<p>▶ <strong>fill</strong> 用给定的值填充一个数组（ES6）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].fill(<span class="number">7</span>) <span class="comment">// [7, 7, 7]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Objcet"><a href="#Objcet" class="headerlink" title="Objcet"></a>Objcet</h2><p>▶ <strong>Object.assign</strong> 合并对象，合并时含有相同属性则后者覆盖前者，会改变目标对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.assign(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;, &#123;<span class="attr">b</span>: <span class="number">3</span>, <span class="attr">c</span>: <span class="number">4</span>&#125;)</span><br><span class="line"><span class="comment">// &#123;a: 1, b: 3, c: 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>▶ <strong>Object.is</strong> 用来判断两个值是否是同一个值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.is(&#39;haorooms&#39;, &#39;haorooms&#39;);     &#x2F;&#x2F; true</span><br><span class="line">Object.is(window, window);   &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">Object.is(&#39;foo&#39;, &#39;bar&#39;);     &#x2F;&#x2F; false</span><br><span class="line">Object.is([], []);           &#x2F;&#x2F; false</span><br><span class="line"></span><br><span class="line">var test &#x3D; &#123; a: 1 &#125;;</span><br><span class="line">Object.is(test, test);       &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">Object.is(null, null);       &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 特例</span><br><span class="line">Object.is(0, -0);            &#x2F;&#x2F; false</span><br><span class="line">Object.is(-0, -0);           &#x2F;&#x2F; true</span><br><span class="line">Object.is(NaN, 0&#x2F;0);         &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<p>▶ <strong>Object.keys</strong> 回一个由给定对象的自身可枚举属性组成的数组，数组中属性名的排列顺序和使用 <code>for...in</code>循环遍历该对象时返回的顺序一致</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;</span><br><span class="line"><span class="built_in">Object</span>.keys(obj) <span class="comment">// ['a', 'b']</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Lodash"><a href="#Lodash" class="headerlink" title="Lodash"></a>Lodash</h2><p>由于lodash的方法实在是太多了，只提一下最最最常用的<code>merge</code>，用于两个对象的合并，可以实现深拷贝，但是在合并数组的时候有一个坑</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">  name: <span class="string">'xm'</span>,</span><br><span class="line">  age: <span class="number">18</span>,</span><br><span class="line">  tag: [<span class="string">'smart'</span>, <span class="string">'happy'</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b = &#123;</span><br><span class="line">  form: <span class="string">'china'</span>,</span><br><span class="line">  tag: [<span class="string">'smart'</span>]</span><br><span class="line">&#125;</span><br><span class="line">lodash.merge(a, b)</span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//  name: 'xm',</span></span><br><span class="line"><span class="comment">//  age: 18,</span></span><br><span class="line"><span class="comment">//  tag: ['smart', 'happy'],</span></span><br><span class="line"><span class="comment">//  from: 'china'</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure>
+<p>由于是深拷贝，合并时数组会把两个对象的数组合并到一起，区别于<code>Object.assign()</code>，但是有的时候确实必须用深拷贝，又要去后一个数组覆盖目标数组，那么在合并之前就必须先移除掉目标对象中的这个属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lodash.merge(lodash.omit(a, [<span class="string">'tag'</span>]), b)</span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//  name: 'xm',</span></span><br><span class="line"><span class="comment">//  age: 18,</span></span><br><span class="line"><span class="comment">//  tag: ['smart'],</span></span><br><span class="line"><span class="comment">//  from: 'china'</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2018/07/25/Vue/Vue.js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%8802%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2019/05/09/Vue/Vuex%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%95%B4%E7%90%86/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

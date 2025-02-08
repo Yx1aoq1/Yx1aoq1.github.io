@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>异步编程之promise与trigger</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异步编程"><span class="toc-number">1.</span> <span class="toc-text">异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现异步编程的四种方法"><span class="toc-number">1.1.</span> <span class="toc-text">实现异步编程的四种方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deferred对象详解"><span class="toc-number">2.</span> <span class="toc-text">deferred对象详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#deferred对象的应用场景"><span class="toc-number">2.1.</span> <span class="toc-text">deferred对象的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法总结"><span class="toc-number">2.2.</span> <span class="toc-text">方法总结</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">异步编程之promise与trigger</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2017-07-15T08:13:01.000Z" itemprop="datePublished">2017-07-15</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>这周的学习任务：<code>promise</code>与<code>trigger</code></p>
+<h2 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h2><blockquote>
+<p>Javascript语言将任务的执行模式分为同步（Synchronous）和异步（Asynchronous），“同步模式”指的是后一个任务只有等待前一个任务完成之后才能执行，程序执行顺序与任务的排列顺序是一致的、同步的。而“异步模式”指的是每个任务有一个或多个回调函数，前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的、异步的。</p>
+</blockquote>
+<h3 id="实现异步编程的四种方法"><a href="#实现异步编程的四种方法" class="headerlink" title="实现异步编程的四种方法"></a>实现异步编程的四种方法</h3><ul>
+<li><strong>回调函数</strong></li>
+</ul>
+<p>回调函数可以理解为，被另一个函数调用的函数。<br>可以想成这样一个应用场景：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f1(); <span class="comment">//一个十分耗时的函数</span></span><br><span class="line">f2(); <span class="comment">//等待f1执行完才能执行的函数</span></span><br><span class="line">f3(); <span class="comment">//等待f1执行完才能执行的函数</span></span><br></pre></td></tr></table></figure>
+<p>Javascript语言的执行环境是”单线程”，就是指一次只能完成一件任务。所以上面函数的执行顺序会是<code>f1-&gt;f2-&gt;f3</code>，但如果<code>f3</code>是一个与页面加载有关的函数，那就比较蛋疼了，因为它必须等待<code>f1</code>与<code>f2</code>都执行完才能执行，这就导致了页面加载时间过长，体验很不好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//f1执行代码</span></span><br><span class="line">  callback();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f1(f2);</span><br><span class="line">f3();</span><br></pre></td></tr></table></figure>
+<p>如果采用回调函数的方法（异步），函数的执行顺序就可以变成<code>f1-&gt;f3-&gt;f2</code>，加载时间就节省了<code>f2</code>执行的时间，也算是一点优化了。<br><strong>优点：</strong> 简单、容易理解和部署。<br><strong>缺点：</strong> 不利于代码的阅读和维护，各个部分之间高度耦合，流程会很混乱，而且每个任务只能指定一个回调函数。</p>
+<ul>
+<li><strong>事件监听</strong></li>
+</ul>
+<p>事件监听指的是采用事件驱动模式，任务的执行不取决于代码的顺序，而取决于某个事件是否发生。jQuery中有许多事件，例如<code>click</code>、<code>keydown</code>之类的，可以通过<code>on</code>来绑定。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f1.on(<span class="string">'click'</span>,f2); <span class="comment">//在发送点击事件之后，会执行f2函数</span></span><br></pre></td></tr></table></figure>
+<p>而<code>trigger</code>的作用是，可以通过<code>$.Event(&#39;eventName&#39;)</code>来自定义一个事件，然后通过<code>trigger</code>触发这个事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> MATHJAX-SSR<span class="number">-12</span>(&#123;&#125;); <span class="comment">//绑定空对象</span></span><br><span class="line"><span class="keyword">var</span> hideEvent = $.Event(<span class="string">'hide.tab'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//f1执行代码</span></span><br><span class="line">  f1.trigger(<span class="string">'hide.tab'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$<span class="literal">null</span>.on(<span class="string">'hide.tab'</span>,f2);</span><br></pre></td></tr></table></figure>
+<p>当<code>f1</code>执行完后就会触发<code>hide.tab</code>事件，从而开始执行<code>f2</code>。<br>而且这个自定义的事件可以通过<code>trigger</code>绑定在多个函数之中，也就是说，可以通过多个操作来触发同一个事件。也可以实现两个不同模块的相互通信，比如一个子函数可以调用父函数的方法，那么父函数如果要调用子函数的方法要怎么办呢？这个时候就可以利用<code>trigger</code>来触发事件，然后通过事件绑定调用子函数的方法。<br><strong>优点：</strong> 比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以”去耦合”，有利于实现模块化。<br><strong>缺点：</strong> 整个程序都要变成事件驱动型，运行流程会变得很不清晰。</p>
+<ul>
+<li><strong>发布/订阅</strong></li>
+</ul>
+<p>发布/订阅可以理解为存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”（publish）一个信号，其他任务可以向信号中心“订阅”（subscribe）这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”，又称“观察者模式”。<br>实现步骤如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">jQuery.subscribe(<span class="string">'done'</span>,f2); <span class="comment">//通过订阅中心jQuery订阅"done"信号</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//f1执行代码</span></span><br><span class="line">  jQuery.public(<span class="string">'done'</span>); <span class="comment">//f1执行完后，向信号中心发布"done"信号，引发f2执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jQuery.unsubscribe(<span class="string">'done'</span>,f2); <span class="comment">//取消订阅</span></span><br></pre></td></tr></table></figure>
+<p><strong>优点：</strong> 可以通过查看”消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</p>
+<ul>
+<li><strong>deferred对象</strong></li>
+</ul>
+<p>deferred对象就是jQuery的回调函数解决方案，可以通过链式写法执行回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f1().then(f2);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> dfd = $.Deferred();</span><br><span class="line">　<span class="comment">// f1的任务代码</span></span><br><span class="line">　dfd.resolve();</span><br><span class="line">　<span class="keyword">return</span> dfd.promise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>优点：</strong> 回调函数变成了链式写法，程序的流程可以看得很清楚，而且有一整套的配套方法，可以实现许多强大的功能。它还有一个前面三种方法都没有的好处：如果一个任务已经完成，再添加回调函数，该回调函数会立即执行。所以，你不用担心是否错过了某个事件或信号。</p>
+<h2 id="deferred对象详解"><a href="#deferred对象详解" class="headerlink" title="deferred对象详解"></a>deferred对象详解</h2><h3 id="deferred对象的应用场景"><a href="#deferred对象的应用场景" class="headerlink" title="deferred对象的应用场景"></a>deferred对象的应用场景</h3><ul>
+<li><strong>让异步操作代码像同步代码那样书写和阅读，流程更加清晰</strong></li>
+<li><strong>优化ajax的嵌套执行</strong></li>
+</ul>
+<p>原本我们在执行<code>ajax</code>的时候，如果这个请求中还有<code>ajax</code>请求，就会有以下这种写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  url: <span class="string">"test.html"</span>,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">      url: ...,</span><br><span class="line">      success: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        ....</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以将两个<code>ajax</code>分开封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> $.ajax(&#123;</span><br><span class="line">    url: <span class="string">"test.html"</span>,</span><br><span class="line">    ...</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> $.ajax(&#123;</span><br><span class="line">    url: <span class="string">"..."</span>,</span><br><span class="line">    ...</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$.when(A(),B()).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  dosth();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h3><ul>
+<li><code>$.Deferred()</code>：生成一个deferred对象</li>
+<li><code>deferred.done()</code>：指定操作成功时的回调函数</li>
+<li><code>deferred.fail()</code>：指定操作失败时的回调函数</li>
+<li><code>deferred.promise()</code>：没有参数时，返回一个新的deferred对象，该对象的运行状态无法改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
+<li><code>deferred.resolve()</code>：手动改变deferred对象的运行状态为“已完成”，从而立即触发<code>done()</code>方法</li>
+<li><code>deferred.reject()</code>：与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法</li>
+<li><code>$.when()</code>：为多个操作指定回调函数。当所有操作都成功时执行<code>done()</code></li>
+<li><code>deferred.then()</code>：有时为了省事，可以把<code>done()</code>和<code>fail()</code>合在一起写，这就是<code>then()</code>方法</li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2017/07/15/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2%E4%B9%8B%E5%90%8E/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2017/08/15/Web%E5%9F%BA%E7%A1%80/JS%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

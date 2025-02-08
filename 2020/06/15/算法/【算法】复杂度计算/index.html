@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【算法】复杂度计算</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#时间复杂度"><span class="toc-number">1.</span> <span class="toc-text">时间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大O符号表示法"><span class="toc-number">1.1.</span> <span class="toc-text">大O符号表示法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的时间复杂度量级"><span class="toc-number">1.2.</span> <span class="toc-text">常见的时间复杂度量级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#O-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">O(1)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n"><span class="toc-number">1.2.2.</span> <span class="toc-text">O(n)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-n²"><span class="toc-number">1.2.3.</span> <span class="toc-text">O(n²)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-logn"><span class="toc-number">1.2.4.</span> <span class="toc-text">O(logn)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#O-nlogn"><span class="toc-number">1.2.5.</span> <span class="toc-text">O(nlogn)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归算法的时间复杂度"><span class="toc-number">1.3.</span> <span class="toc-text">递归算法的时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最好、最坏情况时间复杂度"><span class="toc-number">1.4.</span> <span class="toc-text">最好、最坏情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均情况时间复杂度"><span class="toc-number">1.5.</span> <span class="toc-text">平均情况时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#均摊复杂度分析"><span class="toc-number">1.6.</span> <span class="toc-text">均摊复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#空间复杂度"><span class="toc-number">2.</span> <span class="toc-text">空间复杂度</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【算法】复杂度计算</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-15T10:30:28.000Z" itemprop="datePublished">2020-06-15</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+	</div>
+
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><h3 id="大O符号表示法"><a href="#大O符号表示法" class="headerlink" title="大O符号表示法"></a>大O符号表示法</h3><p>算法的时间复杂度通常用大O符号表述，定义为 <strong>T(n) = O(f(n))</strong> 。其中 n 表示数据规模， O(fn(n)) 表示运行算法所需要执行的指令数，和 f(n) 成正比。在数学领域，它被称作<strong>渐进复杂度</strong>。</p>
+<p><strong>T(n) = O(f(n))</strong> 表示存在一个常数 C ，使得当 n 趋于正无穷时总有 T(n) &lt;= C * f(n) 。其虽然对 f(n) 没有规定，但一般都是取尽可能简单的函数。例如，O(n² + n + 1) 、O(7n² + n + 3) 都可以用 O(n²) 表示，因为公式里的常量、系数等只是细枝末节，并不影响主干 f(n) 。</p>
+<p>大O符号是一种算法<strong>复杂度</strong>的<strong>相对表示</strong>方式。</p>
+<h3 id="常见的时间复杂度量级"><a href="#常见的时间复杂度量级" class="headerlink" title="常见的时间复杂度量级"></a>常见的时间复杂度量级</h3><p>常见的时间复杂度：</p>
+<table>
+<thead>
+<tr>
+<th>数量级</th>
+<th>能承受的大致规模</th>
+<th>常见算法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>O(1)</td>
+<td>任意</td>
+<td>直接输出结果</td>
+</tr>
+<tr>
+<td>O(logn)</td>
+<td>任意</td>
+<td>二分查找、快速幂</td>
+</tr>
+<tr>
+<td>O(n)</td>
+<td>以百万计（五六百万）</td>
+<td>贪心算法、扫描和遍历</td>
+</tr>
+<tr>
+<td>O(nlogn)</td>
+<td>以十万计（三四十万）</td>
+<td>带有分治思想的算法，如二分法</td>
+</tr>
+<tr>
+<td>O(n²)</td>
+<td>以千计数（两千）</td>
+<td>枚举、动态规划</td>
+</tr>
+<tr>
+<td>O(n³)</td>
+<td>不到两百</td>
+<td>动态规划</td>
+</tr>
+<tr>
+<td>O(2^n)</td>
+<td>24</td>
+<td>搜索</td>
+</tr>
+<tr>
+<td>O(n!)</td>
+<td>10</td>
+<td>产生全排列</td>
+</tr>
+<tr>
+<td>O(n^n)</td>
+<td>8</td>
+<td>暴力法破解密码</td>
+</tr>
+</tbody></table>
+<h4 id="O-1"><a href="#O-1" class="headerlink" title="O(1)"></a>O(1)</h4><p>无论代码执行了多少行，只要没有循环等复杂结构，那代码的时间复杂度就是 O(1) ，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">let</span> j = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">i = j</span><br><span class="line">i ++</span><br><span class="line">j ++</span><br></pre></td></tr></table></figure>
+
+<h4 id="O-n"><a href="#O-n" class="headerlink" title="O(n)"></a>O(n)</h4><p>在下面这段代码，for 循环里的代码会执行 n 遍，因此它消耗的时间随着 n 的变化而变化，因此用 O(n) 来表示它的时间复杂度：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i ++) &#123;</span><br><span class="line">  res += i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：不论 i &lt; 2n 或者 i &lt; n / 2，都是表示为 O(n)，因为<strong>系数可被忽略</strong>。</p>
+<h4 id="O-n²"><a href="#O-n²" class="headerlink" title="O(n²)"></a>O(n²)</h4><p>当存在双重循环的时候，即把 O(n) 的代码再嵌套循环一遍，它的时间复杂度就是 O(n²) 了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - <span class="number">1</span>; j ++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">const</span> temp = arr[j + <span class="number">1</span>]</span><br><span class="line">        arr[j + <span class="number">1</span>] = arr[j]</span><br><span class="line">        arr[j] = temp</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，并不是所有的双重循环都是 O(n²) ，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i ++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt;= <span class="number">10</span>; j ++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码的实际输出次数应为 10 * n，因此复杂度是 O(n)。</p>
+<h4 id="O-logn"><a href="#O-logn" class="headerlink" title="O(logn)"></a>O(logn)</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> (i &lt; n) &#123;</span><br><span class="line">  i *= <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从以上代码可以看出，在 while 循环中，每次都将 i 乘以2，乘完之后，i 距离 n 就越来越接近了。假设 x 次循环之后，i 就大于 n 了，说明 n = 2^x，求解 x 得，x = log₂n。所以，这段代码的时间复杂度为 O(logn)。</p>
+<p>注意：<strong>log以几为底并不重要</strong>，例如 i = i * 3 或者 i * 10，复杂度也都计为 O(logn)。</p>
+<h4 id="O-nlogn"><a href="#O-nlogn" class="headerlink" title="O(nlogn)"></a>O(nlogn)</h4><p>将时间复杂度为 O(logn) 的代码循环N遍的话，那么它的时间复杂度就是 n * O(logn) ，也就是 O(nlogn) 了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i ++) &#123;</span><br><span class="line">  <span class="keyword">let</span> j = <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (j &lt; n) &#123;</span><br><span class="line">    j *= <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="递归算法的时间复杂度"><a href="#递归算法的时间复杂度" class="headerlink" title="递归算法的时间复杂度"></a>递归算法的时间复杂度</h3><p>如果递归函数中，递归深度记为 depth，每个递归函数的时间复杂度记为 T，那么总的递归调用的时间复杂度为 O(T * depth)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearch</span> (<span class="params">target, arr, start, end</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (end &gt; start) <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  start = start || <span class="number">0</span></span><br><span class="line">  end = end || arr.length - <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (target === arr[mid]) &#123;</span><br><span class="line">    <span class="keyword">return</span> mid</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; arr[mid]) &#123;</span><br><span class="line">    <span class="keyword">return</span> binarySearch(target, arr, mid + <span class="number">1</span>, end)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> binarySearch(target, arr, start, mid - <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在以上的二分查找的代码当中，因为比较中位数的时间复杂度是 O(1)，而每次判断后，要么执行左边的递归，要么执行右边的递归，执行递归的次数为log₂n，所以二分查找的递归时间复杂度为 O(logn)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">if</span> (len &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> pivotIndex = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">const</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> left = []</span><br><span class="line">  <span class="keyword">let</span> right = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">  	<span class="keyword">if</span> (arr[i] &lt; pivot) &#123;</span><br><span class="line">      left.push(arr[i])</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quickSort(left).concat([pivot], quickSort(right))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有快排算法，可以看到代码中使用了一次 for 循环，所以执行一次快速排序的时间复杂度是 O(n)，因为每次排序都对数组进行对半排序，所以所需要排序的次数为log₂n + log₂n次（左右两边都要计算），因此快排的时间复杂度为 O(nlogn)。</p>
+<h3 id="最好、最坏情况时间复杂度"><a href="#最好、最坏情况时间复杂度" class="headerlink" title="最好、最坏情况时间复杂度"></a>最好、最坏情况时间复杂度</h3><p>最好、最坏情况时间复杂度指的是特殊情况下的时间复杂度。</p>
+<p>以一个遍历搜索为例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">find</span> (<span class="params">array, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (target === array[i]) <span class="keyword">return</span> i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们查找的元素 target 就是输入数组的第一个元素，则时间复杂度为 O(1)，而当最后一个元素才是 target 时，时间复杂度就是 O(n)。</p>
+<p>最好情况时间复杂度就是在最理想情况下执行代码的时间复杂度，它的时间是最短的；最坏情况时间复杂度就是在最糟糕情况下执行代码的时间复杂度，它的时间是最长的。</p>
+<h3 id="平均情况时间复杂度"><a href="#平均情况时间复杂度" class="headerlink" title="平均情况时间复杂度"></a>平均情况时间复杂度</h3><p>最好、最坏时间复杂度反应的是极端条件下的复杂度，发生的概率不大，不能代表平均水平。那么为了更好的表示平均情况下的算法复杂度，就需要引入平均时间复杂度。</p>
+<p>平均情况时间复杂度可用代码在所有可能情况下执行次数的加权平均值表示。</p>
+<p>以上面的<code>find</code>函数为例，我们知道，要查找的 target 变量，要么在数组里，要么不在，假设在与不在的概率为 1 /2，而 target 出现在每个位置的概率为 1 / n，那么要查找的 target 出现在每个位置的概率就是 1 / (2n) 。</p>
+<p>我们计算这个算法的加权平均值：</p>
+<p style="text-align:center"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="41.538ex" height="5.176ex" style="vertical-align: -1.838ex;" viewBox="0 -1437.2 17884.3 2228.5" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">\frac{1}{2n}+\frac{2}{2n}+\frac{3}{2n}+...+\frac{n}{2n}+\frac{n}{2}=\frac{3n+1}{4}</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-MJMAIN-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-6E" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+<g transform="translate(120,0)">
+<rect stroke="none" width="1221" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-31" x="360" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="1683" y="0"></use>
+<g transform="translate(2461,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="1221" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-32" x="360" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="4367" y="0"></use>
+<g transform="translate(5145,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="1221" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-33" x="360" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="6828" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="7607" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="8052" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="8497" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="8942" y="0"></use>
+<g transform="translate(9721,0)">
+<g transform="translate(120,0)">
+<rect stroke="none" width="1221" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMATHI-6E" x="310" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="11404" y="0"></use>
+<g transform="translate(12183,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="720" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMATHI-6E" x="60" y="676"></use>
+ <use xlink:href="#E1-MJMAIN-32" x="110" y="-687"></use>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-3D" x="13643" y="0"></use>
+<g transform="translate(14422,0)">
+<g transform="translate(397,0)">
+<rect stroke="none" width="2944" height="60" x="0" y="220"></rect>
+<g transform="translate(60,676)">
+ <use xlink:href="#E1-MJMAIN-33" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="1323" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="2323" y="0"></use>
+</g>
+ <use xlink:href="#E1-MJMAIN-34" x="1221" y="-698"></use>
+</g>
+</g>
+</g>
+</svg></p>
+<p>最后一个 n / 2 的解释为，target 不在数组中的概率。去掉所有的常数项，则可以得出<code>find</code>算法的平均情况时间复杂度为 O(n)。</p>
+<h3 id="均摊复杂度分析"><a href="#均摊复杂度分析" class="headerlink" title="均摊复杂度分析"></a>均摊复杂度分析</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insert</span> (<span class="params">array, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line">  <span class="keyword">if</span> (count === array.length) &#123;</span><br><span class="line">    <span class="keyword">let</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">      sum += array[i]</span><br><span class="line">    &#125;</span><br><span class="line">    array[<span class="number">0</span>] = sum</span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  array[count] = val</span><br><span class="line">  count ++</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码实现了一个往数组中插入数据的功能。当数组满了的时候，我们用 for 循环求和，将求和之后的 sum 值放在第一个位置，再依次插入新值。在最理想的情况下，数组中有空闲空间，最好情况的时间复杂度为 O(1) 。最坏的情况则是数组中没空闲空间，最坏情况的时间复杂度为 O(n)。</p>
+<p>如果我们计算段代码的平均情况时间复杂度，则有 n + 1 种情况，前 n 种情况即为数组存在空间，插入第 n 个位置。还有一种情况是数组满了，需要计算 sum 的情况。每种情况的发生概率为 1 / (n + 1)，所以平均情况时间复杂度为：</p>
+<p style="text-align:center"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="55.739ex" height="5.343ex" style="vertical-align: -2.005ex;" viewBox="0 -1437.2 23998.7 2300.3" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">1*\frac{1}{n+1}+1*\frac{1}{n+1}+...+n*\frac{1}{n+1}=\frac{2n}{n+1}=O(1)</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-MJMAIN-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-6E" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-4F" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-MJMAIN-31" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2217" x="722" y="0"></use>
+<g transform="translate(1223,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="2443" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-31" x="971" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMATHI-6E" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="822" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="1823" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="4351" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="5352" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2217" x="6075" y="0"></use>
+<g transform="translate(6575,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="2443" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-31" x="971" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMATHI-6E" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="822" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="1823" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-2B" x="9481" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="10260" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="10705" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2E" x="11150" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="11595" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="12374" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2217" x="13196" y="0"></use>
+<g transform="translate(13697,0)">
+<g transform="translate(342,0)">
+<rect stroke="none" width="2443" height="60" x="0" y="220"></rect>
+ <use xlink:href="#E1-MJMAIN-31" x="971" y="676"></use>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMATHI-6E" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="822" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="1823" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-3D" x="16881" y="0"></use>
+<g transform="translate(17659,0)">
+<g transform="translate(397,0)">
+<rect stroke="none" width="2443" height="60" x="0" y="220"></rect>
+<g transform="translate(671,676)">
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="500" y="0"></use>
+</g>
+<g transform="translate(60,-687)">
+ <use xlink:href="#E1-MJMATHI-6E" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="822" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="1823" y="0"></use>
+</g>
+</g>
+</g>
+ <use xlink:href="#E1-MJMAIN-3D" x="20899" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-4F" x="21955" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-28" x="22719" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="23108" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-29" x="23609" y="0"></use>
+</g>
+</svg></p>
+<p>但其实<code>insert</code>计算平均情况时间复杂度时，并不需要这么复杂，因为在大部分情况下，它的时间复杂度都是 O(1) ，只有极个别的情况下才是 O(n)，所以我们引入了一种更简单的分析方法：均摊复杂度分析。</p>
+<p>由于每一次需要 O(n) 的插入操作都会有 n - 1 次耗时 O(1) 的操作，所以每一次操作的平均耗时为：</p>
+<p style="text-align:center"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="20.122ex" height="5.676ex" style="vertical-align: -1.838ex;" viewBox="0 -1652.5 8663.4 2443.8" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">\frac{(n - 1) + n}{n} = O(1)</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-6E" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-4F" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+<g transform="translate(120,0)">
+<rect stroke="none" width="5046" height="60" x="0" y="220"></rect>
+<g transform="translate(60,770)">
+ <use xlink:href="#E1-MJMAIN-28" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="389" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2212" x="1212" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="2212" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-29" x="2713" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2B" x="3325" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="4325" y="0"></use>
+</g>
+ <use xlink:href="#E1-MJMATHI-6E" x="2222" y="-686"></use>
+</g>
+ <use xlink:href="#E1-MJMAIN-3D" x="5564" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-4F" x="6620" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-28" x="7383" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="7773" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-29" x="8273" y="0"></use>
+</g>
+</svg></p>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p>一个程序的空间复杂度是指运行完一个程序所需内存的大小。利用程序的空间复杂度，可以对程序的运行所需要的内存多少有个预先估计。一个程序执行时除了需要存储空间和存储本身所使用的指令、常数、变量和输入数据外，还需要一些对数据进行操作的工作单元和存储一些为现实计算所需信息的辅助空间。程序执行时所需存储空间包括以下两部分：</p>
+<ul>
+<li><strong>固定部分</strong>：这部分空间的大小与输入/输出的数据的个数多少、数值无关。主要包括指令空间（即代码空间）、数据空间（常量、简单变量）等所占的空间。这部分属于静态空间。</li>
+<li><strong>可变空间</strong>：这部分空间的主要包括动态分配的空间，以及递归栈所需的空间等。这部分的空间大小与算法有关。</li>
+</ul>
+<p><strong>空间复杂度可以理解为除了原始序列大小的内存，在算法过程中用到的额外的存储空间。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">if</span> (len &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> pivotIndex = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">const</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> left = []</span><br><span class="line">  <span class="keyword">let</span> right = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">  	<span class="keyword">if</span> (arr[i] &lt; pivot) &#123;</span><br><span class="line">      left.push(arr[i])</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quickSort(left).concat([pivot], quickSort(right))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以这个递归版的快排为例，因为每次递归，都会new两个数组空间来存放新的排序结果，每次排序所需要的新的数组空间为 n - 1，递归深度为log₂n，所以这个快排所耗费的空间复杂度也是 O(nlogn) 。</p>
+<p>为了优化空间复杂度，我们可以用指针的形式，直接修改原数组，则空间复杂度会优化为 O(n) ：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> pivot = arr[start]</span><br><span class="line">  <span class="keyword">let</span> left = start</span><br><span class="line">  <span class="keyword">let</span> right = end</span><br><span class="line">  <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right &amp;&amp; arr[right] &gt; pivot) &#123;</span><br><span class="line">      right --</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right &amp;&amp; arr[left] &lt;= pivot) &#123;</span><br><span class="line">      left ++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">      swap(arr, left, right)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  swap(arr, start, left)</span><br><span class="line">  <span class="keyword">return</span> left</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swap</span> (<span class="params">arr, i, j</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> temp = arr[i]</span><br><span class="line">  arr[i] = arr[j]</span><br><span class="line">  arr[j] = temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  start = <span class="keyword">typeof</span> start !== <span class="string">'number'</span> ? <span class="number">0</span> : start</span><br><span class="line">  end = <span class="keyword">typeof</span> end !== <span class="string">'number'</span> ? arr.length - <span class="number">1</span> : end</span><br><span class="line">  <span class="keyword">if</span> (start &lt; end) &#123;</span><br><span class="line">  	<span class="keyword">const</span> partitionIndex = partition(arr, start, end)</span><br><span class="line">    quickSort(arr, start, partitionIndex - <span class="number">1</span>)</span><br><span class="line">    quickSort(arr, partitionIndex + <span class="number">1</span>, end)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/08/Git/Git%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BD%BF%E7%94%A8/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/16/Webpack/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8EWebpack%E5%8E%9F%E7%90%86/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

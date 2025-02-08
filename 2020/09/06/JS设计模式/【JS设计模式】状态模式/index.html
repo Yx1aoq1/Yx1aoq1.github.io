@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【JS设计模式】状态模式</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#状态模式"><span class="toc-number">1.</span> <span class="toc-text">状态模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子-——-电灯程序"><span class="toc-number">1.1.</span> <span class="toc-text">举个例子 —— 电灯程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优缺点"><span class="toc-number">2.1.</span> <span class="toc-text">优缺点</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【JS设计模式】状态模式</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-09-06T11:15:27.000Z" itemprop="datePublished">2020-09-06</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JS设计模式</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h2><p>状态模式的定义：</p>
+<blockquote>
+<p><strong>允许一个对象在其内部状态改变时来改变它的行为</strong>，对象看起来似乎修改了它的类。在状态模式中，我们把状态封装成独立的类，并将请求委托给当前的状态对象，所以当对象内部的状态改变时，对象会有不同的行为。状态模式的关键就是区分对象的内部状态。</p>
+</blockquote>
+<h3 id="举个例子-——-电灯程序"><a href="#举个例子-——-电灯程序" class="headerlink" title="举个例子 —— 电灯程序"></a>举个例子 —— 电灯程序</h3><p><strong>▼普通的实现</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Light = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.state = <span class="string">'off'</span> <span class="comment">// 给电灯设置初始状态off</span></span><br><span class="line">  <span class="keyword">this</span>.button = <span class="literal">null</span> <span class="comment">// 电灯开关按钮</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Light.prototype.init = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> button = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>)</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span></span><br><span class="line">  </span><br><span class="line">  button.innerHTML = <span class="string">'开关'</span></span><br><span class="line">  <span class="keyword">this</span>.button = <span class="built_in">document</span>.body.appendChild(button)</span><br><span class="line">  <span class="keyword">this</span>.button.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    self.buttonWasPressed()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Light.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'off'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'开灯'</span>)</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'on'</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'on'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'关灯'</span>)</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'off'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> light = <span class="keyword">new</span> Light()</span><br><span class="line">light.init()</span><br></pre></td></tr></table></figure>
+
+<p>随着科技进步，现在的电灯很明显已经不再是单纯的两种状态。许多电灯的开关表现为：第一次按打开弱光，第二次按打开强光，第三次按关闭电灯。我们来改造上面的程序：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Light.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'off'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'弱光'</span>)</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'weakLight'</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'weakLight'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'强光'</span>)</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'strongLight'</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.state === <span class="string">'strongLight'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'关灯'</span>)</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'off'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个程序存在以下缺点：</p>
+<ul>
+<li>违反“开放-封闭”原则，每次新增或者修改<code>light</code>的状态，都需要改动<code>buttonWasPressed</code>方法中的代码，使得<code>buttonWasPressed</code>称为一个非常不稳定的方法</li>
+<li>如果增加更多的状态，那么<code>buttonWasPressed</code>将变得越来越庞大且难以维护</li>
+<li>状态切换不明显，仅仅表现为对<code>state</code>变量赋值，实际开发中很容易漏掉</li>
+<li>堆砌<code>if</code>、<code>else</code>语句，代码显得不优雅且难以阅读</li>
+</ul>
+<p><strong>▼使用状态模式</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OffLightState</span></span><br><span class="line"><span class="keyword">var</span> OffLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OffLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'弱光'</span>) <span class="comment">// 切换时对应的行为</span></span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.weakLightState) <span class="comment">// 状态切换到weakLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WeakLightState</span></span><br><span class="line"><span class="keyword">var</span> WeakLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">WeakLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'强光'</span>) <span class="comment">// 切换时对应的行为</span></span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.strongLightState) <span class="comment">// 状态切换到strongLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// StrongLightState</span></span><br><span class="line"><span class="keyword">var</span> StrongLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StrongLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'关灯'</span>) <span class="comment">// 切换时对应的行为</span></span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.offLightState) <span class="comment">// 状态切换到offLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改写Light类</span></span><br><span class="line"><span class="keyword">var</span> Light = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.offLightState = <span class="keyword">new</span> OffLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.weakLightState = <span class="keyword">new</span> WeakLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.strongLightState = <span class="keyword">new</span> StrongLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.button = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Light.prototype.init = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> button = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>)</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span></span><br><span class="line">  </span><br><span class="line">  button.innerHTML = <span class="string">'开关'</span></span><br><span class="line">  <span class="keyword">this</span>.currState = <span class="keyword">this</span>.offLightState</span><br><span class="line">  <span class="keyword">this</span>.button = <span class="built_in">document</span>.body.appendChild(button)</span><br><span class="line">  <span class="keyword">this</span>.button.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    self.currState.buttonWasPressed()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Light.prototype.setState = <span class="function"><span class="keyword">function</span> (<span class="params">newState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.currState = newState</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> light = <span class="keyword">new</span> Light()</span><br><span class="line">light.init()</span><br></pre></td></tr></table></figure>
+
+<p>当我们需要为<code>light</code>对象增加一种新的状态时，只需要增加一个新的状态类，再稍稍改变一些现有的代码即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SuperStrongLightState</span></span><br><span class="line"><span class="keyword">var</span> SuperStrongLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperStrongLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'关灯'</span>)</span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.offLightState) <span class="comment">// 状态切换到offLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改StrongLightState</span></span><br><span class="line"><span class="keyword">var</span> StrongLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StrongLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'超强光'</span>) <span class="comment">// 切换时对应的行为</span></span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.superStrongLightState) <span class="comment">// 状态切换到offLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改写Light类</span></span><br><span class="line"><span class="keyword">var</span> Light = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.offLightState = <span class="keyword">new</span> OffLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.weakLightState = <span class="keyword">new</span> WeakLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.strongLightState = <span class="keyword">new</span> StrongLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.superStrongLightState = <span class="keyword">new</span> SuperStrongLightState(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span>.button = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼使用抽象类定义状态类</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> State = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">State.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'父类的buttonWasPressed方法必须被重写'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> SuperStrongLightState = <span class="function"><span class="keyword">function</span> (<span class="params">light</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.light = light</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperStrongLightState.prototype = <span class="keyword">new</span> State()</span><br><span class="line"></span><br><span class="line">SuperStrongLightState.prototype.buttonWasPressed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'关灯'</span>)</span><br><span class="line">  <span class="keyword">this</span>.light.setState(<span class="keyword">this</span>.light.offLightState) <span class="comment">// 状态切换到offLightState</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点：<ul>
+<li>定义了状态与行为之间的关系，并将它们封装在一个类里。通过增加新的状态类，很容易增加新的状态和转换</li>
+<li>避免<code>Context</code>无限膨胀，状态的逻辑被分布在状态类中，也去掉了<code>Context</code>中原本过多的条件分支</li>
+<li>用对象代替字符串来记录当前状态，使得状态的切换一目了然</li>
+<li><code>Context</code>中的请求动作和状态类中封装的行为可以非常容易地独立变化而互不影响</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>在系统中增加许多状态类，使得系统会因此增加许多对象</li>
+<li>逻辑分散在状态类中，虽然避开了条件分支语句，但也造成了逻辑分散地问题，无法在一个地方就看出整个状态机地逻辑</li>
+</ul>
+</li>
+</ul>
+<p>文章参考：<br>《JavaScript设计模式与开发实践》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/09/06/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/11/10/Vue/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8SvgIcon%E7%BB%84%E4%BB%B6/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

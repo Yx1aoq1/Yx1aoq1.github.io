@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Cookie技术</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie技术"><span class="toc-number">1.</span> <span class="toc-text">Cookie技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie的作用"><span class="toc-number">1.1.</span> <span class="toc-text">Cookie的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie-的缺陷"><span class="toc-number">1.2.</span> <span class="toc-text">Cookie 的缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie的使用"><span class="toc-number">1.3.</span> <span class="toc-text">Cookie的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在express框架下使用Cookie"><span class="toc-number">1.3.1.</span> <span class="toc-text">在express框架下使用Cookie</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie的属性"><span class="toc-number">1.4.</span> <span class="toc-text">Cookie的属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Domin-amp-Path"><span class="toc-number">1.4.1.</span> <span class="toc-text">Domin&amp;Path</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Expires"><span class="toc-number">1.4.2.</span> <span class="toc-text">Expires</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Max-Age"><span class="toc-number">1.4.3.</span> <span class="toc-text">Max-Age</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Secure"><span class="toc-number">1.4.4.</span> <span class="toc-text">Secure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HttpOnly"><span class="toc-number">1.4.5.</span> <span class="toc-text">HttpOnly</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SameSite"><span class="toc-number">1.4.6.</span> <span class="toc-text">SameSite</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三方Cookie"><span class="toc-number">1.5.</span> <span class="toc-text">第三方Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何跨域设置Cookie"><span class="toc-number">1.5.1.</span> <span class="toc-text">如何跨域设置Cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三方Cookie的应用"><span class="toc-number">1.5.2.</span> <span class="toc-text">第三方Cookie的应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#浏览器支持"><span class="toc-number">1.5.3.</span> <span class="toc-text">浏览器支持</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie-与-Session-的关系"><span class="toc-number">2.</span> <span class="toc-text">Cookie 与 Session 的关系</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Cookie技术</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-11-10T08:28:33.000Z" itemprop="datePublished">2020-11-10</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/">网络技术</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/CORS/" rel="tag">CORS</a>, <a class="tag-link" href="/tags/Cookie/" rel="tag">Cookie</a>, <a class="tag-link" href="/tags/%E8%B7%A8%E5%9F%9F/" rel="tag">跨域</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="Cookie技术"><a href="#Cookie技术" class="headerlink" title="Cookie技术"></a>Cookie技术</h2><blockquote>
+<p>Cookie，指某些网站为了辨别用户身份而存储在用户本地终端（Client Side）上的数据。</p>
+</blockquote>
+<h3 id="Cookie的作用"><a href="#Cookie的作用" class="headerlink" title="Cookie的作用"></a>Cookie的作用</h3><p><strong>Cookie的作用是通过在请求和响应报文中写入Cookie信息来控制客户端的状态。</strong></p>
+<p>一个<strong>典型的应用场景</strong>就是，当用户登录一个网站时，网站往往会请求用户输入用户名和密码，并且用户可以勾选“下次自动登录”。如果勾选了，那么下次访问同一网站时，用户会发现不需要再次输入用户名和密码就可以直接登录浏览了。这正是因为前一次登录时，服务器发送了包含登录凭证的Cookie到用户的硬盘上，第二次登录时，如果该Cookie尚未到期，浏览器就会在请求时携带该Cookie，服务器验证凭证，就不需要再让用户输入用户名和密码了。</p>
+<h3 id="Cookie-的缺陷"><a href="#Cookie-的缺陷" class="headerlink" title="Cookie 的缺陷"></a>Cookie 的缺陷</h3><ul>
+<li>Cookie会被附加在每个HTTP请求中，所以无形中增加了流量</li>
+<li>由于在HTTP请求中的Cookie是明文传输的，所以存在安全性问题，除非使用HTTPS</li>
+<li>Cookie的大小限制在4KB左右，对于复杂的存储需求来说是不够用的</li>
+</ul>
+<h3 id="Cookie的使用"><a href="#Cookie的使用" class="headerlink" title="Cookie的使用"></a>Cookie的使用</h3><p>假设浏览器发送第一个请求，请求<code>www.example.org</code>站点的首页：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;index.html HTTP&#x2F;1.1</span><br><span class="line">Host: www.example.org</span><br></pre></td></tr></table></figure>
+
+<p>服务端以两个<code>Set-Cookie</code>头响应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.0 200 OK</span><br><span class="line">Content-type: text&#x2F;html</span><br><span class="line">Set-Cookie: theme&#x3D;light</span><br><span class="line">Set-Cookie: sessionToken&#x3D;abc123; Expires&#x3D;Wed, 09 Jun 2021 10:18:14 GMT</span><br></pre></td></tr></table></figure>
+
+<p>第一个”theme”，由于没有设置<code>Expires</code>或<code>Max-Age</code>属性，会被当成一个<code>Session cookie</code>，当浏览器关闭时，这个Cookie也会被删除。</p>
+<p>第二个“sessionToken”，则是一个持久性的Cookie，因为它包含了<code>Expires</code>属性，这个属性会让浏览器在指定时间内删除Cookie。</p>
+<p>接下去浏览器发送另一个请求访问<code>spec.html</code>页面，这个请求头中会包含一个<code>Cookie</code>属性，里面有服务器设置的两个Cookie值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;spec.html HTTP&#x2F;1.1</span><br><span class="line">Host: www.example.org</span><br><span class="line">Cookie: theme&#x3D;light; sessionToken&#x3D;abc123</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式服务端知道这个请求和上个页面有关。服务端会返回请求页面，可能会在响应中包含更多的<code>Set-Cookie</code>头来增加Cookie，或者修改删除Cookie。</p>
+<h4 id="在express框架下使用Cookie"><a href="#在express框架下使用Cookie" class="headerlink" title="在express框架下使用Cookie"></a>在<code>express</code>框架下使用Cookie</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Express <span class="keyword">from</span> <span class="string">'express'</span></span><br><span class="line"><span class="keyword">import</span> cookieParser <span class="keyword">from</span> <span class="string">'cookie-parser'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = Express()</span><br><span class="line"><span class="comment">// 使用cookie-parser中间件</span></span><br><span class="line">app.use(cookieParser())</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">'/'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 校验在cookie中的token身份信息</span></span><br><span class="line">  <span class="keyword">if</span> (checkToken(req.cookies.token)) &#123;</span><br><span class="line">    next()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 身份校验失败，给客户端返回重新登录的状态码</span></span><br><span class="line">    responseClient(res, <span class="number">401</span>, <span class="string">'身份信息已过期，请重新登录'</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/login'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; username, password &#125; = req.body</span><br><span class="line">  <span class="comment">// 确认用户的用户名密码是否正确</span></span><br><span class="line">  <span class="keyword">if</span> (checkUser(username, password)) &#123;</span><br><span class="line">    <span class="comment">// 确认用户名密码无错误之后生成对应的token并设置Cookie</span></span><br><span class="line">    res.cookie(<span class="string">'token'</span>, generateToken(username, password) ,&#123; <span class="attr">expires</span>: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.now() + <span class="number">100</span>), <span class="attr">httpOnly</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    responseClient(res, <span class="number">200</span>, <span class="string">'登录成功'</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    responseClient(res, <span class="number">500</span>, <span class="string">'用户名/密码错误'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8080</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Cookie的属性"><a href="#Cookie的属性" class="headerlink" title="Cookie的属性"></a>Cookie的属性</h3><h4 id="Domin-amp-Path"><a href="#Domin-amp-Path" class="headerlink" title="Domin&amp;Path"></a><code>Domin</code>&amp;<code>Path</code></h4><p>用来限定Cookie的范围，告诉浏览器Cookie属于哪个站点。为了安全，Cookie只能在当前资源的顶级域名或子域名上设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; Domain&#x3D;&lt;domain-value&gt;</span><br><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; Path&#x3D;&lt;path-value&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a><code>Expires</code></h4><p>定义了一个指定的日期和时间，到了这个日期或时间时，浏览器应该删掉Cookie。日期和时间的指定格式是<code>Wdy, DD Mon YYYY HH:MM:SS GMT</code>或者<code>Wdy, DD Mon YY HH:MM:SS GMT</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; Expires&#x3D;&lt;date&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Max-Age"><a href="#Max-Age" class="headerlink" title="Max-Age"></a><code>Max-Age</code></h4><p>用来设置Cookie的有效期，以相对于浏览器接收到Cookie之后的秒数来计算。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; Max-Age&#x3D;&lt;non-zero-digit&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Secure"><a href="#Secure" class="headerlink" title="Secure"></a><code>Secure</code></h4><p>指示浏览器只能通过安全/加密连接使用Cookie。意味着只有在HTTPS请求时才会携带这个Cookie，当请求是HTTP时不会带上这个Cookie。不过设置<code>Secure</code>的Cookie对与客户端脚本来说是可读可写的，所以依然有被盗取篡改的风险。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; Secure</span><br></pre></td></tr></table></figure>
+
+<h4 id="HttpOnly"><a href="#HttpOnly" class="headerlink" title="HttpOnly"></a><code>HttpOnly</code></h4><p>指示浏览器除了HTTP/HTTPS请求之外不要显示Cookie。这种Cookie不能在客户端通过脚本获取（例如JavaScirpt，引用document.cookie）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;cookie-name&gt;&#x3D;&lt;cookie-value&gt;; HttpOnly</span><br></pre></td></tr></table></figure>
+
+<h4 id="SameSite"><a href="#SameSite" class="headerlink" title="SameSite"></a><code>SameSite</code></h4><p>防止CSRF（Cross-Site Request Forgery，跨站请求伪造攻击）的设定。由于Cookie经常用来验证登录状态，当你成功登录A网站时，A网站会设置Cookie来存储你的用户信息，以方便于一定时间内的免登录。而在此期间如果你访问了一些恶意网站，这个恶意网站向A网站发送请求，浏览器会默认携带之前的Cookie，如果A网站没有再做token校验，就会将恶意网站发送的请求误认为是用户操作，从而产生漏洞，这就是CSRF攻击。</p>
+<ul>
+<li><code>Samesite=Strict</code>：严格模式，表明这个 Cookie 在任何情况下都不可能作为第三方 Cookie，绝无例外。</li>
+<li><code>Samesite=Lax</code>：宽松模式，比 Strict 放宽了点限制，大多数情况也是不发送第三方 Cookie，但是导航到目标网址的 Get 请求除外。</li>
+</ul>
+<h3 id="第三方Cookie"><a href="#第三方Cookie" class="headerlink" title="第三方Cookie"></a>第三方Cookie</h3><ul>
+<li><strong>第一方Cookie</strong>：指的是由网络用户访问的域创建的Cookie。大多数浏览器都支持第一方Cookie。</li>
+<li><strong>第三方Cookie</strong>：指的是建立在别的域名，而不是你访问的域名（地址栏中的网址）而创建的Cookie。</li>
+</ul>
+<h4 id="如何跨域设置Cookie"><a href="#如何跨域设置Cookie" class="headerlink" title="如何跨域设置Cookie"></a>如何跨域设置Cookie</h4><p>由于浏览器存在同源策略，会导致Cookie在请求不同域的时候并不会自动携带。</p>
+<p>为了实现跨域，服务端需要添加请求头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: a.com &#x2F;&#x2F; 发起请求的域名，设置允许跨域请求</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br></pre></td></tr></table></figure>
+
+<p>而客户端在发送请求时，必须添加请求配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.withCredentials &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>当<code>a.com</code>请求<code>b.com</code>时，浏览器会自动携带上<code>b.com</code>可以访问的所有Cookie（会受到domain配置的影响）</p>
+<h4 id="第三方Cookie的应用"><a href="#第三方Cookie的应用" class="headerlink" title="第三方Cookie的应用"></a>第三方Cookie的应用</h4><ul>
+<li><strong>访客统计工具</strong>：比如有一个网站<code>blog.com</code>，每当用户打开<code>blog.com</code>中的页面时，就会发送一个GET请求到<code>helper.com</code>。这样只要分析<code>helper.com</code>的日志，就可以了解<code>blog.com</code>的访问情况。这类工具会在Cookie中存放用户的ID，每个浏览器得到的ID都是不同的，用户访问时检查Cookie中的ID，ID相同的访问被认为来自同一个用户，否则是不同的用户。</li>
+<li><strong>广告</strong>：你访问过的网站会写入一些第三方Cookie在你的浏览器里，这些Cookie会被一些广告公司用来售卖更精准的广告。比如你曾上过一家汽车网站，通过第三方Cookie就可以记录下你“曾经浏览某某汽车品牌”的这一信息，从而对你精准地投放广告。</li>
+</ul>
+<h4 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h4><ul>
+<li>IE：默认不接受第三方 Cookie，不过采用 P3P 协议即可（理论上讲，服务商应该在协议里真实地反映网站的信息搜集行为，若声明的隐私政策与实际行为不符，是要负法律责任的）。</li>
+<li>Chrome、Firefox：默认接受。但用户可以在设置中设置不接受。</li>
+<li>Safari：默认会阻止第三方cookie。</li>
+</ul>
+<h2 id="Cookie-与-Session-的关系"><a href="#Cookie-与-Session-的关系" class="headerlink" title="Cookie 与 Session 的关系"></a>Cookie 与 Session 的关系</h2><ul>
+<li>Session 是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中</li>
+<li>Cookie 是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式</li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/11/10/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E5%8D%8F%E8%AE%AE/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/11/13/Vue/Vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8801%EF%BC%89/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

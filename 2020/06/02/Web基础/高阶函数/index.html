@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>高阶函数</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#高阶函数"><span class="toc-number">1.</span> <span class="toc-text">高阶函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关应用"><span class="toc-number">2.</span> <span class="toc-text">相关应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现AOP"><span class="toc-number">2.1.</span> <span class="toc-text">实现AOP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数柯里化"><span class="toc-number">2.2.</span> <span class="toc-text">函数柯里化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反柯里化"><span class="toc-number">2.3.</span> <span class="toc-text">反柯里化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流与防抖"><span class="toc-number">2.4.</span> <span class="toc-text">节流与防抖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分时函数"><span class="toc-number">2.5.</span> <span class="toc-text">分时函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#惰性加载函数"><span class="toc-number">2.6.</span> <span class="toc-text">惰性加载函数</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">高阶函数</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-02T02:19:31.000Z" itemprop="datePublished">2020-06-02</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link" href="/tags/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" rel="tag">高阶函数</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h2><p>高级函数是指至少满足下列条件<strong>之一</strong>的函数。</p>
+<ul>
+<li><p>函数可以作为参数被传递</p>
+<p>实际应用场景：回调函数（callback）、常见的数组方法，如<code>sort</code> <code>filter</code> <code>map</code> <code>reduce</code> 等</p>
+</li>
+<li><p>函数可以作为返回值输出</p>
+<p>实际应用场景：闭包等各种场景</p>
+</li>
+</ul>
+<h2 id="相关应用"><a href="#相关应用" class="headerlink" title="相关应用"></a>相关应用</h2><h3 id="实现AOP"><a href="#实现AOP" class="headerlink" title="实现AOP"></a>实现AOP</h3><p>AOP（面向切面编程）的主要作用是把一些跟核心业务逻辑无关的功能抽离出来，通过“动态织入”的方式掺入业务逻辑模块中。这样做的好处首先是可以保持业务逻辑模块的纯净和高内聚性（一个模块只负责一种功能），其次是可以很方便的复用代码。</p>
+<p>代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.before = <span class="function"><span class="keyword">function</span> (<span class="params">beforefn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> __self = <span class="keyword">this</span> <span class="comment">// 保存原函数的引用</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 返回包含了原函数和新函数的“代理”函数</span></span><br><span class="line">    beforefn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>) <span class="comment">// 执行新函数，修正this</span></span><br><span class="line">    <span class="keyword">return</span> __self.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>) <span class="comment">// 执行原函数</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Function</span>.prototype.after = <span class="function"><span class="keyword">function</span> (<span class="params">afterfn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> __self = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> ret = __self.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>) <span class="comment">// 执行原函数</span></span><br><span class="line">    afterfn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func = func.before(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;).after(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">func() <span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h3><p>柯里化又称<strong>部分求值</strong>，柯里化函数会接受一些参数，然后不会立即求值，而是继续返回一个新函数，将传入的参数通过闭包的形式保存，等到被真正求值的时候，再一次性把所有传入的参数进行求值。</p>
+<p>代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>, <span class="number">4</span>) <span class="comment">// 7</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现了柯里化的函数</span></span><br><span class="line"><span class="comment">// 接收参数，返回新函数，把参数传给新函数使用，最后求值</span></span><br><span class="line"><span class="keyword">let</span> add = <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>)(<span class="number">4</span>) <span class="comment">// 7</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通用版</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_c</span>(<span class="params">restNum, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restNum === <span class="number">0</span></span><br><span class="line">      ? fn.apply(<span class="literal">null</span>, args) <span class="comment">// 当存储的参数已达到原函数的参数数量时，执行原函数</span></span><br><span class="line">      : <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _c(restNum - <span class="number">1</span>, [...args, x])</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _c(fn.length, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> add = curry(<span class="function">(<span class="params">x, y</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>)(<span class="number">4</span>) <span class="comment">// 7</span></span><br></pre></td></tr></table></figure>
+
+<p>函数柯里化在业务中的<strong>应用</strong>：</p>
+<ul>
+<li>提高代码的通用性</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">square</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> i * i</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">double</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> i *= <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">map</span>(<span class="params">handler, list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> list.map(handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组的每一项平方</span></span><br><span class="line">map(square, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">map(square, [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>])</span><br><span class="line">map(square, [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>])</span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组的每一项加倍</span></span><br><span class="line">map(double, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">map(double, [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>])</span><br><span class="line">map(double, [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>])</span><br></pre></td></tr></table></figure>
+<p>在以上例子中，创建了一个map通用函数，用于适应不同的应用场景，但是在例子中，反复的传入了相同的处理函数：square和double。</p>
+<p>我们利用柯里化将其改造一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> args = [].slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, [...args, ...arguments])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapSQ = curry(map, square)</span><br><span class="line">mapSQ([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]) <span class="comment">//[1, 4, 9, 16, 25]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDB = curry(map, double)</span><br><span class="line">mapDB([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]) <span class="comment">// [ 2, 4, 6, 8, 10 ]</span></span><br></pre></td></tr></table></figure>
+<p>如此，便降低了代码的重复性。</p>
+<ul>
+<li>延迟执行：利用闭包的特点，缓存积累传入的参数，等到需要的时候再执行函数。举个例子：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> args = []</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">cb</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">arguments</span>.length === <span class="number">0</span>) &#123; <span class="comment">// 当不传入参数时，调用原函数</span></span><br><span class="line">      <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      args.push(...arguments) <span class="comment">// 存储每次传入的参数</span></span><br><span class="line">      <span class="keyword">return</span> cb</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> curryAdd = curry(<span class="function">(<span class="params">...args</span>) =&gt;</span> args.reduce(<span class="function">(<span class="params">sum, single</span>) =&gt;</span> sum += single))</span><br><span class="line"></span><br><span class="line">curryAdd(<span class="number">1</span>)</span><br><span class="line">curryAdd(<span class="number">2</span>)</span><br><span class="line">curryAdd(<span class="number">3</span>)</span><br><span class="line">curryAdd(<span class="number">4</span>)</span><br><span class="line">curryAdd() <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Function.prototype.bind 方法的实现</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    fn.apply(scope, <span class="built_in">arguments</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="反柯里化"><a href="#反柯里化" class="headerlink" title="反柯里化"></a>反柯里化</h3><p>从字面意义上讲，<strong>反柯里化</strong>的意义和用法和<strong>柯里化</strong>正好相反，反柯里化的主要作用是使本来只有特定对象才适用的方法，扩展到更多的对象。例如我们经常使用call和apply去借用Array.prototype上的方法，使其适用的范围从数组扩大到类数组对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Array</span>.prototype.push.call(<span class="built_in">arguments</span>, <span class="number">4</span>) <span class="comment">// arguments为类数组对象，借用Array.prototype.push方法</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>)</span><br><span class="line">&#125;)(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>反柯里化的函数实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.uncurrying = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> self = <span class="keyword">this</span></span><br><span class="line">  <span class="comment">// this就是Array.prototype.push</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Array.prototype.push当作Function.prototype.call的this传进去</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Function</span>.prototype.call.apply(self, <span class="built_in">arguments</span>)</span><br><span class="line">    <span class="comment">// arguments是[obj, 'first']，apply接受数组形式的传参</span></span><br><span class="line">    <span class="comment">// 也就相当于Array.prototype.push.call(arguments)</span></span><br><span class="line">    <span class="comment">// 即Array.prototype.push.call(obj, 'first')</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> push = <span class="built_in">Array</span>.prototype.push.uncurrying()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">push(obj, <span class="string">'first'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'obj'</span>, obj) <span class="comment">// obj &#123; '0': 'first', length: 1 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="节流与防抖"><a href="#节流与防抖" class="headerlink" title="节流与防抖"></a>节流与防抖</h3><p><strong>节流函数：</strong>让原先频繁触发的函数在间隔某一段时间内只执行一次。</p>
+<p><strong>常见的使用场景：</strong></p>
+<ul>
+<li>window.onresize 事件</li>
+<li>mousemove 事件</li>
+<li>上传进度</li>
+</ul>
+<p>函数实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> throttle = <span class="function"><span class="keyword">function</span> (<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> __self = fn <span class="comment">// 保存需要被延迟执行的函数引用</span></span><br><span class="line">  <span class="keyword">let</span> timer, <span class="comment">// 定时器</span></span><br><span class="line">      firstTime = <span class="literal">true</span> <span class="comment">// 是否第一次调用</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> args = <span class="built_in">arguments</span>,</span><br><span class="line">          __me = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">if</span> (firstTime) &#123; <span class="comment">// 如果是第一次调用，不需要延迟执行</span></span><br><span class="line">      __self.apply(__me, args)</span><br><span class="line">      <span class="keyword">return</span> firstTime = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果定时器还在，说明前一次延迟执行还没有完成</span></span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      clearTimeout(timer)</span><br><span class="line">      timer = <span class="literal">null</span></span><br><span class="line">      __self.apply(__me, args)</span><br><span class="line">    &#125;, interval || <span class="number">500</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>防抖函数：</strong>指在事件被触发的某个时间间隔后再执行相应的回调，如果再这个时间间隔内事件再次被触发，则重新计时。</p>
+<p><strong>常见的使用场景：</strong></p>
+<ul>
+<li>input 输入事件所触发的ajax请求</li>
+</ul>
+<p>函数实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> debounce = <span class="function"><span class="keyword">function</span> (<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> __self = fn</span><br><span class="line">  <span class="keyword">let</span> timer</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> args = <span class="built_in">arguments</span>,</span><br><span class="line">          __me = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">if</span>(timer !== <span class="literal">null</span>) &#123;  <span class="comment">// 在间隔内又被触发,则清空定时器,重新计时</span></span><br><span class="line">      clearTimeout(timer)</span><br><span class="line">      timer = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      __self.apply(__me, args)</span><br><span class="line">    &#125;, interval || <span class="number">500</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分时函数"><a href="#分时函数" class="headerlink" title="分时函数"></a>分时函数</h3><p>分时函数的主要作用就是避免在短时间内执行太多任务，通常用于优化大量数据渲染的场景。</p>
+<p>函数实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> timeChunk = <span class="function"><span class="keyword">function</span> (<span class="params">ary, fn, count, duration</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> timer</span><br><span class="line">  <span class="keyword">const</span> start = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">Math</span>.min(count || <span class="number">1</span>, ary.length); i ++) &#123;</span><br><span class="line">      <span class="keyword">const</span> obj = ary.shift()</span><br><span class="line">      fn(obj)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    timer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (ary.length === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> clearInterval(timer)</span><br><span class="line">      &#125;</span><br><span class="line">      start()</span><br><span class="line">    &#125;, duration || <span class="number">500</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> render = timeChunk(<span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">10</span>), () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'render'</span>) &#125;, <span class="number">5</span>, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">render()</span><br></pre></td></tr></table></figure>
+
+<h3 id="惰性加载函数"><a href="#惰性加载函数" class="headerlink" title="惰性加载函数"></a>惰性加载函数</h3><p>由于浏览器之间的行为差异，经常会在函数中包含大量的if语句，以检查浏览器的特性，解决不同浏览器的兼容问题。比如，最常见的为dom节点添加事件的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.addEventListener) &#123;</span><br><span class="line">    elem.addEventListener(type, handler, <span class="literal">false</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.attachEvent) &#123;</span><br><span class="line">    elem.attachEvent(<span class="string">'on'</span> + type, handler)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    elem[<span class="string">'on'</span> + type] = handler</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次调用addEvent函数的时候，它都要对浏览器所支持的能力进行检查，但其实，当页面加载完毕时，浏览器已经是一个固定的浏览器了，检查只需要做一次。我们可以使用立即执行函数来优化这个方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> addEvent = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.addEventListener) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem.addEventListener(type, handler, <span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.attachEvent) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem.attachEvent(<span class="string">'on'</span> + type, handler)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem[<span class="string">'on'</span> + type] = handler</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>以上就是<strong>惰性加载</strong>的一种方式。所谓的惰性加载，<strong>就是函数的if分支只会执行一次</strong>。</p>
+<p>不过上述函数也存在一个缺点，也许我们从头到尾都没有使用过addEvent函数，那么执行这个函数就是一个多余的操作，并且也会延长页面ready的时间。</p>
+<p>优化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> addEvent = <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.addEventListener) &#123;</span><br><span class="line">    <span class="comment">// 第一次进入时对函数进行重写</span></span><br><span class="line">    <span class="comment">// 第二次进入时就不再进入条件分支</span></span><br><span class="line">    addEvent = <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem.addEventListener(type, handler, <span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.attachEvent) &#123;</span><br><span class="line">    addEvent = <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem.attachEvent(<span class="string">'on'</span> + type, handler)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    addEvent = <span class="function"><span class="keyword">function</span> (<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">      elem[<span class="string">'on'</span> + type] = handler</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>文章参考：<br>《JavaScript设计模式与开发实践》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/01/16/Vue/Vue%E4%B9%8Bkeep-alive/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/02/Vue/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%8E%A2%E7%A9%B6/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

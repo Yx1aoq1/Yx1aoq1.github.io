@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>cli工具之init</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#inquirer"><span class="toc-number">1.</span> <span class="toc-text">inquirer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用方法"><span class="toc-number">1.1.</span> <span class="toc-text">使用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#download-git-repo"><span class="toc-number">2.</span> <span class="toc-text">download-git-repo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用方法-1"><span class="toc-number">2.1.</span> <span class="toc-text">使用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改package-json"><span class="toc-number">3.</span> <span class="toc-text">修改package.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整代码"><span class="toc-number">4.</span> <span class="toc-text">完整代码</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">cli工具之init</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2019-10-19T08:11:11.000Z" itemprop="datePublished">2019-10-19</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/NodeJS/" rel="tag">NodeJS</a>, <a class="tag-link" href="/tags/cli%E5%B7%A5%E5%85%B7/" rel="tag">cli工具</a>, <a class="tag-link" href="/tags/fet%E6%BA%90%E7%A0%81/" rel="tag">fet源码</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>了解了命令行工具开发的基本操作后，继续来逐一解析各个指令的实现方式。首先从最简单的init下手。</p>
+<p><code>init</code>命令通常都具备以下几个功能：</p>
+<ul>
+<li>可交互</li>
+<li>远程拉取项目到本地</li>
+<li>可修改package.json中的项目名版本号等信息</li>
+</ul>
+<p>那么，如何实现呢？</p>
+<h2 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h2><p><a href="https://github.com/SBoudrias/Inquirer.js/#examples" target="_blank" rel="noopener">inquirer</a>是nodejs的交互式命令行工具，通过该插件我们可以完成终端上的交互。</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">inquirer</span><br><span class="line">  .prompt([</span><br><span class="line">    &#123;</span><br><span class="line">      type: <span class="string">'input'</span>, <span class="comment">// 交互方式，input、confirm等</span></span><br><span class="line">      name: <span class="string">'projectName'</span>, <span class="comment">// 用来存输入结果的字段名</span></span><br><span class="line">      message: <span class="string">'project name:'</span>, <span class="comment">// 提示输入信息</span></span><br><span class="line">      <span class="keyword">default</span>: <span class="string">'template'</span> <span class="comment">// 默认值</span></span><br><span class="line">    &#125;</span><br><span class="line">  ])</span><br><span class="line">  .then(<span class="function">(<span class="params">answers</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(answers)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>你将看到的交互效果：<br><img src="https://my-image-1300309047.cos.ap-chengdu.myqcloud.com/my_blog/cmd-4.png" alt=""></p>
+<h2 id="download-git-repo"><a href="#download-git-repo" class="headerlink" title="download-git-repo"></a>download-git-repo</h2><p><a href="https://www.npmjs.com/package/download-git-repo" target="_blank" rel="noopener">download-git-repo</a>是将远程仓库（如GitHub, GitLab, Bitbucket）的项目下载到本地的命令行工具。</p>
+<h3 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从github下载</span></span><br><span class="line">download(repositoryName, projectName, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(err ? <span class="string">'Error'</span> : <span class="string">'Success'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改package-json"><a href="#修改package-json" class="headerlink" title="修改package.json"></a>修改package.json</h2><p>这里我们使用nodejs的fs模块所提供的方法来实现，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">edit</span> (<span class="params">info, path</span>) </span>&#123;</span><br><span class="line">  fs.readFile(path + <span class="string">'/package.json'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(err)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(data)</span><br><span class="line">    data.name = info.projectName</span><br><span class="line">    data.author = info.author</span><br><span class="line">    data.version = info.version</span><br><span class="line">    <span class="keyword">var</span> replaceData = <span class="built_in">JSON</span>.stringify(data, <span class="literal">null</span>, <span class="number">4</span>)</span><br><span class="line">    fs.writeFile(path + <span class="string">'/package.json'</span>, replaceData, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> program = <span class="built_in">require</span>(<span class="string">'commander'</span>)</span><br><span class="line"><span class="keyword">var</span> ora = <span class="built_in">require</span>(<span class="string">'ora'</span>) <span class="comment">//ora 一个命令行loading效果</span></span><br><span class="line"><span class="keyword">var</span> inquirer = <span class="built_in">require</span>(<span class="string">'inquirer'</span>) <span class="comment">// 命令行交互</span></span><br><span class="line"><span class="keyword">var</span> download = <span class="built_in">require</span>(<span class="string">'download-git-repo'</span>) <span class="comment">// github api用来下载github的模板</span></span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .command(<span class="string">'init [projectName]'</span>) <span class="comment">// 设置指令</span></span><br><span class="line">  .description(<span class="string">'init project'</span>)</span><br><span class="line">  .action(<span class="function"><span class="keyword">function</span> (<span class="params">projectName, opts</span>) </span>&#123; <span class="comment">// 执行操作</span></span><br><span class="line">    <span class="keyword">var</span> loading = ora(<span class="string">'fetching template......'</span>)</span><br><span class="line">    inquirer</span><br><span class="line">      .prompt([</span><br><span class="line">        &#123;</span><br><span class="line">          type: <span class="string">'input'</span>,</span><br><span class="line">          name: <span class="string">'projectName'</span>,</span><br><span class="line">          message: <span class="string">'项目名称'</span>,</span><br><span class="line">          <span class="keyword">default</span>: projectName || <span class="string">'template'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: <span class="string">'input'</span>,</span><br><span class="line">          name: <span class="string">'author'</span>,</span><br><span class="line">          message: <span class="string">'作者'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: <span class="string">'input'</span>,</span><br><span class="line">          name: <span class="string">'version'</span>,</span><br><span class="line">          message: <span class="string">'版本'</span>,</span><br><span class="line">          <span class="keyword">default</span>: <span class="string">'0.1.0'</span></span><br><span class="line">        &#125;</span><br><span class="line">      ])</span><br><span class="line">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">answers</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> repository = <span class="string">'Yx1aoq1/vue-template'</span></span><br><span class="line">        <span class="keyword">var</span> project = answers.projectName</span><br><span class="line">        loading.start()</span><br><span class="line">        download(repository, project, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">var</span> path = process.cwd() + <span class="string">'\/'</span> + project</span><br><span class="line">          edit(answers, path)</span><br><span class="line">          <span class="built_in">console</span>.log(path)</span><br><span class="line">          loading.succeed()</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">edit</span> (<span class="params">info, path</span>) </span>&#123;</span><br><span class="line">  fs.readFile(path + <span class="string">'/package.json'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(err)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(data)</span><br><span class="line">    data.name = info.projectName</span><br><span class="line">    data.author = info.author</span><br><span class="line">    data.version = info.version</span><br><span class="line">    <span class="keyword">var</span> replaceData = <span class="built_in">JSON</span>.stringify(data, <span class="literal">null</span>, <span class="number">4</span>)</span><br><span class="line">    fs.writeFile(path + <span class="string">'/package.json'</span>, replaceData, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2019/06/04/NodeJS/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2019/12/03/ES6/Promise%E8%AF%A6%E8%A7%A3/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

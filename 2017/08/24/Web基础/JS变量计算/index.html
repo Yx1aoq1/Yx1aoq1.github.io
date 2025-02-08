@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>JS变量计算</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-运算符"><span class="toc-number">1.</span> <span class="toc-text">typeof 运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量运算-强制类型转换"><span class="toc-number">2.</span> <span class="toc-text">变量运算 - 强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串拼接"><span class="toc-number">2.1.</span> <span class="toc-text">字符串拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运算符"><span class="toc-number">2.2.</span> <span class="toc-text">&#x3D;&#x3D; 运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if语句"><span class="toc-number">2.3.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑运算"><span class="toc-number">2.4.</span> <span class="toc-text">逻辑运算</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">JS变量计算</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2017-08-24T12:53:29.000Z" itemprop="datePublished">2017-08-24</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="typeof-运算符"><a href="#typeof-运算符" class="headerlink" title="typeof 运算符"></a>typeof 运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'abc'</span> <span class="comment">// string</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="number">123</span> <span class="comment">// number</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">true</span> <span class="comment">// boolean</span></span><br><span class="line"><span class="keyword">typeof</span> &#123;&#125; <span class="comment">// object</span></span><br><span class="line"><span class="keyword">typeof</span> [] <span class="comment">// object</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> <span class="comment">// object</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="built_in">console</span>.log <span class="comment">// function</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="变量运算-强制类型转换"><a href="#变量运算-强制类型转换" class="headerlink" title="变量运算 - 强制类型转换"></a>变量运算 - 强制类型转换</h2><h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">100</span> + <span class="number">10</span> <span class="comment">// 110</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">100</span> + <span class="string">'10'</span> <span class="comment">// '10010'</span></span><br></pre></td></tr></table></figure>
+<p>当使用减运算时：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="string">'100'</span> - <span class="number">10</span> <span class="comment">// 90</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="== 运算符"></a>== 运算符</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">100</span> == <span class="string">'100'</span> <span class="comment">// true</span></span><br><span class="line"><span class="number">0</span> == <span class="string">''</span> <span class="comment">// true</span></span><br><span class="line"><span class="literal">null</span> == <span class="literal">undefined</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><code>==</code>与<code>===</code>的区别：<code>===</code>是严格等于，只有类型完全相同才会返回<code>true</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">null</span> === <span class="literal">null</span></span><br><span class="line"><span class="literal">undefined</span> === <span class="literal">undefined</span></span><br><span class="line"><span class="literal">null</span> === <span class="literal">undefined</span> <span class="comment">// false</span></span><br><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>什么时候用<code>==</code>什么时候用<code>===</code>：jQuery源码中推荐写法，只有下述情况才用<code>==</code>，其他时候都用<code>===</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a == <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="comment">// 这里相当于 a === null || a === undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span>(a) &#123; <span class="comment">//... &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">100</span>; <span class="comment">// true</span></span><br><span class="line"><span class="keyword">if</span>(b) &#123; <span class="comment">//... &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = <span class="string">''</span>; <span class="comment">// false</span></span><br><span class="line"><span class="keyword">if</span>(c) &#123; <span class="comment">//... &#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>if</code>中被判定为<code>false</code>的几个值：<code>0</code>,<code>NaN</code>,<code>&#39;&#39;</code>,<code>null</code>,<code>undefined</code></p>
+<h3 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">10</span> &amp;&amp; <span class="number">0</span>) <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">''</span> || <span class="string">'abc'</span>) <span class="comment">// 'abc'</span></span><br><span class="line"><span class="built_in">console</span>.log(!<span class="built_in">window</span>.abc) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断一个变量会被当做 true 还是 false</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">console</span>.log(!!a) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2017/08/19/Web%E5%9F%BA%E7%A1%80/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E2%80%94%E2%80%94%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2017/09/25/Web%E5%9F%BA%E7%A1%80/JavaScript%E5%8D%95%E7%BA%BF%E7%A8%8B/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

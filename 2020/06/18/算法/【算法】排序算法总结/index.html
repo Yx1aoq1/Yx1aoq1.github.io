@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【算法】排序算法总结</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-number">1.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-number">2.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-number">3.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#希尔排序"><span class="toc-number">4.</span> <span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#归并排序"><span class="toc-number">5.</span> <span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-number">6.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计数排序"><span class="toc-number">7.</span> <span class="toc-text">计数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#桶排序"><span class="toc-number">8.</span> <span class="toc-text">桶排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基数排序"><span class="toc-number">9.</span> <span class="toc-text">基数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法可视化"><span class="toc-number">10.</span> <span class="toc-text">算法可视化</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【算法】排序算法总结</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-17T16:54:17.000Z" itemprop="datePublished">2020-06-18</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" rel="tag">排序算法</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>前置函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换位置函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swap</span> (<span class="params">arr, i, j</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> temp = arr[i]</span><br><span class="line">  arr[i] = arr[j]</span><br><span class="line">  arr[j] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - <span class="number">1</span>; j ++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">        swap(arr, j, j + <span class="number">1</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>比较相邻的元素。如果第一个比第二个大，就交换他们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(n²)</li>
+<li>最好情况：数组本身是排好序的，只需要进行n - 1次比较，时间复杂度O(n)</li>
+<li>最坏情况：数组本身是逆序的，需要进行n(n-1)/2次比较，时间复杂度O(n²)</li>
+</ul>
+<p><strong>▼改进</strong>：</p>
+<ul>
+<li>设置标志位，如果有一趟没有发生交换（ flag = false ），说明排序已完成</li>
+<li>标记排序完成的最后位置，下次从头遍历的时候只需要遍历到这个位置</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改进后的冒泡</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> len = arr.length</span><br><span class="line">  <span class="keyword">let</span> swapped</span><br><span class="line">  <span class="keyword">do</span> &#123;</span><br><span class="line">    swapped = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; len; i ++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i - <span class="number">1</span>] &gt; arr[i]) &#123;</span><br><span class="line">        swap(arr, i - <span class="number">1</span>, i)</span><br><span class="line">        swapped = <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    len --</span><br><span class="line">  &#125; <span class="keyword">while</span> (swapped)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">let</span> minIndex</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">    minIndex = i                         <span class="comment">// minIndex始终作为最小值的位置索引</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j ++) &#123; <span class="comment">// 当前最小值的后一位开始比较</span></span><br><span class="line">      <span class="keyword">if</span> (arr[j] &lt; arr[minIndex]) &#123;    <span class="comment">// 寻找最小的数</span></span><br><span class="line">        minIndex = j                 <span class="comment">// 将最小数的索引保存</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap(arr, i, minIndex) <span class="comment">// 当前轮次中的i与最小值进行交换</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置</li>
+<li>再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾</li>
+<li>重复第二步，直到所有元素均排序完毕</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(n²)</li>
+<li>最好情况：O(n²)</li>
+<li>最坏情况：O(n²)</li>
+</ul>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertionSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; len; i ++) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = arr[i]</span><br><span class="line">    <span class="keyword">let</span> j</span><br><span class="line">    <span class="keyword">for</span> (j = i - <span class="number">1</span>; (j &gt;= <span class="number">0</span>) &amp;&amp; (arr[j] &gt; key); j --) &#123;</span><br><span class="line">      arr[j + <span class="number">1</span>] = arr[j] <span class="comment">// 将数据向右移动，直到找到指定位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    arr[j + <span class="number">1</span>] = key <span class="comment">// 将数据插入指定位置</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>将第一待排序序列第一个元素看做一个有序序列，把第二个元素到最后一个元素当成是未排序序列。</li>
+<li>从头到尾依次扫描未排序序列，将扫描到的每个元素插入有序序列的适当位置。（如果待插入的元素与有序序列中的某个元素相等，则将待插入元素插入到相等元素的后面。）</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(n²)</li>
+<li>最好情况：O(n)</li>
+<li>最坏情况：O(n²)</li>
+</ul>
+<p><strong>▼算法特点</strong>：如果所要排序的数组是<strong>近乎有序的数组</strong>，则能接近于最好的情况（即完全有序的数组），算法的效率会比快排更好。</p>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">let</span> gap = <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (gap &lt; len / <span class="number">3</span>) &#123; <span class="comment">// 动态定义间隔序列</span></span><br><span class="line">  	gap = gap * <span class="number">3</span> + <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (gap; gap &gt; <span class="number">0</span>; gap = <span class="built_in">Math</span>.floor(gap / <span class="number">3</span>)) &#123;</span><br><span class="line">  	<span class="keyword">for</span> (<span class="keyword">let</span> i = gap; i &lt; len; i ++) &#123; <span class="comment">// 插入排序</span></span><br><span class="line">      <span class="keyword">const</span> temp = arr[i]</span><br><span class="line">      <span class="keyword">let</span> j</span><br><span class="line">      <span class="keyword">for</span> (j = i - gap; j &gt;= <span class="number">0</span> &amp;&amp; arr[j] &gt; temp; j -= gap) &#123;</span><br><span class="line">        arr[j + gap] = arr[j]</span><br><span class="line">      &#125;</span><br><span class="line">      arr[j + gap] = temp</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>选择一个增量序列 t1，t2，……，tk，其中 ti &gt; tj, tk = 1</li>
+<li>按增量序列个数 k，对序列进行 k 趟排序</li>
+<li>每趟排序，根据对应的增量 ti，将待排序列分割成若干⻓度为 m 的子序列，分别对各子表进行直接插入排序。仅增量因子为 1 时，整个序列作为一个表来处理，表⻓度即为整个序列的⻓度</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(n^1.3)</li>
+<li>最好情况：O(n)</li>
+<li>最坏情况：O(n²)</li>
+</ul>
+<p><strong>▼算法特点</strong>：是插入排序的改进，<strong>但是插入排序是稳定的，而希尔排序是不稳定的</strong>。</p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">if</span> (len &lt; <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> middle = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">const</span> left = arr.slice(<span class="number">0</span>, middle)</span><br><span class="line">  <span class="keyword">const</span> right = arr.slice(middle)</span><br><span class="line">  <span class="keyword">return</span> merge(mergeSort(left), mergeSort(right))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span> (<span class="params">left, right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = [] <span class="comment">// 开辟新空间</span></span><br><span class="line">  <span class="keyword">while</span> (left.length &gt; <span class="number">0</span> &amp;&amp; right.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left[<span class="number">0</span>] &lt; right[<span class="number">0</span>]) &#123;</span><br><span class="line">      result.push(left.shift()) <span class="comment">// 把最小的最先取出，放到结果集中</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      result.push(right.shift())</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result.concat(left).concat(right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>申请空间，使其⼤⼩为两个已经排序序列之和，该空间⽤来存放合并后的序列</li>
+<li>设定两个指针，最初位置分别为两个已经排序序列的起始位置</li>
+<li>⽐较两个指针所指向的元素，选择相对⼩的元素放⼊到合并空间，并移动指针到下⼀位置</li>
+<li>重复步骤 3 直到某⼀指针达到序列尾</li>
+<li>另⼀序列剩下的所有元素直接复制到合并序列尾</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(nlogn)</li>
+<li>最好情况：O(nlogn)</li>
+<li>最坏情况：O(nlogn)</li>
+</ul>
+<p><strong>▼算法特点</strong>：稳定性好，不论啥情况，时间复杂度都是O(nlogn)</p>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通语义化版（阮一峰），好理解，但是性能差一些</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="keyword">if</span> (len &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 基准为数组中间的元素</span></span><br><span class="line">  <span class="keyword">const</span> pivotIndex = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">const</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> left = []</span><br><span class="line">  <span class="keyword">let</span> right = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">    <span class="comment">// 以基准为界，分割左右区域</span></span><br><span class="line">  	<span class="keyword">if</span> (arr[i] &lt; pivot) &#123;</span><br><span class="line">      left.push(arr[i])</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quickSort(left).concat([pivot], quickSort(right))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在原数组上操作的版本，比较节约空间</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 基准为数组的始元素</span></span><br><span class="line">  <span class="keyword">const</span> pivot = arr[start]</span><br><span class="line">  <span class="keyword">let</span> left = start</span><br><span class="line">  <span class="keyword">let</span> right = end + <span class="number">1</span></span><br><span class="line">  <span class="keyword">let</span> cur = start + <span class="number">1</span></span><br><span class="line">  <span class="comment">// 从第二个元素开始比较</span></span><br><span class="line">  <span class="keyword">for</span> (; cur &lt; right; cur ++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[cur] &lt; pivot) &#123; </span><br><span class="line">      <span class="comment">// 如果当前元素比基数小，就和右边的大数交换，left就往右移了一位</span></span><br><span class="line">      <span class="comment">// 可以看出最坏的情况，相当于冒泡</span></span><br><span class="line">      swap(arr, cur, ++ left)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 把基数放在本应属于他的位置</span></span><br><span class="line">  swap(arr, start, left)</span><br><span class="line">  <span class="keyword">return</span> left</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  start = <span class="keyword">typeof</span> start !== <span class="string">'number'</span> ? <span class="number">0</span> : start</span><br><span class="line">  end = <span class="keyword">typeof</span> end !== <span class="string">'number'</span> ? arr.length - <span class="number">1</span> : end</span><br><span class="line">  <span class="keyword">if</span> (start &lt; end) &#123;</span><br><span class="line">  	<span class="keyword">const</span> partitionIndex = partition(arr, start, end)</span><br><span class="line">    quickSort(arr, start, partitionIndex - <span class="number">1</span>)</span><br><span class="line">    quickSort(arr, partitionIndex + <span class="number">1</span>, end)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法步骤</strong>：</p>
+<ul>
+<li>从数列中挑出⼀个元素，称为 “基准”（pivot）</li>
+<li>重新排序数列，所有元素⽐基准值⼩的摆放在基准前⾯，所有元素⽐基准值⼤的摆在基准的后⾯（相同的数可以到任⼀边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作</li>
+<li>递归地（recursive）把⼩于基准值元素的⼦数列和⼤于基准值元素的⼦数列排序</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(nlogn)</li>
+<li>最好情况：O(nlogn)</li>
+<li>最坏情况：O(n²)</li>
+</ul>
+<p><strong>▼改进</strong>：</p>
+<p>固定位置的基准选取会降低快排算法在面对有序数组，或者部分有序数组时的执行效率。因此我们需要修改选取基准的策略：</p>
+<ul>
+<li>随机基准：取待排序列中任意一个元素作为基准。一种相对安全的策略，可以降低遇到最坏情况的概率，一切看天意。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomInt</span> (<span class="params">min, max</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.round(<span class="built_in">Math</span>.random() * (max - min)) + min</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pivot = arr[randomInt(start, end)]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>三数取中：选择三个数，然后比较取排中间的那个数。对于随机不重复的数组，有比较好的保证拆分比较均匀。对于存在重复数据的数组，则起不到作用。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">median</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ((a - b) * (b - c) &gt; <span class="number">0</span>) <span class="keyword">return</span> b <span class="comment">// a &gt; b &amp;&amp; b &gt; c</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ((b - a) * (a - c) &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="comment">// a b &gt; a &amp;&amp; a &gt; c</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pivot = median(arr[start], arr[middle] ,arr[end])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>三路快排：可以解决<strong>重复数据</strong>问题。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 基准为数组的始元素</span></span><br><span class="line">  <span class="keyword">const</span> pivot = arr[start]</span><br><span class="line">  <span class="keyword">let</span> left = start <span class="comment">// arr[start, left] &lt; pivot</span></span><br><span class="line">  <span class="keyword">let</span> right = end + <span class="number">1</span> <span class="comment">// arr[right, end] &gt; pivot</span></span><br><span class="line">  <span class="keyword">let</span> cur = start + <span class="number">1</span> <span class="comment">// arr[left + 1, i] = pivot</span></span><br><span class="line">  <span class="comment">// 三路的意思，是指划分了三个区域</span></span><br><span class="line">  <span class="keyword">while</span> (cur &lt; right) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[cur] &lt; pivot) &#123;</span><br><span class="line">      swap(arr, cur ++, ++ left)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arr[cur] &gt; pivot) &#123;</span><br><span class="line">      swap(arr, cur, -- right)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// arr[cur] === pivot</span></span><br><span class="line">      cur ++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  swap(arr, start, left)</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    pLeft: left,</span><br><span class="line">    pRight: right</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSortThreeWay</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  start = <span class="keyword">typeof</span> start !== <span class="string">'number'</span> ? <span class="number">0</span> : start</span><br><span class="line">  end = <span class="keyword">typeof</span> end !== <span class="string">'number'</span> ? arr.length - <span class="number">1</span> : end</span><br><span class="line">  <span class="keyword">if</span> (start &lt; end) &#123;</span><br><span class="line">  	<span class="keyword">const</span> partitionIndex = partition(arr, start, end)</span><br><span class="line">    quickSortThreeWay(arr, start, partitionIndex.pLeft - <span class="number">1</span>)</span><br><span class="line">    quickSortThreeWay(arr, partitionIndex.pRight, end)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>加入插入排序：当快排分割到一定程度的时候，每个部分有序的可能性是比较大的。因此我们可以在后部分的排序中使用插入排序，这对于<strong>几乎有序的数组</strong>的排序也是很好的优化。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> (<span class="params">arr, start, end</span>) </span>&#123;</span><br><span class="line">  start = <span class="keyword">typeof</span> start !== <span class="string">'number'</span> ? <span class="number">0</span> : start</span><br><span class="line">  end = <span class="keyword">typeof</span> end !== <span class="string">'number'</span> ? arr.length - <span class="number">1</span> : end</span><br><span class="line">  <span class="keyword">if</span> (end - start &lt;= <span class="number">15</span>) &#123; <span class="comment">// 当数据小于某个规模时，使用插入排序</span></span><br><span class="line">    insertionSort(arr, start, end)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> partitionIndex = partition(arr, start, end)</span><br><span class="line">  quickSort(arr, start, partitionIndex - <span class="number">1</span>)</span><br><span class="line">  quickSort(arr, partitionIndex + <span class="number">1</span>, end)</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">countingSort</span> (<span class="params">arr, maxValue</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 开辟空间，maxValue表示可能存在于数组的确定最大值</span></span><br><span class="line">  <span class="comment">// 以分数为例，已知最高分为满分100，那么 maxValue = 100</span></span><br><span class="line">  <span class="keyword">let</span> bucket = <span class="keyword">new</span> <span class="built_in">Array</span>(maxValue + <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">let</span> sortedIndex = <span class="number">0</span></span><br><span class="line">  <span class="keyword">const</span> arrLen = arr.length</span><br><span class="line">  <span class="keyword">const</span> bucketLen = maxValue + <span class="number">1</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arrLen; i ++) &#123;</span><br><span class="line">  	<span class="keyword">if</span> (!bucket[arr[i]]) &#123;</span><br><span class="line">      bucket[arr[i]] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    bucket[arr[i]] ++</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; bucketLen; j ++) &#123;</span><br><span class="line">  	<span class="keyword">while</span> (bucket[j] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      arr[sortedIndex ++] = j</span><br><span class="line">      bucket[j]--</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法特点</strong>：</p>
+<p>将输⼊的数据值转化为键存储在额外开辟的数组空间中。作为⼀种线性时间复杂度的排序，计数排序要求输⼊的数据必须是<strong>有确定范围的整数</strong>。计数排序是一种<strong>以空间换时间</strong>的算法。</p>
+<p><strong>▼时间复杂度</strong>：</p>
+<ul>
+<li>平均时间复杂度：O(n)</li>
+<li>最好情况：O(n)</li>
+<li>最坏情况：O(n)</li>
+</ul>
+<p><strong>▼空间复杂度</strong>：O(maxValue) </p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bucketSort</span> (<span class="params">arr, bucketSize = <span class="number">5</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 生成一个bucketSize * bucketSize的数组空间</span></span><br><span class="line">  <span class="keyword">const</span> buckets = [...new <span class="built_in">Array</span>(bucketSize)].map(<span class="function"><span class="params">()</span> =&gt;</span> [])</span><br><span class="line">  <span class="keyword">const</span> max = <span class="built_in">Math</span>.max(...arr)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i ++) &#123;</span><br><span class="line">    <span class="keyword">const</span> number = arr[i]</span><br><span class="line">    <span class="keyword">const</span> bucketIndex = <span class="built_in">Math</span>.floor(number / (max + <span class="number">1</span>) * bucketSize) <span class="comment">// 映射函数</span></span><br><span class="line">    <span class="keyword">const</span> bucket = buckets[bucketIndex]</span><br><span class="line">    bucket.push(number)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> j = bucket.length - <span class="number">1</span></span><br><span class="line">    <span class="comment">// 对加进桶内的元素排序 这里的排序是普通的冒泡</span></span><br><span class="line">    <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; bucket[j - <span class="number">1</span>] &gt; bucket[j]) &#123;</span><br><span class="line">      swap(bucket, j - <span class="number">1</span>, j)</span><br><span class="line">      j --</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> bucketIndex = <span class="number">0</span>; bucketIndex &lt; bucketSize; bucketIndex ++) &#123;</span><br><span class="line">    <span class="keyword">const</span> bucket = buckets[bucketIndex]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; bucket.length; j ++) &#123;</span><br><span class="line">      arr[i] = bucket[j] <span class="comment">// 将元素从每个桶中取出</span></span><br><span class="line">      i ++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>桶排序是计数排序的升级版。它利⽤了函数的映射关系，⾼效与否的关键就在于这个映射函数的确定。为了使桶排序更加⾼效，我们需要做到这两点：</p>
+<ul>
+<li>在额外空间充⾜的情况下，尽量增⼤桶的数量</li>
+<li>使⽤的映射函数能够将输⼊的 N 个数据均匀的分配到 K 个桶中</li>
+</ul>
+<p>同时，对于桶中元素的排序，选择何种⽐较排序算法对于性能的影响⾄关重要。</p>
+<p><strong>▼算法特点</strong>：</p>
+<p>桶排序是所有排序算法中<strong>最快</strong>的一种，但是它所耗费的空间也是最多的。</p>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">radixSort</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> max = <span class="built_in">Math</span>.max(...arr)</span><br><span class="line">  <span class="comment">// 通过Array.from新建一个长度为10的二维数组</span></span><br><span class="line">  <span class="keyword">const</span> buckets = <span class="built_in">Array</span>.from(&#123; <span class="attr">length</span>: <span class="number">10</span> &#125;, () =&gt; [])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> m = <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (m &lt; max) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i ++) &#123;</span><br><span class="line">      <span class="keyword">const</span> number = arr[i]</span><br><span class="line">      <span class="comment">// digit表示某位数的值</span></span><br><span class="line">      <span class="comment">// ~~ === Math.floor</span></span><br><span class="line">      <span class="keyword">const</span> digit = ~~((number % (m * <span class="number">10</span>)) / m)</span><br><span class="line">      <span class="comment">// 把该位数的值放到桶buckets中</span></span><br><span class="line">      <span class="comment">// 通过索引确定顺序 类比计数排序</span></span><br><span class="line">      buckets[digit].push(number)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> bucketIndex = <span class="number">0</span>; bucketIndex &lt; buckets.length; bucketIndex ++) &#123;</span><br><span class="line">      <span class="keyword">const</span> bucket = buckets[bucketIndex]</span><br><span class="line">      <span class="keyword">while</span> (bucket.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// shift从头部取值</span></span><br><span class="line">        <span class="comment">// 保证按照队列先入先出</span></span><br><span class="line">        arr[i ++] = bucket.shift()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 每次最外层while循环后m要乘等10</span></span><br><span class="line">    <span class="comment">// 也就是要判断下一位 比如当前是个位 下次就要判断十位</span></span><br><span class="line">    m *= <span class="number">10</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼算法特点</strong>：</p>
+<ul>
+<li>是一种<strong>非比较</strong>的排序，是计数排序的<strong>进阶版</strong></li>
+<li>按照相同位<strong>有效数字</strong>的值<strong>分组排序</strong></li>
+<li>有<strong>桶</strong>的概念，通过一个桶<strong>从右至左</strong>按照每一位的大小依次进行排序</li>
+<li>每一位的排序都遵循队列进行<strong>先入先出</strong>重新写入</li>
+</ul>
+<p><strong>▼时间复杂度</strong>：O(nlog(r)m)，其中r为所采取的基数，而m为堆数</p>
+<h2 id="算法可视化"><a href="#算法可视化" class="headerlink" title="算法可视化"></a>算法可视化</h2><p>一些算法可视化项目，能更好的get到这些算法的过程和思想：</p>
+<ul>
+<li><a href="https://visualgo.net/en" target="_blank" rel="noopener">visualgo</a></li>
+<li><a href="https://algorithm-visualizer.org/" target="_blank" rel="noopener">algorithm-visualizer</a></li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/16/Webpack/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8EWebpack%E5%8E%9F%E7%90%86/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/08/07/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/IE11%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

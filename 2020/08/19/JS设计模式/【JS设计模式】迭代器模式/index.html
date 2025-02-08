@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【JS设计模式】迭代器模式</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代器模式"><span class="toc-number">1.</span> <span class="toc-text">迭代器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-中的迭代器"><span class="toc-number">1.1.</span> <span class="toc-text">JavaScript 中的迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内部迭代器"><span class="toc-number">1.2.</span> <span class="toc-text">内部迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#外部迭代器"><span class="toc-number">1.3.</span> <span class="toc-text">外部迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#倒序迭代器"><span class="toc-number">1.4.</span> <span class="toc-text">倒序迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中止迭代器"><span class="toc-number">1.5.</span> <span class="toc-text">中止迭代器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代器模式的应用"><span class="toc-number">2.</span> <span class="toc-text">迭代器模式的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6中的for…of与Iterator模式"><span class="toc-number">2.1.</span> <span class="toc-text">ES6中的for…of与Iterator模式</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【JS设计模式】迭代器模式</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-08-19T09:03:52.000Z" itemprop="datePublished">2020-08-19</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JS设计模式</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h2><p>迭代器模式的定义：</p>
+<blockquote>
+<p>提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。迭代器模式在很多语言中，一般用于定义一种统一的数据访问接口，使得多种数据结构都可以用统一的方式进行遍历。</p>
+</blockquote>
+<h3 id="JavaScript-中的迭代器"><a href="#JavaScript-中的迭代器" class="headerlink" title="JavaScript 中的迭代器"></a>JavaScript 中的迭代器</h3><p><strong>▼JQuery中的迭代器</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$.each([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="function"><span class="keyword">function</span> (<span class="params">i, n</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'当前下标：'</span> + i)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'当前的值：'</span> + n)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历jQuery对象</span></span><br><span class="line"><span class="comment">// 例如有如下的一个html片段</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">&lt;ul id="list"&gt;</span></span><br><span class="line"><span class="comment">	&lt;li&gt;114&lt;/li&gt;</span></span><br><span class="line"><span class="comment"> 	&lt;li&gt;514&lt;/li&gt;</span></span><br><span class="line"><span class="comment">&lt;/ul&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">$(<span class="string">'#list li'</span>).each(<span class="function"><span class="keyword">function</span> (<span class="params">i, n</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log($(n).text())</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼Array的forEach方法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr.forEach(<span class="function">(<span class="params">v, i</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'当前下标：'</span> + i)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'当前的值：'</span> + v)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>▼实现一个each函数</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> each = <span class="function"><span class="keyword">function</span> (<span class="params">ary, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = ary.length; i &lt; l; i ++) &#123;</span><br><span class="line">    callback.call(ary[i], i, ary[i]) <span class="comment">// 把下标和元素当作参数传给callback</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">each([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], (i, n) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log([i, n])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="内部迭代器"><a href="#内部迭代器" class="headerlink" title="内部迭代器"></a>内部迭代器</h3><p>上面实现的<code>each</code>函数，函数内部已经定义好了迭代规则，它完全接手整个迭代过程，外部只需要一次初始调用。这就是内部迭代器。由于内部迭代器的迭代规则已经被提前规定，<code>each</code>函数无法同时迭代两个数组。</p>
+<p>比如需要判断两个数组的值是否完全相等时，使用<code>each</code>函数实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compare = <span class="function"><span class="keyword">function</span> (<span class="params">ary1, ary2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (ary1.length !== ary2.length) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'ary1 和 ary2 不相等'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  each(ary1, (i, n) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (n !== ary2[i]) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'ary1 和 ary2 不相等'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'ary1 和 ary2 相等'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="外部迭代器"><a href="#外部迭代器" class="headerlink" title="外部迭代器"></a>外部迭代器</h3><p>外部迭代器必须显式地请求迭代下一个元素。外部迭代器增加了一些调用的复杂度，但相对也增强了迭代器的灵活性，可以手工控制迭代的过程或顺序。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Iterator = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> current = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> next = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    current += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> isDone = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> current &gt;= obj.length</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> getCurrItem = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> obj[current]</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next,</span><br><span class="line">    isDone,</span><br><span class="line">    getCurrItem</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用外部迭代器实现<code>compare</code>函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compare = <span class="function"><span class="keyword">function</span> (<span class="params">iterator1, iterator2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (!iterator1.isDone() &amp;&amp; !iterator2.isDone()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (iterator1.getCurrItem() !== iterator2.getCurrItem()) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'ary1 和 ary2 不相等'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    iterator1.next()</span><br><span class="line">    iterator2.next()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'ary1 和 ary2 相等'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator1 = Iterator([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="keyword">const</span> iterator2 = Iterator([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">compare(iterator1, iterator2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="倒序迭代器"><a href="#倒序迭代器" class="headerlink" title="倒序迭代器"></a>倒序迭代器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reverseEach = <span class="function"><span class="keyword">function</span> (<span class="params">ary, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> l = ary.length - <span class="number">1</span>; l &gt;= <span class="number">0</span>; l --) &#123;</span><br><span class="line">    callback(l, ary[l])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中止迭代器"><a href="#中止迭代器" class="headerlink" title="中止迭代器"></a>中止迭代器</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> each = <span class="function"><span class="keyword">function</span> (<span class="params">ary, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = ary.length; i &lt; l; i ++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (callback(i, ary[i]) === <span class="literal">false</span>) &#123;</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="迭代器模式的应用"><a href="#迭代器模式的应用" class="headerlink" title="迭代器模式的应用"></a>迭代器模式的应用</h2><h3 id="ES6中的for…of与Iterator模式"><a href="#ES6中的for…of与Iterator模式" class="headerlink" title="ES6中的for…of与Iterator模式"></a>ES6中的for…of与Iterator模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">4</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>for...of</code>遍历数组，也是一种外部迭代器模式。在ES6中，一种数据结构只要按照规定实现了<code>Iterator</code>接口，就可以使用<code>for...of</code>来循环遍历。默认的<code>Iterator</code>接口部署在数据结构的<code>Symbol.iterator</code>属性。或者说，只要一个数据结构具有<code>Symbol.iterator</code>属性，就可以任务是“可遍历的”。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myObj = &#123;</span><br><span class="line">  [<span class="built_in">Symbol</span>.iterator]: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      next: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        index ++</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">          value: index,</span><br><span class="line">          done: index &gt;= <span class="number">10</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// for...of遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> myObj) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以直接获取这个迭代器进行遍历</span></span><br><span class="line"><span class="keyword">let</span> it = myObj[<span class="built_in">Symbol</span>.iterator]()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = it.next(); i.done !== <span class="literal">true</span>; i = it.next())&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(i.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6原生具备Iterator接口的数据结构有下面几种：</p>
+<ul>
+<li>Array</li>
+<li>Map</li>
+<li>Set</li>
+<li>String</li>
+<li>TypedArray（数组内的元素只能是强类型的数值，例如int8, int16，用于直接操作底层二进制数据）</li>
+<li>函数的 arguments 对象</li>
+<li>NodeList （dom元素的子节点列表）</li>
+</ul>
+<p>文章参考：<br>《JavaScript设计模式与开发实践》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/08/19/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/08/21/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

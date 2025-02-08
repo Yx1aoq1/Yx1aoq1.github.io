@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【算法】二分查找</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二分查找"><span class="toc-number">1.</span> <span class="toc-text">二分查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关应用"><span class="toc-number">2.</span> <span class="toc-text">相关应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寻找边界值"><span class="toc-number">2.1.</span> <span class="toc-text">寻找边界值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寻找区域"><span class="toc-number">2.2.</span> <span class="toc-text">寻找区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#轮转后的有序数组"><span class="toc-number">2.3.</span> <span class="toc-text">轮转后的有序数组</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【算法】二分查找</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-06-03T09:33:01.000Z" itemprop="datePublished">2020-06-03</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="tag">二分查找</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找，也称折半查找，是一种在<strong>有序数组</strong>中查找特定元素的搜索算法。查找过程可以分为以下步骤：</p>
+<ol>
+<li>从有序数组的中间元素开始搜索，如果该元素正好是目标元素，则搜索过程结束，否则进入下一步</li>
+<li>如果目标元素大于或小于中间元素，则在数组大于或小于中间元素的那一半区查找，然后重复第一步的操作</li>
+<li>如果某一步数组为空，则表示找不到目标元素</li>
+</ol>
+<p>时间复杂度：O(logN)</p>
+<p>JS代码实现方法：</p>
+<ul>
+<li>递归版</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearch</span> (<span class="params">target, arr, start, end</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (end &gt; start) <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  start = start || <span class="number">0</span></span><br><span class="line">  end = end || arr.length - <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (target === arr[mid]) &#123;</span><br><span class="line">    <span class="keyword">return</span> mid</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; arr[mid]) &#123;</span><br><span class="line">    <span class="keyword">return</span> binarySearch(target, arr, mid + <span class="number">1</span>, end)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> binarySearch(target, arr, start, mid - <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>非递归版</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearch</span> (<span class="params">target, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>,</span><br><span class="line">      end = arr.length - <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (end &gt; start) &#123;</span><br><span class="line">    <span class="keyword">const</span> mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (target === arr[mid]) &#123;</span><br><span class="line">      <span class="keyword">return</span> mid</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; arr[mid]) &#123;</span><br><span class="line">      start = mid + <span class="number">1</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      end = mid - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关应用"><a href="#相关应用" class="headerlink" title="相关应用"></a>相关应用</h2><h3 id="寻找边界值"><a href="#寻找边界值" class="headerlink" title="寻找边界值"></a>寻找边界值</h3><p>在数组中寻找“正好大于（小于）目标数”的那个数。举例来说：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>]</span><br><span class="line"><span class="keyword">const</span> target = <span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<p>则目标7对应的上界值为11，而下界值为5。</p>
+<ul>
+<li>寻找上界</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearchUpperBound</span> (<span class="params">target, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>,</span><br><span class="line">      end = arr.length - <span class="number">1</span>,</span><br><span class="line">      mid = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (target &gt;= arr[end]) <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (end &gt; start) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[mid] &gt; target) &#123;</span><br><span class="line">      end = mid</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      start = mid + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> mid</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与精确查找的不同之处在于，精确查找分成三类：<strong>大于，小于，等于</strong>（目标），而界限查找分成：<strong>大于和不大于</strong>。如果当前找到的树大于目标数时，它可能就是我们要找的数，所以需要保留这个索引，因此<code>if (arr[mid] &gt; target)</code>时，<code>end</code>没有减1。</p>
+<ul>
+<li>寻找下界</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearchLowerBound</span> (<span class="params">target, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>,</span><br><span class="line">      end = arr.length - <span class="number">1</span>,</span><br><span class="line">      mid = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (target &lt;= arr[start]) <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (end &gt; start) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[mid] &lt; target) &#123;</span><br><span class="line">      start = mid</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      end = mid - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    mid = (start + end + <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> mid</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>end = mid - 1</code>，如果使用向下取整，而<code>arr[mid] &lt; target</code>又成立时，会导致start永远无法超过end而死循环。所以mid需要向上取整。</p>
+<p>以上都是寻找<strong>严格界限</strong>，也就是大于或者小于。如果要寻找<strong>松散界限</strong>，大于等于或小于等于（即包含自身），只需要稍作修改：</p>
+<p>去掉判断数组边界的等号：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target &gt;= array[end] ==&gt; target &gt; array[end]</span><br></pre></td></tr></table></figure>
+
+<p>在与中间值的比较中加上等号：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr[mid] &gt; target ==&gt; arr[mid] &gt;= target</span><br></pre></td></tr></table></figure>
+
+<h3 id="寻找区域"><a href="#寻找区域" class="headerlink" title="寻找区域"></a>寻找区域</h3><p>我们使用二分查找法时，都是基于<strong>数组中的元素各不相同</strong>这一条件的。假如存在重复数据，而<strong>数组依然有序</strong>，那么我们还是可以用二分查找法判断目标是否存在，只不过返回的index就只能是随机的重复数据中的某一个。</p>
+<p>此时，我们希望知道有多少个目标数存在，或者说我们希望得到数组区域。</p>
+<p>结合前面的界限查找，我们只要找到目标数的严格上界和严格下界，那么界限之间（不包括界限）的数据就是目标数的区域了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearchRange</span> (<span class="params">target, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> lower = binarySearchLowerBound(target, arr)</span><br><span class="line">  lower += <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (target !== arr[lower]) <span class="keyword">return</span> [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">  <span class="keyword">let</span> upper = binarySearchUpperBound(target, arr)</span><br><span class="line">  upper = upper &lt; <span class="number">0</span> ? arr.length - <span class="number">1</span> : upper - <span class="number">1</span></span><br><span class="line">  <span class="keyword">return</span> [lower, upper]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="轮转后的有序数组"><a href="#轮转后的有序数组" class="headerlink" title="轮转后的有序数组"></a>轮转后的有序数组</h3><p>二分查找法是要应用在<strong>有序</strong>数组上的，如果无序，那么比较和二分就没有意义了。</p>
+<p>但是有一种特殊的数组上是可以应用的，那就是“轮转后的有序数组”。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<p>以上的数组就是以“5”为轴，将轴之前的数都轮转到数组的末尾所得到的新数组。非严格意义上来说，有序数组也属于轮转后的有序数组——取首元素为轴进行轮转。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binarySearchSortedArray</span> (<span class="params">target, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>,</span><br><span class="line">      end = arr.length - <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="keyword">const</span> mid = (start + end) &gt;&gt; <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (target &lt; arr[mid]) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[mid] &lt; arr[end]) &#123; <span class="comment">// 说明右半边是有序的</span></span><br><span class="line">        end = mid - <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">// 说明左半边是有序的</span></span><br><span class="line">        <span class="keyword">if</span> (target &lt; arr[start]) &#123;</span><br><span class="line">          start = mid + <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          end = mid - <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; arr[mid]) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[start] &lt; arr[mid]) &#123; <span class="comment">// 说明左半边是有序的</span></span><br><span class="line">        start = mid + <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">// 说明右半边是有序的</span></span><br><span class="line">        <span class="keyword">if</span> (arr[end] &lt; target) &#123;</span><br><span class="line">          end = mid - <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          start = mid + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> mid</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/06/03/Web%E5%9F%BA%E7%A1%80/Ajax,%20Axios,%20Fetch/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/06/03/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/Axios%E4%B8%8A%E4%BC%A0%E8%BF%9B%E5%BA%A6%E4%B8%8E%E5%8F%96%E6%B6%88/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

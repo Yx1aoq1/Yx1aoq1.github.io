@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【Web安全】XSS</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">1.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#非持久型-XSS"><span class="toc-number">1.1.</span> <span class="toc-text">非持久型 XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#持久型-XSS"><span class="toc-number">1.2.</span> <span class="toc-text">持久型 XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于字符集的-XSS"><span class="toc-number">1.3.</span> <span class="toc-text">基于字符集的 XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#未经验证的跳转-XSS"><span class="toc-number">1.4.</span> <span class="toc-text">未经验证的跳转 XSS</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【Web安全】XSS</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-08-10T08:59:56.000Z" itemprop="datePublished">2020-08-10</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/XSS/" rel="tag">XSS</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><blockquote>
+<p>XSS（Cross Site Script），跨站脚本攻击，因为缩写和 CSS 重叠，所以只能叫 XSS。</p>
+<p>XSS 的原理是恶意攻击者往 Web 页面里插入恶意可执行网页脚本代码，当用户浏览该页之时，嵌入其中的脚本代码会被执行，从而可以达到攻击者盗取用户信息或其他侵犯用户安全隐私的目的。</p>
+</blockquote>
+<p>XSS 的攻击方式千变万化，但还是可以大致细分为以下几种：</p>
+<h3 id="非持久型-XSS"><a href="#非持久型-XSS" class="headerlink" title="非持久型 XSS"></a>非持久型 XSS</h3><p>非持久型 XSS 漏洞，也叫反射型 XSS 漏洞，一般是通过给别人发送带有恶意脚本代码参数的 URL ，当 URL 地址被打开时，特有的恶意代码参数被 HTML 解析、执行。</p>
+<p><strong>▼例子</strong></p>
+<p>例如你的Web页面中包含以下代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Select your language:</span><br><span class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">srcipt</span>&gt;</span></span><br><span class="line">  	document.write(''</span><br><span class="line">    	+ '<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">1</span>&gt;</span>'</span><br><span class="line">    	+ location.href.substring(location.href.indexOf('default=') + 8)</span><br><span class="line">    	+ '<span class="tag">&lt;/<span class="name">option</span>&gt;</span>'</span><br><span class="line">    )</span><br><span class="line">    document.write('<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">2</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>')</span><br><span class="line">  <span class="tag">&lt;/<span class="name">srcipt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>而攻击者就可以使用<code>http://xx.com/xx?default=&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>注入可执行的脚本代码。</p>
+<p><strong>▼特点</strong></p>
+<ul>
+<li>即时性，不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求完成一次攻击，拿到用户隐私数据。</li>
+<li>攻击者需要诱骗点击</li>
+<li>反馈率低，所以较难发现和响应修复</li>
+<li>盗取用户敏感保密信息</li>
+</ul>
+<p><strong>▼如何防御</strong></p>
+<ul>
+<li>Web 页面渲染的所有内容或者渲染的数据都必须来自于服务端</li>
+<li>尽量不要从 URL，<code>document.referrer</code>、<code>document.forms</code>等这种 DOM API 中获取数据直接渲染</li>
+<li>尽量不要使用 <code>eval</code>等可执行字符串的方法</li>
+<li>如果做不到以上几点，也必须对涉及 DOM 渲染方法传入的字符串参数进行<strong>escape转义</strong></li>
+<li>前端渲染的时候对任何的字段都要进行<strong>escape转义</strong></li>
+</ul>
+<p><strong>▼escape转义方法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escapeHTML</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Option(s).innerHTML</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">escapeHTML(<span class="string">`&lt;script&gt;alert('xss')&lt;/script&gt;`</span>) <span class="comment">// &amp;lt;script&amp;gt;alert('xss')&amp;lt;/script&amp;gt</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="持久型-XSS"><a href="#持久型-XSS" class="headerlink" title="持久型 XSS"></a>持久型 XSS</h3><p>持久型 XSS 漏洞，也被称为存储型 XSS 漏洞，一般存在于 Form 表单提交等交互功能，如发帖留言，提交文本信息等，黑客利用的 XSS 漏洞，将内容经正常功能提交进入数据库持久保存，当前端页面获得后端从数据库中读出的注入代码时，恰好将其渲染执行。</p>
+<p>主要注入页面方式和非持久型 XSS 漏洞类似，只不过持久型的不是来源于 URL，<code>refferer</code>，<code>forms</code> 等，而是来源于后端从数据库中读出来的数据。持久型 XSS 攻击不需要诱骗点击，黑客只需要在提交表单的地方完成注入即可，但是这种 XSS 攻击的成本相对还是很高。攻击成功需要同时满足以下几个条件：</p>
+<ul>
+<li>POST 请求提交表单后端没有做转义直接入库</li>
+<li>后端从数据库中取出数据没做转义直接输出给前端</li>
+<li>前端拿到后端数据没做转义直接渲染成 DOM</li>
+</ul>
+<p><strong>▼特点</strong></p>
+<ul>
+<li>持久性，植入在数据库中</li>
+<li>危害面广，甚至可以让用户机器变成 DDoS 攻击的肉鸡</li>
+<li>盗取用户敏感私密信息</li>
+</ul>
+<p><strong>▼如何防御</strong></p>
+<ul>
+<li>前后端都要对数据做好转义处理</li>
+</ul>
+<h3 id="基于字符集的-XSS"><a href="#基于字符集的-XSS" class="headerlink" title="基于字符集的 XSS"></a>基于字符集的 XSS</h3><p>其实现在很多的浏览器以及各种开源的库都专门针对了 XSS 进行转义处理，尽量默认抵御绝大多数 XSS 攻击，但是还是有很多方式可以绕过转义规则，让人防不胜防。比如<strong>「基于字符集的 XSS 攻击」</strong>就是绕过这些转义处理的一种攻击方式。有些 Web 页面字符集不固定，用户输入非期望字符集的字符，有时会绕过转义过滤规则。</p>
+<p>以基于 utf-7 的 XSS 为例：</p>
+<p>utf-7 是可以将所有的 unicode 通过 7bit 来表示的一种字符集 （但现在已经从 Unicode 规格中移除）。<br>这个字符集为了通过 7bit 来表示所有的文字，除去数字和一部分的符号，其它的部分将都以 base64 编码为基础的方式呈现。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript">alert(<span class="string">"xss"</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">可以被解释为：</span><br><span class="line">+ADw-script+AD4-alert(+ACI-xss+ACI-)+ADw-/script+AD4-</span><br></pre></td></tr></table></figure>
+
+<p>可以形成<strong>「基于字符集的 XSS 攻击」</strong>的原因是由于浏览器在 meta 没有指定 charset 的时候有自动识别编码的机制，所以这类攻击通常就是发生在没有指定或者没来得及指定 meta 标签的 charset 的情况下。</p>
+<p><strong>▼如何防御</strong></p>
+<ul>
+<li>指定<code>&lt;meta charset=&quot;utf-8&quot;&gt;</code></li>
+<li>XML 中不仅要指定字符集为 utf-8，而且标签要闭合</li>
+</ul>
+<h3 id="未经验证的跳转-XSS"><a href="#未经验证的跳转-XSS" class="headerlink" title="未经验证的跳转 XSS"></a>未经验证的跳转 XSS</h3><p>有一些场景是后端需要对一个传进来的待跳转的 URL 参数进行一个 302 跳转，可能其中会带有一些用户的敏感（cookie）信息。如果服务器端做302 跳转，跳转的地址来自用户的输入，攻击者可以输入一个恶意的跳转地址来执行脚本。</p>
+<p><strong>▼如何防御</strong></p>
+<ul>
+<li>对待跳转的 URL 参数做白名单或者某种规则过滤</li>
+<li>后端注意对敏感信息的保护, 比如 cookie 使用来源验证</li>
+</ul>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://zoumiaojiang.com/article/common-web-security/#csrf-2" target="_blank" rel="noopener">常见 Web 安全攻防总结</a></li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/08/07/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/IE11%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/08/10/Web%E5%AE%89%E5%85%A8/%E3%80%90Web%E5%AE%89%E5%85%A8%E3%80%91CSRF/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

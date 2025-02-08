@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>ES6 核心向新特性（03）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise"><span class="toc-number">1.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-number">1.1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用-promise-处理异步场景"><span class="toc-number">1.2.</span> <span class="toc-text">用 promise 处理异步场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-number">2.</span> <span class="toc-text">Symbol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proxy"><span class="toc-number">3.</span> <span class="toc-text">Proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一码"><span class="toc-number">4.</span> <span class="toc-text">统一码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进制数支持"><span class="toc-number">5.</span> <span class="toc-text">进制数支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reflect"><span class="toc-number">6.</span> <span class="toc-text">Reflect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tail-calls-尾调用"><span class="toc-number">7.</span> <span class="toc-text">tail calls 尾调用</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">ES6 核心向新特性（03）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2018-03-09T10:11:10.000Z" itemprop="datePublished">2018-03-09</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/ES6/">ES6</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/ES6/" rel="tag">ES6</a>, <a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>Promise 是异步编程的一种解决方案，用来避免异步操作函数里的多层嵌套回调（callback）问题。Promise 代表一个异步操作的执行返回状态，这个执行回状态在 Promise 对象创建时是未知的，它允许为异步操作的成功或失败指定处理方法。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>通常 Promise 的状态有三种：Fulfilled 状态表示执行成功；Rejected 状态表示执行失败；Pending 状态表示正在执行中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> status = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(status === <span class="number">1</span>) &#123;</span><br><span class="line">    resolve(<span class="string">'Fulfilled'</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    reject(<span class="string">'Rejected'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.then(<span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'success1:'</span> + msg);</span><br><span class="line">  <span class="keyword">return</span> msg;</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fail1:'</span> + msg);</span><br><span class="line">  <span class="keyword">return</span> msg;</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'success2:'</span> + msg);</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'fail2:'</span> + msg);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// success1: Fulfilled</span></span><br><span class="line"><span class="comment">// success2: Fulfilled</span></span><br></pre></td></tr></table></figure>
+<p>promise 的 then 方法接受两个处理函数，当 status 为 1 时执行 Fulfilled 成功调用，否则 Rejected 失败调用。返回的状态给第二个 then 方法处理。then 方法可以将传入参数的返回值一直传递下去，如果是异步的场景，就可以用这种方式来解决多层回调嵌套的问题了。</p>
+<h3 id="用-promise-处理异步场景"><a href="#用-promise-处理异步场景" class="headerlink" title="用 promise 处理异步场景"></a>用 promise 处理异步场景</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 希望它依次异步输出 A B C D</span></span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'A'</span>);</span><br><span class="line">    resolve();</span><br><span class="line">  &#125;, <span class="number">3000</span>); <span class="comment">// 延迟3秒打印A</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 使用 then 来链式处理流程</span></span><br><span class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'B'</span>);</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, <span class="number">2000</span>); <span class="comment">// 延迟2秒打印B</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'C'</span>);</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, <span class="number">1000</span>); <span class="comment">// 延迟1秒打印C</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'D'</span>);  <span class="comment">// 不延迟打印D</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>通过在不同的 then 处理方法中返回一个新的 promise 来解决。返回新的 promise 里面具有<code>resolve()</code>和<code>reject()</code>方法，只有当它的 resolve 或 reject 被调用时，promise 方法才会继续执行，进入下一个 then 方法中操作。设置在异步函数完成的最后调用<code>resolve()</code>就可以有效控制 promise 进入下一个 then 方法执行。</p>
+<h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><p>Symbol 是除布尔值、数值等六种数据类型外的第七种数据类型。属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> object = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> name = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">let</span> family = <span class="built_in">Symbol</span>();</span><br><span class="line"></span><br><span class="line">object[name] = <span class="string">'ouven'</span>;</span><br><span class="line">object[family] = <span class="string">'zhang'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(object);</span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//   Symbol(): 'ouven',</span></span><br><span class="line"><span class="comment">//   Symbol(): 'zhang',</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> name); <span class="comment">// symbol</span></span><br></pre></td></tr></table></figure>
+<h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 可以用来拦截某个对象的属性访问方法，然后重载对象的<code>.</code>运算符。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> object = <span class="keyword">new</span> <span class="built_in">Proxy</span>(&#123;&#125;, &#123;</span><br><span class="line">  <span class="keyword">get</span>: function(target, key, receiver) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`getting <span class="subst">$&#123;key&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, key, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">set</span>: function(target, key, value, receiver) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`setting <span class="subst">$&#123;key&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(target, key, value, receiver);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 赋值或定义值都会输出</span></span><br><span class="line"><span class="comment">// getting value</span></span><br><span class="line"><span class="comment">// setting value</span></span><br><span class="line">object[<span class="string">'value'</span>] = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>上面代码对一个空对象架设了一层拦截，重定义了属性的读取（get）和设置（set）行为。<br>▼ <strong>基本用法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(target, handler);</span><br></pre></td></tr></table></figure>
+<p><code>target</code>参数表示所要拦截的目标对象，<code>handler</code>参数也是一个对象，用来定制拦截行为。</p>
+<ul>
+<li><code>get(target, propKey, receiver)</code>: 拦截对象属性的读取，如<code>proxy.foo</code>和<code>proxy[&#39;foo&#39;]</code></li>
+<li><code>set(target, proKey, value, receiver)</code>: 拦截对象属性的设置，如<code>proxy.foo = v</code>和<code>proxy[&#39;foo&#39;] = v</code></li>
+<li>……</li>
+</ul>
+<h2 id="统一码"><a href="#统一码" class="headerlink" title="统一码"></a>统一码</h2><p>es6 字符串支持新的 Unicode 文本形式，同时也增加了新的正则表达式修饰符<code>u</code>来处理统一码。尽管如此，在实际的开发中，这样处理仍会降低程序可读性和处理速度，所以目前不建议使用。</p>
+<h2 id="进制数支持"><a href="#进制数支持" class="headerlink" title="进制数支持"></a>进制数支持</h2><p>es6 增加了对二进制（b）和八进制（o）数字面量的支持。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0b111110111</span> === <span class="number">503</span> <span class="comment">// true</span></span><br><span class="line"><span class="number">0o767</span> === <span class="number">503</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h2><p>Reflect 可以理解为原有对象上的一个引用代理，它用于对原有对象进行赋值或取值操作，但不会触发对象属性的 getter 或 setter 调用，而直接使用 = 对对象进行赋值或取值操作会自动触发 getter 或 setter 方法。</p>
+<h2 id="tail-calls-尾调用"><a href="#tail-calls-尾调用" class="headerlink" title="tail calls 尾调用"></a>tail calls 尾调用</h2><p>tail calls 尾调用保证了函数尾部调用时调用栈有一定的长度限制，这使得递归函数即使在没有限制输入时也能保证安全性而避免发生错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n, start = <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n &lt; = <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> start;    </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> factorial(n - <span class="number">1</span>, n * start);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 默认情况下会发生栈溢出，但是在 es6 中是可以安全执行的</span></span><br><span class="line">factorial(<span class="number">100000</span>);</span><br></pre></td></tr></table></figure>
+<p>▼ <strong>基本概念</strong><br>尾调用是指某个函数的最后一步是调用另一个函数。递归非常耗费内存，因为需要同时保存成千上百个调用记录，很容易发生”栈溢出”错误（stack overflow）。但对于尾递归来说，由于只存在一个调用记录，所以永远不会发生”栈溢出”错误。<br>▼ <strong>注意点</strong><br>尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。做到这一点的方法，就是把所有用到的内部变量改写成函数的参数。</p>
+<p>学习参考：<br><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ECMAScript 6入门——阮一峰</a><br><a href="http://www.ruanyifeng.com/blog/2015/04/tail-call.html" target="_blank" rel="noopener">尾调用优化</a><br>《现代前端技术解析》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2018/03/08/ES6/ES6%20%E6%A0%B8%E5%BF%83%E5%90%91%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%8802%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2018/07/25/Vue/Vue.js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%8802%EF%BC%89/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

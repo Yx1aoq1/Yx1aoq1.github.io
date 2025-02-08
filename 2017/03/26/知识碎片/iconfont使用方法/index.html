@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>iconfont使用方法</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">iconfont使用方法</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2017-03-26T01:12:56.000Z" itemprop="datePublished">2017-03-26</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/iconfont/" rel="tag">iconfont</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>实习的时候需要用到iconfont，然而看了官方文档觉得一脸懵逼，找了一下教程</p>
+<p>首先在<a href="http://www.iconfont.cn/" target="_blank" rel="noopener">Iconfont-阿里巴巴矢量图标库</a>上将需要的图标点击购物车按钮加入<strong>暂存库</strong>。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-1.png" alt=""></p>
+<p>选择所有要用的图标后，<strong>存储为项目</strong>，给它命名。然后在<strong>图标管理-图标应用项目</strong>中找到这个项目，获取在线连接，把里面的代码复制到CSS中。<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-2.png" alt=""></p>
+<p>在HTML中需要使用到图标时，使用iconfont类名。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont"</span>&gt;</span><span class="symbol">&amp;#xe600;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>里面写上你想用的图标下面的Unicode：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-3.png" alt=""></p>
+<p>可以通过控制iconfont类的属性改变图标的样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.iconfont</span>&#123;</span><br><span class="line">	<span class="attribute">font-family</span>:<span class="string">"iconfont"</span>;</span><br><span class="line">	<span class="attribute">font-size</span>:<span class="number">16px</span>;</span><br><span class="line">	<span class="attribute">font-style</span>:normal;</span><br><span class="line">	<span class="attribute">-webkit-font-smoothing</span>: antialiased;</span><br><span class="line">        <span class="attribute">-webkit-text-stroke-width</span>: <span class="number">0.2px</span>;</span><br><span class="line">        <span class="attribute">-moz-osx-font-smoothing</span>: grayscale; </span><br><span class="line">        <span class="attribute">padding-left</span>:<span class="number">20px</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以下载到本地使用。图标都加入暂存架后选择<strong>下载到本地</strong>，会得到以下几个文件：<br><img src="https://github.com/Yx1aoq1/Yx1aoq1.github.io/raw/master/images/iconfont-img-4.png" alt=""><br>浏览器打开demo.html可以看到每个图标的Unicode，把<strong>iconfont.css</strong>里的代码复制到css里面，把下面四个文件放到css可以引用到的文件夹里就可以了。下载使用的一个缺点是添加图标的话要重新把所有图标再下载一遍覆盖原来的文件，如果是在线链接只要重新生成一次链接就好了。</p>
+<hr>
+<p>作者：班星灿<br>链接：<a href="https://www.zhihu.com/question/25952487/answer/71917554" target="_blank" rel="noopener">https://www.zhihu.com/question/25952487/answer/71917554</a><br>来源：知乎</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2017/03/21/Web%E5%9F%BA%E7%A1%80/JSON%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2017/04/21/Web%E5%9F%BA%E7%A1%80/JavaScript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>

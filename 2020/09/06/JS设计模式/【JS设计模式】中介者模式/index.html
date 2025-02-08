@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>【JS设计模式】中介者模式</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#中介者模式"><span class="toc-number">1.</span> <span class="toc-text">中介者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子-——-泡泡堂游戏"><span class="toc-number">1.1.</span> <span class="toc-text">举个例子 —— 泡泡堂游戏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优缺点"><span class="toc-number">2.1.</span> <span class="toc-text">优缺点</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">【JS设计模式】中介者模式</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2020-09-06T07:24:07.000Z" itemprop="datePublished">2020-09-06</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JS设计模式</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h2><p>中介者模式的定义：</p>
+<blockquote>
+<p>中介者模式的作用就是解除对象与对象之间的耦合关系。增加一个中介者对象后，所有的相关对象都通过中介者对象来通信，而不是互相引用。中介者使各个对象之间的耦合松散，而且可以独立地改变他们之间的交互。中介者模式使网状的多对多关系变成了相对简单的一对多关系。</p>
+</blockquote>
+<h3 id="举个例子-——-泡泡堂游戏"><a href="#举个例子-——-泡泡堂游戏" class="headerlink" title="举个例子 —— 泡泡堂游戏"></a>举个例子 —— 泡泡堂游戏</h3><p>定义一个玩家类，它包含三个方法<code>win</code>、<code>lose</code>和<code>die</code>，当设定的玩家数目为2名时，其中一位玩家死亡则游戏结束，同时通知它的对手胜利：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.enemy = <span class="literal">null</span> <span class="comment">// 敌人</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  win () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'winner: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  lose () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'loser: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  die () &#123;</span><br><span class="line">    <span class="keyword">this</span>.lose()</span><br><span class="line">    <span class="keyword">this</span>.enemy.win()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> player1 = <span class="keyword">new</span> Player(<span class="string">'one'</span>)</span><br><span class="line"><span class="keyword">const</span> player2 = <span class="keyword">new</span> Player(<span class="string">'two'</span>)</span><br><span class="line"></span><br><span class="line">player1.enemy = player2</span><br><span class="line">player2.enemy = player1</span><br><span class="line"></span><br><span class="line">player1.die() <span class="comment">// winner: two  loser: one</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>▼游戏玩法升级</strong></p>
+<p>此时，我们想让玩家的数量增加到8个人，并且分成两个小队，因此我们需要改造我们的<code>Player</code>类：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (name, teamColor) &#123;</span><br><span class="line">    <span class="keyword">this</span>.partners = [] <span class="comment">// 队友列表</span></span><br><span class="line">    <span class="keyword">this</span>.enemies = [] <span class="comment">// 敌人列表</span></span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'alive'</span> <span class="comment">// 玩家状态</span></span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.teamColor = teamColor</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  win () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'winner: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  lose () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'loser: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  die () &#123;</span><br><span class="line">    <span class="keyword">let</span> all_dead = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'dead'</span> <span class="comment">// 设置玩家状态为死亡</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, partner; partner = <span class="keyword">this</span>.partners[ i++ ];) &#123;</span><br><span class="line">      <span class="keyword">if</span> (partner.state !== <span class="string">'dead'</span>) &#123; <span class="comment">// 如果还有一个队友没有死亡，则游戏还未结束</span></span><br><span class="line">        all_dead = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (all_dead) &#123; <span class="comment">// 如果队友全部死亡</span></span><br><span class="line">      <span class="keyword">this</span>.lose() <span class="comment">// 通知自己游戏失败</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, partner; partner = <span class="keyword">this</span>.partners[ i++ ];) &#123;</span><br><span class="line">        <span class="comment">// 通知所有队友游戏失败</span></span><br><span class="line">        partner.lose()</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, enemy; enemy = <span class="keyword">this</span>.enemies[ i++ ];) &#123;</span><br><span class="line">        <span class="comment">// 通知所有敌人游戏成功</span></span><br><span class="line">        enemy.win()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个工厂来创造玩家</span></span><br><span class="line"><span class="keyword">const</span> playerFactory = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> players = []</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">name, teamColor</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newPlayer = <span class="keyword">new</span> Player (name, teamColor) <span class="comment">// 创建新玩家</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, player; player = players[ i++ ];) &#123; <span class="comment">// 通知所有的玩家，有新的角色加入</span></span><br><span class="line">      <span class="keyword">if</span> (player.teamColor === newPlayer.teamColor) &#123;</span><br><span class="line">        <span class="comment">// 如果是同一队的玩家，互相添加到队友列表</span></span><br><span class="line">        player.partners.push(newPlayer)</span><br><span class="line">        newPlayer.partners.push(player)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 相互添加到敌人列表</span></span><br><span class="line">        player.enemies.push(newPlayer)</span><br><span class="line">        newPlayer.enemies.push(player)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    players.push(newPlayer)</span><br><span class="line">    <span class="keyword">return</span> newPlayer</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 红队：</span></span><br><span class="line"><span class="keyword">const</span> player1 = playerFactory(<span class="string">'1'</span>, <span class="string">'red'</span>)</span><br><span class="line"><span class="keyword">const</span> player2 = playerFactory(<span class="string">'2'</span>, <span class="string">'red'</span>)</span><br><span class="line"><span class="keyword">const</span> player3 = playerFactory(<span class="string">'3'</span>, <span class="string">'red'</span>)</span><br><span class="line"><span class="keyword">const</span> player4 = playerFactory(<span class="string">'4'</span>, <span class="string">'red'</span>)</span><br><span class="line"><span class="comment">// 蓝队：</span></span><br><span class="line"><span class="keyword">const</span> player5 = playerFactory(<span class="string">'5'</span>, <span class="string">'blue'</span>)</span><br><span class="line"><span class="keyword">const</span> player6 = playerFactory(<span class="string">'6'</span>, <span class="string">'blue'</span>)</span><br><span class="line"><span class="keyword">const</span> player7 = playerFactory(<span class="string">'7'</span>, <span class="string">'blue'</span>)</span><br><span class="line"><span class="keyword">const</span> player8 = playerFactory(<span class="string">'8'</span>, <span class="string">'blue'</span>)</span><br><span class="line"><span class="comment">// 让红队玩家全部死亡：</span></span><br><span class="line">player1.die()</span><br><span class="line">player2.die()</span><br><span class="line">player3.die()</span><br><span class="line">player4.die()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">loser: 4</span></span><br><span class="line"><span class="comment">loser: 1</span></span><br><span class="line"><span class="comment">loser: 2</span></span><br><span class="line"><span class="comment">loser: 3</span></span><br><span class="line"><span class="comment">winner: 5</span></span><br><span class="line"><span class="comment">winner: 6</span></span><br><span class="line"><span class="comment">winner: 7</span></span><br><span class="line"><span class="comment">winner: 8</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们已经可以随意地为游戏增加玩家和队伍，但是由于玩家与玩家之间都是紧密耦合在一起的，当有玩家死亡时，都必须显示地遍历通知其他对象。在例子中其实还不难操作，但是如果是一个有成百上千人的玩家队伍中，有一个玩家掉线，那么就必须遍历其他所有玩家的队友列表和敌人列表去移除这位玩家。又或者其中一位玩家从红队变成蓝队，这样的操作都会使得代码变得特别的复杂。</p>
+<p><strong>▼使用中介者模式重构</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (name, teamColor) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.teamColor = teamColor</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'alive'</span> <span class="comment">// 玩家状态</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  win () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'winner: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  lose () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'loser: '</span> + <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  die () &#123;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="string">'dead'</span></span><br><span class="line">    playerDirector.reciveMessage(<span class="string">'playerDead'</span>, <span class="keyword">this</span>) <span class="comment">// 给中介者发送消息，玩家死亡</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  remove () &#123;</span><br><span class="line">    playerDirector.reciveMessage(<span class="string">'removePlayer'</span>, <span class="keyword">this</span>) <span class="comment">// 给中介者发送消息，移除一个玩家</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  changeTeam (color) &#123;</span><br><span class="line">    playerDirector.reciveMessage(<span class="string">'changeTeam'</span>, <span class="keyword">this</span>, color) <span class="comment">// 给中介者发送消息，玩家换队</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 玩家工厂</span></span><br><span class="line"><span class="keyword">const</span> playerFactory = <span class="function"><span class="keyword">function</span> (<span class="params">name, teamColor</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newPlayer = <span class="keyword">new</span> Player(name, teamColor) <span class="comment">// 创建一个新的玩家</span></span><br><span class="line">  playerDirector.reciveMessage(<span class="string">'addPlayer'</span>, newPlayer) <span class="comment">// 给中介者发送消息，新增玩家</span></span><br><span class="line">  <span class="keyword">return</span> newPlayer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> playerDirector = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> players = &#123;&#125; <span class="comment">// 保存所有的玩家</span></span><br><span class="line">  <span class="keyword">const</span> operatons = &#123;&#125; <span class="comment">// 中介者可执行的操作</span></span><br><span class="line">  </span><br><span class="line">  operatons.addPlayer = <span class="function"><span class="keyword">function</span> (<span class="params">player</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> teamColor = player.teamColor</span><br><span class="line">    players[ teamColor ] = players[ teamColor ] || []</span><br><span class="line">    players[ teamColor ].push(player)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  operatons.removePlayer = <span class="function"><span class="keyword">function</span> (<span class="params">player</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> teamColor = player.teamColor</span><br><span class="line">    <span class="keyword">const</span> teamPlayers = players[ teamColor ] || []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = teamPlayers.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">      <span class="keyword">if</span> (teamPlayers[i] === player) &#123;</span><br><span class="line">        teamPlayers.splice(i, <span class="number">1</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  operatons.changeTeam = <span class="function"><span class="keyword">function</span> (<span class="params">player, newTeamColor</span>) </span>&#123;</span><br><span class="line">    operatons.removePlayer(player)</span><br><span class="line">    player.teamColor = newTeamColor</span><br><span class="line">    operatons.addPlayer(player)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  operatons.playerDead = <span class="function"><span class="keyword">function</span> (<span class="params">player</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> teamColor = player.teamColor</span><br><span class="line">    <span class="keyword">const</span> teamPlayers = players[ teamColor ] || []</span><br><span class="line">    <span class="keyword">let</span> all_dead = <span class="literal">true</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, player; player = teamPlayers[ i++ ];) &#123;</span><br><span class="line">      <span class="keyword">if</span> (player.state !== <span class="string">'dead'</span>) &#123;</span><br><span class="line">        all_dead = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (all_dead) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, player; player = teamPlayers[ i++ ];) &#123;</span><br><span class="line">        player.lose()</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> color <span class="keyword">in</span> players) &#123;</span><br><span class="line">        <span class="keyword">if</span> (color !== teamColor) &#123;</span><br><span class="line">          <span class="keyword">const</span> teamPlayers = players[color]</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, player; player = teamPlayers[ i++ ];) &#123;</span><br><span class="line">            player.win()</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> reciveMessage = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> message = <span class="built_in">Array</span>.prototype.shift.call(<span class="built_in">arguments</span>)</span><br><span class="line">    operatons[message].apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    reciveMessage</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，除了中介者本身，没有一个玩家知道其他任何玩家的存在，玩家与玩家之间的耦合关系完全解除，某个玩家的任何操作都不需要通知其他玩家，而只需要给中介者发送一个消息，中介者处理完消息之后会把处理的结果反馈给其他玩家对象。我们还可以继续给中介者扩展更多的功能，以适应游戏需求的不断变化。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点：<ul>
+<li>使各个对象之间得以解耦，，以中介者和对象之间的一对多关系取代了对象之间的网状多对多关系</li>
+<li>使得<strong>对象只需要关注自身功能的实现</strong></li>
+<li>对象之间的<strong>交互关系交给了中介者对象来实现和维护</strong></li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>系统中会新增一个中介者对象，原本对象之间交互的复杂性会转移成中介者对象的复杂性，使得<strong>中介者对象十分巨大难以维护</strong></li>
+</ul>
+</li>
+</ul>
+<p>中介者模式可以非常方便地对模块或对象进行解耦，但<strong>对象之间并非一定需要解耦</strong>。在实际项目中，模块或对象之间有一些以来关系是很正常的。因此可以看情况使用中介者模式。</p>
+<p>文章参考：<br>《JavaScript设计模式与开发实践》</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2020/08/25/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2020/09/06/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E3%80%90JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
