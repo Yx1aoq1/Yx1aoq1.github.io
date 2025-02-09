@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Vue3源码学习——响应式原理（02）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">1.</span> <span class="toc-text">Ref</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ShadowRef"><span class="toc-number">2.</span> <span class="toc-text">ShadowRef</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Vue3源码学习——响应式原理（02）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-09T05:01:06.000Z" itemprop="datePublished">2025-02-09</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>上文中大概解析了<code>reactive</code>的实现原理，本文主要解析<code>ref</code>的实现原理 。</p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><code>ref</code>与<code>reactive</code>的主要区别在于，<code>ref</code>可以将JS中的基本数据类型（如字符串、布尔值等）与引用类型转换为响应式对象，而<code>reactive</code>则只能转换引用类型数据。</p>
+<p>我们可知<code>ref</code>执行后返回的是一个<code>RefImpl</code>类，我们在获取<code>ref</code>后的值需要通过<code>.value</code>获取，因此我们可以大概得出<code>RefImpl</code>的大致结构：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefImpl</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(rawValue) &#123;</span><br><span class="line">    <span class="keyword">this</span>.__v_isRef = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">this</span>._rawValue = rawValue</span><br><span class="line">    <span class="comment">// 如果是引用类型，相当于再转成reactive</span></span><br><span class="line">    <span class="keyword">this</span>._value = isObject(rawValue) ? reactive(rawValue) : rawValue</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">get</span> value() &#123;</span><br><span class="line">    <span class="comment">// 依赖收集</span></span><br><span class="line">    <span class="comment">// 当前this是一个对象 value作为key 也就是最终返回的 ref.value</span></span><br><span class="line">    track(<span class="keyword">this</span>, <span class="string">'value'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">set</span> value(newValue) &#123;</span><br><span class="line">    <span class="comment">// 当新的值不等于老的值的话,才更新值,需要触发依赖</span></span><br><span class="line">    <span class="keyword">if</span> (!hasChanged(newValue, <span class="keyword">this</span>._rawValue)) &#123;</span><br><span class="line">      <span class="keyword">this</span>._value = newValue</span><br><span class="line">      <span class="keyword">this</span>._rawValue = newValue</span><br><span class="line">      <span class="comment">// 触发依赖</span></span><br><span class="line">      trigger(<span class="keyword">this</span>, <span class="string">'value'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>ref</code>函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ref = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> createRef(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRef</span>(<span class="params">rawValue</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 如果已经被ref代理过直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (isRef(rawValue)) &#123;</span><br><span class="line">    <span class="keyword">return</span> rawValue</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> RefImpl(rawValue)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 根据 __v_isRef 属性判断是否被ref代理过 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isRef</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> !!value.__v_isRef</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ShadowRef"><a href="#ShadowRef" class="headerlink" title="ShadowRef"></a>ShadowRef</h3><p><code>shadowRef</code>的官方解释为<code>ref</code>的浅层作用形式，可以理解为当<code>shadowRef</code>传入的是引用类型数据时，只有引用地址变化时才会触发依赖更新，而改变引用类型的属性时不会触发依赖变更，常常用于对大型数据结构的性能优化或是与外部的状态管理系统集成。</p>
+<p>我们可以给代码<code>RefImpl</code>增加一个shadow入参，来区分两者的使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">convert</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> isObject(val) ? reactive(val) : val</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefImpl</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(rawValue, shadow = false) &#123;</span><br><span class="line">    <span class="keyword">this</span>.__v_isRef = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">this</span>._shallow = shadow</span><br><span class="line">    <span class="keyword">this</span>._rawValue = rawValue</span><br><span class="line">    <span class="comment">// 如果是shadowRef相当于直接返回原数据</span></span><br><span class="line">    <span class="comment">// 如果是引用类型，相当于再转成reactive</span></span><br><span class="line">    <span class="keyword">this</span>._value = shadow ? rawValue : convert(rawValue)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">get</span> value() &#123;</span><br><span class="line">    <span class="comment">// 依赖收集</span></span><br><span class="line">    <span class="comment">// 当前this是一个对象 value作为key 也就是最终返回的 ref.value</span></span><br><span class="line">    track(<span class="keyword">this</span>, <span class="string">'value'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">set</span> value(newValue) &#123;</span><br><span class="line">    <span class="comment">// 当新的值不等于老的值的话,才更新值,需要触发依赖</span></span><br><span class="line">    <span class="keyword">if</span> (!hasChanged(newValue, <span class="keyword">this</span>._rawValue)) &#123;</span><br><span class="line">      <span class="keyword">this</span>._value = newValue</span><br><span class="line">      <span class="keyword">this</span>._rawValue = newValue</span><br><span class="line">      <span class="comment">// 触发依赖</span></span><br><span class="line">      trigger(<span class="keyword">this</span>, <span class="string">'value'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ref = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> createRef(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> shadowRef = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> createRef(rawValue, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRef</span>(<span class="params">rawValue, shadow</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 如果已经被ref代理过直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (isRef(rawValue)) &#123;</span><br><span class="line">    <span class="keyword">return</span> rawValue</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> RefImpl(rawValue, shadow)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/03/Vue/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8801%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
