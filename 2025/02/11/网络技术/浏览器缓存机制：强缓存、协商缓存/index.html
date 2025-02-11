@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>浏览器缓存机制：强缓存、协商缓存</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存"><span class="toc-number">1.</span> <span class="toc-text">强缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Expires"><span class="toc-number">1.1.</span> <span class="toc-text">Expires</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-Control"><span class="toc-number">1.2.</span> <span class="toc-text">Cache-Control</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存"><span class="toc-number">2.</span> <span class="toc-text">协商缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Last-Modify-If-Modify-Since"><span class="toc-number">2.1.</span> <span class="toc-text">Last-Modify&#x2F;If-Modify-Since</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ETag-If-None-Match"><span class="toc-number">2.2.</span> <span class="toc-text">ETag&#x2F;If-None-Match</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#整体流程图"><span class="toc-number">3.</span> <span class="toc-text">整体流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#几种状态码的区别"><span class="toc-number">4.</span> <span class="toc-text">几种状态码的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存存储位置："><span class="toc-number">4.1.</span> <span class="toc-text">缓存存储位置：</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">浏览器缓存机制：强缓存、协商缓存</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-11T08:56:24.000Z" itemprop="datePublished">2025-02-11</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/">网络技术</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Cache-Control/" rel="tag">Cache-Control</a>, <a class="tag-link" href="/tags/ETag/" rel="tag">ETag</a>, <a class="tag-link" href="/tags/Expires/" rel="tag">Expires</a>, <a class="tag-link" href="/tags/HTTP/" rel="tag">HTTP</a>, <a class="tag-link" href="/tags/Last-Modify/" rel="tag">Last-Modify</a>, <a class="tag-link" href="/tags/%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" rel="tag">协商缓存</a>, <a class="tag-link" href="/tags/%E5%BC%BA%E7%BC%93%E5%AD%98/" rel="tag">强缓存</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p>浏览器缓存(Brower Caching)是浏览器在本地磁盘对用户最近请求过的文档进行存储，当访问者再次访问同一页面时，浏览器就可以直接从本地磁盘加载文档。</p>
+<p><strong>浏览器缓存的优点有：</strong></p>
+<ul>
+<li>减少了冗余的数据传输，节省了网费</li>
+<li>减少了服务器的负担，大大提升了网站的性能</li>
+<li>加快了客户端加载网页的速度</li>
+</ul>
+<p>浏览器缓存主要有两类：协商缓存和强缓存</p>
+<p>浏览器在第一次请求发生后，再次请求时：</p>
+<ol>
+<li><p>浏览器会先获取该资源缓存的 header 信息，根据其中的 expires 和 cache-control 判断是否命中强缓存，若命中则直接从缓存中获取资源，包括缓存的 header 信息，本次请求不会与服务器进行通信；</p>
+</li>
+<li><p>如果没有命中强缓存，浏览器会发送请求到服务器，该请求会携带第一次请求返回的有关缓存的 header 字段信息（Last-Modified/IF-Modified-Since、Etag/IF-None-Match）,由服务器根据请求中的相关 header 信息来对比结果是否命中协商缓存，若命中，则服务器返回新的响应 header 信息更新缓存中的对应 header 信息，但是并不返回资源内容，它会告知浏览器可以直接从缓存获取；否则返回最新的资源内容</p>
+</li>
+</ol>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><p>Expires 是 http1.0 提出的一个表示资源过期时间的 header，它描述的是一个绝对时间，由服务器返回。</p>
+<p>Expires 受限于本地时间，如果修改了本地时间，可能会造成缓存失效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires: Wed, 11 May 2018 07:20:00 GMT</span><br></pre></td></tr></table></figure>
+
+<h4 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h4><p>Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: max-age&#x3D;315360000</span><br></pre></td></tr></table></figure>
+
+<p>Cache-Control 的常见其他配置字段：</p>
+<ul>
+<li><p><code>no-cache</code>：使用缓存协商，根据服务的协商返回情况看是否使用本地缓存。</p>
+</li>
+<li><p><code>no-store</code>：直接禁止游览器缓存数据，每次用户请求该资源，都会向服务器发送一个请求，每次都会下载完整的资源。</p>
+</li>
+<li><p><code>public</code>：可以被所有的用户缓存，包括终端用户和 CDN 等中间代理服务器。</p>
+</li>
+<li><p><code>private</code>：只能被终端用户的浏览器缓存，不允许 CDN 等中继缓存服务器对其缓存。</p>
+</li>
+</ul>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>当浏览器对某个资源的请求没有命中强缓存，就会发一个请求到服务器，验证协商缓存是否命中，如果协商缓存命中，请求响应返回的 http 状态为 304 并且会显示一个 Not Modified 的字符串。</p>
+<p>协商缓存是利用的是<code>【Last-Modified，If-Modified-Since】</code>和<code>【ETag、If-None-Match】</code>这两对 Header 来管理的。</p>
+<h4 id="Last-Modify-If-Modify-Since"><a href="#Last-Modify-If-Modify-Since" class="headerlink" title="Last-Modify/If-Modify-Since"></a>Last-Modify/If-Modify-Since</h4><p><code>Last-Modified</code>  表示本地文件最后修改日期，浏览器会在 request header 加上<code>If-Modified-Since</code>（上次返回的<code>Last-Modified</code>的值），询问服务器在该日期后资源是否有更新，有更新的话就会将新的资源发送回来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Last-Modify: Thu,31 Dec 2037 23:59:59 GMT</span><br></pre></td></tr></table></figure>
+
+<p>但是如果在本地打开缓存文件，就会造成<code>Last-Modified</code>被修改，所以在 HTTP / 1.1 出现了<code>ETag</code>。</p>
+<h4 id="ETag-If-None-Match"><a href="#ETag-If-None-Match" class="headerlink" title="ETag/If-None-Match"></a>ETag/If-None-Match</h4><p><code>Etag</code>就像一个指纹，资源变化都会导致 ETag 变化，跟最后修改时间没有关系，<code>ETag</code>可以保证每一个资源是唯一的。</p>
+<p><code>If-None-Match</code>的 header 会将上次返回的<code>Etag</code>发送给服务器，询问该资源的<code>Etag</code>是否有更新，有变动就会发送新的资源回来。</p>
+<p><img src="https://user-images.githubusercontent.com/25027560/38223495-d02aec3e-371d-11e8-92ae-fe7c729ab6e5.png" alt=""></p>
+<p>具体为什么要用<code>ETag</code>，主要出于下面几种情况考虑：</p>
+<p>你可能会觉得使用 Last-Modified 已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要 Etag 呢？HTTP1.1 中 Etag 的出现主要是为了解决几个 Last-Modified 比较难解决的问题：</p>
+<ol>
+<li><p>一些文件也许会周期性的更改，但是他的内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新 GET；</p>
+</li>
+<li><p>某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说 1s 内修改了 N 次)，If-Modified-Since 能检查到的粒度是 s 级的，这种修改无法判断(或者说 UNIX 记录 MTIME 只能精确到秒)；</p>
+</li>
+<li><p>某些服务器不能精确的得到文件的最后修改时间。</p>
+</li>
+</ol>
+<p><strong>Last-Modified 与 ETag 是可以一起使用的，服务器会优先验证 ETag，一致的情况下，才会继续比对 Last-Modified，最后才决定是否返回 304。</strong></p>
+<h3 id="整体流程图"><a href="#整体流程图" class="headerlink" title="整体流程图"></a>整体流程图</h3><p><img src="https://user-images.githubusercontent.com/25027560/38223505-d8ab53da-371d-11e8-9263-79814b6971a5.png" alt="672fb4ce-28f9-498d-9140-b3ff9f47d62f"></p>
+<h3 id="几种状态码的区别"><a href="#几种状态码的区别" class="headerlink" title="几种状态码的区别"></a>几种状态码的区别</h3><ul>
+<li><p><code>200</code>：强缓 Expires/Cache-Control 存失效时，返回新的资源文件</p>
+</li>
+<li><p><code>200(from disk/memory cache)</code>：强缓 Expires/Cache-Control 两者都存在，未过期，Cache-Control 优先 Expires 时，浏览器从本地获取资源成功</p>
+</li>
+<li><p><code>304(Not Modified)</code>：协商缓存 Last-modified/Etag 没有过期时，服务端返回状态码 304</p>
+</li>
+</ul>
+<h4 id="缓存存储位置："><a href="#缓存存储位置：" class="headerlink" title="缓存存储位置："></a><strong>缓存存储位置：</strong></h4><p>内存缓存(memory cache)和硬盘缓存(disk cache)</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>内存缓存</th>
+<th>硬盘缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储内容</td>
+<td>JS，字体，图片等</td>
+<td>CSS 等</td>
+</tr>
+<tr>
+<td>读取速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>进程关闭则清空</td>
+<td>可以缓存较长时间</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>空间小</td>
+<td>空间大</td>
+</tr>
+</tbody></table>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/09/Vue/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%EF%BC%8803%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
