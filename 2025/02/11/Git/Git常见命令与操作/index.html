@@ -170,15 +170,15 @@
 </li>
 <li><p><code>git rebase --onto</code>：</p>
 <ul>
-<li><p>丢弃某些提交：如图，执行<code>git rebase --on c2 c4 main</code>，会丢弃c3、c4提交，并将c5作为一个新的提交记录连到c2上，可用于回退代码</p>
+<li><p>丢弃某些提交：如图，执行<code>git rebase --on c2 c4 main</code>，会丢弃 c3、c4 提交，并将 c5 作为一个新的提交记录连到 c2 上，可用于回退代码</p>
 <p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-rebase-d.png?imageSlim" alt=""></p>
 </li>
-<li><p>更精确的合并：当<code>feature/b</code>是从<code>feature/a</code>拉出分支并开发时，此时我想要仅保留<code>feature/b</code>的提交c3，可以执行<code>git rebase main feature/a feature/b</code>，则可以将c3提交的父提交节点改成<code>main</code>分支的最后提交节点。</p>
+<li><p>更精确的合并：当<code>feature/b</code>是从<code>feature/a</code>拉出分支并开发时，此时我想要仅保留<code>feature/b</code>的提交 c3，可以执行<code>git rebase main feature/a feature/b</code>，则可以将 c3 提交的父提交节点改成<code>main</code>分支的最后提交节点。</p>
 <p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-rebase-m.png?imageSlim" alt=""></p>
 </li>
 </ul>
 </li>
-<li><p><code>git rebase -i [startpoint] [endpoint]</code>：用于修改提交记录，可以将多条commit删除或合并</p>
+<li><p><code>git rebase -i [startpoint] [endpoint]</code>：用于修改提交记录，可以将多条 commit 删除或合并</p>
 <p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/5/2/1631fdf49c668a35~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png" alt="rebase示意图"></p>
 </li>
 </ul>
@@ -192,26 +192,26 @@
 </ul>
 <p>使用<code>git rebase</code>合并的好处是，可以维护一条干净整洁没有冗余<code>commit</code>分支，而不像<code>merge</code>那样会产生新的提交，但是它也是有弊端的：</p>
 <ul>
-<li><p>如果涉及到已经推送过的提交，需要强制推送才能将本地 <code>rebase</code> 后的提交推送到远程。因此绝对不要在一个公共分支（也就是说还有其他人基于这个分支进行开发）执行 <code>rebase</code>，否则其他人之后执行 <code>git pull</code> 会合并出一条令人困惑的本地提交历史，进一步推送回远程分支后又会将远程的提交历史打乱</p>
+<li><p>如果涉及到已经推送过的提交，需要强制推送才能将本地  <code>rebase</code>  后的提交推送到远程。因此绝对不要在一个公共分支（也就是说还有其他人基于这个分支进行开发）执行  <code>rebase</code>，否则其他人之后执行  <code>git pull</code>  会合并出一条令人困惑的本地提交历史，进一步推送回远程分支后又会将远程的提交历史打乱</p>
 </li>
 <li><p>对新手不友好，新手很有可能在交互模式中误操作「丢失」某些提交（但其实是能够找回的）</p>
 </li>
-<li><p>假如你频繁的使用 <code>rebase</code> 来集成主分支的更新，一个潜在的后果是你会遇到越来越多需要合并的冲突。尽管你可以在 <code>rebase</code> 过程中处理这些冲突，但这并非长久之计，更推荐的做法是频繁的合入主分支然后创建新的功能分支，而不是使用一个长时间存在的功能分支。</p>
+<li><p>假如你频繁的使用  <code>rebase</code>  来集成主分支的更新，一个潜在的后果是你会遇到越来越多需要合并的冲突。尽管你可以在  <code>rebase</code>  过程中处理这些冲突，但这并非长久之计，更推荐的做法是频繁的合入主分支然后创建新的功能分支，而不是使用一个长时间存在的功能分支。</p>
 </li>
 </ul>
 <p>因此操作<code>rebase</code>时，最好的做法是先将主分支的内容<code>rebase</code>到功能分支，解决好冲突之后，再把功能分支<code>merge</code>到主分支上。</p>
 <h4 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h4><ul>
 <li><code>git cherry-pick &lt;commit&gt;</code>：将指定的提交（commit）应用于其他分支。</li>
 </ul>
-<h3 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h3><h4 id="reset"><a href="#reset" class="headerlink" title="reset"></a>reset</h4><p>重置当前HEAD到指定的状态</p>
+<h3 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h3><h4 id="reset"><a href="#reset" class="headerlink" title="reset"></a>reset</h4><p>重置当前 HEAD 到指定的状态</p>
 <ul>
 <li><p><code>git reset &lt;commit&gt;</code>：将代码回退到某个指定提交</p>
 </li>
-<li><p><code>git reset --soft</code>：只回退HEAD</p>
+<li><p><code>git reset --soft</code>：只回退 HEAD</p>
 </li>
-<li><p><code>git reset --mixed</code>：回退部分,包括HEAD，index</p>
+<li><p><code>git reset --mixed</code>：回退部分,包括 HEAD，index</p>
 </li>
-<li><p><code>git reset --hard</code>： 回退全部，包括HEAD，index，working tree</p>
+<li><p><code>git reset --hard</code>： 回退全部，包括 HEAD，index，working tree</p>
 </li>
 <li><p><code>git reset HEAD</code>：暂存区文件撤销 (不覆盖工作区)</p>
 </li>
@@ -239,7 +239,7 @@
 </ol>
 <ul>
 <li><p>使用<code>git reflog</code>查看操作日志，可以找回被回退的提交的哈希值</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  $ git reflogb7057a9 HEAD@&#123;0&#125;: reset: moving to b7057a9</span><br><span class="line">  98abc5a HEAD@&#123;1&#125;: commit: more stuff added to foo</span><br><span class="line">  b7057a9 HEAD@&#123;2&#125;: commit (initial): initial commitit</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git reflog</span><br><span class="line">b7057a9 HEAD@&#123;0&#125;: reset: moving to b7057a9</span><br><span class="line">98abc5a HEAD@&#123;1&#125;: commit: more stuff added to foo</span><br><span class="line">b7057a9 HEAD@&#123;2&#125;: commit (initial): initial commitit</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>使用<code>git reset &lt;hash&gt;</code>回退到之前的状态</p>
 </li>
