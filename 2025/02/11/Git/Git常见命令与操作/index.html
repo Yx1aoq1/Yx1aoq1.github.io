@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Git常见命令与操作</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置命令"><span class="toc-number">1.</span> <span class="toc-text">配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拉取与推送"><span class="toc-number">2.</span> <span class="toc-text">拉取与推送</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#fetch"><span class="toc-number">2.1.</span> <span class="toc-text">fetch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pull"><span class="toc-number">2.2.</span> <span class="toc-text">pull</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#push"><span class="toc-number">2.3.</span> <span class="toc-text">push</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支管理"><span class="toc-number">3.</span> <span class="toc-text">分支管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#branch"><span class="toc-number">3.1.</span> <span class="toc-text">branch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checkout"><span class="toc-number">3.2.</span> <span class="toc-text">checkout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#merge"><span class="toc-number">3.3.</span> <span class="toc-text">merge</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#图解"><span class="toc-number">3.3.1.</span> <span class="toc-text">图解</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rebase"><span class="toc-number">3.4.</span> <span class="toc-text">rebase</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#比较"><span class="toc-number">3.4.1.</span> <span class="toc-text">比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cherry-pick"><span class="toc-number">3.5.</span> <span class="toc-text">cherry-pick</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#撤销"><span class="toc-number">4.</span> <span class="toc-text">撤销</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#reset"><span class="toc-number">4.1.</span> <span class="toc-text">reset</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件暂存"><span class="toc-number">5.</span> <span class="toc-text">文件暂存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#stash"><span class="toc-number">5.1.</span> <span class="toc-text">stash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题的处理"><span class="toc-number">6.</span> <span class="toc-text">常见问题的处理</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Git常见命令与操作</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-11T13:30:36.000Z" itemprop="datePublished">2025-02-11</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Git/">Git</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Git/" rel="tag">Git</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看配置</span></span><br><span class="line">git config --list</span><br><span class="line"></span><br><span class="line"><span class="comment">#列出Repository配置</span></span><br><span class="line">git config --<span class="built_in">local</span> --list</span><br><span class="line"></span><br><span class="line"><span class="comment">#列出全局配置</span></span><br><span class="line">git config --global --list</span><br><span class="line"></span><br><span class="line"><span class="comment">#列出系统配置</span></span><br><span class="line">git config --system --list</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置</span></span><br><span class="line">git config --global user.name <span class="string">"your name"</span></span><br><span class="line">git config --global user.email <span class="string">"youremail@github.com"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取与推送"><a href="#拉取与推送" class="headerlink" title="拉取与推送"></a>拉取与推送</h3><h4 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h4><p>将某个远程主机的更新，全部取回本地</p>
+<ul>
+<li><p><code>git fetch [&lt;repository&gt;]</code>：取回仓库所有分支的更新</p>
+</li>
+<li><p><code>git fetch &lt;repository&gt; &lt;branch&gt;</code>：取回指定分支的更新</p>
+</li>
+<li><p><code>git fetch origin &lt;remote-branch&gt;:&lt;local-branch&gt;</code>：将指定的远程分支的更新拉到指定的某个本地分支下</p>
+</li>
+</ul>
+<h4 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h4><p>从远程仓库拉取当前分支的更新内容</p>
+<ul>
+<li><p><code>git pull [&lt;repository&gt;]</code>：如果本地和远程仓库的代码需要合并，默认采用<code>merge</code>的方式合并</p>
+</li>
+<li><p><code>git pull --rebase</code>：指定使用<code>rebase</code>的方式合并代码</p>
+</li>
+</ul>
+<h4 id="push"><a href="#push" class="headerlink" title="push"></a>push</h4><p>将本地的修改推送到远程仓库</p>
+<ul>
+<li><p><code>git push [&lt;repository&gt;]</code></p>
+</li>
+<li><p><code>git push origin -d &lt;branch&gt;</code>：删除远程仓库的分支</p>
+</li>
+<li><p><code>git push -u origin &lt;branch&gt;</code>：将当前本地分支推送到远程并命名</p>
+</li>
+</ul>
+<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><h4 id="branch"><a href="#branch" class="headerlink" title="branch"></a>branch</h4><p>列出、创建或删除分支</p>
+<ul>
+<li><p><code>git branch</code>，查看本地分支；</p>
+</li>
+<li><p><code>git branch &lt;branch&gt;</code>：创建分支，但是不切换当前分支</p>
+</li>
+<li><p><code>git branch -r</code>：查看远程分支</p>
+</li>
+<li><p><code>git branch -a</code>：查看本地与远程分支</p>
+</li>
+<li><p><code>git branch -d &lt;branch&gt;</code>：删除指定分支；<code>-D</code>等同于<code>-d --force</code>，强制删除指定分支</p>
+</li>
+<li><p><code>git branch -m [&lt;oldbranch&gt;] &lt;newbranch&gt;</code>：移动/重命名分支；<code>-M</code>等同于<code>-m --force</code></p>
+</li>
+</ul>
+<h4 id="checkout"><a href="#checkout" class="headerlink" title="checkout"></a>checkout</h4><p>切换分支或恢复工作目录树文件</p>
+<ul>
+<li><p><code>git checkout &lt;branch&gt;</code>，切换到对应名称的分支</p>
+</li>
+<li><p><code>git checkout -b &lt;newbranch&gt; [&lt;basebranch&gt;]</code>：从指定分支创建并切换到新分支；如果未指明分支，从当前所在分支创建</p>
+</li>
+<li><p><code>git checkout -B &lt;newbranch&gt; [&lt;指定basebranch&gt;]</code>：重置分支（删除已存在的分支且重新创建，分支不存在也不会报错）</p>
+</li>
+<li><p><code>git checkout -f &lt;branch&gt;</code>：强制切换到某分支，会丢失当前所在分支的已更改内容</p>
+</li>
+<li><p><code>git checkout -- &lt;./filename&gt;</code>：撤销指定文件或全部文件的更改</p>
+</li>
+</ul>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h4><p>将两个或多个开发历史合并在一起</p>
+<ul>
+<li><p><code>git merge &lt;branch&gt;</code>：将当前分支与指定的分支名称合并，默认使用快速合并</p>
+</li>
+<li><p><code>git merge &lt;branch&gt; --no-ff</code>：使用非快速合并</p>
+</li>
+<li><p><code>git merge &lt;branch&gt; --squash</code>：将合并结果压缩为一个提交，并且不会保留源分支的提交历史</p>
+</li>
+</ul>
+<h5 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h5><ul>
+<li><p>快速合并：不会创建新的提交，而是合并当前分支中合并的分支上的提交</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/merge-ff.png?imageSlim" alt=""></p>
+</li>
+<li><p>三方合并：创建一个新的合并提交，提交的父提交指向活动分支和要合并的分支。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/merge-no-ff.png?imageSlim" alt=""></p>
+</li>
+<li><p>Squash Merge：创建一个新的合并提交，不会保留对合入分支的引用。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/merge-s.png?imageSlim" alt=""></p>
+</li>
+</ul>
+<h4 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h4><p>在另一个基端之上重新应用提交（将分支的基础从一个提交改成另一个提交，使其看起来就像是从另一个提交中创建了分支一样）</p>
+<ul>
+<li><p><code>git rebase &lt;newparent&gt; [&lt;branch&gt;]</code>：允许我们访问<code>&lt;newparent&gt;</code>中最新提交的命令，并将我们的<code>&lt;branch&gt;</code>提交移到它上面</p>
+</li>
+<li><p><code>git rebase --onto</code>：</p>
+<ul>
+<li><p>丢弃某些提交：如图，执行<code>git rebase --on c2 c4 main</code>，会丢弃c3、c4提交，并将c5作为一个新的提交记录连到c2上，可用于回退代码</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-rebase-d.png?imageSlim" alt=""></p>
+</li>
+<li><p>更精确的合并：当<code>feature/b</code>是从<code>feature/a</code>拉出分支并开发时，此时我想要仅保留<code>feature/b</code>的提交c3，可以执行<code>git rebase main feature/a feature/b</code>，则可以将c3提交的父提交节点改成<code>main</code>分支的最后提交节点。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-rebase-m.png?imageSlim" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p><code>git rebase -i [startpoint] [endpoint]</code>：用于修改提交记录，可以将多条commit删除或合并</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/5/2/1631fdf49c668a35~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png" alt="rebase示意图"></p>
+</li>
+</ul>
+<h5 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h5><ul>
+<li><p>使用<code>git merge</code>合并分支：</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-merge.png?imageSlim" alt=""></p>
+</li>
+<li><p>使用<code>git rebase</code>合并分支：</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/git-rebase.png?imageSlim" alt=""></p>
+</li>
+</ul>
+<p>使用<code>git rebase</code>合并的好处是，可以维护一条干净整洁没有冗余<code>commit</code>分支，而不像<code>merge</code>那样会产生新的提交，但是它也是有弊端的：</p>
+<ul>
+<li><p>如果涉及到已经推送过的提交，需要强制推送才能将本地 <code>rebase</code> 后的提交推送到远程。因此绝对不要在一个公共分支（也就是说还有其他人基于这个分支进行开发）执行 <code>rebase</code>，否则其他人之后执行 <code>git pull</code> 会合并出一条令人困惑的本地提交历史，进一步推送回远程分支后又会将远程的提交历史打乱</p>
+</li>
+<li><p>对新手不友好，新手很有可能在交互模式中误操作「丢失」某些提交（但其实是能够找回的）</p>
+</li>
+<li><p>假如你频繁的使用 <code>rebase</code> 来集成主分支的更新，一个潜在的后果是你会遇到越来越多需要合并的冲突。尽管你可以在 <code>rebase</code> 过程中处理这些冲突，但这并非长久之计，更推荐的做法是频繁的合入主分支然后创建新的功能分支，而不是使用一个长时间存在的功能分支。</p>
+</li>
+</ul>
+<p>因此操作<code>rebase</code>时，最好的做法是先将主分支的内容<code>rebase</code>到功能分支，解决好冲突之后，再把功能分支<code>merge</code>到主分支上。</p>
+<h4 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h4><ul>
+<li><code>git cherry-pick &lt;commit&gt;</code>：将指定的提交（commit）应用于其他分支。</li>
+</ul>
+<h3 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h3><h4 id="reset"><a href="#reset" class="headerlink" title="reset"></a>reset</h4><p>重置当前HEAD到指定的状态</p>
+<ul>
+<li><p><code>git reset &lt;commit&gt;</code>：将代码回退到某个指定提交</p>
+</li>
+<li><p><code>git reset --soft</code>：只回退HEAD</p>
+</li>
+<li><p><code>git reset --mixed</code>：回退部分,包括HEAD，index</p>
+</li>
+<li><p><code>git reset --hard</code>： 回退全部，包括HEAD，index，working tree</p>
+</li>
+<li><p><code>git reset HEAD</code>：暂存区文件撤销 (不覆盖工作区)</p>
+</li>
+</ul>
+<h3 id="文件暂存"><a href="#文件暂存" class="headerlink" title="文件暂存"></a>文件暂存</h3><p>将本地修改临时暂存</p>
+<h4 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h4><ul>
+<li><p><code>git stash save -a &quot;message&quot;</code>：添加修改</p>
+</li>
+<li><p><code>git stash list</code>：查看所有暂存历史</p>
+</li>
+<li><p><code>git stash drop &lt;stash&gt;</code>：删除某个暂存</p>
+</li>
+<li><p><code>git stash pop</code>：将暂存恢复到工作区</p>
+</li>
+<li><p><code>git stash clear</code>：删除全部暂存内容</p>
+</li>
+</ul>
+<h3 id="常见问题的处理"><a href="#常见问题的处理" class="headerlink" title="常见问题的处理"></a>常见问题的处理</h3><ol>
+<li>仓库的初始化：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化本地仓库</span></span><br><span class="line">git init</span><br><span class="line"><span class="comment"># 链接本地仓库与远端仓库</span></span><br><span class="line">git remote add origin &lt;url&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>git reset</code>之后如何恢复：</li>
+</ol>
+<ul>
+<li><p>使用<code>git reflog</code>查看操作日志，可以找回被回退的提交的哈希值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  $ git reflogb7057a9 HEAD@&#123;0&#125;: reset: moving to b7057a9</span><br><span class="line">  98abc5a HEAD@&#123;1&#125;: commit: more stuff added to foo</span><br><span class="line">  b7057a9 HEAD@&#123;2&#125;: commit (initial): initial commitit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>git reset &lt;hash&gt;</code>回退到之前的状态</p>
+</li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/11/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%EF%BC%9A%E5%BC%BA%E7%BC%93%E5%AD%98%E3%80%81%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
