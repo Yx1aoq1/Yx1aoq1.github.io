@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>实现大文件分片上传与下载</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件流操作"><span class="toc-number">1.</span> <span class="toc-text">文件流操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Blob-amp-ArrayBuffer"><span class="toc-number">1.1.</span> <span class="toc-text">Blob &amp; ArrayBuffer</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#区分"><span class="toc-number">1.1.1.</span> <span class="toc-text">区分</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#互相转换"><span class="toc-number">1.1.2.</span> <span class="toc-text">互相转换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件分片-amp-Hash-计算"><span class="toc-number">2.</span> <span class="toc-text">文件分片 &amp; Hash 计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分片上传"><span class="toc-number">3.</span> <span class="toc-text">分片上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分片下载"><span class="toc-number">4.</span> <span class="toc-text">分片下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#断点续传"><span class="toc-number">5.</span> <span class="toc-text">断点续传</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">实现大文件分片上传与下载</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-14T09:57:12.000Z" itemprop="datePublished">2025-02-14</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0/" rel="tag">分片上传</a>, <a class="tag-link" href="/tags/%E5%88%86%E7%89%87%E4%B8%8B%E8%BD%BD/" rel="tag">分片下载</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="文件流操作"><a href="#文件流操作" class="headerlink" title="文件流操作"></a>文件流操作</h3><p>在软件开发中，我们会看到各种形形色色的文件/资源(<code>pdf/word/音频/视频</code>)，其实它们归根到底就是不同<strong>数据格式</strong>的以满足自身规则的情况下展示。说的更浅显易懂点，<strong>它们都是数据，并且最终都会以二进制形式展示</strong>。</p>
+<h4 id="Blob-amp-ArrayBuffer"><a href="#Blob-amp-ArrayBuffer" class="headerlink" title="Blob &amp; ArrayBuffer"></a>Blob &amp; ArrayBuffer</h4><p>在前端处理二进制数据时，有两个对象是绕不开的。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener">Blob 对象</a>（<code>Binary Large Object</code>）对象是一种可以在 <code>JavaScript</code> 中存储大量<strong>二进制数据</strong>的对象。可以通过构造函数创建 <code>Blob</code> 对象，或者通过其他 <code>API</code>（如 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData" target="_blank" rel="noopener">FormData 对象</a>）生成。</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="noopener">ArrayBuffer</a> 是 <code>JavaScript</code> 中的另一种对象类型，它们可以存储<strong>二进制数据</strong>。<code>ArrayBuffers</code> 通常用于较低级别的操作，如直接操作和处理二进制数据。</li>
+</ul>
+<h5 id="区分"><a href="#区分" class="headerlink" title="区分"></a>区分</h5><ul>
+<li><p><strong>ArrayBuffer</strong>：只能存储二进制数据。它不具备直接的类型信息，开发者需要使用视图（如 <code>TypedArray</code>）来解释数据。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> buffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">16</span>); <span class="comment">// 创建一个16字节的ArrayBuffer</span></span><br><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(buffer); <span class="comment">// 通过Uint8Array视图来操作数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Blob</strong>：可以包含任意类型的数据，包括文本、图像、音频和视频。Blob 提供了对文件类型的支持，并且可以通过 MIME 类型来描述数据。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> blob = <span class="keyword">new</span> Blob([<span class="string">"Hello, world!"</span>], &#123; <span class="attr">type</span>: <span class="string">'text/plain'</span> &#125;); <span class="comment">// 创建一个文本Blob</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="互相转换"><a href="#互相转换" class="headerlink" title="互相转换"></a>互相转换</h5><ul>
+<li><p><strong>ArrayBuffer</strong> 可以通过 <code>Blob</code> 的构造函数转换为 Blob：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> blobFromBuffer = <span class="keyword">new</span> Blob([buffer]); <span class="comment">// 从ArrayBuffer创建Blob</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Blob</strong> 可以通过 <code>FileReader</code> 将其读取为 <code>ArrayBuffer</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> arrayBuffer = event.target.result; <span class="comment">// 获取读取的ArrayBuffer</span></span><br><span class="line">&#125;;</span><br><span class="line">reader.readAsArrayBuffer(blob); <span class="comment">// 读取Blob为ArrayBuffer</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="文件分片-amp-Hash-计算"><a href="#文件分片-amp-Hash-计算" class="headerlink" title="文件分片 &amp; Hash 计算"></a>文件分片 &amp; Hash 计算</h3><p>无论是<code>分片上传</code>和<code>分片下载</code>最核心的点就是需要对文件资源进行<strong>分片</strong>处理。其中最主要的API 就是 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob/slice" target="_blank" rel="noopener">Blob: slice()</a>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 文件分片 &amp; 生成文件 HASH</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="variable">file</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="variable">chunkSizeStr</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">sliceFile</span>(<span class="params">file: File, chunkSizeStr = <span class="string">'10MB'</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 解析文件大小字符串，转为B单位的数值</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">sizeStr</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">const</span> convertToBytes = (sizeStr: string): <span class="function"><span class="params">number</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 支持的单位数组（扩展至 YB）</span></span><br><span class="line">    <span class="keyword">const</span> symbols = [<span class="string">'B'</span>, <span class="string">'KB'</span>, <span class="string">'MB'</span>, <span class="string">'GB'</span>, <span class="string">'TB'</span>, <span class="string">'PB'</span>, <span class="string">'EB'</span>, <span class="string">'ZB'</span>, <span class="string">'YB'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 支持大小写混合和空格（如 "10 mb"）</span></span><br><span class="line">    <span class="keyword">const</span> regex = <span class="regexp">/^(\d+(?:\.\d+)?)\s*([a-zA-Z]+)$/</span></span><br><span class="line">    <span class="keyword">const</span> matches = sizeStr.trim().match(regex)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!matches) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Invalid format. Expected format like "10MB" or "5.5 GB"'</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析数值和单位</span></span><br><span class="line">    <span class="keyword">const</span> value = <span class="built_in">parseFloat</span>(matches[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">const</span> inputUnit = matches[<span class="number">2</span>].toLowerCase()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 匹配单位在数组中的索引</span></span><br><span class="line">    <span class="keyword">const</span> index = symbols.findIndex(</span><br><span class="line">      (unit) =&gt; unit.toLowerCase() === inputUnit || unit.toLowerCase() === inputUnit + <span class="string">'b'</span>, <span class="comment">// 兼容 "K" -&gt; "KB"</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (index === <span class="number">-1</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Unsupported unit: <span class="subst">$&#123;matches[<span class="number">2</span>]&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算字节数：base^index</span></span><br><span class="line">    <span class="keyword">return</span> value * <span class="number">1024</span> ** index</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>&lt;&#123; <span class="attr">chunkList</span>: Blob[]; fileHash: string &#125;&gt;<span class="function">(<span class="params">(resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> currentChunk = <span class="number">0</span> <span class="comment">// 当前分片的索引</span></span><br><span class="line">    <span class="keyword">let</span> fileHash = <span class="string">''</span></span><br><span class="line">    <span class="keyword">const</span> chunkSize = convertToBytes(chunkSizeStr) <span class="comment">// 分片大小</span></span><br><span class="line">    <span class="keyword">const</span> chunks = file &amp;&amp; <span class="built_in">Math</span>.ceil(file.size / chunkSize) <span class="comment">//分片数</span></span><br><span class="line">    <span class="keyword">const</span> fileReader = <span class="keyword">new</span> FileReader()</span><br><span class="line">    <span class="keyword">const</span> chunkList: Blob[] = []</span><br><span class="line">    <span class="keyword">const</span> spark = <span class="keyword">new</span> SparkMD5.ArrayBuffer()</span><br><span class="line">    <span class="comment">//初始化分片方法，兼容问题</span></span><br><span class="line">    <span class="keyword">const</span> blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice</span><br><span class="line"></span><br><span class="line">    fileReader.onload = <span class="function">(<span class="params">e: ProgressEvent</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">//当前读取的分块结果 ArrayBuffer</span></span><br><span class="line">      <span class="keyword">const</span> chunk = (e.target <span class="keyword">as</span> FileReader).result <span class="keyword">as</span> <span class="built_in">ArrayBuffer</span></span><br><span class="line">      spark.append(chunk)</span><br><span class="line">      currentChunk++ <span class="comment">// 增加当前分片索引</span></span><br><span class="line">      <span class="comment">// 如果还有分片需要读取，继续读取下一个分片</span></span><br><span class="line">      <span class="keyword">if</span> (currentChunk &lt; chunks) &#123;</span><br><span class="line">        loadNextChunk()</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        fileHash = spark.end()</span><br><span class="line">        <span class="comment">// 所有分片读取完成，resolve Promise 并返回分片数组</span></span><br><span class="line">        resolve(&#123; chunkList, fileHash &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 文件读取出错时的回调函数</span></span><br><span class="line">    fileReader.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">'读取文件出错'</span>, e)</span><br><span class="line">      reject(e) <span class="comment">// reject Promise 并传递错误信息</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取下一个分片的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">loadNextChunk</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> start = currentChunk * chunkSize <span class="comment">// 当前分片的起始字节</span></span><br><span class="line">      <span class="keyword">const</span> end = start + chunkSize &gt;= file.size ? file.size : start + chunkSize <span class="comment">// 当前分片的结束字节</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> chunk = blobSlice.call(file, start, end) <span class="comment">// 切割文件得到当前分片</span></span><br><span class="line">      chunkList.push(chunk) <span class="comment">// 将当前分片添加到分片数组中</span></span><br><span class="line">      fileReader.readAsArrayBuffer(chunk) <span class="comment">// 读取当前分片为 ArrayBuffer</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开始读取第一个分片</span></span><br><span class="line">    loadNextChunk()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分片上传"><a href="#分片上传" class="headerlink" title="分片上传"></a>分片上传</h3><p>这里以<code>axios</code>上传为例，我们将每个分片同时上传，并通过<code>onUploadProgress</code>API来获取每个分片已上传的文件大小，从而计算出整体的上传进度：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  file: File,</span></span></span><br><span class="line"><span class="function"><span class="params">  chunkSizeStr: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  onProgress: (percentage: number</span>) =&gt; <span class="title">void</span>,</span></span><br><span class="line"><span class="function">) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; chunkList, fileHash &#125; = <span class="keyword">await</span> sliceFile(file, chunkSizeStr)</span><br><span class="line">  <span class="keyword">const</span> totalChunks = chunkList.length</span><br><span class="line">  <span class="keyword">const</span> uploadedBytes: number[] = <span class="keyword">new</span> <span class="built_in">Array</span>(totalChunks).fill(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 生成所有分片的上传任务</span></span><br><span class="line">  <span class="keyword">const</span> uploadPromises = <span class="built_in">Array</span>.from(&#123; <span class="attr">length</span>: totalChunks &#125;, (_, index) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> formData = <span class="keyword">new</span> FormData()</span><br><span class="line">    formData.append(<span class="string">'file'</span>, chunkList[index])</span><br><span class="line">    formData.append(<span class="string">'chunkIndex'</span>, index.toString())</span><br><span class="line">    formData.append(<span class="string">'totalChunks'</span>, totalChunks.toString())</span><br><span class="line">    formData.append(<span class="string">'fileHash'</span>, fileHash)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> axios.post(<span class="string">'/api/upload'</span>, formData, &#123;</span><br><span class="line">      onUploadProgress: <span class="function">(<span class="params">progressEvent: AxiosProgressEvent</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 确保分片索引正确捕获</span></span><br><span class="line">        <span class="keyword">const</span> currentChunkIndex = index</span><br><span class="line">        uploadedBytes[currentChunkIndex] = progressEvent.loaded</span><br><span class="line">        <span class="keyword">const</span> totalUploaded = uploadedBytes.reduce(<span class="function">(<span class="params">sum, bytes</span>) =&gt;</span> sum + bytes, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">const</span> progress = (totalUploaded / file.size) * <span class="number">100</span></span><br><span class="line">        onProgress(progress)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 并发上传所有分片</span></span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.all(uploadPromises)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 所有分片上传完成后，确保进度为100%</span></span><br><span class="line">  onProgress(<span class="number">100</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分片下载"><a href="#分片下载" class="headerlink" title="分片下载"></a>分片下载</h3><p>实现客户端分片下载的基本解决方案如下：</p>
+<ol>
+<li><strong>服务器端</strong>将大文件切割成多个分片，并为每个分片生成唯一标识符。</li>
+<li>客户端发送请求以获取分片列表并开始下载第一个分片。</li>
+<li>在下载过程中，客户端基于分片列表发起并发请求以下载其他分片，并逐渐拼接和合并下载的数据。</li>
+<li>当所有分片下载完成后，客户端将下载的数据合并为一个完整的文件。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">downloadable</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 发送文件下载请求，获取文件的总大小和总分片数</span></span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">'/download'</span>, &#123;</span><br><span class="line">      method: <span class="string">'GET'</span>,</span><br><span class="line">      headers: &#123;</span><br><span class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析响应数据</span></span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">await</span> response.json()</span><br><span class="line">    <span class="keyword">const</span> totalSize = data.totalSize</span><br><span class="line">    <span class="keyword">const</span> totalChunks = data.totalChunks</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化变量</span></span><br><span class="line">    <span class="keyword">let</span> downloadedChunks = <span class="number">0</span></span><br><span class="line">    <span class="keyword">const</span> chunks: Blob[] = []</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下载每个分片</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> chunkNumber = <span class="number">0</span>; chunkNumber &lt; totalChunks; chunkNumber++) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> chunkResponse = <span class="keyword">await</span> fetch(<span class="string">`/download/<span class="subst">$&#123;chunkNumber&#125;</span>`</span>, &#123;</span><br><span class="line">          method: <span class="string">'GET'</span>,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> chunk = <span class="keyword">await</span> chunkResponse.blob()</span><br><span class="line">        downloadedChunks++</span><br><span class="line">        chunks.push(chunk)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 当所有分片下载完成时</span></span><br><span class="line">        <span class="keyword">if</span> (downloadedChunks === totalChunks) &#123;</span><br><span class="line">          <span class="comment">// 合并分片</span></span><br><span class="line">          <span class="keyword">const</span> mergedBlob = <span class="keyword">new</span> Blob(chunks)</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 创建对象 URL 以生成下载链接</span></span><br><span class="line">          <span class="keyword">const</span> downloadUrl = <span class="built_in">window</span>.URL.createObjectURL(mergedBlob)</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 创建一个 &lt;a&gt; 元素并设置属性</span></span><br><span class="line">          <span class="keyword">const</span> link = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>)</span><br><span class="line">          link.href = downloadUrl</span><br><span class="line">          link.setAttribute(<span class="string">'download'</span>, <span class="string">'file.txt'</span>)</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 模拟点击下载</span></span><br><span class="line">          link.click()</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 释放资源</span></span><br><span class="line">          <span class="built_in">window</span>.URL.revokeObjectURL(downloadUrl)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (chunkError) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">`Chunk <span class="subst">$&#123;chunkNumber&#125;</span> download failed:`</span>, chunkError)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'文件下载失败:'</span>, error)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们先使用 <code>Blob</code> 对象创建一个总对象 URL，用于生成下载连接。然后创建一个标签，并将 <code>href</code> 属性设置为刚创建的对象 URL。继续设置标签的属性以下载文件名，这样在点击时可以自动下载文件。</p>
+<h3 id="断点续传"><a href="#断点续传" class="headerlink" title="断点续传"></a>断点续传</h3><p>在前端，可以使用<code>localStorage</code>或<code>sessionStorage</code>存储已上传分片的信息，包括已上传的分片索引和分片大小。</p>
+<p>每次上传前，检查<code>本地存储</code>中是否存在已上传分片信息。如果存在，则从断点处继续上传。</p>
+<p>在后端，可以使用<code>临时文件夹</code>或数据库记录已接收的分片信息，包括已上传的分片索引和分片大小。</p>
+<p>上传完成前，保存上传状态，以便在上传中断时能够恢复上传进度。</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/12/Vue/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9FDiff/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
