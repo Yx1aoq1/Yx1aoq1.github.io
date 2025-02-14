@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Vue3源码学习——快速Diff</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue2-Diff"><span class="toc-number">1.</span> <span class="toc-text">Vue2 Diff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例场景"><span class="toc-number">2.</span> <span class="toc-text">示例场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue3-Diff"><span class="toc-number">3.</span> <span class="toc-text">Vue3 Diff</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#从两端开始比较"><span class="toc-number">3.1.</span> <span class="toc-text">从两端开始比较</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#从头开始比较"><span class="toc-number">3.1.1.</span> <span class="toc-text">从头开始比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#从尾开始比较"><span class="toc-number">3.1.2.</span> <span class="toc-text">从尾开始比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他情况"><span class="toc-number">3.2.</span> <span class="toc-text">其他情况</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#新节点还有，旧节点没了"><span class="toc-number">3.2.1.</span> <span class="toc-text">新节点还有，旧节点没了</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#老节点还有，新节点没了"><span class="toc-number">3.2.2.</span> <span class="toc-text">老节点还有，新节点没了</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#乱序情况"><span class="toc-number">3.2.3.</span> <span class="toc-text">乱序情况</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#遍历老节点，进行-patch-和-unmount-操作"><span class="toc-number">3.2.3.1.</span> <span class="toc-text">遍历老节点，进行 patch 和 unmount 操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#进行节点的移动和新增"><span class="toc-number">3.2.3.2.</span> <span class="toc-text">进行节点的移动和新增</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#最长递增子序列算法实现"><span class="toc-number">3.2.3.3.</span> <span class="toc-text">最长递增子序列算法实现</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例场景-1"><span class="toc-number">4.</span> <span class="toc-text">示例场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他优化"><span class="toc-number">5.</span> <span class="toc-text">其他优化</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Vue3源码学习——快速Diff</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-12T05:37:18.000Z" itemprop="datePublished">2025-02-12</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Vue/">Vue</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Vue/" rel="tag">Vue</a>, <a class="tag-link" href="/tags/diff/" rel="tag">diff</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="Vue2-Diff"><a href="#Vue2-Diff" class="headerlink" title="Vue2 Diff"></a>Vue2 Diff</h3><p>Vue2 的 Diff 主要是采用双端 Diff 算法，通过四个指针（旧头、旧尾、新头、新尾）进行交叉对比，虽然能快速处理头尾相同的情况，但在节点顺序复杂变化时表现较差。当新旧节点的中间部分顺序不一致时，Vue 2 需遍历旧节点查找匹配项，导致时间复杂度升高到  <strong>O(n²)</strong></p>
+<h3 id="示例场景"><a href="#示例场景" class="headerlink" title="示例场景"></a>示例场景</h3><p><strong>旧节点</strong>：A B C D E</p>
+<p><strong>新节点</strong>：C A D E G</p>
+<p><strong>Vue2 的处理流程</strong>：</p>
+<ol>
+<li><p>查找与 C 相同的节点的位置，将 C 插入到 A 之前</p>
+</li>
+<li><p>头头相同，patch A 节点</p>
+</li>
+<li><p>查找与 D 相同的节点的位置，将 D 插入到 B 之前</p>
+</li>
+<li><p>新头旧尾相同，将 E 插入到 B 之前</p>
+</li>
+<li><p>查找与 G 相同的节点的位置，未找到，作为新节点插入到 B 之前</p>
+</li>
+<li><p>删除 B 节点</p>
+</li>
+</ol>
+<p>由于第一个循环就不满足头尾比较的任何一种匹配情况，所以复杂度为 O(n²) ，并且还做了 4 次 <code>DOM</code> 移动的操作。</p>
+<h3 id="Vue3-Diff"><a href="#Vue3-Diff" class="headerlink" title="Vue3 Diff"></a>Vue3 Diff</h3><p>Vue3 细化了 Diff 节点比较的过程，并对示例这种复杂的情况作了一定的算法优化，我们结合源码来逐步分析 Vue3 Diff 的步骤。</p>
+<h4 id="从两端开始比较"><a href="#从两端开始比较" class="headerlink" title="从两端开始比较"></a>从两端开始比较</h4><p>此步骤可以用 O(n) 的复杂度将一些首尾相同的节点比较完毕，快速处理简单情况</p>
+<h5 id="从头开始比较"><a href="#从头开始比较" class="headerlink" title="从头开始比较"></a>从头开始比较</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">0</span> <span class="comment">// 起始索引</span></span><br><span class="line"><span class="keyword">const</span> l2 = c2.length <span class="comment">// 新节点数组长度</span></span><br><span class="line"><span class="keyword">let</span> e1 = c1.length - <span class="number">1</span> <span class="comment">// 老节点数组结束索引</span></span><br><span class="line"><span class="keyword">let</span> e2 = l2 - <span class="number">1</span> <span class="comment">// 新节点数组结束索引</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 从头部开始同步节点</span></span><br><span class="line"><span class="keyword">while</span> (i &lt;= e1 &amp;&amp; i &lt;= e2) &#123;</span><br><span class="line">  <span class="keyword">const</span> n1 = c1[i]</span><br><span class="line">  <span class="keyword">const</span> n2 = c2[i]</span><br><span class="line">  <span class="comment">// 如果是相同节点，证明可以复用节点，执行patch操作</span></span><br><span class="line">  <span class="keyword">if</span> (isSameVNodeType(n1, n2)) &#123;</span><br><span class="line">    patch(n1.key, n2.key)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 否则，中断循环</span></span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 每有一个相同的节点，起始索引加1</span></span><br><span class="line">  i++</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="从尾开始比较"><a href="#从尾开始比较" class="headerlink" title="从尾开始比较"></a>从尾开始比较</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 从尾部开始同步节点</span></span><br><span class="line"><span class="keyword">while</span> (i &lt;= e1 &amp;&amp; i &lt;= e2) &#123;</span><br><span class="line">  <span class="keyword">const</span> n1 = c1[e1]</span><br><span class="line">  <span class="keyword">const</span> n2 = c2[e2]</span><br><span class="line">  <span class="comment">// 判断是相同节点则复用</span></span><br><span class="line">  <span class="keyword">if</span> (isSameVNodeType(n1, n2)) &#123;</span><br><span class="line">    patch(n1.key, n2.key)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">  e1--</span><br><span class="line">  e2--</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他情况"><a href="#其他情况" class="headerlink" title="其他情况"></a>其他情况</h4><h5 id="新节点还有，旧节点没了"><a href="#新节点还有，旧节点没了" class="headerlink" title="新节点还有，旧节点没了"></a>新节点还有，旧节点没了</h5><p>如果双端比较完后，新节点还有多，老节点没了，那么，多出来的执行 mount 操作即可；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3. 新节点还有，老节点没了</span></span><br><span class="line"><span class="keyword">if</span> (i &gt; e1) &#123;</span><br><span class="line">  <span class="keyword">if</span> (i &lt;= e2) &#123;</span><br><span class="line">    <span class="comment">// 添加多出来的节点</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= e2) &#123;</span><br><span class="line">      mount(c2[i].key)</span><br><span class="line">      i++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="老节点还有，新节点没了"><a href="#老节点还有，新节点没了" class="headerlink" title="老节点还有，新节点没了"></a>老节点还有，新节点没了</h5><p>如果双端比较完后，老节点还有多，新节点没了，那么，多出来的执行 unmount 操作即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4. 老节点还有，新节点没了</span></span><br><span class="line"><span class="keyword">if</span> (i &gt; e2) &#123;</span><br><span class="line">  <span class="keyword">while</span> (i &lt;= e1) &#123;</span><br><span class="line">    unmount(c1[i].key)</span><br><span class="line">    i++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="乱序情况"><a href="#乱序情况" class="headerlink" title="乱序情况"></a>乱序情况</h5><p>两端的节点比较完毕，剩下中间的节点是乱序的。如果两个乱序节点比较，如果直接暴力比较，在遍历一个数组的时候，再遍历另个数组，时间复杂度很高，为减少时间复杂度，这里使用空间换时间的做法，先将一个数组转为 map，在遍历一个数组的时候，直接在 map 中查询，时间复杂度就能减低很多。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处于中间的乱序节点</span></span><br><span class="line"><span class="keyword">const</span> s1 = i <span class="comment">// 记录剩下老节点的起始位置</span></span><br><span class="line"><span class="keyword">const</span> s2 = i <span class="comment">// 记录剩下新节点的起始位置</span></span><br><span class="line"><span class="comment">// 5.1 将剩下未执行比较的新节点数组转map</span></span><br><span class="line"><span class="comment">// key就是节点的key，value是新节点数组的index</span></span><br><span class="line"><span class="keyword">const</span> keyToNewIndexMap = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line"><span class="keyword">for</span> (i = s2; i &lt;= e2; i++) &#123;</span><br><span class="line">  <span class="keyword">const</span> nextChild = c2[i]</span><br><span class="line">  <span class="keyword">if</span> (nextChild) &#123;</span><br><span class="line">    keyToNewIndexMap.set(nextChild, i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="遍历老节点，进行-patch-和-unmount-操作"><a href="#遍历老节点，进行-patch-和-unmount-操作" class="headerlink" title="遍历老节点，进行 patch 和 unmount 操作"></a>遍历老节点，进行 patch 和 unmount 操作</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5.2 遍历剩余老节点，把能处理的处理了（patch, unmout）</span></span><br><span class="line"><span class="keyword">let</span> j</span><br><span class="line"><span class="keyword">let</span> patched = <span class="number">0</span> <span class="comment">// 记录已经patch的节点数量</span></span><br><span class="line"><span class="keyword">const</span> toBePatched = e2 - s2 + <span class="number">1</span> <span class="comment">// 需要patch的数量，就是剩下所有的新节点的数量</span></span><br><span class="line"><span class="keyword">let</span> moved = <span class="literal">false</span> <span class="comment">// 记录是否有节点移动</span></span><br><span class="line"><span class="comment">// 记录最大的新节点索引，用于辅助判断是否有节点移动的</span></span><br><span class="line"><span class="keyword">let</span> maxNewIndexSoFar = <span class="number">0</span></span><br><span class="line"><span class="comment">// 用于记录剩下的节点是否有移动，索引是剩余新节点index（从0开始），值是老节点下标</span></span><br><span class="line"><span class="keyword">const</span> newIndexToOldIndexMap = <span class="keyword">new</span> <span class="built_in">Array</span>(toBePatched)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化为0</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; toBePatched; i++) newIndexToOldIndexMap[i] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历剩下的老节点</span></span><br><span class="line"><span class="keyword">for</span> (i = s1; i &lt;= e1; i++) &#123;</span><br><span class="line">  <span class="keyword">const</span> prevChild = c1[i]</span><br><span class="line">  <span class="comment">// 如果已经没有需要patch的节点了，证明后面的节点都是要删除的，直接删除</span></span><br><span class="line">  <span class="keyword">if</span> (patched &gt;= toBePatched) &#123;</span><br><span class="line">    unmount(prevChild)</span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> newIndex <span class="comment">// 新节点数组的index</span></span><br><span class="line">  <span class="keyword">if</span> (prevChild) &#123;</span><br><span class="line">    <span class="comment">// 如果有key，直接从map中获取index</span></span><br><span class="line">    newIndex = keyToNewIndexMap.get(prevChild)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 针对部分没有key的节点，遍历剩余新节点数组</span></span><br><span class="line">    <span class="keyword">for</span> (j = s2; j &lt;= e2; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (newIndexToOldIndexMap[j - s2] === <span class="number">0</span> &amp;&amp; prevChild === c2[j]) &#123;</span><br><span class="line">        newIndex = j</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果找不到新节点的索引，证明老节点没法复用，删除</span></span><br><span class="line">  <span class="keyword">if</span> (newIndex === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    unmount(prevChild)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 每次找到可以复用的节点，设置值为老节点索引加1</span></span><br><span class="line">    newIndexToOldIndexMap[newIndex - s2] = i + <span class="number">1</span></span><br><span class="line">    <span class="comment">// 记录新节点的索引，如果索引突然变小了，证明有节点的位置变了</span></span><br><span class="line">    <span class="keyword">if</span> (newIndex &gt;= maxNewIndexSoFar) &#123;</span><br><span class="line">      maxNewIndexSoFar = newIndex</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      moved = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    patch(prevChild, c2[newIndex])</span><br><span class="line">    patched++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="进行节点的移动和新增"><a href="#进行节点的移动和新增" class="headerlink" title="进行节点的移动和新增"></a>进行节点的移动和新增</h6><p>乱序节点的复用和删除操作已经做完了，剩下的几点就是要移动或者新增的。如何移动效率最高，这里涉及到一个算法，<strong>最长递增子序列</strong>。</p>
+<p>什么是“最长递增子序列”呢？举个例子，数组<code>[0, 7, 8, 9, 3, 4, 5]</code>的最长递增子序列为<code>[0, 7, 8, 9]</code>或<code>[0, 3, 4, 5]</code>，即递增趋势的最长的子数组。最长递增子序列的解并不是唯一，但是我们只需要拿到其中一个解即可。</p>
+<p>为什么需要获得最长递增子序列呢？因为只要找出最长的子序列，那么只要移动剩下的节点，就可以保证移动的次数最少。<strong>只要保证索引是递增的，这个子序列的相对位置就是不变的</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5.3 移动和新建</span></span><br><span class="line"><span class="comment">// 获取最长递增子序列</span></span><br><span class="line"><span class="keyword">const</span> increasingNewIndexSequence = moved ? getSequence(newIndexToOldIndexMap) : []</span><br><span class="line"></span><br><span class="line">j = increasingNewIndexSequence.length - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 此循环为从后往前查找，DOM插入元素的API为insertBefore</span></span><br><span class="line"><span class="comment">// 倒叙遍历方便使用前一个节点作为锚点值</span></span><br><span class="line"><span class="keyword">for</span> (i = toBePatched - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">  <span class="keyword">const</span> nextIndex = s2 + i <span class="comment">// i是相对坐标，要加上起始值，转为新节点真实坐标</span></span><br><span class="line">  <span class="keyword">const</span> nextChild = c2[nextIndex]</span><br><span class="line">  <span class="keyword">const</span> anchor = nextIndex + <span class="number">1</span> &lt; l2 ? c2[nextIndex + <span class="number">1</span>] : <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果没有进行patch操作，证明是新增节点</span></span><br><span class="line">  <span class="keyword">if</span> (newIndexToOldIndexMap[i] === <span class="number">0</span>) &#123;</span><br><span class="line">    mount(nextChild)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (moved) &#123;</span><br><span class="line">    <span class="comment">// 如果没有稳定的子序列（e.g. 数组倒序）或者 当前节点不在稳定序列中，移动节点</span></span><br><span class="line">    <span class="keyword">if</span> (j &lt; <span class="number">0</span> || i !== increasingNewIndexSequence[j]) &#123;</span><br><span class="line">      move(nextChild, anchor)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      j--</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="最长递增子序列算法实现"><a href="#最长递增子序列算法实现" class="headerlink" title="最长递增子序列算法实现"></a>最长递增子序列算法实现</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取最长递增子序列</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;*&#125;</span> <span class="variable">arr</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSequence</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> p = arr.slice()</span><br><span class="line">  <span class="keyword">const</span> result = [<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> i, j, u, v, c</span><br><span class="line">  <span class="keyword">const</span> len = arr.length</span><br><span class="line">  <span class="comment">// 遍历数组</span></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="comment">// 取出当前元素</span></span><br><span class="line">    <span class="keyword">const</span> arrI = arr[i]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 只看进行过patch的数据</span></span><br><span class="line">    <span class="keyword">if</span> (arrI !== <span class="number">0</span>) &#123;</span><br><span class="line">      j = result[result.length - <span class="number">1</span>]</span><br><span class="line">      <span class="comment">// 如果当前元素比最后一个元素要大</span></span><br><span class="line">      <span class="keyword">if</span> (arr[j] &lt; arrI) &#123;</span><br><span class="line">        p[i] = j</span><br><span class="line">        result.push(i) <span class="comment">// 将当前索引存入结果索引</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      u = <span class="number">0</span></span><br><span class="line">      v = result.length - <span class="number">1</span></span><br><span class="line">      <span class="comment">// 二分查找，在结果数组中找到当前值得位置</span></span><br><span class="line">      <span class="keyword">while</span> (u &lt; v) &#123;</span><br><span class="line">        c = (u + v) &gt;&gt; <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> (arr[result[c]] &lt; arrI) &#123;</span><br><span class="line">          u = c + <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          v = c</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 将当前值替换到比它大一点的位置</span></span><br><span class="line">      <span class="keyword">if</span> (arrI &lt; arr[result[u]]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (u &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          p[i] = result[u - <span class="number">1</span>] <span class="comment">// 存起来</span></span><br><span class="line">        &#125;</span><br><span class="line">        result[u] = i</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 修正索引</span></span><br><span class="line">  u = result.length</span><br><span class="line">  v = result[u - <span class="number">1</span>]</span><br><span class="line">  <span class="keyword">while</span> (u-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    result[u] = v</span><br><span class="line">    v = p[v]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例场景-1"><a href="#示例场景-1" class="headerlink" title="示例场景"></a>示例场景</h3><p>我们再看同一个场景下，Vue 3 Diff 的步骤：</p>
+<ol>
+<li><p>从两端开始比较，结果： <code>i = 0</code> <code>e1 = 4</code> <code>e2 = 4</code></p>
+</li>
+<li><p>将剩下未执行比较的新节点数组转<code>Map</code>：<code>{&#39;C&#39; =&gt; 0, &#39;A&#39; =&gt; 1, &#39;D&#39; =&gt; 2, &#39;E&#39; =&gt; 3, &#39;G&#39; =&gt; 4}</code></p>
+</li>
+<li><p>遍历剩余老节点：</p>
+<ul>
+<li><p>A 在 <code>keyToNewIndexMap</code> 可获取对应值 <code>1</code>，记录 <code>newIndexToOldIndexMap[1]</code> 为 <code>0+1</code>，记录 <code>maxNewIndexSoFar</code> 为 1，Patch A</p>
+</li>
+<li><p>B 在 <code>keyToNewIndexMap</code> 获取不到对应值，删除节点 B</p>
+</li>
+<li><p>C 在<code>keyToNewIndexMap</code> 可获取对应值 <code>0</code>，记录 <code>newIndexToOldIndexMap[0]</code> 为 <code>2+1</code>，由于 <code>newIndex &lt; maxNewIndexSoFar</code>，记录<code>moved = true</code>，Patch C</p>
+</li>
+<li><p>D 在 <code>keyToNewIndexMap</code> 可获取对应值 <code>2</code>，记录 <code>newIndexToOldIndexMap[2]</code> 为 <code>3+1</code>，记录 <code>maxNewIndexSoFar</code> 为 2，Patch D</p>
+</li>
+<li><p>E 在 <code>keyToNewIndexMap</code> 可获取对应值 <code>3</code>，记录 <code>newIndexToOldIndexMap[3]</code> 为 <code>4+1</code>，记录 <code>maxNewIndexSoFar</code> 为 3，Patch E</p>
+</li>
+<li><p>获取最终的 <code>newIndexToOldIndexMap</code>：<code>[3, 1, 4, 5, 0]</code></p>
+</li>
+</ul>
+</li>
+<li><p>获取最长递增子序列 <code>[1, 2, 3]</code>，倒叙遍历 <code>newIndexToOldIndexMap</code></p>
+<ul>
+<li><p>获取 <code>newIndexToOldIndexMap[4]</code>，值为<code>0</code>，证明是新增，新增节点 G，插入位置在最后</p>
+</li>
+<li><p>获取 <code>newIndexToOldIndexMap[3]</code>，值非0，证明是移动，下标 <code>3</code> 在最长递增子序列中，表示改节点不需要移动</p>
+</li>
+<li><p>获取 <code>newIndexToOldIndexMap[2]</code>，值非0，证明是移动，下标 <code>2</code> 在最长递增子序列中，表示改节点不需要移动</p>
+</li>
+<li><p>获取 <code>newIndexToOldIndexMap[1]</code>，值非0，证明是移动，下标 <code>1</code> 在最长递增子序列中，表示改节点不需要移动</p>
+</li>
+<li><p>获取 <code>newIndexToOldIndexMap[0]</code>，值非0，证明是移动，下标 <code>0</code> 不在最长递增子序列中，节点需要移动。将 C 移动到 A 之前。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>可以看出，在Vue3 Diff处理的情况下，<code>DOM</code>移动只做了一次，而且算法的复杂度为 O(nlogn)，相较于 Vue2 有性能上的提升。</p>
+<h3 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h3><p>除了算法上的优化，Vue3 还做了以下的性能提升点：</p>
+<ul>
+<li><p><strong>静态提升</strong>：Vue3中对不参与更新的元素，会做静态提升，只会被创建一次，在渲染时直接复用，这样就免去了重复的创建节点，优化了运行时候的内存占用。</p>
+</li>
+<li><p><strong>事件监听缓存</strong>：默认情况下绑定事件的行为会被视为动态绑定，所以每次都会追踪它的变化，开启缓存后，没有了静态标记，下次diff时可以直接用。</p>
+</li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/11/Git/Git%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%93%8D%E4%BD%9C/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
