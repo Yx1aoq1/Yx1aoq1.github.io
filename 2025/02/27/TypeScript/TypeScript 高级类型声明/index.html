@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>TypeScript 高级类型声明</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#泛型"><span class="toc-number">1.</span> <span class="toc-text">泛型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高级类型"><span class="toc-number">2.</span> <span class="toc-text">高级类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#交叉类型（-amp-）"><span class="toc-number">2.1.</span> <span class="toc-text">交叉类型（&amp;）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#联合类型（-）"><span class="toc-number">2.2.</span> <span class="toc-text">联合类型（|）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型别名（type）"><span class="toc-number">2.3.</span> <span class="toc-text">类型别名（type）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#type和interface的相同点与不同点"><span class="toc-number">2.3.1.</span> <span class="toc-text">type和interface的相同点与不同点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型索引（keyof）"><span class="toc-number">2.4.</span> <span class="toc-text">类型索引（keyof）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型约束（extends）"><span class="toc-number">2.5.</span> <span class="toc-text">类型约束（extends）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型映射（in）"><span class="toc-number">2.6.</span> <span class="toc-text">类型映射（in）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#条件类型（U-X-Y）"><span class="toc-number">2.7.</span> <span class="toc-text">条件类型（U ? X : Y）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工具泛型"><span class="toc-number">3.</span> <span class="toc-text">工具泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Partial"><span class="toc-number">3.1.</span> <span class="toc-text">Partial</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Required"><span class="toc-number">3.2.</span> <span class="toc-text">Required</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Readonly"><span class="toc-number">3.3.</span> <span class="toc-text">Readonly</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Record"><span class="toc-number">3.4.</span> <span class="toc-text">Record</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pick"><span class="toc-number">3.5.</span> <span class="toc-text">Pick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Omit"><span class="toc-number">3.6.</span> <span class="toc-text">Omit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extract"><span class="toc-number">3.7.</span> <span class="toc-text">Extract</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Exclude"><span class="toc-number">3.8.</span> <span class="toc-text">Exclude</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">TypeScript 高级类型声明</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-02-27T15:13:56.000Z" itemprop="datePublished">2025-02-27</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/TypeScript/">TypeScript</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/TypeScript/" rel="tag">TypeScript</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>泛型通过一对尖括号来表示(<code>&lt;&gt;</code>)，尖括号内的字符被称为<em>类型变量</em>，这个变量用来表示类型。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> GenericType&lt;T&gt; &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  name: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showType</span>(<span class="params">args: GenericType&lt;<span class="built_in">string</span>&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(args)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showType(&#123; id: <span class="number">1</span>, name: <span class="string">'test'</span> &#125;)</span><br><span class="line"><span class="comment">// Output: &#123;id: 1, name: "test"&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showTypeTwo</span>(<span class="params">args: GenericType&lt;<span class="built_in">number</span>&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(args)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showTypeTwo(&#123; id: <span class="number">1</span>, name: <span class="number">4</span> &#125;)</span><br><span class="line"><span class="comment">// Output: &#123;id: 1, name: 4&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="高级类型"><a href="#高级类型" class="headerlink" title="高级类型"></a>高级类型</h3><h4 id="交叉类型（-amp-）"><a href="#交叉类型（-amp-）" class="headerlink" title="交叉类型（&amp;）"></a>交叉类型（&amp;）</h4><p>交叉类型说简单点就是将多个类型合并成一个类型，其语法规则和逻辑 “与” 的符号一致。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T &amp; U</span><br></pre></td></tr></table></figure>
+
+<h4 id="联合类型（-）"><a href="#联合类型（-）" class="headerlink" title="联合类型（|）"></a>联合类型（|）</h4><p>联合类型的语法规则和逻辑 “或” 的符号一致，表示其类型为连接的多个类型中的任意一个。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T | U</span><br></pre></td></tr></table></figure>
+
+<h4 id="类型别名（type）"><a href="#类型别名（type）" class="headerlink" title="类型别名（type）"></a>类型别名（type）</h4><p>前面提到的交叉类型与联合类型如果有多个地方需要使用，就需要通过类型别名的方式，给这两种类型声明一个别名。类型别名与声明变量的语法类似，只需要把  <code>const</code>、<code>let</code>  换成  <code>type</code>  关键字即可。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Alias = T | U</span><br></pre></td></tr></table></figure>
+
+<h5 id="type和interface的相同点与不同点"><a href="#type和interface的相同点与不同点" class="headerlink" title="type和interface的相同点与不同点"></a><code>type</code>和<code>interface</code>的相同点与不同点</h5><ul>
+<li><p>都可以描述一个对象或者函数</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> User &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> SetUser &#123;</span><br><span class="line">  (name: <span class="built_in">string</span>, age: <span class="built_in">number</span>): <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User = &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SetUser = (name: <span class="built_in">string</span>, age: <span class="built_in">number</span>): <span class="built_in">void</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>都可以实现类型的拓展，但是语法不相同</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Name &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> User <span class="keyword">extends</span> Name &#123;</span><br><span class="line">  age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Name = &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User = Name &amp; &#123; age: <span class="built_in">number</span> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>type</code>可以声明基本类型别名，联合类型，元组等类型，但是<code>interface</code>不行</p>
+</li>
+<li><p>当有重名的<code>interface</code>声明时，ts 会自动合并声明，但是<code>type</code>不行</p>
+</li>
+</ul>
+<h4 id="类型索引（keyof）"><a href="#类型索引（keyof）" class="headerlink" title="类型索引（keyof）"></a>类型索引（keyof）</h4><p><code>keyof</code>  类似于  <code>Object.keys</code> ，用于获取一个接口中 Key 的联合类型。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Button &#123;</span><br><span class="line">  <span class="keyword">type</span>: <span class="built_in">string</span></span><br><span class="line">  text: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ButtonKeys = keyof Button</span><br><span class="line"><span class="comment">// 等效于</span></span><br><span class="line"><span class="keyword">type</span> ButtonKeys = <span class="string">'type'</span> | <span class="string">'text'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="类型约束（extends）"><a href="#类型约束（extends）" class="headerlink" title="类型约束（extends）"></a>类型约束（extends）</h4><p>这里的  <code>extends</code>  关键词不同于在 class 后使用  <code>extends</code>  的继承作用，泛型内使用的主要作用是对泛型加以约束。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BaseType = <span class="built_in">string</span> | <span class="built_in">number</span> | <span class="built_in">boolean</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里表示 copy 的参数</span></span><br><span class="line"><span class="comment">// 只能是字符串、数字、布尔这几种基础类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copy</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">BaseType</span>&gt;(<span class="params">arg: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arg</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>extends</code>  经常与  <code>keyof</code>  一起使用，例如我们有一个方法专门用来获取对象的值，但是这个对象并不确定，我们就可以使用  <code>extends</code>  和  <code>keyof</code>  进行约束。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>&lt;<span class="title">T</span>, <span class="title">K</span> <span class="title">extends</span> <span class="title">keyof</span> <span class="title">T</span>&gt;(<span class="params">obj: T, key: K</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> obj[key]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123; a: <span class="number">1</span> &#125;</span><br><span class="line"><span class="keyword">const</span> a = getValue(obj, <span class="string">'a'</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="类型映射（in）"><a href="#类型映射（in）" class="headerlink" title="类型映射（in）"></a>类型映射（in）</h4><p><code>in</code>  关键词的作用主要是做类型的映射，遍历已有接口的 key 或者是遍历联合类型。下面使用内置的泛型接口  <code>Readonly</code>  来举例。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Readonly&lt;T&gt; = &#123;</span><br><span class="line">  readonly [P <span class="keyword">in</span> keyof T]: T[P]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Obj &#123;</span><br><span class="line">  a: <span class="built_in">string</span></span><br><span class="line">  b: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ReadOnlyObj = Readonly&lt;Obj&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>P in keyof T</code>相当于<code>P in &#39;a&#39; | &#39;b&#39;</code> ，相当于执行了一次 forEach 的逻辑</p>
+<p>最后等同的效果为：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> ReadOnlyObj &#123;</span><br><span class="line">  readonly a: <span class="built_in">string</span></span><br><span class="line">  readonly b: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="条件类型（U-X-Y）"><a href="#条件类型（U-X-Y）" class="headerlink" title="条件类型（U ? X : Y）"></a>条件类型（U ? X : Y）</h4><p>条件类型的语法规则和三元表达式一致，经常用于一些类型不确定的情况。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T <span class="keyword">extends</span> U ? X : Y</span><br></pre></td></tr></table></figure>
+
+<h3 id="工具泛型"><a href="#工具泛型" class="headerlink" title="工具泛型"></a>工具泛型</h3><h4 id="Partial"><a href="#Partial" class="headerlink" title="Partial"></a>Partial</h4><p>用于将一个接口的所有属性设置为可选状态</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Partial&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]?: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Required"><a href="#Required" class="headerlink" title="Required"></a>Required</h4><p>与  <code>Partial</code>  相反，就是将接口中所有可选的属性改为必须的。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Required&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]-?: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Readonly"><a href="#Readonly" class="headerlink" title="Readonly"></a>Readonly</h4><p>会转换类型的所有属性，以使它们无法被修改</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> ReadonlyType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showType</span>(<span class="params">args: Readonly&lt;ReadonlyType&gt;</span>) </span>&#123;</span><br><span class="line">  args.id = <span class="number">4</span></span><br><span class="line">  <span class="built_in">console</span>.log(args)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showType(&#123; id: <span class="number">1</span>, name: <span class="string">'Doe'</span> &#125;)</span><br><span class="line"><span class="comment">// Error: Cannot assign to 'id' because it is a read-only property.</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Record"><a href="#Record" class="headerlink" title="Record"></a>Record</h4><p>此工具可帮助你构造具有给定类型<code>T</code>的一组属性<code>K</code>的类型。将一个类型的属性映射到另一个类型的属性时，<code>Record</code>非常方便。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> EmployeeType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  fullname: <span class="built_in">string</span></span><br><span class="line">  role: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> employees: Record&lt;<span class="built_in">number</span>, EmployeeType&gt; = &#123;</span><br><span class="line">  <span class="number">0</span>: &#123; id: <span class="number">1</span>, fullname: <span class="string">'John Doe'</span>, role: <span class="string">'Designer'</span> &#125;,</span><br><span class="line">  <span class="number">1</span>: &#123; id: <span class="number">2</span>, fullname: <span class="string">'Ibrahima Fall'</span>, role: <span class="string">'Developer'</span> &#125;,</span><br><span class="line">  <span class="number">2</span>: &#123; id: <span class="number">3</span>, fullname: <span class="string">'Sara Duckson'</span>, role: <span class="string">'Developer'</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Pick"><a href="#Pick" class="headerlink" title="Pick"></a>Pick</h4><p>用于提取接口的某几个属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Pick&lt;T, K <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> K]: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Todo &#123;</span><br><span class="line">  title: <span class="built_in">string</span></span><br><span class="line">  completed: <span class="built_in">boolean</span></span><br><span class="line">  description: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> TodoPreview = Pick&lt;Todo, <span class="string">'title'</span> | <span class="string">'completed'</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todo: TodoPreview = &#123;</span><br><span class="line">  title: <span class="string">'Clean room'</span>,</span><br><span class="line">  completed: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Omit"><a href="#Omit" class="headerlink" title="Omit"></a>Omit</h4><p><code>Omit</code>的作用与<code>Pick</code>类型正好相反。 不是选择元素，而是从类型<code>T</code>中删除<code>K</code>个属性。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Omit&lt;T, K <span class="keyword">extends</span> keyof <span class="built_in">any</span>&gt; = Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Todo &#123;</span><br><span class="line">  title: <span class="built_in">string</span></span><br><span class="line">  completed: <span class="built_in">boolean</span></span><br><span class="line">  description: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> TodoPreview = Omit&lt;Todo, <span class="string">'description'</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todo: TodoPreview = &#123;</span><br><span class="line">  title: <span class="string">'Clean room'</span>,</span><br><span class="line">  completed: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Extract"><a href="#Extract" class="headerlink" title="Extract"></a>Extract</h4><p><code>Extract</code>允许你通过选择两种不同类型中的共有属性来构造新的类型。也就是从<code>T</code>中提取所有可分配给<code>U</code>的属性。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Extract&lt;T, U&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> FirstType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  firstName: <span class="built_in">string</span></span><br><span class="line">  lastName: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> SecondType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  address: <span class="built_in">string</span></span><br><span class="line">  city: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ExtractType = Extract&lt;keyof FirstType, keyof SecondType&gt;</span><br><span class="line"><span class="comment">// Output: "id"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Exclude"><a href="#Exclude" class="headerlink" title="Exclude"></a>Exclude</h4><p>与<code>Extract</code>不同，<code>Exclude</code>通过排除两个不同类型中已经存在的共有属性来构造新的类型。  它会从<code>T</code>中排除所有可分配给<code>U</code>的字段。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exclude&lt;T, U&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> FirstType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  firstName: <span class="built_in">string</span></span><br><span class="line">  lastName: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> SecondType &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  address: <span class="built_in">string</span></span><br><span class="line">  city: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ExcludeType = Exclude&lt;keyof FirstType, keyof SecondType&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output; "firstName" | "lastName"</span></span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/27/CSS/%E5%B8%B8%E8%A7%81%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80%E7%9A%84CSS%E5%AE%9E%E7%8E%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
