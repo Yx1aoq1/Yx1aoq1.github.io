@@ -89,105 +89,122 @@
 </header>
       <main class="layout-main">
         <article class="content">
-  <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Flexbox布局也叫Flex布局，弹性盒子布局。它的<strong>目标</strong>是提供一个更有效地布局、对齐方式，并且能够使父元素在子元素的大小未知或动态变化情况下仍然能够分配好子元素之间的间隙。<strong>主要思想</strong>是使父元素能够调整子元素的宽度、高度、排列方式，从而更好的适应可用的布局空间。设定为flex布局的元素能够放大子元素使之尽可能填充可用空间，也可以收缩子元素使之不溢出。</p>
-<p>Flex布局更适合小规模的布局，可以简便、完整、响应式的实现各种页面布局。但是，设为Flex布局以后，其子元素的<code>float</code>、<code>clear</code>和<code>vertical-align</code>属性将失效。Flex弹性盒模型的优势在于只需声明布局应该具有的⾏为，⽽不需要给出具体的实现⽅式，浏览器负责完成实际布局，当布局涉及到不定宽度，分布对⻬的场景时，就要优先考虑弹性盒布局。</p>
-<h3 id="父元素属性"><a href="#父元素属性" class="headerlink" title="父元素属性"></a>父元素属性</h3><p>想要使用flex布局，首先需要给父元素指定为flex布局，这样容器内的元素才能实现flex布局：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex | inline-flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Flexbox 布局也叫 Flex 布局，弹性盒子布局。它的<strong>目标</strong>是提供一个更有效地布局、对齐方式，并且能够使父元素在子元素的大小未知或动态变化情况下仍然能够分配好子元素之间的间隙。<strong>主要思想</strong>是使父元素能够调整子元素的宽度、高度、排列方式，从而更好的适应可用的布局空间。设定为 flex 布局的元素能够放大子元素使之尽可能填充可用空间，也可以收缩子元素使之不溢出。</p>
+<p>Flex 布局更适合小规模的布局，可以简便、完整、响应式的实现各种页面布局。但是，设为 Flex 布局以后，其子元素的<code>float</code>、<code>clear</code>和<code>vertical-align</code>属性将失效。Flex 弹性盒模型的优势在于只需声明布局应该具有的⾏为，⽽不需要给出具体的实现⽅式，浏览器负责完成实际布局，当布局涉及到不定宽度，分布对⻬的场景时，就要优先考虑弹性盒布局。</p>
+<h3 id="父元素属性"><a href="#父元素属性" class="headerlink" title="父元素属性"></a>父元素属性</h3><p>想要使用 flex 布局，首先需要给父元素指定为 flex 布局，这样容器内的元素才能实现 flex 布局：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex | inline-flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>这里有两种方式可以设置flex布局，使用<code>display: flex;</code>会生成一个块状的flex容器盒子，使用<code>display: inline-flex;</code>会生成一个行内的flex容器盒子。</p>
+<p>这里有两种方式可以设置 flex 布局，使用<code>display: flex;</code>会生成一个块状的 flex 容器盒子，使用<code>display: inline-flex;</code>会生成一个行内的 flex 容器盒子。</p>
 <ul>
 <li><p><strong>flex-direction</strong>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-direction: row | row-reverse | column | column-reverse</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-direction: row | row-reverse | column | column-reverse;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p><code>row</code>：默认值，沿水平主轴从左到右排列，起点在左沿</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-direction-row.png?imageSlim" alt="flex-direction-row.png"></p>
 </li>
 <li><p><code>row-reverse</code>：沿水平主轴从右到左排列，起点在右沿</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-direction-row-reverse.png?imageSlim" alt="flex-direction-row-reverse.png"></p>
 </li>
 <li><p><code>column</code>：沿垂直主轴从上到下排列，起点在上沿</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-direction-column.png?imageSlim" alt="flex-direction-column.png"></p>
 </li>
 <li><p><code>column-reverse</code>：沿垂直主轴从下到上排列，起点在下沿</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-direction-column-reverse.png?imageSlim" alt=""></p>
 </li>
 </ul>
 </li>
 <li><p><strong>flex-wrap</strong>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-wrap: nowrap | wrap | wrap-reverse</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-wrap: nowrap | wrap | wrap-reverse;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p><code>nowrap</code>：默认值，不换行。当主轴的长度是固定并且空间不足时，项目尺寸会随之进行调整，而不会换行。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-wrap-nowarp.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>wrap</code>：换行，第一行在上面</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-wrap-warp.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>wrap-reverse</code>：换行，第一行在下面</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-wrap-warp-reverse.png?imageSlim" alt=""></p>
 </li>
 </ul>
 </li>
 <li><p><strong>flex-flow</strong>：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">flex-flow</span>: &lt;<span class="selector-tag">flex-direction</span>&gt; &lt;<span class="selector-tag">flex-wrap</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">flex-flow</span>: &lt;<span class="selector-tag">flex-direction</span>&gt; &lt;<span class="selector-tag">flex-wrap</span>&gt;;</span><br></pre></td></tr></table></figure>
 
-<p>是 <code>flex-direction</code> 属性和<code>flex-wrap</code>属性的简写，默认为:<code>flex-flow:row nowrap</code>，用处不大，最好还是分开来写。</p>
+<p>是  <code>flex-direction</code>  属性和<code>flex-wrap</code>属性的简写，默认为:<code>flex-flow:row nowrap</code>，用处不大，最好还是分开来写。</p>
 </li>
 <li><p><strong>justify-content</strong>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">justify-content: flex-start | flex-end | center | space-between | space-around</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">justify-content: flex-start | flex-end | center | space-between | space-around;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p><code>flex-start</code>：默认值，元素在主轴上<strong>左对齐</strong>（<strong>上对齐</strong>）</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/justify-content-flex-start.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>flex-end</code>：元素在主轴上<strong>右对齐</strong>（<strong>下对齐）</strong></p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/justify-content-flex-end.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>center</code>：元素在主轴上<strong>居中对齐</strong></p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/justify-content-center.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>space-between</code>：元素在主轴上<strong>两端对齐</strong>，元素之间间隔相等</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/justify-content-space-between.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>space-around</code>：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/justify-content-space-around.png?imageSlim" alt=""></p>
 </li>
 </ul>
 </li>
-<li><p><strong>align-item</strong>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-item: flex-start | flex-end | center | baseline | stretch</span><br></pre></td></tr></table></figure>
+<li><p><strong>align-items</strong>：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-items: flex-start | flex-end | center | baseline | stretch;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p><code>flex-start</code>：交叉轴的起点对齐（上面或左边）</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/align-items-flex-start.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>flex-end</code>：交叉轴的终点对齐（下面或右边）</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/align-items-flex-end.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>center</code>：交叉轴的中点对齐</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/align-items-center.png?imageSlim" alt=""></p>
 </li>
 <li><p><code>baseline</code>：以元素的第一行文字的基线对齐</p>
 </li>
-<li><p><code>stretch</code>：默认值，如果元素未设置高度或设为auto，将占满整个容器的高度</p>
+<li><p><code>stretch</code>：默认值，如果元素未设置高度或设为 auto，将占满整个容器的高度</p>
 </li>
 </ul>
 </li>
 <li><p><strong>align-content</strong>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-content: flex-start | flex-end | center | space-between | space-around | stretch</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-content: flex-start | flex-end | center | space-between | space-around | stretch;</span><br></pre></td></tr></table></figure>
 
-<p>多根轴线对齐方式。如果元素只有一根轴线，该属性不起作用。那这个轴线数怎么确定呢？实际上这主要是由flex-wrap属性决定的，当flex-wrap 设置为 nowrap 时，容器仅存在一根轴线，因为项目不会换行，就不会产生多条轴线。当 flex-wrap 设置为 wrap 时，容器可能会出现多条轴线，这时就需要去设置多条轴线之间的对齐方式。</p>
+<p>多根轴线对齐方式。如果元素只有一根轴线，该属性不起作用。那这个轴线数怎么确定呢？实际上这主要是由 flex-wrap 属性决定的，当 flex-wrap 设置为 nowrap 时，容器仅存在一根轴线，因为项目不会换行，就不会产生多条轴线。当 flex-wrap 设置为 wrap 时，容器可能会出现多条轴线，这时就需要去设置多条轴线之间的对齐方式。</p>
 </li>
 </ul>
 <h3 id="子元素属性"><a href="#子元素属性" class="headerlink" title="子元素属性"></a>子元素属性</h3><ul>
 <li><p><strong>order</strong>：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">order</span>: &lt;<span class="selector-tag">integer</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">order</span>: &lt;<span class="selector-tag">integer</span>&gt;;</span><br></pre></td></tr></table></figure>
 
 <p>属性用来定义项目的排列顺序。数值越小，排列越靠前，默认为<code>0</code>。</p>
 </li>
 <li><p><code>flex</code>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex: none | [ &lt;'flex-grow'&gt; &lt;'flex-shrink'&gt;? || &lt;'flex-basis'&gt; ]</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex: none | [ &lt; 'flex-grow' &gt; &lt; 'flex-shrink' &gt;? || &lt; 'flex-basis' &gt;];</span><br></pre></td></tr></table></figure>
 
-<p><code>flex</code>属性是<code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的简写，后两个属性可选。默认值为：<code>flex:0 1 auto。</code></p>
+<p><code>flex</code>属性是<code>flex-grow</code>, <code>flex-shrink</code>  和  <code>flex-basis</code>的简写，后两个属性可选。默认值为：<code>flex:0 1 auto。</code></p>
 <ul>
 <li><p><code>none</code>：即有剩余空间时，不放大也不缩小，最终尺寸通常表现为最大内容宽度。</p>
 </li>
-<li><p><code>flex-grow</code>：定义项目的放大比例，默认为0，即如果存在剩余空间时也不放大；如果所有项目的flex-grow属性都设置为1，那么它们会均分剩余的空间；如果其中一个项目的flex-grow属性设置为2，其他均为1，那么它占据的剩余空间就是其他项目的两倍。</p>
+<li><p><code>flex-grow</code>：定义项目的放大比例，默认为 0，即如果存在剩余空间时也不放大；如果所有项目的 flex-grow 属性都设置为 1，那么它们会均分剩余的空间；如果其中一个项目的 flex-grow 属性设置为 2，其他均为 1，那么它占据的剩余空间就是其他项目的两倍。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-grow.png?imageSlim" alt=""></p>
 </li>
-<li><p><code>flex-shrink</code>：定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小；所有项目的 flex-shrink 属性都为 1，当空间不足时，都将等比例缩小；如果一个项目的 flex-shrink 属性为 0，其他项目都为 1，则空间不足时，前者不缩小。</p>
+<li><p><code>flex-shrink</code>：定义了项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小；所有项目的 flex-shrink 属性都为 1，当空间不足时，都将等比例缩小；如果一个项目的 flex-shrink 属性为 0，其他项目都为 1，则空间不足时，前者不缩小。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/flex-shrink.png?imageSlim" alt=""></p>
 </li>
-<li><p><code>flex-basis</code>：定义了在分配多余空间之前，项目占据的主轴空间，浏览器会根据这个属性来计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
+<li><p><code>flex-basis</code>：定义了在分配多余空间之前，项目占据的主轴空间，浏览器会根据这个属性来计算主轴是否有多余空间。它的默认值为 auto，即项目的本来大小。可以是长度单位，也可以是百分比，百分比是按照父元素的 width 为标准。</p>
 </li>
 </ul>
 </li>
 <li><p><code>align-self</code>：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-self: auto | flex-start | flex-end | center | baseline | stretch</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-self: auto | flex-start | flex-end | center | baseline | stretch;</span><br></pre></td></tr></table></figure>
 
 <p>允许单个项目有与其他项目不一样的对齐方式，可覆盖<code>align-items</code>属性。默认值为<code>auto</code>，表示继承父元素的<code>align-items</code>属性，如果没有父元素，则等同于<code>stretch</code>。</p>
 </li>
@@ -204,6 +221,11 @@
     
   </div>
   <div class="post-foot-prev">
+    
+      <a href="/2025/02/27/CSS/%E5%B8%B8%E8%A7%81%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80%E7%9A%84CSS%E5%AE%9E%E7%8E%B0/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
     
   </div>
 </div>
