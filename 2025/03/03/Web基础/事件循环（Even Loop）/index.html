@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>事件循环（Even Loop）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件循环"><span class="toc-number">1.</span> <span class="toc-text">事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#宏任务"><span class="toc-number">1.1.</span> <span class="toc-text">宏任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#微任务"><span class="toc-number">1.2.</span> <span class="toc-text">微任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大致流程"><span class="toc-number">1.3.</span> <span class="toc-text">大致流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么先微后宏"><span class="toc-number">1.3.1.</span> <span class="toc-text">为什么先微后宏</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典题目"><span class="toc-number">2.</span> <span class="toc-text">经典题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解setTimeout"><span class="toc-number">3.</span> <span class="toc-text">理解setTimeout</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#完整执行流程"><span class="toc-number">3.0.1.</span> <span class="toc-text">完整执行流程</span></a></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">事件循环（Even Loop）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-03T10:37:02.000Z" itemprop="datePublished">2025-03-03</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/Web%E5%9F%BA%E7%A1%80/">Web基础</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/Even-Loop/" rel="tag">Even Loop</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <blockquote>
+<p>JS 是一门<strong>单线程的非阻塞的</strong>脚本语言，这表示在同一时刻最多也只有一个代码段执行。</p>
+</blockquote>
+<p><strong>对单线程的理解</strong>：</p>
+<p>由于 JS 有 DOM API 可以操作 DOM，如果 JS 是多线程的话，有一个线程添加 DOM 而另一个线程删除 DOM，就会导致矛盾，因此 JS 被设计成单线程的。即使有了 Web Worker 标准出现，也有很多限制，必需受主线程的控制。</p>
+<p><strong>对非阻塞的理解</strong>：</p>
+<p>如果 JS 是阻塞的，那么当发起一个 I/O 操作时，等待结果返回的这段时间里，代码应该是无法执行的，而 JS 主线程和渲染进程是互斥的，因此可能造成浏览器假死的状态。事实 JS 是非阻塞的，那它要怎么实现异步任务呢，靠的就是事件循环。</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>了解事件循环前，我们先理清楚以下几个概念。</p>
+<ul>
+<li><p><strong>同步任务</strong>：指的是在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。</p>
+</li>
+<li><p><strong>异步任务</strong>：指的是不进入主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+</li>
+</ul>
+<p>其中，异步任务又分为<strong>宏任务</strong>（<code>macrotask</code>）与<strong>微任务</strong>（<code>microtask</code>）</p>
+<h4 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h4><ul>
+<li>script(整体代码)</li>
+<li>setTimeout/setInterval</li>
+<li>I/O</li>
+<li>UI 渲染</li>
+<li>postMessage</li>
+<li>MessageChannel</li>
+<li>requestAnimationFrame</li>
+<li>setImmediate(Node.js 环境)</li>
+</ul>
+<h4 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h4><ul>
+<li>new Promise().then()</li>
+<li>MutaionObserver</li>
+<li>process.nextTick(Node.js 环境）</li>
+</ul>
+<h4 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h4><p>简单的说，事件循环（<code>eventLoop</code>）是单线程的JavaScript在处理异步事件时进行的一种循环过程，具体来讲，对于异步事件它会先加入到事件队列中挂起，等主线程空闲时会去执行事件队列中的事件。</p>
+<p><img src="https://camo.githubusercontent.com/5cdf8ffe82f770b43ab122824fc36dcf6ff6173b7194a2f01618bec18c068cb8/68747470733a2f2f7374617469632e7675652d6a732e636f6d2f36316566626332302d376362382d313165622d383566362d3666616337376330633962332e706e67" alt=""></p>
+<p>从上面我们可以看到，同步任务进入主线程，即主执行栈，异步任务进入任务队列，主线程内的任务执行完毕为空，会去任务队列读取对应的任务，推入主线程执行。上述过程的不断重复就是事件循环。</p>
+<p><img src="https://camo.githubusercontent.com/9df714a6e1a59fffa15a2787e0f8e2a10752e6edf49102936f9b53ec01372b01/68747470733a2f2f7374617469632e7675652d6a732e636f6d2f36653830653565302d376362382d313165622d383566362d3666616337376330633962332e706e67" alt=""></p>
+<p>按照这个流程，它的执行机制是：</p>
+<ul>
+<li>执行一个宏任务，如果遇到微任务就将它放到微任务的事件队列中</li>
+<li>当前宏任务执行完成后，会查看微任务的事件队列，然后将里面的所有微任务依次执行完</li>
+</ul>
+<blockquote>
+<p><strong>在同一轮任务队列中，同一个微任务产生的微任务会放在这一轮微任务的后面，产生的宏任务会放在这一轮的宏任务后面</strong></p>
+<p><strong>在同一轮任务队列中，同一个宏任务产生的微任务会马上执行，产生的宏任务会放在这一轮的宏任务后面</strong></p>
+</blockquote>
+<h5 id="为什么先微后宏"><a href="#为什么先微后宏" class="headerlink" title="为什么先微后宏"></a>为什么先微后宏</h5><p>因为当我们的主线程的代码执行完毕之后，在Event Loop执行之前，首先会尝试DOM渲染，这个时候，微任务是在DOM渲染之前执行，DOM渲染完成了之后，会执行宏任务。</p>
+<h3 id="经典题目"><a href="#经典题目" class="headerlink" title="经典题目"></a>经典题目</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>)</span><br><span class="line">  <span class="keyword">await</span> async2()</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async2'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line">async1()</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line">  resolve()</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>题目理解的关键：</p>
+<ol>
+<li><p><code>async/awiat</code>函数中，<code>await</code>之后的内容是微任务</p>
+</li>
+<li><p><code>new Promise</code>执行时传入的函数是同步任务，<code>then</code>之后的内容才是微任务</p>
+</li>
+<li><p><code>setTimeout</code>传入的函数是宏任务</p>
+</li>
+</ol>
+<p>因此上面代码的执行顺序是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">script start</span><br><span class="line">async1 start</span><br><span class="line">async2</span><br><span class="line">promise1</span><br><span class="line">script end</span><br><span class="line">async1 end</span><br><span class="line">promise2</span><br><span class="line">setTimeout</span><br></pre></td></tr></table></figure>
+
+<h3 id="理解setTimeout"><a href="#理解setTimeout" class="headerlink" title="理解setTimeout"></a>理解setTimeout</h3><p>如果有一个 setTimeout(()=&gt;{}, 1000)，这个回调是什么时候进入到事件循环队列里排队呢，是执行到 setTimeout 的时候，还是等 1000ms 之后呢？</p>
+<p>答案是：回调函数 <strong>不会在 <code>setTimeout</code> 被调用时立即进入队列</strong>，而是 <strong>在 1000ms 定时结束后被放入宏任务队列</strong>，等待事件循环处理。</p>
+<h5 id="完整执行流程"><a href="#完整执行流程" class="headerlink" title="完整执行流程"></a><strong>完整执行流程</strong></h5><ol>
+<li><p><strong>调用 <code>setTimeout</code> 时</strong></p>
+<ul>
+<li>JS 引擎将回调注册到浏览器的 <strong>Timer 模块</strong>（属于 Web API）</li>
+<li><strong>开始计时 1000ms</strong>，但此时回调尚未进入任何队列</li>
+</ul>
+</li>
+<li><p><strong>1000ms 计时结束后</strong></p>
+<ul>
+<li>浏览器将回调放入 <strong>宏任务队列（MacroTask Queue）</strong></li>
+<li>如果主线程此时空闲，则立即执行；否则需等待当前任务执行完毕</li>
+</ul>
+</li>
+<li><p><strong>事件循环调度</strong></p>
+<ul>
+<li>当 <strong>调用栈（Call Stack）为空</strong> 时，事件循环从宏任务队列取出回调执行</li>
+</ul>
+</li>
+</ol>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/02/28/CSS/%E8%87%AA%E9%80%82%E5%BA%94%E6%AD%A3%E6%96%B9%E5%BD%A2%E5%AE%9E%E7%8E%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
