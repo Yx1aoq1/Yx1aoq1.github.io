@@ -36,18 +36,53 @@ showTypeTwo({ id: 1, name: 4 })
 
 #### 交叉类型（&）
 
-交叉类型说简单点就是将多个类型合并成一个类型，其语法规则和逻辑 “与” 的符号一致。
+交叉类型说简单点就是将多个类型合并成一个类型，其语法规则和逻辑 “与” 的符号一致。这意味着你可以将给定的类型 A 与类型 B 或更多类型合并，并获得具有所有属性的单个类型。
 
 ```ts
 T & U
 ```
 
+```ts
+type LeftType = {
+  id: number
+  left: string
+}
+
+type RightType = {
+  id: number
+  right: string
+}
+
+type IntersectionType = LeftType & RightType
+
+function showType(args: IntersectionType) {
+  console.log(args)
+}
+
+showType({ id: 1, left: 'test', right: 'test' })
+// Output: {id: 1, left: "test", right: "test"}
+```
+
 #### 联合类型（|）
 
-联合类型的语法规则和逻辑 “或” 的符号一致，表示其类型为连接的多个类型中的任意一个。
+联合类型的语法规则和逻辑 “或” 的符号一致，表示其类型为连接的多个类型中的任意一个。联合类型使你可以赋予同一个变量不同的类型。
 
 ```ts
 T | U
+```
+
+```ts
+type UnionType = string | number
+
+function showType(arg: UnionType) {
+  console.log(arg)
+}
+
+showType('test')
+// Output: test
+
+showType(7)
+// Output: 7
 ```
 
 #### 类型别名（type）
@@ -61,39 +96,40 @@ type Alias = T | U
 ##### `type`和`interface`的相同点与不同点
 
 - 都可以描述一个对象或者函数
-  
+
   ```ts
   interface User {
     name: string
     age: number
   }
-  
+
   interface SetUser {
     (name: string, age: number): void
   }
-  
+
   type User = {
     name: string
     age: number
   }
-  
+
   type SetUser = (name: string, age: number): void
   ```
+
 * 都可以实现类型的拓展，但是语法不相同
-  
+
   ```ts
   interface Name {
     name: string
   }
-  
+
   interface User extends Name {
     age: number
   }
-  
+
   type Name = {
     name: string
   }
-  
+
   type User = Name & { age: number }
   ```
 
@@ -334,3 +370,163 @@ type ExcludeType = Exclude<keyof FirstType, keyof SecondType>
 
 // Output; "firstName" | "lastName"
 ```
+
+#### NonNullable
+
+从`T`中剔除`null`和`undefined`
+
+```ts
+NonNullable<T>
+```
+
+```ts
+type NonNullableType = string | number | null | undefined
+
+function showType(args: NonNullable<NonNullableType>) {
+  console.log(args)
+}
+
+showType('test')
+// Output: "test"
+
+showType(1)
+// Output: 1
+
+showType(null)
+// Error: Argument of type 'null' is not assignable to parameter of type 'string | number'.
+
+showType(undefined)
+// Error: Argument of type 'undefined' is not assignable to parameter of type 'string | number'.
+```
+
+### infer 关键字
+
+`infer`这个词的含义即 推断，实际作用可以用四个字概括：**类型推导**。它会在类型未推导时进行占位，等到真正推导成功后，它能准确地返回正确的类型。
+
+举个例子，我们在解包数组里的数据类型时，如果不使用`infer`，通常是按以下方式去做的：
+
+```ts
+type Ids = number[]
+type Names = string[]
+
+type Unpacked<T> = T extends Names ? string : T extends Ids ? number : T
+
+type idType = Unpacked<Ids> // idType 类型为 number
+type nameType = Unpacked<Names> // nameType 类型为string
+```
+
+但是如果使用`infer`则会变得非常简单
+
+```ts
+type Unpacked<T> = T extends (infer R)[] ? R : T
+
+type idType = Unpacked<Ids> // idType 类型为 number
+type nameType = Unpacked<Names> // nameType 类型为string
+```
+
+在 TypeScript 中，**对象、类、数组和函数的返回值类型**都是协变关系，而**函数的参数类型**是逆变关系，所以  `infer`  位置如果在函数参数上，就会遵循逆变原则。
+
+- **当`infer`在协变的位置上时，同一类型变量的多个候选类型将会被推断为联合类型，**
+
+- **当`infer`在逆变的位置上时，同一类型变量的多个候选类型将会被推断为交叉类型。**
+
+```ts
+type Foo<T> = T extends { a: infer U; b: infer U } ? U : never
+type T10 = Foo<{ a: string; b: string }> // string
+type T11 = Foo<{ a: string; b: number }> // string | number
+```
+
+```ts
+type Bar<T> = T extends { a: (x: infer U) => void; b: (x: infer U) => void } ? U : never
+type T20 = Bar<{ a: (x: string) => void; b: (x: string) => void }> // string
+type T21 = Bar<{ a: (x: string) => void; b: (x: number) => void }> // string & number
+```
+
+### never 类型
+
+就像在数学中我们使用**零**来表示没有的数量一样，我们需要一个类型来表示类型系统中的**不可能**。
+
+#### 限制函数参数
+
+由于我们永远无法赋值给一个  `never`  类型，因此我们可以使用它来对各种用例的函数施加限制。
+
+```ts
+interface Foo {
+  type: 'foo'
+}
+
+interface Bar {
+  type: 'bar'
+}
+
+type All = Foo | Bar
+
+function handleValue(val: All) {
+  switch (val.type) {
+    case 'foo':
+      // 这里 val 被收窄为 Foo
+      break
+    case 'bar':
+      // val 在这里是 Bar
+      break
+    default:
+      // val 在这里是 never
+      const exhaustiveCheck: never = val
+      break
+  }
+}
+```
+
+以上面的代码为例子，注意在 `default`里面我们把被收窄为 `never` 的 val 赋值给一个显式声明为 `never` 的变量。如果一切逻辑正确，那么这里应该能够编译通过。
+
+但是假如后来有一天你的同事改了 All 的类型：`type All = Foo | Bar | Baz` 然而他忘记了在 `handleValue`里面加上针对 Baz 的处理逻辑，这个时候在 default branch 里面 val 会被收窄为 Baz，导致无法赋值给 `never`，产生一个编译错误。所以通过这个办法，你可以确保 `handleValue`总是穷尽 所有 All 的可能类型。
+
+#### 表示理论上无法到达的分支
+
+```ts
+type A = 'foo'
+type B = A extends infer C
+  ? C extends 'foo'
+    ? true
+    : false // 仅在这个（）表达式里, C 是一个局部 A（而不是直接使用了全局的 A）
+  : never // 不应该走到这里，但是我们不得不用 never 占位
+```
+
+#### 从联合类型中过滤出联合属性
+
+```ts
+type Foo = {
+  name: 'foo'
+  id: number
+}
+
+type Bar = {
+  name: 'bar'
+  id: number
+}
+
+type All = Foo | Bar
+
+type ExtractTypeByName<T, G> = T extends { name: G } ? T : never
+
+type ExtractedType = ExtractTypeByName<All, 'foo'> // ExtractedType 计算结果为 Foo
+```
+
+相当于`type ExtractedType = Foo | never`而联合属性`never`会过滤掉`never`
+
+#### 过滤映射类型
+
+```ts
+type Filter<Obj extends Object, ValueType> = {
+  [Key in keyof Obj as ValueType extends Obj[Key] ? Key : never]: Obj[Key]
+}
+
+interface Foo {
+  name: string
+  id: number
+}
+
+type Filtered = Filter<Foo, string> // {name: string;}
+```
+
+当我们有条件地将映射类型中的[key 重新映射](https://link.juejin.cn/?target=https%3A%2F%2Fwww.typescriptlang.org%2Fdocs%2Fhandbook%2F2%2Fmapped-types.html%23key-remapping-via-as 'https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#key-remapping-via-as')  到`never`  时，这些 key 就会被过滤掉。
