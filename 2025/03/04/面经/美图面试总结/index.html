@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>美图面试总结</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔试问题"><span class="toc-number">1.</span> <span class="toc-text">笔试问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面试问题"><span class="toc-number">2.</span> <span class="toc-text">面试问题</span></a></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">美图面试总结</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-04T14:39:41.000Z" itemprop="datePublished">2025-03-04</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
+	</div>
+
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="笔试问题"><a href="#笔试问题" class="headerlink" title="笔试问题"></a>笔试问题</h3><p><strong>Web 中常见图片格式的优缺点</strong></p>
+<ol>
+<li><strong>JPEG/JPG</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ 有损压缩算法，文件体积小</p>
+</li>
+<li><p>✅ 最适合  <strong>照片类图像</strong>（自然场景、渐变色）</p>
+</li>
+<li><p>✅ 广泛兼容所有浏览器和设备</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ 不支持透明通道（Alpha 通道）</p>
+</li>
+<li><p>❌ 压缩过度会产生  <strong>块状伪影</strong></p>
+</li>
+<li><p>❌ 不支持动画</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：产品展示图、用户头像、摄影作品</p>
+</li>
+</ul>
+<ol start="2">
+<li><strong>PNG</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ 支持  <strong>无损压缩</strong>（保留原始画质）</p>
+</li>
+<li><p>✅ 完美支持  <strong>透明/半透明通道</strong></p>
+</li>
+<li><p>✅ 适合带有文字、线条的图形（如 Logo）</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ 文件体积通常比 JPEG 大 5-10 倍</p>
+</li>
+<li><p>❌ 不适合复杂照片类内容</p>
+</li>
+<li><p>❌ 不支持动画</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：透明背景图标、UI 界面元素、需要保留细节的图形</p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>GIF</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ 支持  <strong>简单动画</strong>（帧动画）</p>
+</li>
+<li><p>✅ 支持透明背景（但只有 1-bit 透明度）</p>
+</li>
+<li><p>✅ 全浏览器兼容</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ 最大仅支持  <strong>256 色</strong>（不适合彩色图像）</p>
+</li>
+<li><p>❌ 文件体积大（尤其动画）</p>
+</li>
+<li><p>❌ 画质较低</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：简单动图（如表情包）、低色彩图形</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>WebP</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ <strong>现代高效格式</strong>（Google 开发）</p>
+</li>
+<li><p>✅ 同时支持有损/无损压缩</p>
+</li>
+<li><p>✅ 支持透明通道和动画</p>
+</li>
+<li><p>✅ <strong>体积比 JPEG 小 25-35%</strong>，比 PNG 小 26%</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ Safari 15 之前版本不完全支持</p>
+</li>
+<li><p>❌ 旧版浏览器需要兼容方案</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：替代 JPEG/PNG/GIF 的通用方案（需处理兼容性）</p>
+</li>
+</ul>
+<ol start="5">
+<li><strong>SVG</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ 矢量图形格式，<strong>无限缩放不失真</strong></p>
+</li>
+<li><p>✅ 文件体积极小（纯 XML 代码）</p>
+</li>
+<li><p>✅ 支持 CSS 样式/动画/交互</p>
+</li>
+<li><p>✅ 可通过代码生成或编辑</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ 不适合复杂位图（如照片）</p>
+</li>
+<li><p>❌ 兼容性要求（部分旧浏览器限制）</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：图标、Logo、图表、响应式图形</p>
+</li>
+</ul>
+<ol start="6">
+<li><strong>AVIF</strong></li>
+</ol>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><p>✅ <strong>下一代格式</strong>（基于 AV1 编码）</p>
+</li>
+<li><p>✅ 压缩率比 WebP 高 20-50%</p>
+</li>
+<li><p>✅ 支持 HDR、广色域、透明通道</p>
+</li>
+<li><p>✅ 支持有损/无损压缩和动画</p>
+</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li><p>❌ 浏览器支持度低（Chrome 85+，Firefox 93+）</p>
+</li>
+<li><p>❌ 编码/解码需要较高性能</p>
+</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：未来替代方案，需要极致优化的场景</p>
+</li>
+</ul>
+<hr>
+<p><strong>如何实现一个 <code>PickFuncKey&lt;T&gt;</code>，其功能为输出泛型 T 的所有的键值类型为函数的所有键</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> PickFunKey&lt;T&gt; = keyof &#123;</span><br><span class="line">  [K <span class="keyword">in</span> keyof T <span class="keyword">as</span> T[K] <span class="keyword">extends</span> <span class="built_in">Function</span> ? K : never]: T[K]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a: PickFunKey&lt;&#123;</span><br><span class="line">  a: <span class="built_in">string</span></span><br><span class="line">  b: <span class="built_in">number</span></span><br><span class="line">  c: <span class="built_in">Function</span></span><br><span class="line">  d: Symbol</span><br><span class="line">  e: <span class="built_in">string</span>[]</span><br><span class="line">  f: <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">void</span></span><br><span class="line">&#125;&gt; <span class="comment">// 'c'|'f'</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>如何在 Chrome 下显示小于 12px 的文字</strong></p>
+<ul>
+<li><p>zoom</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.text</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">zoom</span>: <span class="number">0.8</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>-webkit-transform:scale()</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.text</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">-webkit-transform</span>: <span class="built_in">scale</span>(<span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<p><strong>SCSS mixin、if-else 使用方法</strong></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> theme(<span class="variable">$color</span>) &#123;</span><br><span class="line">  <span class="keyword">@if</span> (<span class="variable">$color</span> == light) &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">  &#125; <span class="keyword">@else</span> if(<span class="variable">$color</span> == dark) &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#000</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.theme-light</span> &#123;</span><br><span class="line">  <span class="keyword">@include</span> theme(light);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.theme-dark</span> &#123;</span><br><span class="line">  <span class="keyword">@include</span> theme(dark);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="面试问题"><a href="#面试问题" class="headerlink" title="面试问题"></a>面试问题</h3><p><strong>Vue3对比Vue2有怎样的性能提升</strong></p>
+<ul>
+<li><p><strong>数据监听机制</strong></p>
+<p>Vue2通过<code>Object.defineProperty()</code>进行数据劫持，需要遍历所有属性，有一定性能开销。Vue3使用<code>Proxy</code>代理数据，直接监听对象，减少遍历属性时间，性能更好。</p>
+</li>
+<li><p><strong>编译优化</strong></p>
+<p>Vue3对编译过程进行了优化，静态节点提升，缓存事件处理函数等，启动速度比Vue2<strong>快10-100倍</strong>。</p>
+</li>
+<li><p><strong>包体积</strong></p>
+<p>Vue3移除了一些不常用的API，并优化了Tree-Shaking，使打包体积相比Vue2小<strong>10%左右</strong>。</p>
+</li>
+<li><p><strong>内存占用</strong></p>
+<p>Vue3中移除了一些内存占用高的功能，同时优化了部分内存分配，降低内存消耗。（例如事件总线的<code><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="3.685ex" height="2.843ex" style="vertical-align: -0.838ex;" viewBox="0 -863.1 1586.5 1223.9" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">on/</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-MJMATHI-6F" d="M201 -11Q126 -11 80 38T34 156Q34 221 64 279T146 380Q222 441 301 441Q333 441 341 440Q354 437 367 433T402 417T438 387T464 338T476 268Q476 161 390 75T201 -11ZM121 120Q121 70 147 48T206 26Q250 26 289 58T351 142Q360 163 374 216T388 308Q388 352 370 375Q346 405 306 405Q243 405 195 347Q158 303 140 230T121 120Z"></path>
+<path stroke-width="1" id="E1-MJMATHI-6E" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path>
+<path stroke-width="1" id="E1-MJMAIN-2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-MJMATHI-6F" x="0" y="0"></use>
+ <use xlink:href="#E1-MJMATHI-6E" x="485" y="0"></use>
+ <use xlink:href="#E1-MJMAIN-2F" x="1086" y="0"></use>
+</g>
+</svg>off/$once</code> 全局事件 API，避免因未及时取消监听导致的事件回调闭包堆积，建议使用第三方库<code>mitt</code>等；Filters 过滤器）</p>
+</li>
+<li><p><strong>SSR优化</strong></p>
+<p>Vue3使用异步SSR，大大减少主线程执行代码量，提升服务器端渲染性能。</p>
+</li>
+<li><p><strong>Diff算法优化</strong></p>
+<p>Vue2使用了比较经典的双指针（双端比较）的Diff算法。Vue3对Diff算法进行了优化，采用了更加高效的单端比较的Diff算法。</p>
+</li>
+</ul>
+<hr>
+<p><strong>封装一个组件，需要考虑些什么</strong></p>
+<ol>
+<li><p><strong>明确组件的职责，保持功能单一</strong></p>
+<p>首先，我会想这个组件到底要解决什么问题，确保它只专注一个核心功能。比如做一个弹窗组件，它的任务就是展示内容和处理关闭逻辑，不要在里面塞进数据请求或者其他无关的逻辑。这样以后维护的时候，改动起来不会牵一发而动全身。</p>
+</li>
+<li><p><strong>设计好组件的‘接口’——Props和事件</strong></p>
+<p>然后就是怎么跟其他组件‘沟通’。比如父组件传数据进来用Props，这时候得考虑参数的类型、默认值、是不是必填。比如说，弹窗的标题可能需要是字符串，内容可能支持文本或HTML，这时候Props要写好校验规则。另外，子组件通过事件告诉父组件发生了什么事情，比如点了确定按钮要触发一个<code>@confirm</code>事件，让父组件去处理具体逻辑。</p>
+</li>
+<li><p><strong>用插槽（Slots）提升灵活性</strong></p>
+<p>如果组件有些地方需要让使用者自定义内容，就得用插槽了。比如做一个卡片组件，头部和内容区域可能每个人用的样式不一样，这时候可以用具名插槽。允许用户通过插槽自定义某一列的显示方式，这样组件就更通用了。</p>
+</li>
+<li><p><strong>管理样式，避免‘打架’</strong></p>
+<p>样式方面，我会用<code>scoped</code>属性把CSS限制在当前组件内，防止影响其他地方。但有时候需要覆盖子组件样式，比如用第三方库的时候，这时候可以用<code>::v-deep</code>来穿透作用域。另外，如果组件需要换肤功能，可能会用CSS变量或者预留class供外部覆盖。</p>
+</li>
+<li><p><strong>写好文档和示例</strong></p>
+<p>组件封装完，别人怎么用？我会在组件里写清楚Props、事件、插槽的说明，甚至加个<code>example.vue</code>的示例文件。如果封装了一个复杂的上传组件，但没写文档，结果大家用的时候都得去翻源码，效率很低。所以每个组件必须配示例和参数说明。</p>
+</li>
+</ol>
+<p>总的来说，封装组件就像做一个‘黑盒子’——对外简单易用（提供清晰的接口），对内高内聚低耦合（功能独立、结构清晰）。还要考虑灵活性、可维护性，甚至团队协作的习惯。</p>
+<hr>
+<p><strong>Vite有什么缺点</strong></p>
+<p>Vite开发环境依赖esbuild进行预构建，生产环境则依赖rollup进行打包，所以使用vite可能会带来开发环境与生产环境打包结果不一致的问题。</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/03/03/Web%E5%9F%BA%E7%A1%80/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88Even%20Loop%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+      <a href="/2025/03/05/%E9%9D%A2%E7%BB%8F/%E8%BD%AF%E9%80%9A%E5%A4%96%E5%8C%85%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" target="_self">
+        <span>Next post</span>
+        <i class="fas fa-angle-right"></i>
+      </a>
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
