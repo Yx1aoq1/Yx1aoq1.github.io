@@ -194,6 +194,61 @@
 <li><strong>devDependencies</strong>：仅在<strong>开发阶段</strong>需要的工具或库。一般来说，这些依赖包是用于构建、测试、调试等用途，比如 Babel、Webpack等。</li>
 <li><strong>peerDependencies</strong>：指定的是项目所依赖的其他包的版本号范围，<strong>不主动安装</strong>，使用者需要手动安装符合要求的外部依赖项，如果不符合时会抛出错误。</li>
 </ul>
+<hr>
+<p><strong>npm 包的版本号管理</strong></p>
+<ul>
+<li><p><strong>版本号格式规范</strong></p>
+<p>版本号格式为：<code>主版本号.次版本号.修订号</code>，对应 <code>MAJOR.MINOR.PATCH</code>，还可以追加一些<strong>扩展标识</strong>（可选），如预发布标签（<code>-alpha.0</code>、<code>-beta.1</code>、<code>-rc.2</code>），或构建信息（<code>+{hash}</code>）</p>
+</li>
+<li><p><strong>版本号升级规则</strong></p>
+<ul>
+<li><strong>MAJOR</strong>：不兼容的 API 变更</li>
+<li><strong>MINOR</strong>：向下兼容的功能新增</li>
+<li><strong>PATCH</strong>：向下兼容的问题修复</li>
+</ul>
+</li>
+<li><p><strong>依赖版本范围控制</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>符号</strong></th>
+<th align="center">含义</th>
+<th align="center">示例范围</th>
+<th align="center">允许的版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>^</code></td>
+<td align="center">允许次版本和修订号更新</td>
+<td align="center"><code>^1.2.3</code></td>
+<td align="center"><code>&gt;=1.2.3 &lt;2.0.0</code></td>
+</tr>
+<tr>
+<td align="center"><code>~</code></td>
+<td align="center">仅允许修订号更新</td>
+<td align="center"><code>~1.2.3</code></td>
+<td align="center"><code>&gt;=1.2.3 &lt;1.3.0</code></td>
+</tr>
+<tr>
+<td align="center"><code>&gt;</code>/<code>&gt;=</code></td>
+<td align="center">大于等于</td>
+<td align="center"><code>&gt;2.1.0</code></td>
+<td align="center"><code>2.1.1+</code></td>
+</tr>
+<tr>
+<td align="center"><code>x</code>/<code>*</code></td>
+<td align="center">通配符</td>
+<td align="center"><code>1.x</code> 或 <code>1.*</code></td>
+<td align="center"><code>&gt;=1.0.0 &lt;2.0.0</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>发布相关的npm命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm version patch  <span class="comment"># 1.2.3 → 1.2.4</span></span><br><span class="line">npm version minor  <span class="comment"># 1.2.3 → 1.3.0</span></span><br><span class="line">npm version major  <span class="comment"># 1.2.3 → 2.0.0</span></span><br><span class="line">npm version prerelease --preid=beta  <span class="comment"># 1.2.3 → 1.2.4-beta.0</span></span><br><span class="line">npm version prerelease               <span class="comment"># 1.2.4-beta.0 → 1.2.4-beta.1</span></span><br><span class="line"></span><br><span class="line">npm publish  <span class="comment"># 发布到公共/私有仓库</span></span><br><span class="line">npm publish --tag beta  <span class="comment"># 发布后通过 npm install package@beta 安装</span></span><br><span class="line">npm unpublish &lt;package&gt;@&lt;version&gt;  <span class="comment"># 注意：24小时内可删除已发布版本</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
 
 </article>
 <div class="prev-or-next">
