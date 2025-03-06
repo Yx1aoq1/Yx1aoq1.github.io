@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>星纵物联面试总结</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">星纵物联面试总结</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-06T06:49:10.000Z" itemprop="datePublished">2025-03-06</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
+	</div>
+
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <p><strong>Vue3 对比 Vue2 在渲染方面做了什么性能优化</strong></p>
+<ul>
+<li><p><strong>静态提升</strong></p>
+<p>在 Vue2 中，每次渲染时都会重新创建 VNode 节点，即使是静态节点也会被重新创建。这会导致一些不必要的性能损耗。而在 Vue3 中，引入了静态提升的概念，它会将静态节点在编译阶段提升为常量，避免了重复创建的开销。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是固定标题<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 静态 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; dynamicText &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 动态 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 提升的静态节点（就像提前造好的零件）</span></span><br><span class="line"><span class="keyword">const</span> _hoisted_1 = <span class="comment">/*#__PURE__*/</span> _createVNode(<span class="string">'h1'</span>, <span class="literal">null</span>, <span class="string">'我是固定标题'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    _openBlock(),</span><br><span class="line">    _createBlock(<span class="string">'div'</span>, <span class="literal">null</span>, [</span><br><span class="line">      _hoisted_1, <span class="comment">// 直接使用预制件</span></span><br><span class="line">      _createVNode(<span class="string">'p'</span>, <span class="literal">null</span>, ctx.dynamicText) <span class="comment">// 动态创建</span></span><br><span class="line">    ])</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了静态节点以外，一些静态的属性，例如<code>&lt;div class=&quot;header&quot;&gt;&lt;/div&gt;</code>中的 class 属性也会做静态提升。</p>
+</li>
+<li><p><strong>预字符串化</strong></p>
+<p>静态提升的进阶版，当模板里有大段纯静态 HTML 时（比如一个包含几十个固定元素的导航栏），Vue3 会把这些内容提前转成字符串形式缓存起来。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 原模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"menu"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/home"</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/about"</span>&gt;</span>关于<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 后面还有20个固定不变的菜单项 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当编译时如果发现整个<code>&lt;nav&gt;</code>都是静态内容，就会直接把这段 HTML 转成类似  <code>&quot;&lt;nav&gt;&lt;ul class=...&gt;&quot;</code>  的字符串，生成渲染函数时直接返回这个字符串，省去创建虚拟 DOM 的过程，相当于直接把预制好的 HTML 字符串 innerHTML，比逐个创建 VNode 快 3-5 倍。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通静态提升（生成 VNode）</span></span><br><span class="line"><span class="keyword">const</span> _hoisted_1 = <span class="comment">/*#__PURE__*/</span>_createVNode(<span class="string">"nav"</span>, <span class="literal">null</span>, [...])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 预字符串化（直接字符串怼）</span></span><br><span class="line"><span class="keyword">const</span> _hoisted_1 = <span class="comment">/*#__PURE__*/</span>_createStaticVNode(<span class="string">"&lt;nav&gt;&lt;ul class=\"menu\"&gt;..."</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个优化在 SSR 场景效果更明显，因为服务端渲染字符串拼接本就是强项，Vue3 会智能判断何时启用这个策略。</p>
+</li>
+<li><p><strong>缓存事件处理函数</strong></p>
+<p>在 Vue2 中，每次渲染时都会重新创建事件处理函数，即使是相同的事件处理逻辑。这会导致一些不必要的性能损耗。而在 Vue3 中，引入了缓存事件处理函数的概念，它会将事件处理函数在编译阶段缓存起来，避免了重复创建的开销。</p>
+<p>下面是一个 Vue2 和 Vue3 的编译结果对比示例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"count++"</span>&gt;</span>plus<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue2</span></span><br><span class="line">render(ctx)&#123;</span><br><span class="line">  <span class="keyword">return</span> createVNode(<span class="string">"button"</span>, &#123;</span><br><span class="line">    onClick: <span class="function"><span class="keyword">function</span>(<span class="params">$event</span>)</span>&#123;</span><br><span class="line">      ctx.count++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// vue3</span></span><br><span class="line">render(ctx, _cache)&#123;</span><br><span class="line">  <span class="keyword">return</span> createVNode(<span class="string">"button"</span>, &#123;</span><br><span class="line">    onClick: cache[<span class="number">0</span>] || <span class="function">(<span class="params">cache[<span class="number">0</span>] = ($event</span>) =&gt;</span> (ctx.count++))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Block Tree</strong></p>
+<p>Block 相当于一个箱子，搜集了所有动态节点的特殊 vnode。它比普通的 vnode 节点多了<code>dynamicChildren</code>属性，用于存储内部所有动态子节点（例如带有<code>v-for</code>、<code>v-if/v-else-if/v-else</code>的节点，或有中括号模板的节点）。当组件的数据发生变化时，Vue 3 只会遍历 Block Tree 中的动态部分，而不是整个模板，这样可以大大减少需要检查的节点数量，提高更新性能。</p>
+</li>
+<li><p><strong>PatchFlag</strong></p>
+<p>PatchFlag 主要用于对 vnode 做标记，标记这个 vnode 中的哪个部分会发生变化，例如文本变化，class 变化，style 变化等。这样当进行 diff 时，可以进行更精准的比较，如果只有文本变化时，就可以跳过 class，style 之类的比较。</p>
+</li>
+</ul>
+<hr>
+<p><strong>ES5 与 ES6 的对象继承</strong></p>
+<ul>
+<li><p><strong>ES5</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义父类构造函数和原型方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子类继承父类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  Parent.call(<span class="keyword">this</span>, name) <span class="comment">// 1. 调用父类构造函数（继承实例属性）</span></span><br><span class="line">  <span class="keyword">this</span>.age = age</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="built_in">Object</span>.create(Parent.prototype) <span class="comment">// 2. 继承原型方法</span></span><br><span class="line">Child.prototype.constructor = Child <span class="comment">// 3. 修复constructor指向</span></span><br><span class="line"></span><br><span class="line">Child.prototype.sayAge = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.age)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c = <span class="keyword">new</span> Child(<span class="string">'xm'</span>, <span class="number">10</span>)</span><br><span class="line">c.sayName() <span class="comment">// 'xm'</span></span><br><span class="line">c.sayAge() <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>ES6</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义父类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">  sayName() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子类继承父类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">    <span class="keyword">super</span>(name) <span class="comment">// 必须调用super()后才能使用this</span></span><br><span class="line">    <span class="keyword">this</span>.age = age</span><br><span class="line">  &#125;</span><br><span class="line">  sayAge() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.age)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c = <span class="keyword">new</span> Child(<span class="string">'xm'</span>, <span class="number">10</span>)</span><br><span class="line">c.sayName() <span class="comment">// 'xm'</span></span><br><span class="line">c.sayAge() <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<p><strong>Webpack 与 Vite 的介绍与对比</strong></p>
+<ul>
+<li><p><strong>Webpack</strong></p>
+<p>一个打包工具，它通过入口文件递归分析模块依赖，将各类资源（JS/CSS/图片等）转换为浏览器可识别的静态资产。</p>
+<ul>
+<li><strong>优点</strong>：成熟的生态系统、丰富的插件和 loader、对多种资源和特殊需求具有很高的灵活性。</li>
+<li><strong>缺点</strong>：开发过程中需要每次修改后重新打包（虽然支持 HMR，但整体速度较慢），在大型项目中冷启动和热更新时间可能较长。</li>
+</ul>
+</li>
+<li><p><strong>Vite</strong></p>
+<p>Vite 是一种新兴的构建工具，利用浏览器对原生 ES 模块的支持，在开发模式下无需提前打包。它只在浏览器请求模块时进行即时编译，并使用 esbuild（Go 语言编写）预构建依赖，从而大幅提升启动和热更新速度。生产构建时，仍使用 Rollup 进行传统打包优化。</p>
+<ul>
+<li><strong>优点</strong>：极快的启动速度和热模块替换（HMR），配置简单，开发体验非常流畅，适合中小型项目或原型开发。</li>
+<li><strong>缺点</strong>：开发与生产环境的构建方式不同可能导致的开发和环境与线上环境有差异。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>Webpack 中 Loader 与 Plugin 配置的区别</strong></p>
+<ul>
+<li><strong>Loader</strong>：是文件加载器，能够加载资源文件，并对这些文件进行一些处理，诸如编译、压缩等，最终一起打包到指定的文件中</li>
+<li><strong>Plugin</strong>：在 webpack 的整个编译和打包流程中发挥作用。插件可以在构建的各个生命周期（如启动、编译、输出等阶段）中注入自定义行为。</li>
+</ul>
+<hr>
+<p><strong>HTTP/1.1 版本浏览器默认并发量</strong></p>
+<ul>
+<li><strong>典型范围</strong>：现代浏览器通常限制 <strong>6~8 个并发请求/域名</strong>（具体数值因浏览器而异）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">浏览器</th>
+<th align="center">默认并发数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Chrome/Firefox</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">Safari</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">Edge</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">IE11</td>
+<td align="center">8</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>限制对象</strong>：针对同一域名下的所有请求（包括 HTML/CSS/JS/图片等）</li>
+<li><strong>限制原因</strong>：HTTP/1.1 支持持久连接（keep-alive），允许一个 TCP 连接传输多个请求，但请求必须按顺序处理。</li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/03/05/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/HTTP%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E7%9A%84%E5%AF%B9%E6%AF%94/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
