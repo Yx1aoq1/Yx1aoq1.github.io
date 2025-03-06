@@ -118,6 +118,16 @@
 </li>
 </ul>
 <hr>
+<p><strong>在封装Vue组件时，会有哪些的性能优化方面的考虑</strong></p>
+<ul>
+<li><strong>精准控制组件更新</strong>：动态切换频率高的组件用 <code>v-show</code>（避免重复销毁/重建），需要彻底移除的组件用 <code>v-if</code>（减少 DOM 节点数）。</li>
+<li><strong>计算属性缓存</strong>：避免在模板内直接执行复杂计算，使用 <code>computed</code> 缓存结果。</li>
+<li><strong>事件监听销毁</strong>：在 <code>beforeUnmount</code> 生命周期中移除全局事件监听，避免内存泄漏。</li>
+<li><strong>防抖/节流优化</strong>：对于高频触发的事件（如 <code>scroll</code>、<code>resize</code>）使用防抖/节流。</li>
+<li><strong>Props 设计优化</strong>：避免传递大型对象，按需传递原子化数据；使用 <code>Object.freeze</code> 冻结不需要响应式的配置数据。</li>
+<li><strong>高级渲染策略</strong>：虚拟滚动优化长列表；组件懒加载。</li>
+</ul>
+<hr>
 <p><strong>ES5 与 ES6 的对象继承</strong></p>
 <ul>
 <li><p><strong>ES5</strong></p>
