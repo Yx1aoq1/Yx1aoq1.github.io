@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>服务端渲染（SSR）</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端渲染的定义"><span class="toc-number">1.</span> <span class="toc-text">服务端渲染的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端渲染的发展"><span class="toc-number">2.</span> <span class="toc-text">服务端渲染的发展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Web1-0"><span class="toc-number">2.1.</span> <span class="toc-text">Web1.0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端渲染"><span class="toc-number">2.2.</span> <span class="toc-text">客户端渲染</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端渲染"><span class="toc-number">2.3.</span> <span class="toc-text">服务端渲染</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端渲染的利弊"><span class="toc-number">3.</span> <span class="toc-text">服务端渲染的利弊</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优点"><span class="toc-number">3.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺点"><span class="toc-number">3.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何实现一个-SSR"><span class="toc-number">4.</span> <span class="toc-text">如何实现一个 SSR</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码结构"><span class="toc-number">4.1.</span> <span class="toc-text">代码结构</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">服务端渲染（SSR）</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-07T10:06:25.000Z" itemprop="datePublished">2025-03-07</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/SSR/" rel="tag">SSR</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="服务端渲染的定义"><a href="#服务端渲染的定义" class="headerlink" title="服务端渲染的定义"></a>服务端渲染的定义</h3><p>在讲什么是服务端渲染之前，我们需要回顾一下普通的页面渲染流程是怎样的：</p>
+<ol>
+<li>浏览器通过请求得到了一个 HTML 文件</li>
+<li>渲染进程解析 HTML 文件，构建 DOM 树</li>
+<li>解析 HTML 的同时，如果遇到内联样式或者样式脚本，则下载并构建样式规则（stytle rules），若遇到 JavaScript 脚本，则会下载执行脚本</li>
+<li>DOM 树和样式规则构建完成之后，渲染进程将两者合并成渲染树（render tree）</li>
+<li>渲染进程开始对渲染树进行布局，生成布局树（layout tree）</li>
+<li>渲染进程对布局树进行绘制，生成绘制记录</li>
+<li>渲染进程的对布局树进行分层，分别栅格化每一层，并得到合成帧</li>
+<li>渲染进程将合成帧信息发送给 GPU 进程显示到页面中</li>
+</ol>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/image-20200730191954015.png?imageSlim" alt="image-20200730191954015"></p>
+<p>这个交由浏览器去解析 HTML 文本，以及执行 JavaScript 脚本去更改 DOM 结构的过程，就叫动态渲染，也可以叫客户端渲染（client side render）。</p>
+<p>那么什么是服务端渲染（server side render）？顾名思义，服务端渲染就是在浏览器请求页面 URL 的时候，服务端将我们需要的 HTML 文本组装好，并返回给浏览器，这个 HTML 文本被浏览器解析之后，不需要经过 JavaScript 脚本的执行，即可直接构建出希望的 DOM 树并展示到页面中。这个服务端组装 HTML 的过程，叫做服务端渲染。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/image-20200731165404271.png?imageSlim" alt="image-20200731165404271"></p>
+<h3 id="服务端渲染的发展"><a href="#服务端渲染的发展" class="headerlink" title="服务端渲染的发展"></a>服务端渲染的发展</h3><h4 id="Web1-0"><a href="#Web1-0" class="headerlink" title="Web1.0"></a>Web1.0</h4><p>在 Web1.0 时代，几乎所有应用都是服务端渲染（此时服务器渲染非现在的服务器渲染），那个时候的页面渲染大概是这样的，浏览器请求页面 URL，然后服务器接收到请求之后，到数据库查询数据，将数据丢到后端的组件模板（php、asp、jsp 等）中，并渲染成 HTML 片段，接着服务器在组装这些 HTML 片段，组成一个完整的 HTML，最后返回给浏览器，这个时候，浏览器已经拿到了一个完整的被服务器动态组装出来的 HTML 文本，然后将 HTML 渲染到页面中，过程没有任何 JavaScript 代码的参与。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/image-20200731115513579.png?imageSlim" alt="image-20200731115513579"></p>
+<h4 id="客户端渲染"><a href="#客户端渲染" class="headerlink" title="客户端渲染"></a>客户端渲染</h4><p>随着 Web 技术的发展和业务的不断壮大，Web1.0 的弊端也逐渐显现：</p>
+<ul>
+<li>每次更新页面的一小的模块，都需要重新请求一次页面，重新查一次数据库，重新组装一次 HTML</li>
+<li>前端 JavaScript 代码和后端（jsp、php、jsp）代码混杂在一起，使得日益复杂的 WEB 应用难以维护</li>
+</ul>
+<p>于是，伴随着 node.js 的出现，前辈们开启了一场前后端分离的运动。前后端分离之后，网页开始被当成了独立的应用程序（SPA，Single Page Application），前端团队接管了所有页面渲染的事，后端团队只负责提供所有数据查询与处理的 API，于是交互流程就变成了：浏览器请求 URL，前端服务器返回一个空的静态 HTML 文件（不需要任何查数据库和模板组装），这个 HTML 文件中加载了很多渲染页面需要的 JavaScript 脚本和 CSS 样式表，浏览器拿到 HTML 文件后开始加载脚本和样式表，并且执行脚本，这个时候脚本请求后端服务提供的 API，获取数据，获取完成后将数据通过 JavaScript 脚本动态的将数据渲染到页面中，完成页面显示。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/image-20200731142605631.png?imageSlim" alt="image-20200731142605631"></p>
+<h4 id="服务端渲染"><a href="#服务端渲染" class="headerlink" title="服务端渲染"></a>服务端渲染</h4><p>随着单页应用（SPA）的发展，客户端渲染的弊端也渐渐暴露出来了。首先是 SEO（Search Engine Optimazition，即搜索引擎优化）的不友好，以及随着应用的复杂化，JavaScript 脚本也不断的臃肿起来，首屏渲染的体验也差了很多。</p>
+<p>那么如何解决这些问题呢？于是目光又回到了服务端渲染上，但是这个渲染工作主要是交由 Node.js 服务器来做的。大体流程与客户端渲染有些相似，首先是浏览器请求 URL，前端服务器接收到 URL 请求之后，根据不同的 URL，前端服务器向后端服务器请求数据，请求完成后，前端服务器会组装一个携带了具体数据的 HTML 文本，并且返回给浏览器，浏览器得到 HTML 之后开始渲染页面，同时，浏览器加载并执行 JavaScript 脚本，给页面上的元素绑定事件，让页面变得可交互，当用户与浏览器页面进行交互，如跳转到下一个页面时，浏览器会执行 JavaScript 脚本，向后端服务器请求数据，获取完数据之后再次执行 JavaScript 代码动态渲染页面。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/image-20200731172929911.png?imageSlim" alt="image-20200731172929911"></p>
+<h3 id="服务端渲染的利弊"><a href="#服务端渲染的利弊" class="headerlink" title="服务端渲染的利弊"></a>服务端渲染的利弊</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><p><strong>利于 SEO</strong>：由于服务端渲染返回的是带有具体内容的 HTML 文本，而不是一个 HTML 空壳，有利于搜索引擎检索到相关信息。</p>
+</li>
+<li><p><strong>白屏时间短</strong>：由于服务端渲染返回的已经是一个带有完整内容的 HTML，所以直接构建 DOM 树即可。不像客户端渲染，需要在经过加载 JavaScript 脚本、请求服务端数据、重新渲染数据等等的步骤。如此就大大提升了白屏时间。</p>
+</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li><strong>代码复杂度增加</strong>：为了实现服务端渲染，应用代码中需要兼容服务端和客户端两种运行情况，而一部分依赖的外部扩展库却只能在客户端运行，需要对其进行特殊处理，才能在服务器渲染应用程序中运行。</li>
+<li><strong>需要更多的服务器负载均衡</strong>：由于服务器增加了渲染 HTML 的需求，使得原本只需要输出静态资源文件的 Node.js 服务，新增了数据获取的 IO 和渲染 HTML 的 CPU 占用，如果流量突然暴增，有可能导致服务器 down 机，因此需要使用响应的缓存策略和准备相应的服务器负载。</li>
+<li><strong>涉及构建设置和部署的更多要求</strong>：与可以部署在任何静态文件服务器上的完全静态单页面应用程序 (SPA) 不同，服务器渲染应用程序，需要处于 Node.js server 运行环境。</li>
+</ul>
+<h3 id="如何实现一个-SSR"><a href="#如何实现一个-SSR" class="headerlink" title="如何实现一个 SSR"></a>如何实现一个 SSR</h3><p>在服务端渲染中，有两种页面渲染的方式：</p>
+<ul>
+<li>前端服务器通过请求后端服务器获取数据并组装 HTML 返回给浏览器，浏览器直接解析 HTML 后渲染页面</li>
+<li>浏览器在交互过程中，请求新的数据并动态更新渲染页面</li>
+</ul>
+<p>因此我们需要在服务端渲染中处理，让同一份代码既可以在服务端执行，也可以在客户端执行，也就是“<strong>同构</strong>”。</p>
+<p>那么我们应该如何去实现一个“<strong>同构</strong>”的项目呢？</p>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── router</span><br><span class="line">├────── index.js # 路由声明</span><br><span class="line">├── store</span><br><span class="line">├────── index.js # 全局状态</span><br><span class="line">├── main.js # ⽤于创建vue实例</span><br><span class="line">├── entry-client.js # 客户端⼊⼝，⽤于静态内容“激活”</span><br><span class="line">└── entry-server.js # 服务端⼊⼝，⽤于⾸屏内容渲染</span><br></pre></td></tr></table></figure>
+
+<p>首先是入口文件<code>main.js</code>，对于之前的客户端渲染模式，由于每个用户都是在自己的浏览器中运行实例，创建新的上下文，所以每个用户都互不干扰，因此我们在客户端渲染模式下的<code>vue</code>入口文件是这样的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = createApp(App)</span><br><span class="line"></span><br><span class="line">app.use(router)</span><br><span class="line"></span><br><span class="line">app.mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但是到了服务端渲染模式，因为 Node.js 服务器运行的是一个长期进程，如果每个用户向服务器请求的是同一个实例，用户间共享上下文，就很容易导致交叉请求状态污染。因此，我们需要的是一个可以重复执行的工厂函数，再分别对客户端渲染、服务端渲染配置不同构建。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createSSRApp &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> &#123; initRouter &#125; <span class="keyword">from</span> <span class="string">'./router'</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createApp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> app = createSSRApp(App)</span><br><span class="line">  <span class="keyword">const</span> router = initRouter()</span><br><span class="line"></span><br><span class="line">  app.use(router)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    app,</span><br><span class="line">    router</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其次，我们需要一个服务端的入口，它的主要职责就是根据当前的<code>url</code>创建对应的实例，最后返回对应的结果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">'./main'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">async</span> (context) =&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; app, router &#125; = createApp()</span><br><span class="line"></span><br><span class="line">    router.push(context.req.url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> router.isReady()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> matchedComponents = router.currentRoute.value.matched.map(<span class="function">(<span class="params">record</span>) =&gt;</span> <span class="built_in">Object</span>.values(record.components)).flat()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!matchedComponents.length) &#123;</span><br><span class="line">      <span class="keyword">throw</span> &#123; <span class="attr">code</span>: <span class="number">404</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> app</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="keyword">throw</span> err</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们还需要一个客户端渲染的入口，用来做客户端“激活”。什么是客户端激活呢？引用官方的话就是：</p>
+<blockquote>
+<p>所谓客户端激活，指的是 Vue 在浏览器端接管由服务端发送的静态 HTML，使其变为由 Vue 管理的动态 DOM 的过程。</p>
+</blockquote>
+<p>由于服务器已经渲染好了 HTML，<strong>客户端要做的是“激活”这些静态的 HTML，使他们成为动态的、能够响应后续的数据变化的</strong>。激活的方式也很简单，就是把<code>main.js</code>中，创建实例过程后没有做的一步<code>mount</code>执行一下就行了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">'./main'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; app, store &#125; = createApp()</span><br><span class="line"></span><br><span class="line">router.isReady().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  app.mount(<span class="string">'#app'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们需要根据不同的环境，对对应的入口文件进行一定的编译，还要起一个node服务等等，这些操作就不多说了。其实已经有很多的框架为我们做好了很多的操作，让我们可以更快的启动一个SSR的项目。</p>
+<ul>
+<li>Vue生态：<a href="https://nuxt.com/" target="_blank" rel="noopener">Nuxt</a></li>
+<li>React生态：<a href="https://www.nextjs.cn/" target="_blank" rel="noopener">Nextjs</a></li>
+<li><a href="https://vite-plugin-ssr.com/" target="_blank" rel="noopener">vite-plugin-ssr</a></li>
+</ul>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/03/06/%E9%9D%A2%E7%BB%8F/%E6%98%9F%E7%BA%B5%E7%89%A9%E8%81%94%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
