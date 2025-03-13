@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>React初学笔记</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用入口"><span class="toc-number">1.</span> <span class="toc-text">应用入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建组件"><span class="toc-number">2.</span> <span class="toc-text">创建组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义-state-数据"><span class="toc-number">2.1.</span> <span class="toc-text">定义 state 数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#组件通信"><span class="toc-number">2.2.</span> <span class="toc-text">组件通信</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#父子通信"><span class="toc-number">2.2.1.</span> <span class="toc-text">父子通信</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#多层级组件间通信"><span class="toc-number">2.2.2.</span> <span class="toc-text">多层级组件间通信</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Reducer"><span class="toc-number">2.2.3.</span> <span class="toc-text">Reducer</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#引用值-Ref"><span class="toc-number">2.3.</span> <span class="toc-text">引用值 Ref</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Effect"><span class="toc-number">2.4.</span> <span class="toc-text">Effect</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">React初学笔记</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-13T04:19:28.000Z" itemprop="datePublished">2025-03-13</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/React/">React</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/React/" rel="tag">React</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h3 id="应用入口"><a href="#应用入口" class="headerlink" title="应用入口"></a>应用入口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import &#123; StrictMode &#125; from &#39;react&#39;</span><br><span class="line">import &#123; createRoot &#125; from &#39;react-dom&#x2F;client&#39;</span><br><span class="line">import &#39;.&#x2F;index.css&#39;</span><br><span class="line">import App from &#39;.&#x2F;App.tsx&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; StrictMode 启用组件树内部的额外开发行为和警告</span><br><span class="line">&#x2F;&#x2F; createRoot 以在浏览器 DOM 元素中创建根节点显示内容</span><br><span class="line"></span><br><span class="line">createRoot(document.getElementById(&#39;root&#39;)!).render(</span><br><span class="line">  &lt;StrictMode&gt;</span><br><span class="line">    &lt;App &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;StrictMode&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建组件"><a href="#创建组件" class="headerlink" title="创建组件"></a>创建组件</h3><p>React 比较推崇的是函数式组件的写法，一个组件就是一个 function，return 的内容为一段 JSX 。组件的命名风格为大写驼峰，如果函数是组件则<strong>一定需要以大写开头</strong>，否则会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export default function Profile() &#123;</span><br><span class="line">  return &lt;img src&#x3D;&quot;https:&#x2F;&#x2F;i.imgur.com&#x2F;MK3eW3Am.jpg&quot; alt&#x3D;&quot;Katherine Johnson&quot; &#x2F;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>React 组件<strong>必须返回单个 JSX 元素</strong>，当有多个相邻元素时，需要使用 Fragment（<code>&lt;&gt;</code> 与 <code>&lt;/&gt;</code>）包裹。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export default function Square() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;button className&#x3D;&quot;square&quot;&gt;X&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;button className&#x3D;&quot;square&quot;&gt;X&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义-state-数据"><a href="#定义-state-数据" class="headerlink" title="定义 state 数据"></a>定义 state 数据</h4><p>封装一个 React 的组件的一个重要过程就是找出组件内精简且完整的 state 数据表示。那么什么是 state 呢？state 的作用是用来记录组件的状态和变化的，这些状态和变化主要是会通过一些用户交互而改变，这些改变又必须要同步到视图上。</p>
+<p>通常，怎样的数据会是一个 state 呢？</p>
+<ul>
+<li>在组件被创建到其销毁的过程中，这个数据是会变化的</li>
+<li>这个数据不是根据其他 state 数据或 props 计算而得出的</li>
+<li>这个数据需要在视图上进行展示</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useState &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">export default function App() &#123;</span><br><span class="line">  const [count, setCount] &#x3D; useState(0)</span><br><span class="line">  const handleClick &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; 多次更新同一个 state，需要用传入函数的方式更新</span><br><span class="line">    setCount((v) &#x3D;&gt; v + 1)</span><br><span class="line">  &#125;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;h1&gt;&#123;count&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;handleClick&#125;&gt;update&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在数据更新上，set 一个 state 数据有一个和 Vue 非常不一样的点，即对于引用类型数据的操作上。例如改变对象的某个属性，在 Vue 中，是可以改变原对象的某个属性去直接做修改的，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.name &#x3D; &#39;xxx&#39;</span><br></pre></td></tr></table></figure>
+
+<p>但在 React 中则不同，React 遵循的是 immutable 编程规范，它要求在编写程序时避免对数据进行修改，而是应该创建新的数据副本来进行修改。这样的好处是可以避免出现意外的数据修改，提高程序的可靠性和可维护性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const [person, setPerson] &#x3D; useState(&#123;</span><br><span class="line">  name: &#39;xm&#39;,</span><br><span class="line">  age: 18</span><br><span class="line">&#125;)</span><br><span class="line">const [personList, setPersonList] &#x3D; useState([])</span><br><span class="line">&#x2F;&#x2F; 更新对象的某个属性</span><br><span class="line">setPerson(&#123;</span><br><span class="line">  ...user,</span><br><span class="line">  name: &#39;xh&#39;</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; 向对象中新增元素</span><br><span class="line">setPersonList([...personList, &#123; name: &#39;li&#39;, age: 11 &#125;])</span><br><span class="line">setPersonList(personList.concat([&#123; name: &#39;li&#39;, age: 11 &#125;]))</span><br><span class="line">&#x2F;&#x2F; 删除对象中的元素</span><br><span class="line">setPersonList(personList.filter((p) &#x3D;&gt; p.age &lt; 20))</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以安装<a href="https://zh-hans.react.dev/learn/updating-arrays-in-state#write-concise-update-logic-with-immer" target="_blank" rel="noopener">immer</a>插件，这样使用一些直接更改原数据的方法也没有问题了。</p>
+<h4 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h4><h5 id="父子通信"><a href="#父子通信" class="headerlink" title="父子通信"></a>父子通信</h5><p>在 React 中，父组件与子组件如果需要进行数据传递，则需要通过 props 传参的方式来进行通信。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useState &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">function MyInput(&#123; value, onValueChange &#125;) &#123;</span><br><span class="line">  return &lt;input value&#x3D;&#123;value&#125; onChange&#x3D;&#123;onValueChange&#125; &#x2F;&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function App() &#123;</span><br><span class="line">  const [value, setValue] &#x3D; useState(&#39;&#39;)</span><br><span class="line">  const handleInput &#x3D; (e) &#x3D;&gt; &#123;</span><br><span class="line">    setValue(e.target.value)</span><br><span class="line">  &#125;</span><br><span class="line">  return &lt;MyInput value&#x3D;&#123;value&#125; onValueChange&#x3D;&#123;handleInput&#125; &#x2F;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，React 中也有插槽，默认的插槽使用的是 children 这个变量名，也可以传入具名插槽。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function Panel(&#123; title, children, footer &#125;) &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;section className&#x3D;&quot;panel&quot;&gt;</span><br><span class="line">      &lt;h3&gt;&#123;title&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">      &lt;p&gt;&#123;children&#125;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;div&gt;&#123;footer&#125;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;Panel title&#x3D;&quot;关于&quot; footer&#x3D;&#123;&lt;p&gt;作者：A&lt;&#x2F;p&gt;&#125;&gt;</span><br><span class="line">        阿拉木图人口约200万，是哈萨克斯坦最大的城市。它在 1929 年到 1997 年间都是首都。</span><br><span class="line">      &lt;&#x2F;Panel&gt;</span><br><span class="line">      &lt;Panel title&#x3D;&quot;词源&quot; footer&#x3D;&#123;&lt;p&gt;作者：B&lt;&#x2F;p&gt;&#125;&gt;</span><br><span class="line">        这个名字来自于</span><br><span class="line">        алма，哈萨克语中“苹果”的意思，经常被翻译成“苹果之乡”。事实上，阿拉木图的周边地区被认为是苹果的发源地，Malus</span><br><span class="line">        sieversii 被认为是现今苹果的祖先。</span><br><span class="line">      &lt;&#x2F;Panel&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="多层级组件间通信"><a href="#多层级组件间通信" class="headerlink" title="多层级组件间通信"></a>多层级组件间通信</h5><p>对于多层级，如果用 props 一级一级传则有点麻烦，所以 React 给了一个<code>useContext</code>的 hooks：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createContext, useContext &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">const ThemeContext &#x3D; createContext(&#39;&#39;)</span><br><span class="line"></span><br><span class="line">function Button() &#123;</span><br><span class="line">  const theme &#x3D; useContext(ThemeContext)</span><br><span class="line">  const className &#x3D; &#39;button-&#39; + theme</span><br><span class="line">  return &lt;button className&#x3D;&#123;className&#125;&gt;submit&lt;&#x2F;button&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function MyApp() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;ThemeContext.Provider value&#x3D;&quot;dark&quot;&gt;</span><br><span class="line">      &lt;Button &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;ThemeContext.Provider&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h5><p>对于拥有许多状态更新逻辑的组件来说，过于分散的事件处理程序可能会令人不知所措。对于这种情况，你可以将组件的所有状态更新逻辑整合到一个外部函数中，这个函数叫作 <strong>reducer</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const [tasks, dispatch] &#x3D; useReducer(tasksReducer, initialTasks)</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>useReducer</code>与<code>useState</code>很类似，区别在于<code>dispatch</code>的用法，它传入的参数类似于一个发布订阅事件的订阅操作，需要传入对应的操作 type 与参数。如下的一个 TODO 列表的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useReducer &#125; from &#39;react&#39;</span><br><span class="line">import AddTask from &#39;.&#x2F;AddTask.js&#39;</span><br><span class="line">import TaskList from &#39;.&#x2F;TaskList.js&#39;</span><br><span class="line"></span><br><span class="line">export default function TaskApp() &#123;</span><br><span class="line">  const [tasks, dispatch] &#x3D; useReducer(tasksReducer, initialTasks)</span><br><span class="line"></span><br><span class="line">  function handleAddTask(text) &#123;</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      type: &#39;added&#39;,</span><br><span class="line">      id: nextId++,</span><br><span class="line">      text: text</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function handleChangeTask(task) &#123;</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      type: &#39;changed&#39;,</span><br><span class="line">      task: task</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function handleDeleteTask(taskId) &#123;</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      type: &#39;deleted&#39;,</span><br><span class="line">      id: taskId</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;h1&gt;布拉格的行程安排&lt;&#x2F;h1&gt;</span><br><span class="line">      &lt;AddTask onAddTask&#x3D;&#123;handleAddTask&#125; &#x2F;&gt;</span><br><span class="line">      &lt;TaskList tasks&#x3D;&#123;tasks&#125; onChangeTask&#x3D;&#123;handleChangeTask&#125; onDeleteTask&#x3D;&#123;handleDeleteTask&#125; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function tasksReducer(tasks, action) &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case &#39;added&#39;: &#123;</span><br><span class="line">      return [</span><br><span class="line">        ...tasks,</span><br><span class="line">        &#123;</span><br><span class="line">          id: action.id,</span><br><span class="line">          text: action.text,</span><br><span class="line">          done: false</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">    case &#39;changed&#39;: &#123;</span><br><span class="line">      return tasks.map((t) &#x3D;&gt; &#123;</span><br><span class="line">        if (t.id &#x3D;&#x3D;&#x3D; action.task.id) &#123;</span><br><span class="line">          return action.task</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          return t</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    case &#39;deleted&#39;: &#123;</span><br><span class="line">      return tasks.filter((t) &#x3D;&gt; t.id !&#x3D;&#x3D; action.id)</span><br><span class="line">    &#125;</span><br><span class="line">    default: &#123;</span><br><span class="line">      throw Error(&#39;未知 action: &#39; + action.type)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let nextId &#x3D; 3</span><br><span class="line">const initialTasks &#x3D; [</span><br><span class="line">  &#123; id: 0, text: &#39;参观卡夫卡博物馆&#39;, done: true &#125;,</span><br><span class="line">  &#123; id: 1, text: &#39;看木偶戏&#39;, done: false &#125;,</span><br><span class="line">  &#123; id: 2, text: &#39;打卡列侬墙&#39;, done: false &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="引用值-Ref"><a href="#引用值-Ref" class="headerlink" title="引用值 Ref"></a>引用值 Ref</h4><p>当你希望组件“记住”某些信息，但又不想让这些信息 <a href="https://zh-hans.react.dev/learn/render-and-commit" target="_blank" rel="noopener">触发新的渲染</a> 时，你可以使用 <strong>ref</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useRef &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">export default function Counter() &#123;</span><br><span class="line">  let ref &#x3D; useRef(0)</span><br><span class="line"></span><br><span class="line">  function handleClick() &#123;</span><br><span class="line">    ref.current &#x3D; ref.current + 1</span><br><span class="line">    alert(&#39;你点击了 &#39; + ref.current + &#39; 次!&#39;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return &lt;button onClick&#x3D;&#123;handleClick&#125;&gt;点我！&lt;&#x2F;button&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以用 ref 来访问 DOM 元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useRef &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">export default function Form() &#123;</span><br><span class="line">  const inputRef &#x3D; useRef(null)</span><br><span class="line"></span><br><span class="line">  function handleClick() &#123;</span><br><span class="line">    inputRef.current.focus()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;input ref&#x3D;&#123;inputRef&#125; &#x2F;&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;handleClick&#125;&gt;聚焦输入框&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h4><p>useEffect 正如它的名字一样，他可以在函数组件中使用一些副作用，我们可以用来模拟一些生命周期操作。 useEffect 拥有两个参数，第一个参数是一个回调函数，它会在完成一些状态更新以及组件渲染后被触发，第二个参数是一个数组是一个可选的参数。</p>
+<p>useEffect 的规则如下：</p>
+<ul>
+<li>当第二个不存在时，在第一次初始化和每次重新渲染后都会触发回调。</li>
+<li>当数组存在并有值时，如果数组中的任何值发生更改，则每次渲染后都会触发回调。</li>
+<li>当它是一个空数组时，回调只会被触发一次，类似于 componentDidMount。</li>
+<li>每个 useEffect 都可以返回一个清除函数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const serverUrl &#x3D; &#39;https:&#x2F;&#x2F;localhost:1234&#39;</span><br><span class="line"></span><br><span class="line">function ChatRoom(&#123; roomId &#125;) &#123;</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    const connection &#x3D; createConnection(serverUrl, roomId)</span><br><span class="line">    connection.connect()</span><br><span class="line">    return () &#x3D;&gt; &#123;</span><br><span class="line">      connection.disconnect()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [roomId])</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般来说，useEffect 可以用来做例如需要在组件渲染销毁的生命周期时做事件的监听和卸载，或者是根据某写值的变化做一些回调动作。</p>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/03/07/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
