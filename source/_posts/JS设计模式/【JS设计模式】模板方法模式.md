@@ -188,7 +188,7 @@ Beverage.prototype.brew = function () {
 钩子方法（hook）主要是用于解决在模板方法模式中，为一些需要“个性”需求的子类提供接口。例如冲泡饮料的` Beverage`类，某些客户需要满足不加料的需求，这里我们就可以加上一个`customerWantsCondiments`的钩子方法：
 
 ```js
-var Beverage. = function () {}
+var Beverage = function () {}
 
 Beverage.prototype.boilWater = function {
   console.log('把水煮沸')
