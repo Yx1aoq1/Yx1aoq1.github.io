@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- so meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- title -->
+  <title>Next.js入门笔记</title>
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+  <body style="background-color: #2d2d2d">
+    
+      <div class="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <div class="toc-wrap">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-Next-js"><span class="toc-number">1.</span> <span class="toc-text">什么是 Next.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主要功能"><span class="toc-number">1.1.</span> <span class="toc-text">主要功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#路由"><span class="toc-number">1.1.1.</span> <span class="toc-text">路由</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#路由组"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">路由组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#动态路由"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">动态路由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#并行路由"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">并行路由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#拦截路由"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">拦截路由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#路由的跳转"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">路由的跳转</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#中间件"><span class="toc-number">1.1.1.6.</span> <span class="toc-text">中间件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元数据"><span class="toc-number">1.1.2.</span> <span class="toc-text">元数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用客户端渲染"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用客户端渲染</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#国际化方案"><span class="toc-number">1.2.</span> <span class="toc-text">国际化方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#App-Router-方式"><span class="toc-number">1.2.1.</span> <span class="toc-text">App Router 方式</span></a></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+    
+    <div class="layout-content">
+      <header class="layout-header">
+  <nav class="header-top">
+    <ul class="menu">
+       
+        <li class="menu-item ">
+          <a href="/">Home</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/archives">Writing</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/categories">Category</a>
+        </li>
+       
+        <li class="menu-item ">
+          <a href="/about">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  
+  
+    <div class="content">
+      <div class="post-header">
+        <div class="pic">
+          <img src="/images/avatar.jpg" />
+        </div>
+        <div class="info">
+          <div class="title">Next.js入门笔记</div>
+          <div class="post-meta">
+            <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yx1aoq1</span>
+            </div>
+            
+  <div class="meta">
+    
+      <time datetime="2025-03-18T12:42:45.000Z" itemprop="datePublished">2025-03-18</time>
+      
+    
+  </div>
+
+            
+	<div class="article-category">
+		<i class="fas fa-archive"></i>
+		<a class="category-link" href="/categories/React/">React</a>
+	</div>
+
+
+            
+	<div class="article-tag">
+		<i class="fas fa-tag"></i>
+		<a class="tag-link" href="/tags/nextjs/" rel="tag">nextjs</a>
+	</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</header>
+      <main class="layout-main">
+        <article class="content">
+  <h2 id="什么是-Next-js"><a href="#什么是-Next-js" class="headerlink" title="什么是 Next.js"></a>什么是 Next.js</h2><p>Next.js 是一个基于 React 的开源框架，用于构建快速、现代化的 Web 应用程序。主要用于构建高性能的服务器端渲染（SSR）和静态生成（Static Generation）的现代 Web 应用。</p>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><p>Next.js 提供了一个基于文件系统的路由，可以让我们快速创建页面路由。以官方的初始化项目为例，在 <code>/app</code>目录下的<code>page.tsx</code>文件就是初始根路由所展示的页面，当你需要一个<code>/about</code>路由下的页面时，也仅需要在<code>/app</code>目录下创建一个<code>/about</code>文件夹，然后创建一个<code>page.tsx</code>即可。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-03-18%20210158.png?imageSlim" alt="屏幕截图 2025-03-18 210158"></p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-03-18%20210305.png?imageSlim" alt="屏幕截图 2025-03-18 210305"></p>
+<p>同时，可以创建 layout.tsx，来创建嵌套布局。</p>
+<h5 id="路由组"><a href="#路由组" class="headerlink" title="路由组"></a>路由组</h5><p>当你想要给你的路由分组管理，但是又不想多一层的文件夹体现在 URL 路径上时，可以通过将文件夹名称括在括号中来创建路由组：<code>(folderName)</code></p>
+<h5 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h5><p>可以通过将文件夹名称括在方括号中来创建动态段：<code>[folderName]</code>。</p>
+<p>动态段作为 <code>params</code> 属性传递给 <a href="https://next.nodejs.cn/docs/app/api-reference/file-conventions/layout" target="_blank" rel="noopener"><code>layout</code></a>、<a href="https://next.nodejs.cn/docs/app/api-reference/file-conventions/page" target="_blank" rel="noopener"><code>page</code></a>、<a href="https://next.nodejs.cn/docs/app/building-your-application/routing/route-handlers" target="_blank" rel="noopener"><code>route</code></a> 和 <a href="https://next.nodejs.cn/docs/app/api-reference/functions/generate-metadata#generatemetadata-function" target="_blank" rel="noopener"><code>generateMetadata</code></a> 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">export default function Posts(&#123; params &#125;) &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;h1&gt;POST: &#123;params.id&#125;&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-03-18%20211501.png?imageSlim" alt="屏幕截图 2025-03-18 211501"></p>
+<h5 id="并行路由"><a href="#并行路由" class="headerlink" title="并行路由"></a>并行路由</h5><p>并行路由是使用命名槽创建的。插槽是按照 <code>@folder</code> 约定定义的。</p>
+<p><img src="https://images-1300309047.cos.ap-chengdu.myqcloud.com/blog/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-03-18%20213057.png?imageSlim" alt="屏幕截图 2025-03-18 213057"></p>
+<h5 id="拦截路由"><a href="#拦截路由" class="headerlink" title="拦截路由"></a>拦截路由</h5><p>拦截路由可以使用 <code>(..)</code> 约定来定义：</p>
+<ul>
+<li><code>(.)</code> 匹配同一级别的段</li>
+<li><code>(..)</code> 匹配上一级的段</li>
+<li><code>(..)(..)</code> 匹配上面两级的段</li>
+<li><code>(...)</code> 匹配根 <code>app</code> 目录中的段</li>
+</ul>
+<p>一般用来创建模态内容。</p>
+<h5 id="路由的跳转"><a href="#路由的跳转" class="headerlink" title="路由的跳转"></a>路由的跳转</h5><p>官方推荐使用<code>&lt;Link&gt;</code>组件来做路由的跳转。它拓展自<code>&lt;a&gt;</code>标签，所以例如<code>target=&quot;_blank&quot;</code>的属性也可以使用，以及它也提供了其他 API 配置。如<code>replace</code>，是否替换当前历史状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import Link from &#39;next&#x2F;link&#39;</span><br><span class="line"></span><br><span class="line">export default function Page() &#123;</span><br><span class="line">  return &lt;Link href&#x3D;&quot;&#x2F;dashboard&quot;&gt;Dashboard&lt;&#x2F;Link&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h5><p>中间件允许你在请求完成之前运行代码。然后，根据传入的请求，你可以通过重写、重定向、修改请求或响应标头或直接响应来修改响应。它的使用场景有：</p>
+<ul>
+<li>身份验证和授权：在授予对特定页面或 API 路由的访问权限之前，请确保用户身份并检查会话 cookie。</li>
+<li>服务器端重定向：根据某些条件（例如区域设置、用户角色）在服务器级别重定向用户。</li>
+<li>路径重写：通过根据请求属性动态重写 API 路由或页面的路径，支持 A/B 测试、功能推出或旧版路径。</li>
+<li>机器人检测：通过检测和阻止机器人流量来保护你的资源。</li>
+<li>日志记录和分析：在由页面或 API 处理之前，捕获并分析请求数据以获取见解。</li>
+<li>功能标记：动态启用或禁用功能以实现无缝功能部署或测试。</li>
+</ul>
+<h4 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h4><p>可以从从 <code>layout.tsx</code>或静态 <code>page.tsx</code> 文件导出 <a href="https://next.nodejs.cn/docs/app/api-reference/functions/generate-metadata#metadata-object" target="_blank" rel="noopener"><code>Metadata</code> 对象</a>。用于对路由页面进行描述简介，增强 SEO。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import type &#123; Metadata &#125; from &#39;next&#39;</span><br><span class="line"></span><br><span class="line">export const metadata: Metadata &#x3D; &#123;</span><br><span class="line">  title: &#39;...&#39;,</span><br><span class="line">  description: &#39;...&#39;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function Page() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用客户端渲染"><a href="#使用客户端渲染" class="headerlink" title="使用客户端渲染"></a>使用客户端渲染</h4><p>当我们需要创建有用户交互的页面时，需要使用<code>&#39;use client&#39;</code>指令，将其添加到文件顶部，这样才能正常的使用 react 中的<code>useState</code>等客户端渲染功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#39;use client&#39;</span><br><span class="line"></span><br><span class="line">import &#123; useState &#125; from &#39;react&#39;</span><br><span class="line"></span><br><span class="line">export default function Counter() &#123;</span><br><span class="line">  const [count, setCount] &#x3D; useState(0)</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;() &#x3D;&gt; setCount(count + 1)&#125;&gt;Click me&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="国际化方案"><a href="#国际化方案" class="headerlink" title="国际化方案"></a>国际化方案</h3><p><code>next-intl</code> 是一个专为 Next.js 框架设计的国际化(i18n)解决方案，旨在提供一种简单易用且功能强大的方式来管理你的应用多语言支持。</p>
+<h4 id="App-Router-方式"><a href="#App-Router-方式" class="headerlink" title="App Router 方式"></a>App Router 方式</h4><p>使用下面这样的文件夹结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">├── messages # 翻译文件</span><br><span class="line">│   ├── en.json</span><br><span class="line">│   └── ...</span><br><span class="line">├── next.config.ts # 插件配置</span><br><span class="line">└── src</span><br><span class="line">    ├── i18n</span><br><span class="line">    │   ├── routing.ts # 自定义路由配置</span><br><span class="line">    │   ├── navigation.ts # 导航跳转的功能与组件导出</span><br><span class="line">    │   └── request.ts # 加载语言包的配置</span><br><span class="line">    ├── middleware.ts</span><br><span class="line">    └── app</span><br><span class="line">        └── [locale]</span><br><span class="line">            ├── layout.tsx</span><br><span class="line">            └── page.tsx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// i18n/routing.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; defineRouting &#125; <span class="keyword">from</span> <span class="string">'next-intl/routing'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createNavigation &#125; <span class="keyword">from</span> <span class="string">'next-intl/navigation'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> routing = defineRouting(&#123;</span><br><span class="line">  <span class="comment">// 所有支持的语言环境的列表</span></span><br><span class="line">  locales: [<span class="string">'en'</span>, <span class="string">'de'</span>],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当没有匹配的语言环境时使用</span></span><br><span class="line">  defaultLocale: <span class="string">'en'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// i18n/request.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; createNavigation &#125; <span class="keyword">from</span> <span class="string">'next-intl/navigation'</span></span><br><span class="line"><span class="keyword">import</span> &#123; routing &#125; <span class="keyword">from</span> <span class="string">'./routing'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 围绕 Next.js 导航 API 的轻量级封装，</span></span><br><span class="line"><span class="comment">// 这些封装会考虑路由配置</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> &#123; Link, redirect, usePathname, useRouter, getPathname &#125; = createNavigation(routing)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// i18n/navigation.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; getRequestConfig &#125; <span class="keyword">from</span> <span class="string">'next-intl/server'</span></span><br><span class="line"><span class="keyword">import</span> &#123; hasLocale &#125; <span class="keyword">from</span> <span class="string">'next-intl'</span></span><br><span class="line"><span class="keyword">import</span> &#123; routing &#125; <span class="keyword">from</span> <span class="string">'./routing'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getRequestConfig(<span class="keyword">async</span> (&#123; requestLocale &#125;) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 通常对应于 `[locale]` 段</span></span><br><span class="line">  <span class="keyword">const</span> requested = <span class="keyword">await</span> requestLocale</span><br><span class="line">  <span class="keyword">const</span> locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    locale,</span><br><span class="line">    messages: (<span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">`../../messages/<span class="subst">$&#123;locale&#125;</span>.json`</span>)).default</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/middleware.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> createMiddleware <span class="keyword">from</span> <span class="string">'next-intl/middleware'</span></span><br><span class="line"><span class="keyword">import</span> &#123; routing &#125; <span class="keyword">from</span> <span class="string">'./i18n/routing'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> createMiddleware(routing)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> config = &#123;</span><br><span class="line">  <span class="comment">// 匹配所有路径名，除了</span></span><br><span class="line">  <span class="comment">// - 以 `/api`、`/trpc`、`/_next` 或 `/_vercel` 开头的路径名</span></span><br><span class="line">  <span class="comment">// - 包含点号的路径名（例如 `favicon.ico`）</span></span><br><span class="line">  matcher: <span class="string">'/((?!api|trpc|_next|_vercel|.*\\..*).*)'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="prev-or-next">
+  <div class="post-foot-next">
+    
+      <a href="/2025/03/13/React/React%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0/" target="_self">
+        <i class="fas fa-angle-left"></i>
+        <span>Previous post</span>
+      </a>
+    
+  </div>
+  <div class="post-foot-prev">
+    
+  </div>
+</div>
+      </main>
+      <footer class="layout-footer">
+  <div>
+    Copyright &copy;
+    
+    
+    2025
+    Yx1aoq1
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/js/accordion-menu.js"></script>
+
+  </body>
+</html>
