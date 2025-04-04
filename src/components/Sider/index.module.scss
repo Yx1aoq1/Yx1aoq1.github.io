@@ -1,0 +1,12 @@
+@import '@/styles/variables';
+
+.sider {
+  width: $sidebar-width;
+  height: 100%;
+  z-index: 500;
+  background-color: #f7f8f9;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

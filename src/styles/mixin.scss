@@ -1,0 +1,44 @@
+$design-width-web: 1440px;
+$design-width-mobile: 375px;
+
+@function px2vw($px, $deviceWidth) {
+  @return calc(round($px / $deviceWidth * 100 * 100000) / 100000 * 1vw);
+}
+
+@function useWebVW($px, $minValue: null) {
+  $value: min(px2vw($px, $design-width-web), $px);
+
+  @if $minValue != null {
+    @return max($value, $minValue);
+  }
+
+  @return $value;
+}
+
+@function useMobileVW($px, $maxValue: null) {
+  $value: px2vw($px, $design-width-mobile);
+
+  @if ($maxValue != null) {
+    @return min($value, $maxValue);
+  }
+
+  @return $value;
+}
+
+@mixin mobile {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin smallScreen {
+  @media screen and (min-width: 769px) and (max-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media screen and (min-width: 769px) {
+    @content;
+  }
+}
